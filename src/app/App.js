@@ -1,0 +1,192 @@
+import React, { Component } from 'react';
+import styled, { injectGlobal, ThemeProvider } from 'styled-components';
+import BrowserRouter from 'react-router-dom/BrowserRouter';
+import { Transition, TransitionGroup } from 'react-transition-group';
+import Route from 'react-router-dom/Route';
+import Switch from 'react-router-dom/Switch';
+import { Helmet } from "react-helmet";
+import asyncComponent from '../components/AsyncComponent';
+import Header from '../components/Header';
+import NavToggle from '../components/NavToggle';
+import Theme from '../utils/Theme';
+import GothamBook from '../fonts/gotham-book.woff2';
+import GothamMedium from '../fonts/gotham-medium.woff2';
+
+const Home = asyncComponent(props => import("../screens/Home"));
+const Contact = asyncComponent(props => import("../screens/Contact"));
+const BattleBots = asyncComponent(props => import("../screens/BattleBots"));
+const GCPSRobotics = asyncComponent(props => import("../screens/GCPSRobotics"));
+const NotFound = asyncComponent(props => import("../screens/NotFound"));
+const Lab = asyncComponent(props => import("../screens/Lab"));
+
+const fontStyles = `
+  @font-face {
+    font-family: 'Gotham';
+    font-weight: 400;
+    src: url(${GothamBook}) format('woff2');
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Gotham';
+    font-weight: 500;
+    src: url(${GothamMedium}) format('woff2');
+    font-display: block;
+  }
+`;
+
+class App extends Component {
+  state = {
+    menuOpen: false,
+  }
+
+  componentDidMount() {
+// eslint-disable-next-line
+  let g = "color:#777;font-weight:bold;";
+  // eslint-disable-next-line
+  let b = "font-size:21px; font-weight:200; letter-spacing:0.2em; line-height:1.4em; font-family:helvetica,arial;color:#0F669D;font-weight:bold;";
+  // eslint-disable-next-line
+  let project = "font-size:34px; font-weight:200; letter-spacing:0.02em; line-height:1.4em; font-family:helvetica,arial; color:rgba(0,0,0,0.9);";
+  // eslint-disable-next-line
+  let me = "font-size:21px; font-weight:200; letter-spacing:0.2em; line-height:1.4em; font-family:helvetica,arial; color:rgba(0,0,25,0.5);";
+// eslint-disable-next-line
+  console.log( "%c© Cody Bennett 2018-2019", project );
+  console.log( "%cSay hello https://codyb.co/contact", me );
+  console.log( "%chttps://github.com/CodyJasonBennett", b );
+  console.log( "%c", "font-size:34px; line-height:1.4em;" );
+    window.history.scrollRestoration = 'manual';
+  }
+
+  toggleMenu = () => {
+    const { menuOpen } = this.state;
+    this.setState({ menuOpen: !menuOpen });
+  }
+
+  setBodyOverflow = state => {
+    document.body.style.overflow = state;
+  }
+
+  render() {
+    const { menuOpen } = this.state;
+
+    return (
+      <ThemeProvider theme={Theme}>
+        <BrowserRouter>
+          <Route render={({ location }) => (
+            <React.Fragment>
+              <Helmet>
+                <style>{fontStyles}</style>
+              </Helmet>
+              <SkipToMain href="#MainContent">Skip to main content</SkipToMain>
+              <Header toggleMenu={this.toggleMenu} menuOpen={menuOpen} />
+              <NavToggle onClick={this.toggleMenu} menuOpen={menuOpen} />
+              <TransitionGroup component={React.Fragment} >
+                <Transition
+                  key={location.pathname}
+                  timeout={500}
+                  onEnter={this.setBodyOverflow('hidden')}
+                  onExited={this.setBodyOverflow('')}
+                >
+                  {status => (
+                    <MainContent status={status} id="MainContent" role="main">
+                      <Helmet>
+                        <link rel="canonical" href={`https://codyb.co${location.pathname}`} />
+                      </Helmet>
+                      <Switch location={location}>
+                        <Route exact path="/" render={props => <Home {...props} status={status} />} />
+                        <Route path="/contact" render={props => <Contact {...props} status={status} />} />
+                        <Route path="/projects/battlebots" render={props => <BattleBots {...props} status={status} />} />
+                        <Route path="/projects/gcpsrobotics" render={props => <GCPSRobotics {...props} status={status} />} />
+						            <Route exact path='/lab' component={Lab}/>
+                        <Route render={props => <NotFound {...props} status={status} />} />
+                      </Switch>
+                    </MainContent>
+                  )}
+                </Transition>
+              </TransitionGroup>
+            </React.Fragment>
+          )} />
+        </BrowserRouter>
+      </ThemeProvider>
+    );
+  }
+}
+
+injectGlobal`
+  html,
+  body {
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+  	-moz-osx-font-smoothing: grayscale;
+    font-family: ${Theme.fontStack};
+    background: ${Theme.colorBackground(1)};
+    color: ${Theme.colorText(1)};
+    border: 0;
+    margin: 0;
+    width: 100vw;
+    overflow-x: hidden;
+  }
+
+  *,
+  *:before,
+  *:after {
+    box-sizing: border-box;
+  }
+
+  ::selection {
+    background: ${Theme.colorPrimary(1)};
+  }
+`;
+
+const MainContent = styled.main`
+  width: 100%;
+  overflow-x: hidden;
+  position: relative;
+  transition: opacity 0.3s ease;
+  opacity: 0;
+
+  ${props => props.status === 'exiting' && `
+    position: absolute;
+    opacity: 0;
+  `}
+
+  ${props => props.status === 'entering' && `
+    position: absolute;
+    opacity: 0;
+  `}
+
+  ${props => props.status === 'entered' && `
+    transition-duration: 0.5s;
+    opacity: 1;
+  `}
+`;
+
+const SkipToMain = styled.a`
+  position: fixed;
+  clip: rect(1px,1px,1px,1px);
+  top: 16px;
+  left: 50%;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  color: ${props => props.theme.colorBackground(1)};
+  z-index: 99;
+  transform: translate3d(-50%, -40px, 0);
+  transition: transform 0.4s ${props => props.theme.curveFastoutSlowin};
+  background: ${props => props.theme.colorPrimary(1)};
+  padding: 8px 16px;
+  text-decoration: none;
+  font-weight: 500;
+  line-height: 1;
+  clip-path: ${props => props.theme.clipPath(8)};
+
+  &:focus {
+    clip: auto;
+    width: auto;
+    height: auto;
+    outline: none;
+    transform: translate3d(-50%, 0, 0);
+  }
+`;
+
+export default App;

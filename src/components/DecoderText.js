@@ -1,0 +1,159 @@
+import React, { PureComponent } from 'react';
+import styled from 'styled-components';
+
+export default class DecoderText extends PureComponent {
+  constructor(props) {
+    super(props);
+
+    const { text, offset = 100 } = this.props;
+
+    this.content = text.split('');
+    this.startTime = 0;
+    this.elapsedTime = 0;
+    this.running = false;
+    this.timeOffset = offset;
+    this.fps = 24;
+    this.chars = [
+	  'A', 'a', 'B', 'b', 'C', 'c', 'D', 'd', 'E', 'e', 'F', 'f', 'G', 'g', 'H', 'h', 'I', 'i', 'J', 'j', 'K', 'k', 'L', 'l', 'M', 'm', 'N', 'n', 'O', 'o', 'P', 'p', 'Q', 'q', 'R', 'r', 'S', 's', 'T', 't', 'U', 'u', 'V', 'v', 'W', 'w', 'X', 'x', 'Y', 'y', 'Z', 'z',
+      //'ラ', 'ド', 'ク', 'リ', 'フ', 'マ', 'ラ', 'ソ', 'ン', 'わ', 'た', 'し', 'ワ', 'タ', 'シ', 'ん', 'ょ', 'ン', 'ョ', 'た', 'ば', 'こ', 'タ', 'バ', 'コ', 'と', 'う', 'き', 'ょ', 'う', 'ト', 'ウ', 'キ', 'ョ', 'ウ',
+    ];
+
+    this.state = {
+      position: 0,
+      started: false,
+      output: [{ type: 'code', value: '' }],
+    }
+  }
+
+  componentDidMount() {
+    const { start } = this.props;
+    if (start) this.startTimeout();
+  }
+
+  componentDidUpdate() {
+    const { start } = this.props;
+    const { started } = this.state;
+    if (start && !started) this.startTimeout();
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.timeout);
+    this.stop();
+  }
+
+  startTimeout = () => {
+    this.timeout = setTimeout(() => { this.start() }, 300);
+  }
+
+  start = () => {
+    this.startTime = Date.now();
+    this.elapsedTime = 0;
+    this.running = true;
+    this.setState({ started: true });
+    this.anim();
+  }
+
+  stop = () => this.running = false;
+
+  anim = () => {
+    const { position } = this.state;
+    const elapsedTime = Date.now() - this.startTime;
+    const deltaTime = elapsedTime - this.elapsedTime;
+    const needsUpdate = 1000 / this.fps <= deltaTime;
+
+    if (!this.running) return;
+
+    if (!needsUpdate) {
+      requestAnimationFrame(this.anim);
+      return;
+    }
+
+    this.elapsedTime = elapsedTime;
+    this.setState({ position: (this.elapsedTime / this.timeOffset) | 0 });
+
+    if (position > this.content.length) {
+      this.running = false;
+      const finalArray = this.setValue(this.content);
+      this.setState({ output: finalArray });
+      return;
+    }
+
+    requestAnimationFrame(this.anim);
+
+    const textArray = this.shuffle(this.content, this.chars, position);
+    this.setState({ output: textArray });
+  }
+
+  setValue = value => {
+    return value.map(value => ({
+      type: 'actual',
+      value,
+    }));
+  }
+
+  shuffle = (content, chars, position) => {
+    return content.map((value, index) => {
+      if (index < position) {
+        return { type: 'actual', value };
+      }
+
+      return {
+        type: 'code',
+        value: this.getRandCharacter(chars),
+      }
+    });
+  }
+
+  getRandCharacter = chars => {
+    const randNum = Math.floor(Math.random() * chars.length);
+    const lowChoice = - .5 + Math.random();
+    const picketCharacter = chars[randNum];
+    const chosen = lowChoice < 0 ? picketCharacter.toLowerCase() : picketCharacter;
+    return chosen;
+  }
+
+  render() {
+    const { text, className, style } = this.props;
+    const { output } = this.state;
+
+    return (
+      <DecoderSpan aria-label={text} className={className} style={style}>
+        {output.map((item, index) => {
+          if (item.type === 'actual') {
+            return (
+              <span
+                key={`${item.value}_${index}`}
+                aria-hidden="true"
+              >
+                {item.value}
+              </span>
+            )
+          }
+
+          return (
+            <DecoderCode
+              key={`${item.value}_${index}`}
+              aria-hidden="true"
+            >
+              {item.value}
+            </DecoderCode>
+          )
+        })}
+      </DecoderSpan>
+    );
+  }
+}
+
+const DecoderSpan = styled.span`
+  &:after {
+    content: '_';
+    opacity: 0;
+  }
+`;
+
+const DecoderCode = styled.span`
+  opacity: 0.8;
+  font-weight: 400;
+  font-family: 'Hiragino Sans', sans-serif;
+  line-height: 0;
+`;
