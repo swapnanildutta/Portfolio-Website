@@ -12,23 +12,28 @@ import { Media } from '../utils/StyleUtils';
 import { AppContext } from '../app/App';
 import placeholder2 from '../assets/placeholder.png';
 import background from '../assets/Robotics/botBack2.webp';
-import gcpsDash from '../assets/Robotics/gcps-dash-large.png';
-import gcpsDashPlaceholder from '../assets/Robotics/gcps-dash-placeholder.png';
 import robotics from '../assets/Robotics/robotics.webp';
 import roboticsPlaceholder from '../assets/Robotics/robotics.min.png';
-import competitionSite from '../assets/Robotics/3drobot.webp';
-import clawbot from '../assets/Robotics/clawbot.png';
 import branding from '../assets/Robotics/branding.png';
+import clawbot from '../assets/Robotics/clawbot.png';
+import competitionSite from '../assets/Robotics/3drobot.webp';
+import gcpsDash from '../assets/Robotics/gcps-dash-large.png';
+import gcpsDashPlaceholder from '../assets/Robotics/gcps-dash-placeholder.png';
+import firmware from '../assets/Robotics/firmware.jpg';
 import robotCourse from '../assets/Robotics/render.jpg';
-import robot from '../assets/Robotics/robot.JPG';
+import robot from '../assets/Robotics/robot.jpg';
+import home from '../assets/Robotics/home.png';
+import game from '../assets/Robotics/game.png';
+import robotS from '../assets/Robotics/robot.png';
+import impact from '../assets/Robotics/impact.png';
 
 const prerender = navigator.userAgent === 'ReactSnap';
-//Reference: https://ueno.co, GCPS Robotics Website - Best Robotics Competition
-const title = 'This page is a WIP';
-const description = 'Creating the website and the tools that won Best Robotics\' State Competition.';
+const title = 'GCPS Robotics';
+const description = 'Creating the website and the robot core that won the BEST Robotics State Competition.';
 const roles = [
   'Front-end Development',
   'Back-end Development',
+  'Software Development',
   'UI / UX Design',
   'Visual Design',
   'Branding & Identity',
@@ -55,7 +60,7 @@ function Robotics(props) {
         <ProjectHeader
           title={title}
           description={description}
-          url="#"
+          url="https://github.com/CodyJasonBennett/GCPS-Site"
           roles={roles}
         />
         <ProjectSection>
@@ -75,7 +80,7 @@ function Robotics(props) {
             <SidebarImagesText>
               <ProjectSectionHeading>Visual Identity</ProjectSectionHeading>
               <ProjectSectionText>
-                ...
+                Of GCPS' green and orange color scheme, gators' green is the color of the team, backed up by a firm dark color scheme.
               </ProjectSectionText>
             </SidebarImagesText>
             <SidebarImages>
@@ -97,9 +102,9 @@ function Robotics(props) {
               />
             </ProjectSectionGridBackground>
             <ProjectSectionGridText>
-              <ProjectSectionHeading>Title</ProjectSectionHeading>
+              <ProjectSectionHeading>VEX Clawbot</ProjectSectionHeading>
               <ProjectSectionText>
-                ...
+                The robot that inspired GCPS' Robotics team to compete in BEST's 2018 Current Events competition.
               </ProjectSectionText>
             </ProjectSectionGridText>
           </ProjectSectionGrid>
@@ -107,9 +112,9 @@ function Robotics(props) {
         <ProjectSection light>
           <ProjectSectionContent>
             <ProjectTextRow>
-              <ProjectSectionHeading>Title</ProjectSectionHeading>
+              <ProjectSectionHeading>Take 1 - A 3D Approach</ProjectSectionHeading>
               <ProjectSectionText>
-                ...
+                A fully interactive 3D website to recruit team members.
               </ProjectSectionText>
             </ProjectTextRow>
             <ProgressiveImage
@@ -121,61 +126,11 @@ function Robotics(props) {
           </ProjectSectionContent>
         </ProjectSection>
         <ProjectSection>
-          <ProjectSectionGrid>
-            <ProjectSectionGridBackground>
-              <ProgressiveImage
-                srcSet={`${robotCourse} 400w, ${robotCourse} 898w`}
-                placeholder={placeholder2}
-                alt=""
-                sizes={`(max-width: ${Media.mobile}) 312px, (max-width: ${Media.tablet}) 408px, 514px`}
-              />
-            </ProjectSectionGridBackground>
-            <ProjectSectionGridText>
-              <ProjectSectionHeading>Title</ProjectSectionHeading>
-              <ProjectSectionText>
-                ...
-              </ProjectSectionText>
-            </ProjectSectionGridText>
-          </ProjectSectionGrid>
-          <ProjectSection>
-            <ProjectSectionContent>
-            <ProjectSectionColumns>
-              <SidebarImagesText>
-                <ProjectSectionHeading>Title</ProjectSectionHeading>
-                <ProjectSectionText>
-                  ...
-                </ProjectSectionText>
-              </SidebarImagesText>
-              <SidebarImages>
-                <SidebarImage
-                  srcSet={`${robot} 400w, ${robot} 898w`}
-                  placeholder={placeholder2}
-                  alt=""
-                  sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
-                />
-              </SidebarImages>
-            </ProjectSectionColumns>
-              <ProjectTextRow>
-                <ProjectSectionHeading>Title</ProjectSectionHeading>
-                <ProjectSectionText>
-                  ...
-                </ProjectSectionText>
-              </ProjectTextRow>
-              <ProgressiveImage
-                srcSet={`${placeholder2}`}
-                placeholder={placeholder2}
-                alt=""
-                sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
-              />
-            </ProjectSectionContent>
-          </ProjectSection>
-        </ProjectSection>
-        <ProjectSection light>
           <ProjectSectionContent>
             <ProjectTextRow>
-              <ProjectSectionHeading>Title</ProjectSectionHeading>
+              <ProjectSectionHeading>The Interface of Success</ProjectSectionHeading>
               <ProjectSectionText>
-                ...
+                Designed and built from the ground up, this team-based interface guided the inner divisions of the team into productive workspaces, complete with integrated Autodesk apps and a networked chat room powered by Google's FireBase.
               </ProjectSectionText>
             </ProjectTextRow>
             <ProgressiveImage
@@ -186,8 +141,86 @@ function Robotics(props) {
             />
           </ProjectSectionContent>
         </ProjectSection>
+        <ProjectSection light>
+          <ProjectSectionContent>
+            <ProjectTextRow>
+              <ProjectSectionHeading>Powering Up</ProjectSectionHeading>
+              <ProjectSectionText>
+                The firmware and robot core that won Best Robotics' 2018 State Competition.
+              </ProjectSectionText>
+            </ProjectTextRow>
+            <ProgressiveImage
+              srcSet={`${firmware}`}
+              placeholder={placeholder2}
+              alt=""
+              sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+            />
+          </ProjectSectionContent>
+        </ProjectSection>
+        <ProjectSection>
+          <ProjectTextRow>
+            <ProjectSectionHeading>Creating the Robot</ProjectSectionHeading>
+            <ProjectSectionText>
+              Model and renders of the final robot I did in Autodesk's Fusion 360.
+            </ProjectSectionText>
+          </ProjectTextRow>
+          <ProjectSectionContent>
+            <ProjectSectionColumns>
+              <SidebarImages>
+                <SidebarImage
+                  srcSet={`${robotCourse} 400w, ${robotCourse} 898w`}
+                  placeholder={placeholder2}
+                  alt=""
+                  sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+                />
+              </SidebarImages>
+              <SidebarImages>
+                <SidebarImage
+                  srcSet={`${robot} 400w, ${robot} 898w`}
+                  placeholder={placeholder2}
+                  alt=""
+                  sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+                />
+              </SidebarImages>
+            </ProjectSectionColumns>
+          </ProjectSectionContent>
+        </ProjectSection>
+        <ProjectSection light>
+          <ProjectSectionContent>
+            <ProjectTextRow>
+              <ProjectSectionHeading>Final Website</ProjectSectionHeading>
+              <ProjectSectionText>
+                A fully responsive 3d website of the Gateway Robotics team all under 10MB (~3 images in size). This website brought the team to state competition through the BEST Website Award.
+              </ProjectSectionText>
+            </ProjectTextRow>
+            <ProgressiveImage
+              srcSet={`${home}`}
+              placeholder={placeholder2}
+              alt=""
+              sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+            />
+            <ProgressiveImage
+              srcSet={`${game}`}
+              placeholder={placeholder2}
+              alt=""
+              sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+            />
+            <ProgressiveImage
+              srcSet={`${robotS}`}
+              placeholder={placeholder2}
+              alt=""
+              sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+            />
+            <ProgressiveImage
+              srcSet={`${impact}`}
+              placeholder={placeholder2}
+              alt=""
+              sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+            />
+          </ProjectSectionContent>
+        </ProjectSection>
         <ProjectFooter
-          title='BEST Robotics Current Events'
+          title='GCPS Robotics'
           url="/#work5"
         />
       </ProjectContainer>

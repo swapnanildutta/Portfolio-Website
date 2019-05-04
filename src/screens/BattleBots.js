@@ -29,7 +29,6 @@ import botScore from '../assets/BattleBots/botScore.png';
 import splash from '../assets/BattleBots/splash.png';
 
 const prerender = navigator.userAgent === 'ReactSnap';
-//Reference: https://ueno.co
 const title = 'BattleBots 2019 (WIP)';
 const description = 'Inspiring Local Communities with Engineering.';
 const roles = [

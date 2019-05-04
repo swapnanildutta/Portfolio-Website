@@ -28,7 +28,6 @@ import home from '../assets/MystGang/home.webp';
 import work from '../assets/MystGang/work.webp';
 import about from '../assets/MystGang/about.webp';
 const prerender = navigator.userAgent === 'ReactSnap';
-//Reference: https://ueno.co
 const title = 'MystGang 2019';
 const description = 'Bringing an epic content creator\'s portfolio to life with ThreeJS.';
 const roles = [

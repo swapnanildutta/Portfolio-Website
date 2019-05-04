@@ -1,0 +1,11 @@
+{
+  "firebase": {
+    "apiKey": "AIzaSyCsF6w8n8uHpsUMGX9xPkBB90hhjG8PFAg",
+    "authDomain": "portfolio-4e46f.firebaseapp.com",
+    "databaseURL": "https://portfolio-4e46f.firebaseio.com",
+    "projectId": "portfolio-4e46f",
+    "storageBucket": "portfolio-4e46f.appspot.com",
+    "messagingSenderId": "1073428551913",
+    "appId": "1:1073428551913:web:9604d5faa6181e97"
+  }
+}

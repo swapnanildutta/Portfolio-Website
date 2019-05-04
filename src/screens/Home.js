@@ -180,8 +180,8 @@ export default function Home(props) {
         sectionRef={projectFive}
         visible={visibleSections.includes(projectFive.current)}
         index="05"
-        title="Gateway Robotics State-Winning Website"
-        description="A fully responsive 3d website of the Gateway Robotics team all under 10MB (~3 images in size). This website brought the team to Texas state competition through the BEST Website Award."
+        title="GCPS Robotics"
+        description="Creating the website and the robot core that won the BEST Robotics State Competition."
         buttonText="View Project"
         buttonTo="/projects/gcpsrobotics"
         imageSrc={useMemo(() => [`${Robotics}`], [])}

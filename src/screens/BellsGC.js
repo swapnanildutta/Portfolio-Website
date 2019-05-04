@@ -21,7 +21,6 @@ import store from '../assets/BellsGC/Store.png';
 import events from '../assets/BellsGC/Events.png';
 import about from '../assets/BellsGC/About.png';
 const prerender = navigator.userAgent === 'ReactSnap';
-//Reference: https://ueno.co
 const title = 'Bell\'s GC';
 const description = 'A website featuring a storefront, events calendar, and games\' dashboard for a local game store.';
 const roles = [

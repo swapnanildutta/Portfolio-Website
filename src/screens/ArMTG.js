@@ -35,7 +35,6 @@ import threeF from '../assets/ARMTG/threeF.png';
 import signupF from '../assets/ARMTG/signupF.png';
 import renderPlaceholder from '../assets/ARMTG/ARMTGWebPlaceHolder.png';
 const prerender = navigator.userAgent === 'ReactSnap';
-//Reference: https://ueno.co
 const title = 'ARMTG';
 const description = 'Bringing the future to the renowned card game: Magic, the Gathering.';
 const roles = [
