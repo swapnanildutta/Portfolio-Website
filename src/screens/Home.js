@@ -1,249 +1,200 @@
-import React, { Component } from 'react';
-import { Helmet } from "react-helmet";
+import React, { useState, useEffect, useRef, useMemo, useContext } from 'react';
+import Helmet from 'react-helmet-async';
+import 'intersection-observer';
+import { AppContext } from '../app/App';
 import Intro from '../screens/Intro';
 import ProjectItem from '../screens/ProjectItem';
 import Profile from '../screens/Profile';
 import Footer from '../components/Footer';
-import BotProject from '../assets/botProject.gif';
-import BotProjectPlaceholder from '../assets/botProjectPlaceholder.png';
-import robotics from '../assets/robotics.gif';
-import roboticsPlaceholder from '../assets/robotics.min.png';
-import gcpsLaunch from '../assets/gcpsLaunch.gif';
-import gcpsLaunchPlaceholder from '../assets/gcpsLaunchPlaceholder.png';
-import gcpsNotebook from '../assets/gcpsNotebook.gif';
-import gcpsNotebookPlaceholder from '../assets/gcpsNotebookPlaceholder.png';
-import ArMTG from '../assets/ARMTGWeb.gif';
-import ArMTGPlaceholder from '../assets/ARMTGWebPlaceHolder.png';
-const disciplines = ['Student'];
+import BellsGC from '../assets/BellsGC/BellsGC.png';
+import BellsGCPlaceholder from '../assets/BellsGC/BellsGCPlaceholder.png';
+import MystGang from '../assets/MystGang/MystGang.webp';
+import MystGangPlaceholder from '../assets/MystGang/MystGangPlaceholder.png';
+import ArMTG from '../assets/ARMTG/ARMTGWeb.webp';
+import ArMTGPlaceholder from '../assets/ARMTG/ARMTGWebPlaceHolder.png';
+import BotProject from '../assets/BattleBots/botProject.webp';
+import BotProjectPlaceholder from '../assets/BattleBots/botProjectPlaceholder.png';
+import Robotics from '../assets/Robotics/robotics.webp';
+import RoboticsPlaceholder from '../assets/Robotics/robotics.min.png';
 
-export default class Home extends Component {
-  constructor(props) {
-    super(props);
+const disciplines = ['Developer'];
 
-    this.state = {
-      disciplineIndex: 0,
-      hideScrollIndicator: false,
-      backgroundLoaded: false,
-      visibleSections: [],
-    }
+export default function Home(props) {
+  const { status } = useContext(AppContext);
+  const { location } = props;
+  const { hash } = location;
+  const [disciplineIndex, setDisciplineIndex] = useState(0);
+  const [visibleSections, setVisibleSections] = useState([]);
+  const [scrollIndicatorHidden, setScrollIndicatorHidden] = useState(false);
+  const intro = useRef();
+  const projectOne = useRef();
+  const projectTwo = useRef();
+  const projectThree = useRef();
+  const projectFour = useRef();
+  const projectFive = useRef();
+  const about = useRef();
+  const disciplineTimeout = useRef();
+  const revealSections = [intro, projectOne, projectTwo, projectThree, projectFour, projectFive, about];
 
-    this.scheduledAnimationFrame = false;
-    this.lastScrollY = 0;
-  }
+  useEffect(() => {
 
-  componentDidMount() {
-    const threeCanvas = this.threeCanvas;
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const section = entry.target;
+          sectionObserver.unobserve(section);
+          if (visibleSections.includes(section)) return;
+          setVisibleSections((prevSections) => [...prevSections, section]);
+        }
+      });
+    }, { rootMargin: "0px 0px -10% 0px" });
 
-    this.revealSections = [
-      this.intro,
-      this.projectOne,
-      this.projectTwo,
-      this.projectThree,
-	    this.projectFour,
-      this.projectFive,
-      this.details,
-    ];
+    const indicatorObserver = new IntersectionObserver(([entry]) => {
+      setScrollIndicatorHidden(!entry.isIntersecting);
+    }, { rootMargin: "-100% 0px 0px 0px" });
 
-    import('../components/DisplacementSphere').then(DisplacementSphere => {
-      this.setState({ backgroundLoaded: true });
-      this.sphere = new DisplacementSphere.default(threeCanvas);
-      requestAnimationFrame(() => this.sphere.init());
+    revealSections.forEach((section) => {
+      sectionObserver.observe(section.current);
     });
 
-    window.addEventListener('scroll', this.handleScroll);
-    this.setState({ visibleSections: [this.intro] });
-    this.switchDiscipline();
-    this.initScroll();
-  }
+    indicatorObserver.observe(intro.current);
 
-  initScroll = () => {
-    const { status, location } = this.props;
-    const { hash } = location;
+    return function cleanUp() {
+      sectionObserver.disconnect();
+      indicatorObserver.disconnect();
+    };
+  }, [visibleSections]);
 
-    if (status !== 'entered') {
-      requestAnimationFrame(this.initScroll);
-    } else if (hash && status === 'entered') {
-      this.handleHashchange(hash, false);
+  useEffect(() => {
+    if (status === 'entered') {
+      handleHashchange(hash, true);
+    }
+  }, [location]);
+
+  useEffect(() => {
+    if (hash && status === 'entered') {
+      handleHashchange(hash, false);
     } else if (status === 'entered') {
       window.scrollTo(0, 0);
     }
-  }
+  }, [status]);
 
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScroll);
-    this.sphere.remove();
-    clearInterval(this.disciplineInterval);
-  }
+  useEffect(() => {
+    disciplineTimeout.current = setTimeout(() => {
+      const index = (disciplineIndex + 1) % disciplines.length;
+      setDisciplineIndex(index);
+    }, 5000);
 
-  componentDidUpdate(prevProps) {
-    const { key: currentKey } = prevProps.location;
-    const { key: nextKey, hash: nextHash } = this.props.location;
+    return function cleanUp() {
+      clearTimeout(disciplineTimeout.current);
+    };
+  }, [disciplineIndex]);
 
-    if (currentKey !== nextKey && prevProps.status === 'entered') {
-      this.handleHashchange(nextHash, true);
-    }
-  }
-
-  handleScroll = () => {
-    this.lastScrollY = window.scrollY;
-    if (this.scheduledAnimationFrame) return;
-    this.scheduledAnimationFrame = true;
-
-    requestAnimationFrame(() => {
-      const { visibleSections } = this.state;
-
-      const revealableSections = this.revealSections.filter(section => {
-        if (visibleSections.includes(section)) return false;
-        return this.isInViewport(section, this.lastScrollY);
-      });
-
-      this.setState({
-        visibleSections: [...visibleSections, ...revealableSections],
-        hideScrollIndicator: this.lastScrollY >= 50,
-      });
-
-      this.scheduledAnimationFrame = false;
-    });
-  }
-
-  handleHashchange = (hash, scroll) => {
-    const hashSections = [this.intro, this.projectOne, this.details];
+  const handleHashchange = useMemo(() => (hash, scroll) => {
     const hashString = hash.replace('#', '');
-    const element = hashSections.filter(item => item.id === hashString)[0];
+    const element = revealSections.filter(item => item.current.id === hashString)[0];
 
     if (element) {
-      element.scrollIntoView({
+      element.current.scrollIntoView({
         behavior: scroll ? 'smooth' : 'instant',
         block: 'start',
         inline: 'nearest',
       });
     }
-  }
+  }, []);
 
-  isInViewport = (elem, scrollY) => {
-    const rect = elem.getBoundingClientRect();
-    const offsetY = window.pageYOffset;
-    const revealOffset = window.innerHeight - 100;
-    const top = rect.top + offsetY;
-    return top - revealOffset <= scrollY;
-  }
-
-  switchDiscipline = () => {
-    this.disciplineInterval = setInterval(() => {
-      const { disciplineIndex } = this.state;
-      const index = disciplineIndex >= disciplines.length - 1 ? 0 : disciplineIndex + 1;
-
-      this.setState({
-        disciplineIndex: index,
-      });
-    }, 5000);
-  }
-
-  render() {
-    const { disciplineIndex, hideScrollIndicator,
-      visibleSections, backgroundLoaded } = this.state;
-
-    return (
-      <React.Fragment>
-        <Helmet>
-          <title>Cody Bennett</title>
-          <meta
-            name="description"
-            content="Portfolio of Cody Bennett"
-          />
-        </Helmet>
-        <Intro
-          id="intro"
-          sectionRef={section => this.intro = section}
-          threeCanvas={canvas => this.threeCanvas = canvas}
-          disciplines={disciplines}
-          disciplineIndex={disciplineIndex}
-          hideScrollIndicator={hideScrollIndicator}
-          backgroundLoaded={backgroundLoaded}
-        />
-        <ProjectItem
-          id="projects"
-          tabIndex={0}
-          sectionRef={section => this.projectOne = section}
-          visible={visibleSections.includes(this.projectOne)}
-          index="01"
-          title="ArMTG"
-          description="Bringing the future to the renowned card game: Magic, the Gathering."
-          buttonText="View Project"
-          buttonLink="/mtg"
-          imageSrc={[`${ArMTG} 980w, ${ArMTG} 1376w`]}
-          imageAlt={["ArMTG Website"]}
-          imagePlaceholder={[ArMTGPlaceholder]}
-          imageType="laptop"
-        />
-        <ProjectItem
-          id="projects"
-          tabIndex={0}
-          sectionRef={section => this.projectTwo = section}
-          visible={visibleSections.includes(this.projectTwo)}
-          index="02"
-          title="BattleBots 2019 Competition Website"
-          description="A fully responsive website in a 3d playground, made with ThreeJS."
-          buttonText="View Project"
-          buttonTo="/projects/battlebots"
-          imageSrc={[`${BotProject} 980w, ${BotProject} 1376w`]}
-          imageAlt={["Gateway's BattleBots competition website."]}
-          imagePlaceholder={[BotProjectPlaceholder]}
-          imageType="laptop"
-        />
-		<ProjectItem
-          id="project2"
-          tabIndex={0}
-          sectionRef={section => this.projectThree = section}
-          visible={visibleSections.includes(this.projectThree)}
-          index="03"
-		      title="Gateway Robotics State-Winning Website"
-          description="A fully responsive 3d website of the Gateway Robotics team all under 10MB (~3 images in size). This website brought the team to Texas state competition through the BEST Website Award."
-          buttonText="View Project"
-          buttonTo="/projects/gcpsrobotics"
-		      imageSrc={[`${robotics} 980w, ${robotics} 1376w`]}
-          imageAlt={['Gateway Robotics Website']}
-          imagePlaceholder={[roboticsPlaceholder]}
-          imageType="laptop"
-        />
-		<ProjectItem
-          id="project3"
-          tabIndex={0}
-          sectionRef={section => this.projectFour = section}
-          visible={visibleSections.includes(this.projectFour)}
-          index="04"
-		      title="Gateway CPS - Interactive Notebook"
-          description="A responsive and interactive online platform for the masses."
-          buttonText="View Project"
-          buttonLink="https://gcps.cf/notebook"
-		      imageSrc={[`${gcpsNotebook} 980w, ${gcpsNotebook} 1376w`]}
-          imageAlt={['Gateway CPS Notebook']}
-          imagePlaceholder={[gcpsNotebookPlaceholder]}
-          imageType="laptop"
-        />
-        <ProjectItem
-          id="project4"
-          tabIndex={0}
-          sectionRef={section => this.projectFive = section}
-          visible={visibleSections.includes(this.projectFive)}
-          index="05"
-          title="GCPS Launch Initiative Website"
-          description="Official website of the Gateway Cubesat Project of Nasa's Cubesat Initiative."
-          buttonText="View Project"
-          buttonLink="https://github.com/Gateway-Launch-Initiative/GateSat-Website"
-          imageSrc={[`${gcpsLaunch} 980w, ${gcpsLaunch} 1376w`]}
-          imageAlt={['Cubesat Project Website']}
-          imagePlaceholder={[gcpsLaunchPlaceholder]}
-          imageType="laptop"
-        />
-        <Profile
-          tabIndex={0}
-          sectionRef={section => this.details = section}
-          visible={visibleSections.includes(this.details)}
-          id="details"
-        />
-        <Footer />
-      </React.Fragment>
-    );
-  }
-}
+  return (
+    <React.Fragment>
+      <Helmet
+        title="Cody Bennett"
+        meta={[{
+          name: 'description',
+          content: "I’m a student based in Austin, currently looking for an internship. I create compelling designs that I bring to life with the web's coolest technologies that look perfect on every screen.",
+        }]}
+      />
+      <Intro
+        id="intro"
+        sectionRef={intro}
+        disciplines={disciplines}
+        disciplineIndex={disciplineIndex}
+        scrollIndicatorHidden={scrollIndicatorHidden}
+      />
+      <ProjectItem
+        id="work"
+        sectionRef={projectOne}
+        visible={visibleSections.includes(projectOne.current)}
+        index="01"
+        title="Bell's Gaming Center"
+        description="A website featuring a storefront, events calendar, and games' dashboard for a local game store."
+        buttonText="View Project"
+        buttonTo="/projects/bellsgc"
+        imageSrc={useMemo(() => [`${BellsGC}`], [])}
+        imageAlt={useMemo(() => ['Bell\'s GC Website'], [])}
+        imagePlaceholder={useMemo(() => [BellsGCPlaceholder], [])}
+        imageType="laptop"
+      />
+      <ProjectItem
+        id="work2"
+        sectionRef={projectTwo}
+        visible={visibleSections.includes(projectTwo.current)}
+        index="02"
+        title="MystGang"
+        description="Bringing an epic content creator's portfolio to life with ThreeJS."
+        buttonText="View Project"
+        buttonTo="/projects/mystgang"
+        imageSrc={useMemo(() => [`${MystGang}`], [])}
+        imageAlt={useMemo(() => ['MystGang Website'], [])}
+        imagePlaceholder={useMemo(() => [MystGangPlaceholder], [])}
+        imageType="laptop"
+      />
+      <ProjectItem
+        id="work3"
+        sectionRef={projectThree}
+        visible={visibleSections.includes(projectThree.current)}
+        index="03"
+        title="ArMTG"
+        description="Bringing the future to the renowned card game: Magic, the Gathering."
+        buttonText="View Project"
+        buttonTo="/projects/armtg"
+        imageSrc={useMemo(() => [`${ArMTG}`], [])}
+        imageAlt={useMemo(() => ['ArMTG Website'], [])}
+        imagePlaceholder={useMemo(() => [ArMTGPlaceholder], [])}
+        imageType="laptop"
+      />
+	     <ProjectItem
+        id="work4"
+        sectionRef={projectFour}
+        visible={visibleSections.includes(projectFour.current)}
+        index="04"
+        title="BattleBots 2019 Competition Website"
+        description="A fully responsive website in a 3d playground, made with ThreeJS."
+        buttonText="View Project"
+        buttonTo="/projects/battlebots"
+        imageSrc={useMemo(() => [`${BotProject}`], [])}
+        imageAlt={useMemo(() => ["Gateway's BattleBots competition website."], [])}
+        imagePlaceholder={useMemo(() => [BotProjectPlaceholder], [])}
+        imageType="laptop"
+      />
+      <ProjectItem
+    		id="work5"
+        sectionRef={projectFive}
+        visible={visibleSections.includes(projectFive.current)}
+        index="05"
+        title="Gateway Robotics State-Winning Website"
+        description="A fully responsive 3d website of the Gateway Robotics team all under 10MB (~3 images in size). This website brought the team to Texas state competition through the BEST Website Award."
+        buttonText="View Project"
+        buttonTo="/projects/gcpsrobotics"
+        imageSrc={useMemo(() => [`${Robotics}`], [])}
+        imageAlt={useMemo(() => ['Gateway Robotics Website'], [])}
+        imagePlaceholder={useMemo(() => [RoboticsPlaceholder], [])}
+        imageType="laptop"
+      />
+      <Profile
+        id="about"
+        sectionRef={about}
+        visible={visibleSections.includes(about.current)}
+      />
+      <Footer />
+    </React.Fragment>
+  );
+};

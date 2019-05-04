@@ -1,38 +1,33 @@
 {
   "name": "portfolio-2019",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "homepage": "https://codyb.co",
-  "private": false,
-  "license": "UNLICENSED",
+  "private": true,
   "devDependencies": {
-    "babel-eslint": "^7.2.3",
-    "eslint": "^4.1.1",
-    "eslint-config-react-app": "^2.1.0",
-    "eslint-plugin-flowtype": "^2.34.1",
-    "eslint-plugin-import": "^2.6.0",
-    "eslint-plugin-jsx-a11y": "^5.1.1",
-    "eslint-plugin-react": "^7.1.0",
-    "react-scripts": "1.1.5",
-    "react-snap": "^1.19.0"
+    "eslint-plugin-react-hooks": "^1.0.2",
+    "react-scripts": "2.1.5",
+    "react-snap": "1.23.0"
   },
   "dependencies": {
-    "@firebase/app": "^0.3.3",
-    "@firebase/database": "^0.3.4",
+    "@firebase/app": "^0.3.9",
+    "@firebase/database": "^0.3.12",
     "autosize": "^4.0.2",
-    "es6-tween": "^5.3.0",
+    "es6-tween": "^5.3.1",
+    "intersection-observer": "^0.5.1",
     "ios-inner-height": "^1.1.0",
-    "react": "^16.5.0",
-    "react-dom": "^16.5.0",
-    "react-helmet": "^5.2.0",
-    "react-router-dom": "^4.3.1",
-    "react-transition-group": "^2.4.0",
-    "styled-components": "^3.4.5",
-    "three": "^0.95.0"
+    "react": "^16.8.2",
+    "react-dom": "^16.8.2",
+    "react-easy-swipe": "^0.0.17",
+    "react-helmet-async": "^0.2.0",
+    "react-router-dom": "4.4.0-beta.6",
+    "react-transition-group": "^2.5.3",
+    "styled-components": "^4.1.3",
+    "three": "^0.101.1"
   },
   "scripts": {
     "start": "set PORT=80 && react-scripts start",
     "build": "react-scripts build",
-    "postbuild": "node scripts/prerender.js && sw-precache --config=sw-precache-config.js",
+    "postbuild": "react-snap",
     "deploy": "firebase deploy --only hosting",
     "deploy-functions": "firebase deploy --only functions",
     "serve": "firebase serve --only hosting",
@@ -41,6 +36,17 @@
   },
   "reactSnap": {
     "skipThirdPartyRequests": true,
-    "headless": false
-  }
+    "headless": false,
+    "crawl": true,
+    "include": [
+      "/projects/battlebots",
+      "/projects/gcpsrobotics"
+    ]
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

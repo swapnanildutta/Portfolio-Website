@@ -1,278 +1,234 @@
-import React, { Component } from 'react';
-import { Helmet } from "react-helmet";
+import React, { useState, useEffect, useRef, useMemo, useContext } from 'react';
+import Helmet from 'react-helmet-async';
+import 'intersection-observer';
+import { AppContext } from '../app/App';
 import Intro from '../screens/IntroLab';
 import ProjectItem from '../screens/ProjectItem';
 import Profile from '../screens/Profile';
 import Footer from '../components/Footer';
-import ArMTG from '../assets/ArMTG.gif';
-import ArMTGPlaceHolder from '../assets/ArMTGPlaceholder.png';
-import Rainbow from '../assets/rainbow.gif';
-import RainbowPlaceholder from '../assets/rainbowPlaceholder.png';
-import Cold from '../assets/cold.gif';
-import ColdPlaceholder from '../assets/coldPlaceholder.png';
-import One from '../assets/one.gif';
-import OnePlaceholder from '../assets/onePlaceholder.png';
-import Two from '../assets/two.gif';
-import TwoPlaceholder from '../assets/twoPlaceHolder.png';
-import Three from '../assets/three.gif';
-import ThreePlaceholder from '../assets/threePlaceholder.png';
-import Four from '../assets/four.gif';
-import FourPlaceholder from '../assets/fourPlaceholder.png';
+import ArMTG from '../assets/Lab/ArMTG.webp';
+import ArMTGPlaceHolder from '../assets/Lab/ArMTGPlaceholder.png';
+import Rainbow from '../assets/Lab/rainbow.webp';
+import RainbowPlaceholder from '../assets/Lab/rainbowPlaceholder.png';
+import Cold from '../assets/Lab/cold.webp';
+import ColdPlaceholder from '../assets/Lab/coldPlaceholder.png';
+import One from '../assets/Lab/one.webp';
+import OnePlaceholder from '../assets/Lab/onePlaceholder.png';
+import Two from '../assets/Lab/two.webp';
+import TwoPlaceholder from '../assets/Lab/twoPlaceHolder.png';
+import Three from '../assets/Lab/three.webp';
+import ThreePlaceholder from '../assets/Lab/threePlaceholder.png';
+import Four from '../assets/Lab/four.webp';
+import FourPlaceholder from '../assets/Lab/fourPlaceholder.png';
 const disciplines = ['Student'];
 
-export default class Home extends Component {
-  constructor(props) {
-    super(props);
+export default function Home(props) {
+  const { status } = useContext(AppContext);
+  const { location } = props;
+  const { hash } = location;
+  const [disciplineIndex, setDisciplineIndex] = useState(0);
+  const [visibleSections, setVisibleSections] = useState([]);
+  const [scrollIndicatorHidden, setScrollIndicatorHidden] = useState(false);
+  const intro = useRef();
+  const projectOne = useRef();
+  const projectTwo = useRef();
+  const projectThree = useRef();
+  const projectFour = useRef();
+  const projectFive = useRef();
+  const projectSix = useRef();
+  const projectSeven = useRef();
+  const about = useRef();
+  const disciplineTimeout = useRef();
 
-    this.state = {
-      disciplineIndex: 0,
-      hideScrollIndicator: false,
-      backgroundLoaded: false,
-      visibleSections: [],
-    }
+  useEffect(() => {
+    const revealSections = [intro, projectOne, projectTwo, projectThree, projectFour, projectFive, projectSix, projectSeven, about];
 
-    this.scheduledAnimationFrame = false;
-    this.lastScrollY = 0;
-  }
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const section = entry.target;
+          sectionObserver.unobserve(section);
+          if (visibleSections.includes(section)) return;
+          setVisibleSections((prevSections) => [...prevSections, section]);
+        }
+      });
+    }, { rootMargin: "0px 0px -10% 0px" });
 
-  componentDidMount() {
-    const threeCanvas = this.threeCanvas;
+    const indicatorObserver = new IntersectionObserver(([entry]) => {
+      setScrollIndicatorHidden(!entry.isIntersecting);
+    }, { rootMargin: "-100% 0px 0px 0px" });
 
-    this.revealSections = [
-      this.intro,
-      this.projectOne,
-      this.projectTwo,
-      this.projectThree,
-      this.projectFour,
-      this.projectFive,
-      this.projectSix,
-      this.projectSeven,
-      this.details,
-    ];
-
-    import('../components/DisplacementSphere').then(DisplacementSphere => {
-      this.setState({ backgroundLoaded: true });
-      this.sphere = new DisplacementSphere.default(threeCanvas);
-      requestAnimationFrame(() => this.sphere.init());
+    revealSections.forEach((section) => {
+      sectionObserver.observe(section.current);
     });
 
-    window.addEventListener('scroll', this.handleScroll);
-    this.setState({ visibleSections: [this.intro] });
-    //this.switchDiscipline();
-    this.initScroll();
-  }
+    indicatorObserver.observe(intro.current);
 
-  initScroll = () => {
-    const { status, location } = this.props;
-    const { hash } = location;
+    return function cleanUp() {
+      sectionObserver.disconnect();
+      indicatorObserver.disconnect();
+    };
+  }, [visibleSections]);
 
-    if (status !== 'entered') {
-      requestAnimationFrame(this.initScroll);
-    } else if (hash && status === 'entered') {
-      this.handleHashchange(hash, false);
+  useEffect(() => {
+    if (status === 'entered') {
+      handleHashchange(hash, true);
+    }
+  }, [location]);
+
+  useEffect(() => {
+    if (hash && status === 'entered') {
+      handleHashchange(hash, false);
     } else if (status === 'entered') {
       window.scrollTo(0, 0);
     }
-  }
+  }, [status]);
 
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScroll);
-    this.sphere.remove();
-    clearInterval(this.disciplineInterval);
-  }
+  useEffect(() => {
+    disciplineTimeout.current = setTimeout(() => {
+      const index = (disciplineIndex + 1) % disciplines.length;
+      setDisciplineIndex(index);
+    }, 5000);
 
-  componentDidUpdate(prevProps) {
-    const { key: currentKey } = prevProps.location;
-    const { key: nextKey, hash: nextHash } = this.props.location;
+    return function cleanUp() {
+      clearTimeout(disciplineTimeout.current);
+    };
+  }, [disciplineIndex]);
 
-    if (currentKey !== nextKey && prevProps.status === 'entered') {
-      this.handleHashchange(nextHash, true);
-    }
-  }
-
-  handleScroll = () => {
-    this.lastScrollY = window.scrollY;
-    if (this.scheduledAnimationFrame) return;
-    this.scheduledAnimationFrame = true;
-
-    requestAnimationFrame(() => {
-      const { visibleSections } = this.state;
-
-      const revealableSections = this.revealSections.filter(section => {
-        if (visibleSections.includes(section)) return false;
-        return this.isInViewport(section, this.lastScrollY);
-      });
-
-      this.setState({
-        visibleSections: [...visibleSections, ...revealableSections],
-        hideScrollIndicator: this.lastScrollY >= 50,
-      });
-
-      this.scheduledAnimationFrame = false;
-    });
-  }
-
-  handleHashchange = (hash, scroll) => {
-    const hashSections = [this.intro, this.projectOne, this.details];
+  const handleHashchange = useMemo(() => (hash, scroll) => {
+    const hashSections = [intro, projectOne, about];
     const hashString = hash.replace('#', '');
-    const element = hashSections.filter(item => item.id === hashString)[0];
+    const element = hashSections.filter(item => item.current.id === hashString)[0];
 
     if (element) {
-      element.scrollIntoView({
+      element.current.scrollIntoView({
         behavior: scroll ? 'smooth' : 'instant',
         block: 'start',
         inline: 'nearest',
       });
     }
-  }
+  }, []);
 
-  isInViewport = (elem, scrollY) => {
-    const rect = elem.getBoundingClientRect();
-    const offsetY = window.pageYOffset;
-    const revealOffset = window.innerHeight - 100;
-    const top = rect.top + offsetY;
-    return top - revealOffset <= scrollY;
-  }
-
-  switchDiscipline = () => {
-    this.disciplineInterval = setInterval(() => {
-      const { disciplineIndex } = this.state;
-      const index = disciplineIndex >= disciplines.length - 1 ? 0 : disciplineIndex + 1;
-
-      this.setState({
-        disciplineIndex: index,
-      });
-    }, 5000);
-  }
-
-  render() {
-    const { hideScrollIndicator, visibleSections, backgroundLoaded } = this.state;
-
-    return (
-      <React.Fragment>
-        <Helmet>
-          <title>Cody Bennett | Lab</title>
-          <meta
-            name="description"
-            content="This is my lab where I experiment with the latest technologies to create beautiful experiences."
-          />
-        </Helmet>
-        <Intro
-          id="intro"
-          sectionRef={section => this.intro = section}
-          threeCanvas={canvas => this.threeCanvas = canvas}
-          disciplines={disciplines}
-          //disciplineIndex={disciplineIndex}
-          hideScrollIndicator={hideScrollIndicator}
-          backgroundLoaded={backgroundLoaded}
-        />
-        <ProjectItem
-          id="projects"
-          tabIndex={0}
-          sectionRef={section => this.projectOne = section}
-          visible={visibleSections.includes(this.projectOne)}
-          index="01"
-          title="ArMTG"
-          description="An augmented reality solution to the card game: Magic, the Gathering."
-          buttonText="View Project"
-          buttonLink="https://github.com/CodyJasonBennett/ArMTG"
-          imageSrc={[`${ArMTG} 980w, ${ArMTG} 1376w`]}
-          imageAlt={["An augmented game in progress."]}
-          imagePlaceholder={[ArMTGPlaceHolder]}
-          imageType="laptop"
-        />
-        <ProjectItem
-          tabIndex={0}
-          sectionRef={section => this.projectTwo = section}
-          visible={visibleSections.includes(this.projectTwo)}
-          index="02"
-          title="Explosions of Color"
-          description="A colorful experiment with BAS Utilities and ThreeJS."
-          buttonText="Launch Experiment"
-          buttonLink="https://codepen.io/cbenn/pen/YBoPRo"
-          imageSrc={[`${Rainbow} 980w, ${Rainbow} 1376w`]}
-          imageAlt={["A colorful experiment with BAS Utilities and ThreeJS."]}
-          imagePlaceholder={[RainbowPlaceholder]}
-          imageType="laptop"
-        />
-        <ProjectItem
-          tabIndex={0}
-          sectionRef={section => this.projectThree = section}
-          visible={visibleSections.includes(this.projectThree)}
-          index="03"
-          title="It's Cold Outside"
-          description="Another animation in ThreeJS with BAS Utilities."
-          buttonText="Launch Experiment"
-          buttonLink="https://codepen.io/cbenn/pen/ywBLMQ"
-          imageSrc={[`${Cold} 980w, ${Cold} 1376w`]}
-          imageAlt={["A colorful experiment with BAS Utilities and ThreeJS."]}
-          imagePlaceholder={[ColdPlaceholder]}
-          imageType="laptop"
-        />
-        <ProjectItem
-          tabIndex={0}
-          sectionRef={section => this.projectFour = section}
-          visible={visibleSections.includes(this.projectFour)}
-          index="04"
-          title="A World of Shapes"
-          description="The fourth take on a series of ThreeJS experiments toying with BAS Utilities."
-          buttonText="Launch Experiment"
-          buttonTo="https://codepen.io/cbenn/pen/rZKPjj"
-          imageSrc={[`${Four} 980w, ${Four} 1376w`]}
-          imageAlt={['Project3']}
-          imagePlaceholder={[FourPlaceholder]}
-          imageType="laptop"
-        />
-        <ProjectItem
-          tabIndex={0}
-          sectionRef={section => this.projectFive = section}
-          visible={visibleSections.includes(this.projectFive)}
-          index="05"
-          title="Tunnel Vision"
-          description="The third take on a series of ThreeJS experiments toying with BAS Utilities."
-          buttonText="Launch Experiment"
-          buttonTo="https://codepen.io/cbenn/pen/dqKaXm"
-          imageSrc={[`${Three} 980w, ${Three} 1376w`]}
-          imageAlt={['Project3']}
-          imagePlaceholder={[ThreePlaceholder]}
-          imageType="laptop"
-        />
-        <ProjectItem
-          tabIndex={0}
-          sectionRef={section => this.projectSix = section}
-          visible={visibleSections.includes(this.projectSix)}
-          index="06"
-          title="Up in Flames"
-          description="The second take on a series of ThreeJS experiments toying with BAS Utilities."
-          buttonText="Launch Experiment"
-          buttonTo="https://codepen.io/cbenn/full/EeRrPW"
-          imageSrc={[`${Two} 980w, ${Two} 1376w`]}
-          imageAlt={['Project3']}
-          imagePlaceholder={[TwoPlaceholder]}
-          imageType="laptop"
-        />
-        <ProjectItem
-          tabIndex={0}
-          sectionRef={section => this.projectSeven = section}
-          visible={visibleSections.includes(this.projectSeven)}
-          index="07"
-          title="In Between Frames"
-          description="First take on a series of ThreeJS experiments toying with BAS Utilites."
-          buttonText="Launch Experiment"
-          buttonTo="https://codepen.io/cbenn/full/KxeJpK"
-          imageSrc={[`${One} 980w, ${One} 1376w`]}
-          imageAlt={['Project3']}
-          imagePlaceholder={[OnePlaceholder]}
-          imageType="laptop"
-        />
-        <Profile
-          tabIndex={0}
-          sectionRef={section => this.details = section}
-          visible={visibleSections.includes(this.details)}
-          id="details"
-        />
-        <Footer />
-      </React.Fragment>
-    );
-  }
-}
+  return (
+    <React.Fragment>
+      <Helmet
+        title="Cody Bennett | Lab"
+        meta={[{
+          name: 'description',
+          content: "This is my lab where I experiment with the latest technologies to create beautiful experiences.",
+        }]}
+      />
+      <Intro
+        id="intro"
+        sectionRef={intro}
+        disciplines={disciplines}
+        //disciplineIndex={disciplineIndex}
+        scrollIndicatorHidden={scrollIndicatorHidden}
+      />
+      <ProjectItem
+        id="projects"
+        sectionRef={projectOne}
+        visible={visibleSections.includes(projectOne.current)}
+        index="01"
+        title="ArMTG"
+        description="Bringing the future to the renowned card game: Magic, the Gathering."
+        buttonText="Launch Experiment"
+        buttonLink="https://github.com/CodyJasonBennett/ArMTG"
+        imageSrc={useMemo(() => [`${ArMTG}`], [])}
+        imageAlt={useMemo(() => ['ArMTG Website'], [])}
+        imagePlaceholder={useMemo(() => [ArMTGPlaceHolder], [])}
+        imageType="laptop"
+      />
+	    <ProjectItem
+        id="project2"
+        sectionRef={projectTwo}
+        visible={visibleSections.includes(projectTwo.current)}
+        index="02"
+        title="Explosions of Color"
+        description="A colorful experiment with BAS Utilities and ThreeJS."
+        buttonText="Launch Experiment"
+        buttonLink="https://codepen.io/cbenn/full/YBoPRo"
+        imageSrc={useMemo(() => [`${Rainbow}`], [])}
+        imageAlt={useMemo(() => ["A colorful experiment with BAS Utilities and ThreeJS."], [])}
+        imagePlaceholder={useMemo(() => [RainbowPlaceholder], [])}
+        imageType="laptop"
+      />
+      <ProjectItem
+    		id="project3"
+        sectionRef={projectThree}
+        visible={visibleSections.includes(projectThree.current)}
+        index="03"
+        title="It's Cold Outside"
+        description="Another animation in ThreeJS with BAS Utilities."
+        buttonText="Launch Experiment"
+        buttonLink="https://codepen.io/cbenn/full/ywBLMQ"
+        imageSrc={useMemo(() => [`${Cold}`], [])}
+        imageAlt={useMemo(() => ['Another animation in ThreeJS with BAS Utilities.'], [])}
+        imagePlaceholder={useMemo(() => [ColdPlaceholder], [])}
+        imageType="laptop"
+      />
+	    <ProjectItem
+        id="project4"
+		    sectionRef={projectFour}
+        visible={visibleSections.includes(projectFour.current)}
+        index="04"
+        title="A World of Shapes"
+        description="The fourth take on a series of ThreeJS experiments toying with BAS Utilities."
+        buttonText="Launch Experiment"
+        buttonLink="https://codepen.io/cbenn/full/rZKPjj"
+        imageSrc={useMemo(() => [`${Four}`], [])}
+        imageAlt={useMemo(() => ['The fourth take on a series of ThreeJS experiments toying with BAS Utilities.'], [])}
+        imagePlaceholder={useMemo(() => [FourPlaceholder], [])}
+        imageType="laptop"
+      />
+	    <ProjectItem
+        id="project5"
+		    sectionRef={projectFive}
+        visible={visibleSections.includes(projectFive.current)}
+        index="05"
+        title="Tunnel Vision"
+        description="The third take on a series of ThreeJS experiments toying with BAS Utilities."
+        buttonText="Launch Experiment"
+        buttonLink="https://codepen.io/cbenn/full/dqKaXm"
+        imageSrc={useMemo(() => [`${Three}`], [])}
+        imageAlt={useMemo(() => ['The third take on a series of ThreeJS experiments toying with BAS Utilities.'], [])}
+        imagePlaceholder={useMemo(() => [ThreePlaceholder], [])}
+        imageType="laptop"
+      />
+	    <ProjectItem
+        id="project6"
+		    sectionRef={projectSix}
+        visible={visibleSections.includes(projectSix.current)}
+        index="06"
+        title="Up in Flames"
+        description="The second take on a series of ThreeJS experiments toying with BAS Utilities."
+        buttonText="Launch Experiment"
+        buttonLink="https://codepen.io/cbenn/full/EeRrPWe"
+        imageSrc={useMemo(() => [`${Two}`], [])}
+        imageAlt={useMemo(() => ['The second take on a series of ThreeJS experiments toying with BAS Utilities.'], [])}
+        imagePlaceholder={useMemo(() => [TwoPlaceholder], [])}
+        imageType="laptop"
+      />
+	    <ProjectItem
+        id="project7"
+		    sectionRef={projectSeven}
+        visible={visibleSections.includes(projectSeven.current)}
+        index="07"
+        title="In Between Frames"
+        description="First take on a series of ThreeJS experiments toying with BAS Utilites."
+        buttonText="Launch Experiment"
+        buttonLink="https://codepen.io/cbenn/full/KxeJpK"
+        imageSrc={useMemo(() => [`${One}`], [])}
+        imageAlt={useMemo(() => ['First take on a series of ThreeJS experiments toying with BAS Utilites.'], [])}
+        imagePlaceholder={useMemo(() => [OnePlaceholder], [])}
+        imageType="laptop"
+      />
+      <Profile
+        sectionRef={about}
+        visible={visibleSections.includes(about.current)}
+        id="about"
+      />
+      <Footer />
+    </React.Fragment>
+  );
+};

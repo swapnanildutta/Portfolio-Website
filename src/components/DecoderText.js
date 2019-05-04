@@ -1,97 +1,86 @@
-import React, { PureComponent } from 'react';
-import styled from 'styled-components';
+import React, { useRef, useState, useEffect, useMemo } from 'react';
+import styled from 'styled-components/macro';
 
-export default class DecoderText extends PureComponent {
-  constructor(props) {
-    super(props);
+const chars = [
+  'A', 'a', 'B', 'b', 'C', 'c', 'D', 'd', 'E', 'e', 'F', 'f', 'G', 'g', 'H', 'h', 'I', 'i', 'J', 'j', 'K', 'k', 'L', 'l', 'M', 'm', 'N', 'n', 'O', 'o', 'P', 'p', 'Q', 'q', 'R', 'r', 'S', 's', 'T', 't', 'U', 'u', 'V', 'v', 'W', 'w', 'X', 'x', 'Y', 'y', 'Z', 'z',
+];
 
-    const { text, offset = 100 } = this.props;
+function DecoderText(props) {
+  const { text, start, offset = 100, className, style, fps = 24 } = props;
+  const [position, setPosition] = useState(0);
+  const [started, setStarted] = useState(false);
+  const [output, setOutput] = useState([{ type: 'code', value: '' }]);
+  const content = useRef(text.split(''));
+  const startTime = useRef(0);
+  const elapsedTime = useRef(0);
+  const running = useRef(false);
+  const timeout = useRef();
 
-    this.content = text.split('');
-    this.startTime = 0;
-    this.elapsedTime = 0;
-    this.running = false;
-    this.timeOffset = offset;
-    this.fps = 24;
-    this.chars = [
-	  'A', 'a', 'B', 'b', 'C', 'c', 'D', 'd', 'E', 'e', 'F', 'f', 'G', 'g', 'H', 'h', 'I', 'i', 'J', 'j', 'K', 'k', 'L', 'l', 'M', 'm', 'N', 'n', 'O', 'o', 'P', 'p', 'Q', 'q', 'R', 'r', 'S', 's', 'T', 't', 'U', 'u', 'V', 'v', 'W', 'w', 'X', 'x', 'Y', 'y', 'Z', 'z',
-      //'ラ', 'ド', 'ク', 'リ', 'フ', 'マ', 'ラ', 'ソ', 'ン', 'わ', 'た', 'し', 'ワ', 'タ', 'シ', 'ん', 'ょ', 'ン', 'ョ', 'た', 'ば', 'こ', 'タ', 'バ', 'コ', 'と', 'う', 'き', 'ょ', 'う', 'ト', 'ウ', 'キ', 'ョ', 'ウ',
-    ];
+  useEffect(() => {
+    if (start && !started) startTimeout();
 
-    this.state = {
-      position: 0,
-      started: false,
-      output: [{ type: 'code', value: '' }],
+    return function cleanUp() {
+      cancelAnimationFrame(animate);
+      clearTimeout(timeout.current);
+      stop();
+    };
+  }, [start]);
+
+  useEffect(() => {
+    if (position > content.current.length) {
+      running.current = false;
+      const finalArray = setValue(content.current);
+      setOutput(finalArray);
+      return;
     }
-  }
 
-  componentDidMount() {
-    const { start } = this.props;
-    if (start) this.startTimeout();
-  }
+    requestAnimationFrame(animate);
 
-  componentDidUpdate() {
-    const { start } = this.props;
-    const { started } = this.state;
-    if (start && !started) this.startTimeout();
-  }
+    const textArray = shuffle(content.current, chars, position);
+    setOutput(textArray);
+  }, [position]);
 
-  componentWillUnmount() {
-    clearTimeout(this.timeout);
-    this.stop();
-  }
+  const startTimeout = useMemo(() => () => {
+    timeout.current = setTimeout(startAnim, 300);
+  }, []);
 
-  startTimeout = () => {
-    this.timeout = setTimeout(() => { this.start() }, 300);
-  }
+  const startAnim = useMemo(() => () => {
+    startTime.current = Date.now();
+    elapsedTime.current = 0;
+    running.current = true;
+    setStarted(true);
+    animate();
+  }, []);
 
-  start = () => {
-    this.startTime = Date.now();
-    this.elapsedTime = 0;
-    this.running = true;
-    this.setState({ started: true });
-    this.anim();
-  }
+  const stop = useMemo(() => () => {
+    running.current = false;
+  }, []);
 
-  stop = () => this.running = false;
+  const animate = useMemo(() => () => {
+    const elapsed = Date.now() - startTime.current;
+    const deltaTime = elapsed - elapsedTime.current;
+    const needsUpdate = 1000 / fps <= deltaTime;
 
-  anim = () => {
-    const { position } = this.state;
-    const elapsedTime = Date.now() - this.startTime;
-    const deltaTime = elapsedTime - this.elapsedTime;
-    const needsUpdate = 1000 / this.fps <= deltaTime;
-
-    if (!this.running) return;
+    if (!running.current) return;
 
     if (!needsUpdate) {
-      requestAnimationFrame(this.anim);
+      requestAnimationFrame(animate);
       return;
     }
 
-    this.elapsedTime = elapsedTime;
-    this.setState({ position: (this.elapsedTime / this.timeOffset) | 0 });
+    elapsedTime.current = elapsed;
+    setPosition(elapsedTime.current / offset);
+  }, [startTime, elapsedTime, running]);
 
-    if (position > this.content.length) {
-      this.running = false;
-      const finalArray = this.setValue(this.content);
-      this.setState({ output: finalArray });
-      return;
-    }
-
-    requestAnimationFrame(this.anim);
-
-    const textArray = this.shuffle(this.content, this.chars, position);
-    this.setState({ output: textArray });
-  }
-
-  setValue = value => {
-    return value.map(value => ({
+  const setValue = useMemo(() => value => {
+    const val = value.map(value => ({
       type: 'actual',
       value,
     }));
-  }
+    return val;
+  }, []);
 
-  shuffle = (content, chars, position) => {
+  const shuffle = useMemo(() => (content, chars, position) => {
     return content.map((value, index) => {
       if (index < position) {
         return { type: 'actual', value };
@@ -99,55 +88,43 @@ export default class DecoderText extends PureComponent {
 
       return {
         type: 'code',
-        value: this.getRandCharacter(chars),
-      }
+        value: getRandCharacter(chars),
+      };
     });
-  }
+  }, []);
 
-  getRandCharacter = chars => {
+  const getRandCharacter = useMemo(() => chars => {
     const randNum = Math.floor(Math.random() * chars.length);
     const lowChoice = - .5 + Math.random();
     const picketCharacter = chars[randNum];
     const chosen = lowChoice < 0 ? picketCharacter.toLowerCase() : picketCharacter;
     return chosen;
-  }
+  }, []);
 
-  render() {
-    const { text, className, style } = this.props;
-    const { output } = this.state;
-
-    return (
-      <DecoderSpan aria-label={text} className={className} style={style}>
-        {output.map((item, index) => {
-          if (item.type === 'actual') {
-            return (
-              <span
-                key={`${item.value}_${index}`}
-                aria-hidden="true"
-              >
-                {item.value}
-              </span>
-            )
-          }
-
-          return (
-            <DecoderCode
-              key={`${item.value}_${index}`}
-              aria-hidden="true"
-            >
-              {item.value}
-            </DecoderCode>
-          )
-        })}
-      </DecoderSpan>
-    );
-  }
-}
+  return (
+    <DecoderSpan className={className} style={style}>
+      {output.map((item, index) => {
+        if (item.type === 'actual') {
+          return (<span key={`${item.value}_${index}`}>{item.value}</span>);
+        }
+        return (
+          <DecoderCode
+            key={`${item.value}_${index}`}
+            aria-hidden="true"
+          >
+            {item.value}
+          </DecoderCode>
+        );
+      })}
+    </DecoderSpan>
+  );
+};
 
 const DecoderSpan = styled.span`
   &:after {
     content: '_';
     opacity: 0;
+    visibility: hidden;
   }
 `;
 
@@ -157,3 +134,5 @@ const DecoderCode = styled.span`
   font-family: 'Hiragino Sans', sans-serif;
   line-height: 0;
 `;
+
+export default React.memo(DecoderText);

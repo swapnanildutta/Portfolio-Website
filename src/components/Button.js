@@ -1,55 +1,70 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { withTheme, css } from 'styled-components/macro';
 import { Link } from 'react-router-dom';
 import Loader from '../components/Loader';
 import Icon from '../utils/Icon';
-import Theme from '../utils/Theme';
 import { ColorTint } from '../utils/StyleUtils';
 
-const ButtonContent = ({ iconRight, icon, children, secondary, loading }) => (
-  <React.Fragment>
-    {icon && <ButtonIcon loading={loading} left icon={icon} secondary={secondary} />}
-    <ButtonText loading={loading} secondary={secondary}>{children}</ButtonText>
-    {iconRight && <ButtonIcon loading={loading} icon={iconRight} secondary={secondary} />}
-    {loading && <ButtonLoader size="24" color={Theme.colorBackground(1)} />}
-  </React.Fragment>
-);
+const ButtonContent = withTheme((props) => {
+  const { iconRight, icon, children, secondary, loading, theme } = props;
 
-const Button = ({ ...props, className, style, secondary }) => (
-  <ButtonContainer
-    className={className}
-    style={style}
-    secondary={secondary}
-    {...props}
-  >
-    <ButtonContent {...props} />
-  </ButtonContainer>
-);
+  return (
+    <React.Fragment>
+      {icon && <ButtonIcon loading={loading} left icon={icon} secondary={secondary} />}
+      <ButtonText loading={loading} secondary={secondary}>{children}</ButtonText>
+      {iconRight && <ButtonIcon loading={loading} icon={iconRight} secondary={secondary} />}
+      {loading && <ButtonLoader size="24" color={theme.colorBackground(1)} />}
+    </React.Fragment>
+  );
+});
 
-const LinkButton = ({ ...props, className, style, secondary,
-  href, rel, target }) => (
-    <LinkButtonContainer
+const Button = React.memo((props) => {
+  const { className, style, ...restProps } = props;
+
+  return (
+    <ButtonContainer
       className={className}
       style={style}
-      secondary={secondary}
+      {...restProps}
+    >
+      <ButtonContent {...restProps} />
+    </ButtonContainer>
+  );
+});
+
+const LinkButton = React.memo((props) => {
+  const { className, style, href, rel, target, secondary } = props;
+
+  return (
+    <ButtonContainer
+      as="a"
+      className={className}
+      style={style}
       href={href}
       rel={rel}
       target={target}
+      secondary={secondary}
     >
       <ButtonContent {...props} />
-    </LinkButtonContainer>
+    </ButtonContainer>
   );
+});
 
-const RouterButton = ({ ...props, className, style, secondary, to }) => (
-  <RouterButtonContainer
-    className={className}
-    style={style}
-    to={to}
-    secondary={secondary ? 1 : 0}
-  >
-    <ButtonContent {...props} />
-  </RouterButtonContainer>
-);
+const RouterButton = React.memo((props) => {
+  const { className, style, to, secondary } = props;
+
+  return (
+    <ButtonContainer
+      as={Link}
+      className={className}
+      style={style}
+      to={to}
+      secondary={secondary ? 1 : 0}
+    >
+      <ButtonContent {...props} />
+    </ButtonContainer>
+  );
+});
 
 const ButtonLoader = styled(Loader)`
   position: absolute;
@@ -73,7 +88,7 @@ const ButtonContainer = styled.button`
   font-family: inherit;
   position: relative;
 
-  ${props => !props.secondary && `
+  ${props => !props.secondary && css`
     &:before {
       content: '';
       transition: all 0.4s ${props.theme.curveFastoutSlowin};
@@ -102,7 +117,7 @@ const ButtonContainer = styled.button`
     }
   `}
 
-  ${props => !props.disabled && !props.secondary && `
+  ${props => !props.disabled && !props.secondary && css`
     &:hover,
     &:focus {
       outline: none;
@@ -124,7 +139,7 @@ const ButtonContainer = styled.button`
     transition-duration: 0.1s;
   }
 
-  ${props => props.secondary && `
+  ${props => props.secondary && css`
     background: none;
     color: ${props.theme.colorPrimary(1)};
     padding: 0 10px;
@@ -161,21 +176,18 @@ const ButtonContainer = styled.button`
     }
   `}
 
-  ${props => props.icon && `
+  ${props => props.icon && css`
     padding-right: 32px;
   `}
 `;
-
-const LinkButtonContainer = ButtonContainer.withComponent('a');
-const RouterButtonContainer = ButtonContainer.withComponent(Link);
 
 const ButtonText = styled.span`
   font-size: 18px;
   font-weight: 500;
   position: relative;
-  line-height: 1.2;
+  line-height: 1;
 
-  ${props => props.loading && `
+  ${props => props.loading && css`
     visibility: hidden;
   `}
 
@@ -187,28 +199,24 @@ const ButtonText = styled.span`
 `;
 
 const ButtonIcon = styled(Icon)`
-  margin-left: ${props => props.left ? '0' : '10px'};
-  margin-right: ${props => props.left ? '10px' : '0'};
+  margin-left: ${props => props.left ? '0' : '6px'};
+  margin-right: ${props => props.left ? '6px' : '0'};
   transition: all 0.3s ${props => props.theme.curveFastoutSlowin};
   fill: ${props => props.theme.colorBackground(1)};
 
-  ${props => props.secondary && `
+  ${props => props.secondary && css`
     fill: ${props.theme.colorPrimary(1)};
   `}
 
   ${ButtonContainer}:hover &,
-  ${ButtonContainer}:focus &,
-  ${LinkButtonContainer}:hover &,
-  ${LinkButtonContainer}:focus &,
-  ${RouterButtonContainer}:hover &,
-  ${RouterButtonContainer}:focus & {
-    ${props => props.icon === 'arrowRight' && `
+  ${ButtonContainer}:focus & {
+    ${props => props.icon === 'arrowRight' && css`
       transform: translate3d(3px, 0, 0);
     `}
   }
 
-  ${props => props.loading && `
-    visibility: hidden;
+  ${props => props.loading && css`
+    opacity: 0;
   `}
 `;
 

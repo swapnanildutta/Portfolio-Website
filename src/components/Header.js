@@ -1,10 +1,9 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { withTheme, css } from 'styled-components/macro';
 import { NavLink, Link } from 'react-router-dom';
 import { Transition } from 'react-transition-group';
 import Monogram from './Monogram';
 import Icon from '../utils/Icon';
-import Theme from '../utils/Theme';
 import { Media } from '../utils/StyleUtils';
 
 const HeaderIcons = ({ toggleMenu }) => (
@@ -25,75 +24,80 @@ const HeaderIcons = ({ toggleMenu }) => (
     >
       <HeaderNavIcon icon="github" />
     </HeaderNavIconLink>
-    <HeaderNavIconLinkRouter
+    <HeaderNavIconLink
+      as={Link}
       aria-label="Contact"
       to="/contact"
       onClick={!!toggleMenu ? () => toggleMenu() : null}
     >
       <HeaderNavIcon icon="email" />
-    </HeaderNavIconLinkRouter>
-  </HeaderNavIcons>
+    </HeaderNavIconLink>
+</HeaderNavIcons>
 );
 
-const Header = ({ menuOpen, toggleMenu }) => (
-  <HeaderWrapper role="banner">
-    <Transition
-      in={menuOpen}
-      timeout={{ enter: 5, exit: 500 }}
-      mountOnEnter
-      unmountOnExit
-    >
-      {status => (
-        <HeaderMobileNav status={status}>
-          <HeaderMobileNavLink
+function Header(props) {
+  const { menuOpen, toggleMenu, theme } = props;
+
+  return (
+    <HeaderWrapper role="banner">
+      <Transition
+        in={menuOpen}
+        timeout={{ enter: 5, exit: 500 }}
+        mountOnEnter
+        unmountOnExit
+      >
+        {status => (
+          <HeaderMobileNav status={status}>
+            <HeaderMobileNavLink
             delay={250}
             status={status}
             onClick={toggleMenu}
             to="/#intro"
-          >
-            Intro
-          </HeaderMobileNavLink>
-          <HeaderMobileNavLink
-            delay={300}
-            status={status}
-            onClick={toggleMenu}
-            to="/#projects"
-          >
-            Projects
-          </HeaderMobileNavLink>
-          <HeaderMobileNavLink
-            delay={350}
-            status={status}
-            onClick={toggleMenu}
-            to="/#details"
-          >
-            Details
-          </HeaderMobileNavLink>
-          <HeaderMobileNavLink
-            delay={400}
-            status={status}
-            onClick={toggleMenu}
-            to="/lab"
-          >
-            Lab
-          </HeaderMobileNavLink>
-          <HeaderIcons toggleMenu={toggleMenu} />
-        </HeaderMobileNav>
-      )}
-    </Transition>
-    <HeaderLogo to="/#intro" aria-label="Back to home">
-      <Monogram highlight={Theme.colorPrimary(1)} />
-    </HeaderLogo>
-    <HeaderNav role="navigation">
-      <HeaderNavList>
-        <HeaderNavLink to="/#projects">Projects</HeaderNavLink>
-        <HeaderNavLink to="/#details">Details</HeaderNavLink>
-        <HeaderNavLink to="/lab">Lab</HeaderNavLink>
-      </HeaderNavList>
-      <HeaderIcons />
-    </HeaderNav>
-  </HeaderWrapper>
-);
+			>
+			Intro
+			</HeaderMobileNavLink>
+			<HeaderMobileNavLink
+			delay={300}
+			status={status}
+			onClick={toggleMenu}
+			to="/#work"
+			>
+			Work
+			</HeaderMobileNavLink>
+			<HeaderMobileNavLink
+			delay={350}
+			status={status}
+			onClick={toggleMenu}
+			to="/#about"
+			>
+			About
+			</HeaderMobileNavLink>
+			<HeaderMobileNavLink
+			delay={400}
+			status={status}
+			onClick={toggleMenu}
+			to="/lab"
+			>
+			Lab
+			</HeaderMobileNavLink>
+            <HeaderIcons toggleMenu={toggleMenu} />
+          </HeaderMobileNav>
+        )}
+      </Transition>
+      <HeaderLogo to="/#intro" aria-label="Back to home">
+        <Monogram highlight={theme.colorPrimary(1)} />
+      </HeaderLogo>
+      <HeaderNav role="navigation">
+        <HeaderNavList>
+          <HeaderNavLink to="/#work">Work</HeaderNavLink>
+          <HeaderNavLink to="/#about">About</HeaderNavLink>
+		  <HeaderNavLink to="/lab">Lab</HeaderNavLink>
+        </HeaderNavList>
+        <HeaderIcons />
+      </HeaderNav>
+    </HeaderWrapper>
+  );
+};
 
 const HeaderWrapper = styled.header`
   display: flex;
@@ -234,18 +238,13 @@ const HeaderNavIconLink = styled.a`
   padding: 10px;
 `;
 
-const HeaderNavIconLinkRouter = HeaderNavIconLink.withComponent(Link);
-
 const HeaderNavIcon = styled(Icon)`
   fill: ${props => props.theme.colorText(0.6)};
   transition: all 0.4s ease;
 
   ${HeaderNavIconLink}:hover &,
-  ${HeaderNavIconLinkRouter}:hover &,
   ${HeaderNavIconLink}:focus &,
-  ${HeaderNavIconLinkRouter}:focus &,
-  ${HeaderNavIconLink}:active &,
-  ${HeaderNavIconLinkRouter}:active & {
+  ${HeaderNavIconLink}:active & {
     fill: ${props => props.theme.colorPrimary(1)};
   }
 `;
@@ -264,7 +263,7 @@ const HeaderMobileNav = styled.nav`
   align-items: center;
   justify-content: center;
 
-  ${props => props.status === 'entered' && `
+  ${props => props.status === 'entered' && css`
     transform: translate3d(0, 0, 0);
   `}
 
@@ -273,9 +272,9 @@ const HeaderMobileNav = styled.nav`
   }
 `;
 
-const HeaderMobileNavLink = styled(NavLink).attrs({
+const HeaderMobileNavLink = styled(NavLink).attrs(props => ({
   active: 'active',
-})`
+}))`
   width: 100%;
   font-size: 22px;
   text-align: center;
@@ -293,7 +292,7 @@ const HeaderMobileNavLink = styled(NavLink).attrs({
     top: auto;
   }
 
-  ${props => props.status === 'entered' && `
+  ${props => props.status === 'entered' && css`
     opacity: 1;
     transform: translate3d(0, 0, 0);
   `}
@@ -319,4 +318,4 @@ const HeaderMobileNavLink = styled(NavLink).attrs({
   }
 `;
 
-export default Header;
+export default React.memo(withTheme(Header));

@@ -1,153 +1,137 @@
-import React, { PureComponent } from 'react';
-import styled from 'styled-components';
+import React, { useState, useContext } from 'react';
+import styled, { css } from 'styled-components/macro';
 import { TransitionGroup, Transition } from 'react-transition-group';
-import { Helmet } from 'react-helmet';
+import Helmet from 'react-helmet-async';
+import { AppContext } from '../app/App';
 import Input from '../components/Input';
 import DecoderText from '../components/DecoderText';
 import Button, { RouterButton } from '../components/Button';
 import { Media, AnimFade } from '../utils/StyleUtils';
 import Firebase from '../utils/Firebase';
-import ScrollToTop from '../utils/ScrollToTop';
+import { useScrollToTop, useFormInput } from '../utils/Hooks';
 
-const prerender = window.location.port === '45678';
+const prerender = navigator.userAgent === 'ReactSnap';
 const initDelay = 300;
 
-export default class Contact extends PureComponent {
-  state = {
-    emailValue: '',
-    messageValue: '',
-    sending: false,
-    complete: false,
-  }
+function Contact(props) {
+  const { status } = useContext(AppContext);
+  const email = useFormInput('');
+  const message = useFormInput('');
+  const [sending, setSending] = useState(false);
+  const [complete, setComplete] = useState(false);
+  useScrollToTop(status);
 
-  updateEmail = event => {
-    this.setState({ emailValue: event.target.value });
-  }
-
-  updateMessage = event => {
-    this.setState({ messageValue: event.target.value });
-  }
-
-  onSubmit = event => {
-    const { emailValue, messageValue, sending } = this.state;
+  const onSubmit = async event => {
     event.preventDefault();
+    if (sending) return;
 
-    if (!sending) {
-      this.setState({ sending: true });
+    try {
+      setSending(true);
 
-      Firebase.database().ref('messages').push({
-        email: emailValue,
-        message: messageValue,
-      }).then(() => {
-        this.setState({ complete: true, sending: false });
-      }).catch((error) => {
-        this.setState({ sending: false });
-        alert(error);
+      await Firebase.database().ref('messages').push({
+        email: email.value,
+        message: message.value,
       });
+
+      setComplete(true);
+      setSending(false);
+    } catch (error) {
+      setSending(false);
+      alert(error);
     }
-  }
+  };
 
-  render() {
-    const { status } = this.props;
-    const { emailValue, messageValue, sending, complete } = this.state;
-
-    return (
-      <ContactWrapper>
-        <ScrollToTop status={status} />
-        <Helmet>
-          <title>Contact me</title>
-          <meta
-            name="description"
-            content="Send me a message if you're interested in discussing a project or if you just want to say hi"
-          />
-        </Helmet>
-        <TransitionGroup component={React.Fragment}>
-          {!complete &&
-            <Transition appear timeout={1600} mountOnEnter unmountOnExit>
-              {status => (
-                <ContactForm method="post" onSubmit={this.onSubmit} role="form">
-                  <ContactTitle status={status} delay={50}>
-                    <DecoderText
-                      text="Say hello"
-                      start={status === 'entering' && !prerender}
-                      offset={140}
-                    />
-                  </ContactTitle>
-                  <ContactDivider status={status} delay={100} />
-                  <ContactInput
-                    status={status}
-                    delay={200}
-                    onChange={this.updateEmail}
-                    autoComplete="email"
-                    label="Your Email"
-                    id="email"
-                    type="email"
-                    hasValue={!!emailValue}
-                    value={emailValue}
-                    maxLength={320}
-                    required
+  return (
+    <ContactWrapper status={status}>
+      <Helmet
+        title="Contact me"
+        meta={[{
+          name: 'description', content: 'Say hello.',
+        }]}
+      />
+      <TransitionGroup component={React.Fragment}>
+        {!complete &&
+          <Transition appear timeout={1600} mountOnEnter unmountOnExit>
+            {status => (
+              <ContactForm method="post" onSubmit={onSubmit} role="form">
+                <ContactTitle status={status} delay={50}>
+                  <DecoderText
+                    text="Say hello"
+                    start={status === 'entering' && !prerender}
+                    offset={140}
                   />
-                  <ContactInput
-                    status={status}
-                    delay={300}
-                    onChange={this.updateMessage}
-                    autoComplete="off"
-                    label="Message"
-                    id="message"
-                    hasValue={!!messageValue}
-                    value={messageValue}
-                    maxLength={2000}
-                    required
-                    multiline
-                  />
-                  <ContactButton
-                    disabled={sending}
-                    sending={sending}
-                    loading={sending}
-                    status={status}
-                    delay={400}
-                    icon="send"
-                    type="submit"
-                  >
-                    Send Message
-                  </ContactButton>
-                </ContactForm>
-              )}
-            </Transition>
-          }
-          {complete &&
-            <Transition appear timeout={0} mountOnEnter unmountOnExit>
-              {status => (
-                <ContactComplete>
-                  <ContactCompleteTitle
-                    status={status}
-                    delay={0}
-                  >
-                    Message Sent
-                  </ContactCompleteTitle>
-                  <ContactCompleteText status={status} delay={200}>
-                    I'll get back to you within a couple days
-                  </ContactCompleteText>
-                  <ContactCompleteButton
-                    secondary
-                    to="/"
-                    status={status}
-                    delay={400}
-                    icon="chevronRight"
-                  >
-                    Back to homepage
-                  </ContactCompleteButton>
-                </ContactComplete>
-              )}
-            </Transition>
-          }
-        </TransitionGroup>
-      </ContactWrapper>
-    );
-  }
+                </ContactTitle>
+                <ContactDivider status={status} delay={100} />
+                <ContactInput
+                  {...email}
+                  status={status}
+                  delay={200}
+                  autoComplete="email"
+                  label="Your Email"
+                  id="email"
+                  type="email"
+                  maxLength={320}
+                  required
+                />
+                <ContactInput
+                  {...message}
+                  status={status}
+                  delay={300}
+                  autoComplete="off"
+                  label="Message"
+                  id="message"
+                  maxLength={2000}
+                  required
+                  multiline
+                />
+                <ContactButton
+                  disabled={sending}
+                  sending={sending}
+                  loading={sending}
+                  status={status}
+                  delay={400}
+                  icon="send"
+                  type="submit"
+                >
+                  Send Message
+                </ContactButton>
+              </ContactForm>
+            )}
+          </Transition>
+        }
+        {complete &&
+          <Transition appear timeout={10} mountOnEnter unmountOnExit>
+            {status => (
+              <ContactComplete>
+                <ContactCompleteTitle
+                  status={status}
+                  delay={10}
+                >
+                  Message Sent
+                </ContactCompleteTitle>
+                <ContactCompleteText status={status} delay={200}>
+                  I'll get back to you within a couple days.
+                </ContactCompleteText>
+                <ContactCompleteButton
+                  secondary
+                  to="/"
+                  status={status}
+                  delay={400}
+                  icon="chevronRight"
+                >
+                  Back to homepage
+                </ContactCompleteButton>
+              </ContactComplete>
+            )}
+          </Transition>
+        }
+      </TransitionGroup>
+    </ContactWrapper>
+  );
 }
 
 const ContactWrapper = styled.section`
+  position: absolute;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -166,6 +150,10 @@ const ContactWrapper = styled.section`
   @media (max-width: ${Media.mobile}), (max-height: ${Media.mobile}) {
     padding-left: 0;
   }
+
+  ${props => (props.status === 'entered' || props.status === 'exiting') && css`
+    position: relative;
+  `}
 `;
 
 const ContactForm = styled.form`
@@ -194,12 +182,12 @@ const ContactTitle = styled.h1`
   height: 32px;
 
   ${props => (props.status === 'entering' ||
-    props.status === 'entered') && !prerender && `
+    props.status === 'entered') && !prerender && css`
     transform: translate3d(0, 0, 0);
     opacity: 1;
   `}
 
-  ${props => props.status === 'exiting' && `
+  ${props => props.status === 'exiting' && css`
     transition-duration: 0.4s;
     transition-delay: 0s;
     transform: translate3d(0, -40px, 0);
@@ -239,12 +227,12 @@ const ContactDivider = styled.div`
   }
 
   ${props => (props.status === 'entering' ||
-    props.status === 'entered') && !prerender && `
+    props.status === 'entered') && !prerender && css`
     transform: translate3d(0, 0, 0);
     opacity: 1;
   `}
 
-  ${props => props.status === 'exiting' && `
+  ${props => props.status === 'exiting' && css`
     transition-duration: 0.4s;
     transition-delay: 0s;
     transform: translate3d(0, -40px, 0);
@@ -262,12 +250,12 @@ const ContactInput = styled(Input)`
   opacity: 0;
 
   ${props => (props.status === 'entering' ||
-    props.status === 'entered') && !prerender && `
+    props.status === 'entered') && !prerender && css`
     transform: translate3d(0, 0, 0);
     opacity: 1;
   `}
 
-  ${props => props.status === 'exiting' && `
+  ${props => props.status === 'exiting' && css`
     transition-duration: 0.4s;
     transition-delay: 0s;
     transform: translate3d(0, -40px, 0);
@@ -284,27 +272,37 @@ const ContactButton = styled(Button)`
   transform: translate3d(0, 80px, 0);
   opacity: 0;
 
-  ${props => props.sending && `
+  ${props => props.sending && css`
     svg {
-      transition: transform ${props.curveFastoutSlowin}, opacity 0.3s ease 0.8s;
-      transition-duration: 0.8s;
+      transition: transform ${props.curveFastoutSlowin} 0.8s, opacity 0.3s ease 0.3s;
       transform: translate3d(150px, 0, 0);
       opacity: 0;
     }
 
     div {
       opacity: 0;
+    }
+  `}
+
+  ${props => props.sending && css`
+   div {
       animation: ${AnimFade} 0.5s ease 0.6s forwards;
     }
   `}
 
+  ${props => props.status === 'entering' && css`
+    &:hover {
+      transform: translate3d(0, 0, 0);
+    }
+  `}
+
   ${props => (props.status === 'entering' ||
-    props.status === 'entered') && !prerender && `
+    props.status === 'entered') && !prerender && css`
     transform: translate3d(0, 0, 0);
     opacity: 1;
   `}
 
-  ${props => props.status === 'exiting' && `
+  ${props => props.status === 'exiting' && css`
     transition-duration: 0.4s;
     transition-delay: 0s;
     transform: translate3d(0, -40px, 0);
@@ -337,7 +335,7 @@ const ContactCompleteTitle = styled.h1`
   transform: translate3d(0, 80px, 0);
   opacity: 0;
 
-  ${props => props.status === 'entered' && `
+  ${props => props.status === 'entered' && css`
     transform: translate3d(0, 0, 0);
     opacity: 1;
   `}
@@ -353,7 +351,7 @@ const ContactCompleteText = styled.p`
   transform: translate3d(0, 80px, 0);
   opacity: 0;
 
-  ${props => props.status === 'entered' && `
+  ${props => props.status === 'entered' && css`
     transform: translate3d(0, 0, 0);
     opacity: 1;
   `}
@@ -368,8 +366,10 @@ const ContactCompleteButton = styled(RouterButton)`
   opacity: 0;
   padding-left: 3px;
 
-  ${props => props.status === 'entered' && `
+  ${props => props.status === 'entered' && css`
     transform: translate3d(0, 0, 0);
     opacity: 1;
   `}
 `;
+
+export default React.memo(Contact);

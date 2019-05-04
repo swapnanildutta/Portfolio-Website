@@ -1,29 +1,27 @@
 import React from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components/macro';
 import { Transition } from 'react-transition-group';
 import Anchor from '../components/Anchor';
 import { RouterButton } from '../components/Button';
 import DecoderText from '../components/DecoderText';
 import ProgressiveImage from '../components/ProgressiveImage';
-import Svg from '../utils/Svg';
 import ProfileImg from '../assets/profile.jpg';
 import ProfileImgLarge from '../assets/profile-large.jpg';
 import ProfileImgPlaceholder from '../assets/profile-placeholder.jpg';
 import { Media } from '../utils/StyleUtils';
-
 const lab = '/lab';
 
 const ProfileText = ({ status }) => (
   <React.Fragment>
-    <ProfileTitle>
+    <ProfileTitle aria-label="Hi" status={status}>
       <DecoderText
-        text="Hi,"
-        start={status === 'entering'}
+        text="Hi"
+        start={status !== 'exited'}
         offset={140}
       />
     </ProfileTitle>
     <ProfileDescription status={status}>
-      I’m a student based in Austin, currently looking for an internship. I create compelling designs that I bring to life with animations and the web's coolest technologies that look perfect on every screen.
+      I’m a student based in Austin, currently looking for an internship. I create compelling designs that I bring to life with the web's coolest technologies that look perfect on every screen.
     </ProfileDescription>
     <ProfileDescription status={status}>
       In my free time I like to create and play video games, jam out on my guitar, and <Anchor href={lab} target="_blank" rel="noopener noreferrer">experiment with new tech</Anchor>. I’m always interested in new projects, so feel free to drop me a line.
@@ -31,13 +29,11 @@ const ProfileText = ({ status }) => (
   </React.Fragment>
 );
 
-const Profile = ({
-  id,
-  tabIndex,
-  visible,
-  sectionRef,
-}) => (
-    <ProfileSection id={id} innerRef={sectionRef} tabIndex={tabIndex}>
+function Profile(props) {
+  const { id, tabIndex, visible, sectionRef } = props;
+
+  return (
+    <ProfileSection id={id} ref={sectionRef} tabIndex={tabIndex}>
       <Transition in={visible} timeout={0}>
         {status => (
           <ProfileContent>
@@ -65,10 +61,7 @@ const Profile = ({
                   srcSet={`${ProfileImg} 480w, ${ProfileImgLarge} 960w`}
                   sizes={`(max-width: ${Media.mobile}) 100vw, 480px`}
                   alt=""
-                  width="480px"
-                  height="562px"
                 />
-                <ProfileSvg icon="profile" status={status} />
               </ProfileImageContainer>
             </ProfileColumn>
           </ProfileContent>
@@ -76,6 +69,7 @@ const Profile = ({
       </Transition>
     </ProfileSection>
   );
+};
 
 const ProfileSection = styled.section`
   width: 100vw;
@@ -155,6 +149,12 @@ const ProfileTitle = styled.h2`
   font-weight: 500;
   margin-bottom: 40px;
   white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.8s ease 0.4s;
+
+  ${props => props.status === 'entered' && css`
+    opacity: 1;
+  `}
 `;
 
 const ProfileDescription = styled.p`
@@ -163,9 +163,9 @@ const ProfileDescription = styled.p`
   margin: 0;
   margin-bottom: 30px;
   opacity: 0;
-  transition: opacity 0.8s ease 0.2s;
+  transition: opacity 0.8s ease 0.6s;
 
-  ${props => props.status === 'entered' && `
+  ${props => props.status === 'entered' && css`
     opacity: 1;
   `}
 
@@ -194,7 +194,7 @@ const ProfileTag = styled.div`
     transform-origin: left;
   }
 
-  ${props => props.status === 'entered' && `
+  ${props => props.status === 'entered' && css`
     &:before {
       transform: scale3d(1, 1, 1);
     }
@@ -213,7 +213,7 @@ const ProfileTagText = styled.div`
   opacity: 0;
   transition: all 0.4s ${props => props.theme.curveFastoutSlowin} 1.3s;
 
-  ${props => props.status === 'entered' && `
+  ${props => props.status === 'entered' && css`
     transform: translateX(0);
     opacity: 1;
   `}
@@ -258,7 +258,7 @@ const ProfileImageContainer = styled.div`
     z-index: 16;
   }
 
-  ${props => props.status === 'entered' && `
+  ${props => props.status === 'entered' && css`
     &:before {
       animation: ${AnimProfileImage} 1.8s ${props.theme.curveFastoutSlowin} 0.6s;
     }
@@ -272,41 +272,18 @@ const ProfileImage = styled(ProgressiveImage)`
   opacity: 0;
   transition: opacity 0.4s ease 1.5s;
 
-  ${props => props.status === 'entered' && `
+  ${props => props.status === 'entered' && css`
     opacity: 1;
   `}
-`;
-
-const ProfileSvg = styled(Svg)`
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  transform: translate3d(50%, -80px, 0);
-  height: 620px;
-  z-index: 32;
-  opacity: 0;
-  transition: opacity 0.4s ease 0.6s;
-
-  ${props => props.status === 'entered' && `
-    opacity: 1;
-  `}
-
-  @media (max-width: ${Media.tablet}) {
-    height: 460px;
-  }
-
-  @media (max-width: ${Media.mobile}) {
-    height: 400px;
-  }
 `;
 
 const ProfileButton = styled(RouterButton)`
   opacity: 0;
-  transition: opacity 0.8s ease 0.4s;
+  transition: opacity 0.8s ease 0.6s;
 
-  ${props => props.status === 'entered' && `
+  ${props => props.status === 'entered' && css`
     opacity: 1;
   `}
 `;
 
-export default Profile;
+export default React.memo(Profile);

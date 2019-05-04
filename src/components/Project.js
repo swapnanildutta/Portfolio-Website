@@ -1,132 +1,99 @@
-import React from 'react';
-import styled, { keyframes } from 'styled-components';
+import React, { useState, useEffect, useRef } from 'react';
+import styled, { css, keyframes } from 'styled-components/macro';
 import { Media, AnimFade, ColorTint } from '../utils/StyleUtils';
 import ProgressiveImage from '../components/ProgressiveImage';
 import { LinkButton } from '../components/Button';
 
 const initDelay = 300;
-const prerender = window.location.port === '45678';
+const prerender = navigator.userAgent === 'ReactSnap';
 
-export class ProjectBackground extends React.Component {
-  constructor(props) {
-    super(props);
+export function ProjectBackground(props) {
+  const [offset, setOffset] = useState();
+  const scheduledAnimationFrame = useRef(false);
+  const lastScrollY = useRef(0);
 
-    this.state = {
-      offset: 0,
-    }
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
 
-    this.scheduledAnimationFrame = false;
-    this.lastScrollY = 0;
-  }
+    return function cleanUp() {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
-  componentDidMount() {
-    window.addEventListener('scroll', this.handleScroll);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScroll);
-  }
-
-  handleScroll = () => {
-    this.lastScrollY = window.scrollY;
-    if (this.scheduledAnimationFrame) return;
-    this.scheduledAnimationFrame = true;
+  const handleScroll = () => {
+    lastScrollY.current = window.scrollY;
+    if (scheduledAnimationFrame.current) return;
+    scheduledAnimationFrame.current = true;
 
     requestAnimationFrame(() => {
-      this.setState({ offset: this.lastScrollY * 0.4 });
-      this.scheduledAnimationFrame = false;
+      setOffset(lastScrollY.current * 0.4);
+      scheduledAnimationFrame.current = false;
     });
-  }
+  };
 
-  render() {
-    const { offset } = this.state;
-
-    return (
-      <ProjectBackgroundImage
-        offset={offset}
-        {...this.props}
-      />
-    );
-  }
+  return (
+    <ProjectBackgroundImage offset={offset} {...props} />
+  );
 }
 
-export const ProjectHeader = ({ title, description, url, roles }) => (
-  <ProjectHeaderContainer>
-    <ProjectHeaderInner>
-      <ProjectDetails entered={!prerender}>
-        <ProjectTitle>{title}</ProjectTitle>
-        <ProjectDescription>{description}</ProjectDescription>
-        <LinkButton
-          secondary
-          style={{ paddingLeft: '3px' }}
-          icon="chevronRight"
-          href={url}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Visit website
-        </LinkButton>
-      </ProjectDetails>
-      <ProjectMeta entered={!prerender}>
-        {roles && roles.map((role, index) => (
-          <ProjectMetaItem key={`role_${index}`}>{role}</ProjectMetaItem>
-        ))}
-      </ProjectMeta>
-    </ProjectHeaderInner>
-  </ProjectHeaderContainer>
-);
+export function ProjectHeader(props) {
+  const { title, description, linkLabel, url, roles } = props;
 
-export const ProjectSource = ({ title, description, url, roles }) => (
-  <ProjectHeaderContainer>
-    <ProjectHeaderInner>
-      <ProjectDetails entered={!prerender}>
-        <ProjectTitle>{title}</ProjectTitle>
-        <ProjectDescription>{description}</ProjectDescription>
-        <LinkButton
-          secondary
-          style={{ paddingLeft: '3px' }}
-          icon="chevronRight"
-          href={url}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          View Source
-        </LinkButton>
-      </ProjectDetails>
-      <ProjectMeta entered={!prerender}>
-        {roles && roles.map((role, index) => (
-          <ProjectMetaItem key={`role_${index}`}>{role}</ProjectMetaItem>
-        ))}
-      </ProjectMeta>
-    </ProjectHeaderInner>
-  </ProjectHeaderContainer>
-);
+  return (
+    <ProjectHeaderContainer>
+      <ProjectHeaderInner>
+        <ProjectDetails entered={!prerender}>
+          <ProjectTitle>{title}</ProjectTitle>
+          <ProjectDescription>{description}</ProjectDescription>
+          <LinkButton
+            secondary
+            style={{ paddingLeft: '3px' }}
+            icon="chevronRight"
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {linkLabel ? linkLabel : 'Visit website'}
+          </LinkButton>
+        </ProjectDetails>
+        <ProjectMeta entered={!prerender}>
+          {roles && roles.map((role, index) => (
+            <ProjectMetaItem key={`role_${index}`}>{role}</ProjectMetaItem>
+          ))}
+        </ProjectMeta>
+      </ProjectHeaderInner>
+    </ProjectHeaderContainer>
+  );
+}
 
-export const ProjectHeader2 = ({ title, description, url, roles }) => (
-  <ProjectHeaderContainer>
-    <ProjectHeaderInner>
-      <ProjectDetails entered={!prerender}>
-        <ProjectTitle>{title}</ProjectTitle>
-        <ProjectDescription>{description}</ProjectDescription>
-        <LinkButton
-          secondary
-          style={{ paddingLeft: '3px' }}
-          icon="chevronRight"
-          href={url}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Launch Project
-        </LinkButton>
-      </ProjectDetails>
-      <ProjectMeta entered={!prerender}>
-        {roles && roles.map((role, index) => (
-          <ProjectMetaItem key={`role_${index}`}>{role}</ProjectMetaItem>
-        ))}
-      </ProjectMeta>
-    </ProjectHeaderInner>
-  </ProjectHeaderContainer>
-);
+export function ProjectFooter(props) {
+  const { title, description, linkLabel, url, roles } = props;
+
+  return (
+    <ProjectHeaderContainer>
+      <ProjectHeaderInner2>
+        <ProjectDetails entered={!prerender}>
+          <ProjectTitle>{title}</ProjectTitle>
+          <ProjectDescription>{description}</ProjectDescription>
+          <LinkButton
+            secondary
+            style={{ paddingLeft: '3px' }}
+            icon="chevronRight"
+            href={url}
+            rel="noopener noreferrer"
+          >
+            {linkLabel ? linkLabel : 'Back to homepage'}
+          </LinkButton>
+        </ProjectDetails>
+        <ProjectMeta entered={!prerender}>
+          {roles && roles.map((role, index) => (
+            <ProjectMetaItem key={`role_${index}`}>{role}</ProjectMetaItem>
+          ))}
+        </ProjectMeta>
+      </ProjectHeaderInner2>
+    </ProjectHeaderContainer>
+  );
+}
 
 export const ProjectContainer = styled.article`
   position: relative;
@@ -179,7 +146,7 @@ export const ProjectSection = styled.section`
     padding-right: 100px;
   }
 
-  ${props => props.light && `
+  ${props => props.light && css`
     background: ${ColorTint(props.theme.colorBackground(1), 0.036)};
     padding-top: 120px;
     padding-bottom: 140px;
@@ -196,14 +163,14 @@ export const ProjectSection = styled.section`
   `}
 `;
 
-export const ProjectBackgroundImage = styled(ProgressiveImage).attrs({
+export const ProjectBackgroundImage = styled(ProgressiveImage).attrs(props => ({
   alt: '',
   role: 'presentation',
-  opacity: props => props.opacity ? props.opacity : 0.7,
-  style: ({ offset }) => ({
-    transform: `translate3d(0, ${offset}px, 0)`,
-  }),
-})`
+  opacity: props.opacity ? props.opacity : 0.7,
+  style: {
+    transform: `translate3d(0, ${props.offset}px, 0)`,
+  },
+}))`
   z-index: 0;
   position: absolute;
   top: 0;
@@ -213,7 +180,7 @@ export const ProjectBackgroundImage = styled(ProgressiveImage).attrs({
   height: 800px;
   opacity: 0;
 
-  ${props => props.entered && `
+  ${props => props.entered && css`
     animation: ${AnimFade} 2s ease ${initDelay}ms forwards;
   `}
 
@@ -221,6 +188,8 @@ export const ProjectBackgroundImage = styled(ProgressiveImage).attrs({
     object-fit: cover;
     width: 100%;
     height: 100%;
+  	webkit-filter: blur(3px);
+  	filter: blur(3px);
   }
 
   &:after {
@@ -228,24 +197,26 @@ export const ProjectBackgroundImage = styled(ProgressiveImage).attrs({
     position: absolute;
     top: 0;
     right: 0;
-    bottom;
+    bottom: 0;
     left: 0;
     z-index: 1;
     width: 100%;
     height: 100%;
-    background: linear-gradient(180deg,
+	background: linear-gradient(180deg,rgba(17,17,17,0.3) 0%,rgba(17,17,17,0.3) 100% );
+/*    background: linear-gradient(180deg,
       ${props => props.theme.colorBackground(props.opacity)} 0%,
       ${props => props.theme.colorBackground(1)} 100%
-    );
+    );*/
   }
 `;
 
-const ProjectHeaderContainer = styled(ProjectSection.withComponent('header'))`
-  padding-top: 120px;
-  padding-bottom: 0;
+const ProjectHeaderContainer = styled(ProjectSection)`
+  padding-top: 140px;
+  padding-bottom: 40px;
 
   @media (max-width: ${Media.tablet}) {
     padding-top: 100px;
+    padding-bottom: 0;
   }
 
   @media (max-width: ${Media.mobile}) {
@@ -277,6 +248,13 @@ const ProjectHeaderInner = styled.div`
   }
 `;
 
+const ProjectHeaderInner2 = styled.div`
+  position: relative;
+  display: grid;
+  max-width: 100%;
+  text-align:center;
+`;
+
 const AnimFadeSlide = keyframes`
   0% {
     opacity: 0;
@@ -291,7 +269,7 @@ const AnimFadeSlide = keyframes`
 const ProjectDetails = styled.div`
   opacity: 0;
 
-  ${props => props.entered && `
+  ${props => props.entered && css`
     animation: ${AnimFadeSlide} 1.4s ${props.theme.curveFastoutSlowin} ${initDelay}ms forwards;
   `}
 `;
@@ -331,7 +309,7 @@ const ProjectMeta = styled.ul`
   margin-top: 10px;
   opacity: 0;
 
-  ${props => props.entered && `
+  ${props => props.entered && css`
     animation: ${AnimFadeSlide} 1.4s ${props.theme.curveFastoutSlowin} ${initDelay + 200}ms forwards;
   `}
 `;
@@ -399,7 +377,7 @@ export const ProjectImage = styled.div`
     width: 100%;
   }
 
-  ${props => props.entered && `
+  ${props => props.entered && css`
     &:before {
       animation: ${AnimProjectImage} 1.4s ${props.theme.curveFastoutSlowin} 0.6s;
     }

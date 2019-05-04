@@ -13,8 +13,13 @@ const mailTransport = nodemailer.createTransport({
   },
 });
 
-exports.sendMail = functions.database.ref('/messages/{messageID}').onCreate((snapshot) => {
+exports.sendMail = functions.database.ref('/messages/{messageID}').onCreate(snapshot => {
   const { email, message } = snapshot.val();
+
+  if (email === 'test@test.test') {
+    snapshot.ref.set(null);
+  }
+
   return sendMail(email, message);
 });
 

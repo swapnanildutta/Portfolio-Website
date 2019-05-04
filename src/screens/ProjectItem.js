@@ -4,29 +4,18 @@ import { Transition } from 'react-transition-group';
 import { Media } from '../utils/StyleUtils';
 import { RouterButton, LinkButton } from '../components/Button';
 import ProgressiveImage from '../components/ProgressiveImage';
-import Svg from '../utils/Svg';
 import phone from '../assets/phone.png';
 import phoneLarge from '../assets/phone-large.png';
 import phonePlaceholder from '../assets/phone-placeholder.png';
 
-const ProjectItem = ({
-  id,
-  tabIndex,
-  visible,
-  sectionRef,
-  index,
-  title,
-  description,
-  imageSrc,
-  imageAlt,
-  imageType,
-  imagePlaceholder,
-  buttonText,
-  buttonLink,
-  buttonTo,
-}) => {
+function ProjectItem(props) {
+  const {
+    id, visible, sectionRef, index, title, description, imageSrc,
+    imageAlt, imageType, imagePlaceholder, buttonText, buttonLink, buttonTo,
+  } = props;
+
   return (
-    <ProjectItemSection index={index} innerRef={sectionRef} id={id} tabIndex={tabIndex}>
+    <ProjectItemSection index={index} ref={sectionRef} id={id}>
       <ProjectItemContent>
         <Transition in={visible} timeout={0}>
           {status => (
@@ -56,45 +45,29 @@ const ProjectItem = ({
                   <ProjectItemPreviewContentLaptop>
                     <ProjectItemImageLaptop
                       status={status}
-                      visible={visible}
                       srcSet={imageSrc[0]}
                       alt={imageAlt[0]}
                       placeholder={imagePlaceholder[0]}
-                      sizes={`
-                      (max-width: ${Media.mobile}) 300px,
-                      (max-width: ${Media.tablet}) 420px,
-                      (max-width: ${Media.desktop}) 860px,
-                      900px
-                    `}
-                      width="980px"
-                      height="603px"
+                      sizes={`(max-width: ${Media.mobile}) 300px,(max-width: ${Media.tablet}) 420px,(max-width: ${Media.desktop}) 860px, 900px`}
                     />
-                    <ProjectItemImageLaptopSvg status={status} icon="projects" />
                   </ProjectItemPreviewContentLaptop>
                 }
                 {imageType === 'phone' &&
                   <ProjectItemPreviewContentPhone>
-                    <ProjectItemPhoneImageSvg status={status} icon="projects" />
                     {imageSrc && imageSrc.map((src, index) => (
                       <ProjectItemPhone first={index === 0} status={status} key={`img_${index}`}>
                         <ProjectItemPhoneFrame
-                          visible={visible}
                           srcSet={`${phone} 414w, ${phoneLarge} 828w`}
                           sizes={`(max-width: ${Media.tablet}) 248px, 414px`}
                           alt=""
                           role="presentation"
                           placeholder={phonePlaceholder}
-                          width="414px"
-                          height="721px"
                         />
                         <ProjectItemPhoneImage
-                          visible={visible}
                           srcSet={imageSrc[index]}
                           alt={imageAlt[index]}
                           placeholder={imagePlaceholder[index]}
                           sizes={`(max-width: ${Media.tablet}) 152px, 254px`}
-                          width="254px"
-                          height="452px"
                         />
                       </ProjectItemPhone>
                     ))}
@@ -107,7 +80,7 @@ const ProjectItem = ({
       </ProjectItemContent>
     </ProjectItemSection>
   );
-}
+};
 
 const ProjectItemContent = styled.div`
   width: 100%;
@@ -394,30 +367,6 @@ const ProjectItemImageLaptop = styled(ProgressiveImage)`
   }
 `;
 
-const ProjectItemImageLaptopSvg = styled(Svg)`
-  position: absolute;
-  bottom: -40px;
-  right: -200px;
-  width: 600px;
-  opacity: 0;
-  transition: opacity 0.4s ease 0.6s;
-
-  ${props => props.status === 'entered' && `
-    opacity: 1;
-  `}
-
-  @media (max-width: ${Media.tablet}) {
-    width: 400px;
-    right: 0;
-    bottom: 64px;
-  }
-
-  @media (max-width: ${Media.mobile}) {
-    width: 260px;
-    bottom: 10px;
-  }
-`;
-
 const ProjectItemPhone = styled.div`
   position: relative;
   display: flex;
@@ -490,26 +439,4 @@ const ProjectItemPhoneImage = styled(ProgressiveImage)`
   }
 `;
 
-const ProjectItemPhoneImageSvg = styled(Svg)`
-  position: absolute;
-  transform: translateY(260px);
-  width: 600px;
-  transition: opacity 0.6s ease 0.6s;
-  opacity: 0;
-
-  ${props => props.status === 'entered' && `
-    opacity: 1;
-  `}
-
-  @media (max-width: ${Media.tablet}) {
-    width: 400px;
-    transform: translateY(180px);
-  }
-
-  @media (max-width: ${Media.mobile}) {
-    width: 320px;
-    transform: translateY(160px);
-  }
-`;
-
-export default ProjectItem;
+export default React.memo(ProjectItem);

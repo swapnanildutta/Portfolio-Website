@@ -1,7 +1,16 @@
-import React from 'react';
-import * as THREE from 'three';
-import styled from 'styled-components';
+import React, { useState, useEffect, useRef } from 'react';
+import {
+  WebGLRenderer, OrthographicCamera, Scene, Mesh, Color, ShaderMaterial,
+  LinearFilter, TextureLoader, PlaneBufferGeometry, LoadingManager
+} from 'three';
+import styled from 'styled-components/macro';
+import 'intersection-observer';
 import { Easing, Tween, autoPlay } from 'es6-tween';
+import Swipe from 'react-easy-swipe';
+import Icon from '../utils/Icon';
+import { Media } from '../utils/StyleUtils';
+
+const prerender = navigator.userAgent === 'ReactSnap';
 
 const vertex = `
   varying vec2 vUv;
@@ -16,6 +25,7 @@ const fragment = `
   uniform sampler2D currentImage;
   uniform sampler2D nextImage;
   uniform float dispFactor;
+  uniform float direction;
 
   void main() {
     vec2 uv = vUv;
@@ -27,13 +37,13 @@ const fragment = `
     vec4 orig2 = texture2D(nextImage, uv);
 
     vec2 distortedPosition = vec2(
-      uv.x + dispFactor * (orig2.r * intensity),
-      uv.y + dispFactor * (orig2 * intensity)
+      uv.x + direction * (dispFactor * (orig2.r * intensity)),
+      uv.y + direction * (dispFactor * (orig2 * intensity))
     );
 
     vec2 distortedPosition2 = vec2(
-      uv.x - (1.0 - dispFactor) * (orig1.r * intensity),
-      uv.y - (1.0 - dispFactor) * (orig1 * intensity)
+      uv.x - direction * ((1.0 - dispFactor) * (orig1.r * intensity)),
+      uv.y - direction * ((1.0 - dispFactor) * (orig1 * intensity))
     );
 
     _currentImage = texture2D(currentImage, distortedPosition);
@@ -44,124 +54,350 @@ const fragment = `
   }
 `;
 
-export default class DispalcementSlider extends React.Component {
-  constructor(props) {
-    super(props);
+export default function DispalcementSlider(props) {
+  const { width, height, images, placeholder } = props;
+  const [imageIndex, setImageIndex] = useState(0);
+  const [loaded, setLoaded] = useState(false);
+  const container = useRef();
+  const imagePlane = useRef();
+  const geometry = useRef();
+  const material = useRef();
+  const sliderImages = useRef();
+  const scene = useRef();
+  const camera = useRef();
+  const renderer = useRef();
+  const animating = useRef(false);
+  const observer = useRef();
+  const scheduledAnimationFrame = useRef();
+  const currentImage = images[imageIndex];
 
-    this.container = React.createRef();
-    this.renderer = new THREE.WebGLRenderer({ antialias: false });
-    this.scene = new THREE.Scene();
-    this.renderWidth = 500;
-    this.renderHeight = 300;
-    this.imageIndex = 0;
-    this.animating = false;
-    this.camera = new THREE.OrthographicCamera(
-      this.renderWidth / -2,
-      this.renderWidth / 2,
-      this.renderHeight / 2,
-      this.renderHeight / -2,
-      1,
-      1000
-    );
-    autoPlay(true);
-  }
+  useEffect(() => {
+    const cameraOptions = [width / -2, width / 2, height / 2, height / -2, 1, 1000];
+    renderer.current = new WebGLRenderer({ antialias: false });
+    camera.current = new OrthographicCamera(...cameraOptions);
+    scene.current = new Scene();
+    renderer.current.setPixelRatio(window.devicePixelRatio);
+    renderer.current.setClearColor(0x111111, 1.0);
+    renderer.current.setSize(width, height);
+    renderer.current.domElement.style.width = '100%';
+    renderer.current.domElement.style.height = 'auto';
+    renderer.current.domElement.setAttribute('aria-hidden', true);
+    scene.current.background = new Color(0x111111);
+    camera.current.position.z = 1;
+    container.current.appendChild(renderer.current.domElement);
+    initializeObserver();
 
-  componentDidMount() {
-    const { images } = this.props;
-    this.renderer.setPixelRatio(window.devicePixelRatio);
-    this.renderer.setClearColor(0x111111, 1.0);
-    this.renderer.setSize(this.renderWidth, this.renderHeight);
-    this.container.current.appendChild(this.renderer.domElement);
-    this.scene.background = new THREE.Color(0x111111);
-    this.camera.position.z = 1;
-    this.sliderImages = this.loadImages(images);
-    this.addObjects(this.sliderImages);
-    this.animate();
-  }
+    return function cleanUp() {
+      animating.current = false;
+      cancelAnimationFrame(animate);
+      renderer.current.dispose();
+      renderer.current.forceContextLoss();
+      renderer.current.context = null;
+      renderer.current.domElement = null;
 
-  loadImages = (images) => {
-    const loader = new THREE.TextureLoader();
+      if (imagePlane.current) {
+        scene.current.remove(imagePlane.current);
+        imagePlane.current.geometry.dispose();
+        imagePlane.current.material.dispose();
+      }
 
-    return images.map(imgSrc => {
-      console.log(imgSrc)
-      const image = loader.load(imgSrc);
-      image.magFilter = image.minFilter = THREE.LinearFilter;
-      image.anisotropy = this.renderer.capabilities.getMaxAnisotropy();
-      return image;
+      scene.current.dispose();
+
+      if (geometry.current) {
+        geometry.current.dispose();
+      }
+
+      if (material.current) {
+        material.current.dispose();
+      }
+
+      if (observer.current) {
+        observer.current.disconnect();
+      }
+    };
+  }, []);
+
+  const initializeObserver = () => {
+    observer.current = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          loadImages();
+          observer.current.unobserve(entry.target);
+        }
+      });
     });
-  }
 
-  addObjects = (sliderImages) => {
-    this.material = new THREE.ShaderMaterial({
+    observer.current.observe(container.current);
+  };
+
+  const loadImages = async () => {
+    const manager = new LoadingManager();
+
+    manager.onLoad = function () {
+      setLoaded(true);
+    };
+
+    const loader = new TextureLoader(manager);
+
+    const results = images.map(async item => {
+      return new Promise((resolve, reject) => {
+        const tempImage = new Image();
+        tempImage.src = item.src;
+        tempImage.srcset = item.srcset;
+
+        const onLoad = () => {
+          tempImage.removeEventListener('load', onLoad);
+          const source = tempImage.currentSrc;
+          const image = loader.load(source);
+          image.magFilter = image.minFilter = LinearFilter;
+          image.anisotropy = renderer.current.capabilities.getMaxAnisotropy();
+          resolve(image);
+        };
+
+        tempImage.addEventListener('load', onLoad);
+      });
+    });
+
+    const imageResults = await Promise.all(results);
+    sliderImages.current = imageResults;
+    addObjects(imageResults);
+  };
+
+  const addObjects = (textures) => {
+    material.current = new ShaderMaterial({
       uniforms: {
-        dispFactor: { type: "f", value: 0.0 },
-        currentImage: { type: "t", value: sliderImages[0] },
-        nextImage: { type: "t", value: sliderImages[1] },
+        dispFactor: { type: 'f', value: 0 },
+        direction: { type: 'f', value: 1 },
+        currentImage: { type: 't', value: textures[0] },
+        nextImage: { type: 't', value: textures[1] },
       },
       vertexShader: vertex,
       fragmentShader: fragment,
       transparent: false,
-      opacity: 1.0
+      opacity: 1,
     });
 
-    const geometry = new THREE.PlaneBufferGeometry(
-      this.container.current.offsetWidth,
-      this.container.current.offsetHeight,
-      1
-    );
+    geometry.current = new PlaneBufferGeometry(width, height, 1);
+    imagePlane.current = new Mesh(geometry.current, material.current);
+    imagePlane.current.position.set(0, 0, 0);
+    scene.current.add(imagePlane.current);
+    initialRender();
+  };
 
-    const object = new THREE.Mesh(geometry, this.material);
-    object.position.set(0, 0, 0);
-    this.scene.add(object);
-  }
+  const initialRender = () => {
+    animating.current = true;
+    autoPlay(true);
+    goToIndex(0, 0);
+  };
 
-  animate = () => {
-    requestAnimationFrame(this.animate);
-    this.renderer.render(this.scene, this.camera);
-  }
+  const animate = () => {
+    if (animating.current) {
+      requestAnimationFrame(animate);
+      renderer.current.render(scene.current, camera.current);
+    }
+  };
 
-  nextImage = () => {
-    if (this.animating) return;
-    this.animating = true;
-    const nextIndex = this.imageIndex < this.sliderImages.length - 1
-      ? this.imageIndex + 1
-      : 0
+  const nextImage = () => {
+    navigate(1);
+  };
 
-    this.imageIndex = nextIndex;
-    this.material.uniforms.nextImage.value = this.sliderImages[nextIndex];
-    this.material.uniforms.nextImage.needsUpdate = true;
+  const prevImage = () => {
+    navigate(-1);
+  };
 
-    new Tween(this.material.uniforms.dispFactor)
-      .to({value: 1}, 1400)
+  const onNavClick = (index) => {
+    const direction = index > imageIndex ? 1 : -1;
+    navigate(direction, index);
+  };
+
+  const navigate = (direction, index) => {
+    if (!loaded) return;
+
+    if (animating.current) {
+      cancelAnimationFrame(scheduledAnimationFrame.current);
+      scheduledAnimationFrame.current = requestAnimationFrame(() => navigate(direction, index));
+      return;
+    }
+
+    const determineIndex = () => {
+      if (index) return index;
+      const length = sliderImages.current.length;
+      const prevIndex = (imageIndex - 1 + length) % length;
+      const nextIndex = (imageIndex + 1) % length;
+      const finalIndex = direction > 0 ? nextIndex : prevIndex;
+      return finalIndex;
+    };
+
+    animating.current = true;
+
+    const finalIndex = determineIndex();
+    goToIndex(finalIndex, direction);
+  };
+
+  const goToIndex = (index, direction = 1) => {
+    animate();
+    setImageIndex(index);
+    const uniforms = material.current.uniforms;
+    uniforms.nextImage.value = sliderImages.current[index];
+    uniforms.nextImage.needsUpdate = true;
+    uniforms.direction.value = direction;
+
+    new Tween(uniforms.dispFactor)
+      .to({ value: 1 }, 1200)
       .easing(Easing.Exponential.InOut)
       .on('complete', () => {
-        this.material.uniforms.currentImage.value = this.sliderImages[nextIndex];
-        this.material.uniforms.currentImage.needsUpdate = true;
-        this.material.uniforms.dispFactor.value = 0.0;
-        this.animating = false;
+        uniforms.currentImage.value = sliderImages.current[index];
+        uniforms.currentImage.needsUpdate = true;
+        uniforms.dispFactor.value = 0.0;
+        animating.current = false;
       })
       .start();
-  }
+  };
 
-  render() {
-    const { images } = this.props;
-    return (
-      <Container innerRef={this.container} onClick={this.nextImage}>
-        {images.map(image => (
-          <img src={image} alt="A thing" />
+  return (
+    <SliderContainer>
+      <SliderContainer>
+        <SliderImage src={currentImage.src} srcSet={currentImage.srcset} alt={currentImage.alt} />
+        <Swipe
+          allowMouseEvents
+          onSwipeRight={prevImage}
+          onSwipeLeft={nextImage}
+        >
+          <SliderCanvasWrapper ref={container} />
+        </Swipe>
+        <SliderPlaceholder src={placeholder} alt="" loaded={!prerender && loaded} />
+        <SliderButton
+          left
+          aria-label="Previous slide"
+          onClick={prevImage}
+        >
+          <Icon icon="slideLeft" />
+        </SliderButton>
+        <SliderButton
+          right
+          aria-label="Next slide"
+          onClick={nextImage}
+        >
+          <Icon icon="slideRight" />
+        </SliderButton>
+      </SliderContainer>
+      <SliderNav>
+        {images.map((image, index) => (
+          <SliderNavButton
+            key={image.src}
+            onClick={() => onNavClick(index)}
+            active={index === imageIndex}
+            aria-label={`Slide ${index + 1}`}
+            aria-pressed={index === imageIndex}
+          />
         ))}
-      </Container>
-    )
-  }
-}
+      </SliderNav>
+    </SliderContainer>
+  );
+};
 
-const Container = styled.div`
+const SliderContainer = styled.div`
   position: relative;
-  object-fit: cover;
+`;
 
-  img {
-    position: absolute;
-    pointer-events: none;
-    visibility: hidden;
+const SliderCanvasWrapper = styled.div`
+  position: relative;
+  cursor: grab;
+
+  canvas {
+    position: relative;
+    display: block;
+  }
+`;
+
+const SliderImage = styled.img`
+  position: absolute;
+  pointer-events: none;
+  opacity: 0.001;
+  width: 100%;
+  display: block;
+`;
+
+const SliderPlaceholder = styled.img`
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  transition: opacity 1s ease;
+  opacity: ${props => props.loaded ? 0 : 1};
+  pointer-events: none;
+`;
+
+const SliderButton = styled.button`
+  border: 0;
+  margin: 0;
+  background: none;
+  padding: 16px 32px;
+  position: absolute;
+  top: 50%;
+  right: ${props => props.right ? 0 : 'unset'};
+  left: ${props => props.left ? 0 : 'unset'};
+  transform: translate3d(0, -50%, 0);
+  transition-property: background, box-shadow;
+  transition-duration: 0.4s;
+  transition-timing-function: ${props => props.theme.curveFastoutSlowin};
+  z-index: 32;
+  cursor: pointer;
+
+  @media (max-width: ${Media.mobile}) {
+    display: none;
+  }
+
+  &:hover,
+  &:focus {
+    background: ${props => props.theme.colorWhite(0.1)};
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: inset 0 0 0 3px ${props => props.theme.colorWhite(0.2)};
+  }
+
+  svg {
+    fill: ${props => props.theme.colorWhite(1)};
+    display: block;
+  }
+`;
+
+const SliderNav = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 8px;
+`;
+
+const SliderNavButton = styled.button`
+  background: none;
+  border: 0;
+  margin: 0;
+  padding: 16px;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:focus::after {
+    box-shadow: 0 0 0 4px ${props => props.theme.colorWhite(0.2)};
+    background: ${props => props.active ? props.theme.colorWhite(1) : props.theme.colorWhite(0.6)};
+  }
+
+  &::after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: block;
+    background: ${props => props.active ? props.theme.colorWhite(1) : props.theme.colorWhite(0.2)};
+    transition-property: background, box-shadow;
+    transition-duration: 0.5s;
+    transition-timing-function: ${props => props.theme.curveFastoutSlowin};
   }
 `;

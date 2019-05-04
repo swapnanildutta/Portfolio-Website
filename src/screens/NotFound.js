@@ -1,59 +1,60 @@
 import React from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components/macro';
 import { Transition } from 'react-transition-group';
-import { Helmet } from 'react-helmet';
+import Helmet from 'react-helmet-async';
 import { RouterButton } from '../components/Button';
 import DecoderText from '../components/DecoderText';
 import { Media } from '../utils/StyleUtils';
 import NotfoundPoster from '../assets/notfound.jpg';
 
-const NotFound = () => (
-  <NotFoundSection>
-    <Helmet>
-      <title tag="title">404 | Not Found</title>
-      <meta name="description" content="This page doesn't exist" />
-    </Helmet>
+function NotFound() {
+  return (
+    <NotFoundSection>
+      <Helmet>
+        <title tag="title">404 | Not Found</title>
+        <meta name="description" content="This page doesn't exist" />
+      </Helmet>
+      <Transition appear in={true} timeout={0}>
+        {status => (
+          <React.Fragment>
+            <NotfoundDetails>
+              <NotFoundText>
+                <NotFoundTitle status={status}>404</NotFoundTitle>
+                <NotFoundSubHeading status={status}>
+                  <DecoderText text="That is an error" start={status !== 'exited'} offset={100} />
+                </NotFoundSubHeading>
+                <NotFoundDescription status={status}>
+                  This page could not be found. It either doesn't exist or was deleted.
+                </NotFoundDescription>
+                <NotFoundButton
+                  secondary
+                  status={status}
+                  to="/"
+                  icon="chevronRight"
+                >
+                  Back to homepage
+                </NotFoundButton>
+              </NotFoundText>
+            </NotfoundDetails>
 
-    <Transition appear in={true} timeout={0}>
-      {status => (
-        <React.Fragment>
-          <NotfoundDetails>
-            <NotFoundText>
-              <NotFoundTitle status={status}>404</NotFoundTitle>
-              <NotFoundSubHeading status={status}>
-                <DecoderText text="That is an error" start offset={65} />
-              </NotFoundSubHeading>
-              <NotFoundDescription status={status}>
-                This page could not be found. It either doesn't exist or was deleted.
-              </NotFoundDescription>
-              <NotFoundButton
-                secondary
+            <NotFoundVideoContainer status={status}>
+              <NotFoundVideo
+                autoPlay
+                muted
+                loop
+                playsInline
+                poster={NotfoundPoster}
                 status={status}
-                to="/"
-                icon="chevronRight"
               >
-                Back to homepage
-              </NotFoundButton>
-            </NotFoundText>
-          </NotfoundDetails>
-
-          <NotFoundVideoContainer status={status}>
-            <NotFoundVideo
-              autoPlay
-              muted
-              loop
-              playsInline
-              poster={NotfoundPoster}
-              status={status}
-            >
-              <source src={NotfoundPoster} type="video/mp4" />
-            </NotFoundVideo>
-          </NotFoundVideoContainer>
-        </React.Fragment>
-      )}
-    </Transition>
-  </NotFoundSection>
-);
+                <source src={NotfoundPoster} type="video/mp4" />
+              </NotFoundVideo>
+            </NotFoundVideoContainer>
+          </React.Fragment>
+        )}
+      </Transition>
+    </NotFoundSection>
+  );
+}
 
 const NotFoundSection = styled.section`
   display: grid;
@@ -77,6 +78,7 @@ const NotFoundSection = styled.section`
 
 const AnimVideo = keyframes`
   0% {
+    opacity: 0;
     transform: scale3d(0, 1, 1);
     transform-origin: left;
   }
@@ -109,7 +111,7 @@ const NotFoundVideoContainer = styled.div`
   &:after {
     content: '';
     background: ${props => props.theme.colorPrimary(1)};
-    animation: ${AnimVideo} 1.8s ${props => props.theme.curveFastoutSlowin};
+    animation: ${props => props.status === 'entered' && css`${AnimVideo} 1.8s ${props.theme.curveFastoutSlowin}`};
     position: absolute;
     top: 0;
     right: 0;
@@ -119,12 +121,7 @@ const NotFoundVideoContainer = styled.div`
     transform-origin: left;
     z-index: 16;
   }
-
-  ${props => props.status === 'entered' && `
-    &:before {
-      animation: ${AnimVideo} 1.8s ${props.theme.curveFastoutSlowin};
-    }
-  `}`;
+`;
 
 const NotFoundVideo = styled.video`
   object-fit: cover;
@@ -136,7 +133,7 @@ const NotFoundVideo = styled.video`
   transition-delay: 1s;
   transition-duration: 0.4s;
 
-  ${props => props.status === 'entered' && `
+  ${props => props.status === 'entered' && css`
     opacity: 1;
   `}
 
@@ -162,6 +159,7 @@ const NotFoundText = styled.div`
   display: flex;
   flex-direction: column;
   max-width: 480px;
+  width: 100%;
 `;
 
 const NotFoundTitle = styled.h1`
@@ -180,7 +178,7 @@ const NotFoundTitle = styled.h1`
     font-size: 64px;
   }
 
-  ${props => props.status === 'entered' && `
+  ${props => props.status === 'entered' && css`
     transform: translate3d(0, 0, 0);
     opacity: 1;
   `}
@@ -200,12 +198,15 @@ const NotFoundSubHeading = styled.h2`
   transition-delay: 0.2s;
   transform: translate3d(0, 40px, 0);
   opacity: 0;
+  max-width: 100%;
+  white-space: nowrap;
+  flex: 0 0 auto;
 
   @media (max-width: ${Media.mobile}) {
     font-size: 18px;
   }
 
-  ${props => props.status === 'entered' && `
+  ${props => props.status === 'entered' && css`
     transform: translate3d(0, 0, 0);
     opacity: 1;
   `}
@@ -225,7 +226,7 @@ const NotFoundDescription = styled.p`
   transform: translate3d(0, 40px, 0);
   opacity: 0;
 
-  ${props => props.status === 'entered' && `
+  ${props => props.status === 'entered' && css`
     transform: translate3d(0, 0, 0);
     opacity: 1;
   `}
@@ -241,7 +242,7 @@ const NotFoundButton = styled(RouterButton)`
   align-self: flex-start;
   padding-left: 3px;
 
-  ${props => props.status === 'entered' && `
+  ${props => props.status === 'entered' && css`
     transform: translate3d(0, 0, 0);
     opacity: 1;
   `}

@@ -1,57 +1,55 @@
-import React, { PureComponent } from 'react';
-import styled from 'styled-components';
+import React, { useState, useEffect, useRef } from 'react';
+import styled from 'styled-components/macro';
+import 'intersection-observer';
 
-export default class ProgressiveImage extends PureComponent {
-  state = {
-    loaded: false,
+const prerender = navigator.userAgent === 'ReactSnap';
+
+function ProgressiveImage(props) {
+  const { placeholder, className, style, srcSet, ...restProps } = props;
+  const [loaded, setLoaded] = useState(false);
+  const [intersect, setIntersect] = useState(false);
+  const containerRef = useRef();
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const image = entry.target;
+          setIntersect(true);
+          observer.unobserve(image);
+        }
+      });
+    });
+
+    observer.observe(containerRef.current);
+
+    return function cleanUp() {
+      observer.disconnect();
+    };
+  }, []);
+
+  const onLoad = () => {
+    setLoaded(true);
   };
 
-  onLoad = () => {
-    this.setState({ loaded: true });
-  }
-
-  getSrcSet = (visible, srcSet) => {
-    const lazyLoad = typeof visible !== 'undefined';
-
-    if (lazyLoad && !visible) {
-      return null;
-    }
-
-    if (lazyLoad && visible) {
-      return srcSet;
-    }
-
-    return srcSet;
-  }
-
-  render() {
-    const { placeholder, className, style, width, height, srcSet, visible, ...props } = this.props;
-    const { loaded } = this.state;
-    const actualSrcSet = this.getSrcSet(visible, srcSet);
-
-    return (
-      <ImageContainer className={className} style={style}>
-        <ImageActual
-          onLoad={this.onLoad}
-          decoding="async"
-          loaded={loaded}
-          width={width}
-          height={height}
-          srcSet={actualSrcSet}
-          {...props}
-        />
-        <ImagePlaceholder
-          loaded={loaded}
-          src={placeholder}
-          width={width}
-          height={height}
-          alt=""
-          role="presentation"
-        />
-      </ImageContainer>
-    )
-  }
-}
+  return (
+    <ImageContainer className={className} style={style} ref={containerRef}>
+      <ImageActual
+        onLoad={onLoad}
+        decoding="async"
+        loaded={loaded}
+        srcSet={!prerender && intersect ? srcSet : null}
+        {...restProps}
+      />
+      <ImagePlaceholder
+        loaded={loaded}
+        src={placeholder}
+        alt=""
+        role="presentation"
+      />
+    </ImageContainer>
+  );
+};
 
 const ImageContainer = styled.div`
   position: relative;
@@ -80,3 +78,5 @@ const ImageActual = styled.img`
   display: block;
   opacity: ${props => props.loaded ? 1 : 0};
 `;
+
+export default React.memo(ProgressiveImage);
