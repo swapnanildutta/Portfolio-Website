@@ -15,6 +15,7 @@
     "es6-tween": "^5.3.1",
     "intersection-observer": "^0.5.1",
     "ios-inner-height": "^1.1.0",
+    "nodemailer": "^6.1.1",
     "react": "^16.8.2",
     "react-dom": "^16.8.2",
     "react-easy-swipe": "^0.0.17",
