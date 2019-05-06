@@ -60,7 +60,7 @@ function BattleBots(props) {
         <ProjectHeader
           title={title}
           description={description}
-          url="#"
+          url="https://github.com/CodyJasonBennett/BattleBots"
           roles={roles}
         />
         <ProjectSection>
