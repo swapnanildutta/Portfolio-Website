@@ -1,20 +1,16 @@
 # Portfolio Website
 
-![Site preview](/public/social-image.png)
+![Site preview](/preview.png)
 
 A personal portfolio to showcase a few projects.
 
 ## Install & run
 
 ```bash
-yarn
+yarn && yarn start
 ```
 
-```bash
-yarn start
-```
-
-## Not included
+## Setup Firebase
 
 ```json
 
@@ -22,9 +18,9 @@ yarn start
 
 {
   "firebase": {
-    "apiKey": "yourkey123",
+    "apiKey": "project-key",
     "databaseURL": "https://domain.firebaseio.com",
-    "projectId": "proj-id",
+    "projectId": "project-id",
   }
 }
 ```
