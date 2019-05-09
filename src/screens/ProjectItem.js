@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Transition } from 'react-transition-group';
 import { Media } from '../utils/StyleUtils';
 import { RouterButton, LinkButton } from '../components/Button';
-import ProgressiveImage from '../components/ProgressiveImage';
+import ProgressiveImage from '../components/ProgressiveImageMacbook';
 import phone from '../assets/phone.png';
 import phoneLarge from '../assets/phone-large.png';
 import phonePlaceholder from '../assets/phone-placeholder.png';

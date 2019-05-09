@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components/macro';
 import 'intersection-observer';
+import macbook from '../assets/macbook-large.png';
 
 const prerender = navigator.userAgent === 'ReactSnap';
 
-function ProgressiveImage(props) {
+function ProgressiveImageMacbook(props) {
   const { placeholder, className, style, srcSet, ...restProps } = props;
   const [loaded, setLoaded] = useState(false);
   const [intersect, setIntersect] = useState(false);
@@ -54,33 +55,31 @@ function ProgressiveImage(props) {
 const ImageContainer = styled.div`
   position: relative;
   transform: translate3d(0, 0, 0);
+  background-image: url(${macbook});
+  background-size: cover;
 `;
 
 const ImagePlaceholder = styled.img`
-  width: 100%;
-  height: auto;
+  width: 77.62%;
+  height: 78.66%;
   transition: opacity 0.4s ease;
   pointer-events: none;
   display: block;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  top: 9.20%;
+  left: 11.4%;
   position: relative;
   z-index: 1;
   opacity: ${props => props.loaded ? 0 : 1};
 `;
 
 const ImageActual = styled.img`
-  width: 100%;
-  height: 100%;
+  width: 77.62%;
+  height: 78.66%;
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  top: 9.20%;
+  left: 11.4%;
   display: block;
   opacity: ${props => props.loaded ? 1 : 0};
 `;
 
-export default React.memo(ProgressiveImage);
+export default React.memo(ProgressiveImageMacbook);
