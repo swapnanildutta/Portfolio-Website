@@ -12,8 +12,8 @@ import { Media } from '../utils/StyleUtils';
 import { AppContext } from '../app/App';
 import placeholder2 from '../assets/placeholder.png';
 import background from '../assets/BattleBots/botBack.webp';
-import BotProject from '../assets/BattleBots/botProject.webp';
-import BotProjectPlaceholder from '../assets/BattleBots/botProjectPlaceholder.png';
+import botProject from '../assets/BattleBots/botProject.webp';
+import botProjectPlaceholder from '../assets/BattleBots/botProjectPlaceholder.png';
 import botsProto from '../assets/BattleBots/botsProto.webp';
 import botsScoreProto from '../assets/BattleBots/botsScoreProto.webp';
 import botTruck from '../assets/BattleBots/botTruck.webp';
@@ -67,8 +67,8 @@ function BattleBots(props) {
           <ProjectSectionContent>
             <ProjectImage entered={!prerender}>
               <ProgressiveImage
-                srcSet={`${BotProject} 800w, ${BotProject} 1920w`}
-                placeholder={BotProjectPlaceholder}
+                srcSet={`${botProject} 800w, ${botProject} 1920w`}
+                placeholder={botProjectPlaceholder}
                 alt=""
                 sizes={`(max-width: ${Media.mobile}) 100vw, (max-width: ${Media.tablet}) 90vw, 80vw`}
               />

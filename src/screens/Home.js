@@ -15,7 +15,7 @@ import ArMTGPlaceholder from '../assets/ARMTG/ARMTGWebPlaceHolder.png';
 import BotProject from '../assets/BattleBots/botProject.webp';
 import BotProjectPlaceholder from '../assets/BattleBots/botProjectPlaceholder.png';
 import Robotics from '../assets/Robotics/robotics.webp';
-import RoboticsPlaceholder from '../assets/Robotics/robotics.min.png';
+import RoboticsPlaceholder from '../assets/Robotics/roboticsPlaceholder.png';
 
 const disciplines = ['Developer'];
 

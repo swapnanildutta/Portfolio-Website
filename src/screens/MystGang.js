@@ -10,6 +10,7 @@ import {
 } from '../components/Project';
 import { Media } from '../utils/StyleUtils';
 import { AppContext } from '../app/App';
+import placeholder2 from '../assets/placeholder.png';
 import background from '../assets/MystGang/mystGangBack.gif';
 import render from '../assets/MystGang/MystGang.webp';
 import renderPlaceholder from '../assets/MystGang/MystGangPlaceholder.png';
@@ -82,7 +83,7 @@ function Robotics(props) {
             <SidebarImages>
               <SidebarImage
                 srcSet={`${mystGangAnimation}`}
-                placeholder={mystGangAnimation}
+                placeholder={placeholder2}
                 alt=""
                 sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
               />
@@ -92,7 +93,7 @@ function Robotics(props) {
             <ProjectSectionGridBackground>
               <ProgressiveImage
                 srcSet={`${branding}`}
-                placeholder={branding}
+                placeholder={placeholder2}
                 alt=""
                 sizes={`(max-width: ${Media.mobile}) 312px, (max-width: ${Media.tablet}) 408px, 514px`}
               />
@@ -112,7 +113,7 @@ function Robotics(props) {
             <SidebarImages>
               <SidebarImage
                 srcSet={`${one} 400w, ${one} 898w`}
-                placeholder={one}
+                placeholder={placeholder2}
                 alt="Animated site design."
                 sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
               />
@@ -120,7 +121,7 @@ function Robotics(props) {
             <SidebarImages>
               <SidebarImage
                 srcSet={`${two} 400w, ${two} 898w`}
-                placeholder={two}
+                placeholder={placeholder2}
                 alt="Creating the site as well as a 3D loading animation."
                 sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
               />
@@ -128,7 +129,7 @@ function Robotics(props) {
           </ProjectSectionGrid>
           <ProgressiveImage
             srcSet={`${three}`}
-            placeholder={three}
+            placeholder={placeholder2}
             alt="Creating the 3D scene in ThreeJS."
             sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
           />
@@ -143,7 +144,7 @@ function Robotics(props) {
             <SidebarImages>
               <SidebarImage
                 srcSet={`${four} 400w, ${four} 898w`}
-                placeholder={four}
+                placeholder={placeholder2}
                 alt="Throwing some ribbons in."
                 sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
               />
@@ -151,7 +152,7 @@ function Robotics(props) {
             <SidebarImages>
               <SidebarImage
                 srcSet={`${five} 400w, ${five} 898w`}
-                placeholder={five}
+                placeholder={placeholder2}
                 alt="Adding color to the scene."
                 sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
               />
@@ -167,7 +168,7 @@ function Robotics(props) {
             <SidebarImages>
               <SidebarImage
                 srcSet={`${zeroP} 400w, ${zeroP} 898w`}
-                placeholder={zeroP}
+                placeholder={placeholder2}
                 alt="Desktop view of a prototype with a 3D scene from a 2D carousel."
                 sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
               />
@@ -175,7 +176,7 @@ function Robotics(props) {
             <SidebarImages>
               <SidebarImage
                 srcSet={`${oneP} 400w, ${oneP} 898w`}
-                placeholder={oneP}
+                placeholder={placeholder2}
                 alt="Mobile view of a prototype with a 3D scene from a 2D carousel."
                 sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
               />
@@ -183,7 +184,7 @@ function Robotics(props) {
             <SidebarImages>
               <SidebarImage
                 srcSet={`${twoP} 400w, ${twoP} 898w`}
-                placeholder={twoP}
+                placeholder={placeholder2}
                 alt="Mobile view of a vertical one-page site featuring a interactive carousel."
                 sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
               />
@@ -191,7 +192,7 @@ function Robotics(props) {
             <SidebarImages>
               <SidebarImage
                 srcSet={`${threeP} 400w, ${threeP} 898w`}
-                placeholder={threeP}
+                placeholder={placeholder2}
                 alt="Desktop view of a horizontal one-page site featuring a interactive carousel."
                 sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
               />
@@ -206,19 +207,19 @@ function Robotics(props) {
             </ProjectTextRow>
             <ProgressiveImage
               srcSet={`${home}`}
-              placeholder={home}
+              placeholder={placeholder2}
               alt="Interactive 3D home screen."
               sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
             />
             <ProgressiveImage
               srcSet={`${work}`}
-              placeholder={work}
+              placeholder={placeholder2}
               alt="Interactive 3D work carousel."
               sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
             />
             <ProgressiveImage
               srcSet={`${about}`}
-              placeholder={about}
+              placeholder={placeholder2}
               alt="Interactive 3D about and contact page."
               sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
             />

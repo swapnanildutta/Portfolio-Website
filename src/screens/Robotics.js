@@ -13,7 +13,7 @@ import { AppContext } from '../app/App';
 import placeholder2 from '../assets/placeholder.png';
 import background from '../assets/Robotics/botBack2.webp';
 import robotics from '../assets/Robotics/robotics.webp';
-import roboticsPlaceholder from '../assets/Robotics/robotics.min.png';
+import roboticsPlaceholder from '../assets/Robotics/roboticsPlaceholder.png';
 import branding from '../assets/Robotics/branding.png';
 import clawbot from '../assets/Robotics/clawbot.png';
 import competitionSite from '../assets/Robotics/3drobot.webp';
