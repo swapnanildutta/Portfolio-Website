@@ -1,10 +1,9 @@
-import React, { Suspense, lazy, useMemo, useContext, useEffect, useState } from 'react';
+import React, { Suspense, lazy, useContext } from 'react';
 import styled, { css, keyframes } from 'styled-components/macro';
-import { TransitionGroup, Transition } from 'react-transition-group';
+import { Transition } from 'react-transition-group';
 import { media, AnimFade, rgba } from '../utils/StyleUtils';
 import DecoderText from '../components/DecoderText';
 import { AppContext } from '../app/App';
-import { useInterval, usePrevious } from '../utils/Hooks';
 
 const DisplacementSphere = lazy(() => import('../components/DisplacementSphere'));
 const prerender = navigator.userAgent === 'ReactSnap';
@@ -12,13 +11,6 @@ const prerender = navigator.userAgent === 'ReactSnap';
 function Intro(props) {
   const { currentTheme } = useContext(AppContext);
   const { id, sectionRef, scrollIndicatorHidden } = props;
-  const prevTheme = usePrevious(currentTheme);
-
-  useEffect(() => {
-    if (prevTheme && prevTheme.id !== currentTheme.id) {
-      setDisciplineIndex(0);
-    }
-  }, [currentTheme.id, prevTheme]);
 
   return (
     <IntroContent ref={sectionRef} id={id}>
@@ -43,21 +35,6 @@ function Intro(props) {
                   <IntroTitleWord status={status} delay="0.2s">Lab</IntroTitleWord>
                   <IntroTitleLine status={status} />
                 </IntroTitleRow>
-                <TransitionGroup component={IntroTitleRow} prerender={prerender}>
-                  {currentDisciplines.map((item, index) => (
-                    <Transition
-                      appear
-                      timeout={{ enter: 3000, exit: 2000 }}
-                      key={`${item}_${index}`}
-                    >
-                      {status => (
-                        <IntroTitleWord plus aria-hidden delay="0.5s" status={status}>
-                          {item}
-                        </IntroTitleWord>
-                      )}
-                    </Transition>
-                  ))}
-                </TransitionGroup>
               </IntroTitle>
             </IntroText>
             <MemoizedScrollIndicator isHidden={scrollIndicatorHidden} status={status} />

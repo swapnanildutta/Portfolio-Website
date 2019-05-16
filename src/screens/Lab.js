@@ -38,9 +38,9 @@ export default function Home(props) {
   const projectSix = useRef();
   const projectSeven = useRef();
   const about = useRef();
-  const revealSections = [intro, projectOne, projectTwo, projectThree, projectFour, projectFive, projectSix, projectSeven, about];
 
   useEffect(() => {
+    const revealSections = [intro, projectOne, projectTwo, projectThree, projectFour, projectFive, projectSix, projectSeven, about];
 
     const sectionObserver = new IntersectionObserver(entries => {
       entries.forEach(entry => {
@@ -70,8 +70,9 @@ export default function Home(props) {
   }, [visibleSections]);
 
   const handleHashchange = useCallback((hash, scroll) => {
+    const hashSections = [intro, projectOne, projectTwo, projectThree, projectFour, projectFive, projectSix, projectSeven, about];
     const hashString = hash.replace('#', '');
-    const element = revealSections.filter(item => item.current.id === hashString)[0];
+    const element = hashSections.filter(item => item.current.id === hashString)[0];
 
     if (element) {
       window.scroll({

@@ -12,6 +12,7 @@ import GothamBook from '../fonts/gotham-book.woff2';
 import GothamMedium from '../fonts/gotham-medium.woff2';
 
 const Home = lazy(() => import('../screens/Home'));
+const Lab = lazy(() => import('../screens/Lab'));
 const BellsGC = lazy(() => import('../screens/BellsGC'));
 const MystGang = lazy(() => import('../screens/MystGang'));
 const ArMTG = lazy(() => import('../screens/ArMTG'));
@@ -102,6 +103,7 @@ function App() {
                         <Suspense fallback={<React.Fragment />}>
                           <Switch location={location}>
                             <Route exact path="/" component={Home} />
+                            <Route path="/lab" component={Lab} />
               							<Route path="/projects/bellsgc" component={BellsGC} />
               							<Route path="/projects/mystgang" component={MystGang} />
               							<Route path="/projects/armtg" component={ArMTG} />
