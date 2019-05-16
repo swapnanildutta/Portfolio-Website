@@ -1,10 +1,10 @@
 import React from 'react';
-import styled, { withTheme, css } from 'styled-components/macro';
+import styled, { css } from 'styled-components/macro';
 import { NavLink, Link } from 'react-router-dom';
 import { Transition } from 'react-transition-group';
 import Monogram from './Monogram';
 import Icon from '../utils/Icon';
-import { Media } from '../utils/StyleUtils';
+import { media, rgba } from '../utils/StyleUtils';
 
 const HeaderIcons = ({ toggleMenu }) => (
   <HeaderNavIcons>
@@ -32,66 +32,66 @@ const HeaderIcons = ({ toggleMenu }) => (
     >
       <HeaderNavIcon icon="email" />
     </HeaderNavIconLink>
-</HeaderNavIcons>
+  </HeaderNavIcons>
 );
 
 function Header(props) {
-  const { menuOpen, toggleMenu, theme } = props;
+  const { menuOpen, toggleMenu, currentTheme } = props;
 
   return (
     <HeaderWrapper role="banner">
       <Transition
-        in={menuOpen}
-        timeout={{ enter: 5, exit: 500 }}
         mountOnEnter
         unmountOnExit
+        in={menuOpen}
+        timeout={{ enter: 0, exit: 500 }}
       >
         {status => (
           <HeaderMobileNav status={status}>
             <HeaderMobileNavLink
-            delay={250}
-            status={status}
-            onClick={toggleMenu}
-            to="/#intro"
-			>
-			Intro
-			</HeaderMobileNavLink>
-			<HeaderMobileNavLink
-			delay={300}
-			status={status}
-			onClick={toggleMenu}
-			to="/#work"
-			>
-			Work
-			</HeaderMobileNavLink>
-			<HeaderMobileNavLink
-			delay={350}
-			status={status}
-			onClick={toggleMenu}
-			to="/#about"
-			>
-			About
-			</HeaderMobileNavLink>
-			<HeaderMobileNavLink
-			delay={400}
-			status={status}
-			onClick={toggleMenu}
-			to="/lab"
-			>
-			Lab
-			</HeaderMobileNavLink>
-            <HeaderIcons toggleMenu={toggleMenu} />
+              delay={250}
+              status={status}
+              onClick={toggleMenu}
+              to="/#intro"
+            >
+              Home
+            </HeaderMobileNavLink>
+            <HeaderMobileNavLink
+              delay={300}
+              status={status}
+              onClick={toggleMenu}
+              to="/#work"
+            >
+              Work
+            </HeaderMobileNavLink>
+            <HeaderMobileNavLink
+              delay={350}
+              status={status}
+              onClick={toggleMenu}
+              to="/#about"
+            >
+              About
+            </HeaderMobileNavLink>
+            <HeaderMobileNavLink
+              delay={400}
+              status={status}
+              onClick={toggleMenu}
+              to="/lab"
+            >
+              Lab
+            </HeaderMobileNavLink>
+            <HeaderIcons />
           </HeaderMobileNav>
         )}
       </Transition>
-      <HeaderLogo to="/#intro" aria-label="Back to home">
-        <Monogram highlight={theme.colorPrimary(1)} />
+      <HeaderLogo to="/#intro" aria-label="Home">
+        <Monogram highlight={currentTheme.colorAccent} />
       </HeaderLogo>
       <HeaderNav role="navigation">
         <HeaderNavList>
           <HeaderNavLink to="/#work">Work</HeaderNavLink>
           <HeaderNavLink to="/#about">About</HeaderNavLink>
-		  <HeaderNavLink to="/lab">Lab</HeaderNavLink>
+          <HeaderNavLink to="/lab">Lab</HeaderNavLink>
         </HeaderNavList>
         <HeaderIcons />
       </HeaderNav>
@@ -112,13 +112,13 @@ const HeaderWrapper = styled.header`
   left: ${props => props.theme.spacingOuter.desktop};
   bottom: ${props => props.theme.spacingOuter.desktop};
 
-  @media (max-width: ${Media.tablet}) {
+  @media (max-width: ${media.tablet}) {
     top: ${props => props.theme.spacingOuter.tablet};
     left: ${props => props.theme.spacingOuter.tablet};
     bottom: ${props => props.theme.spacingOuter.tablet};
   }
 
-  @media (max-width: ${Media.mobile}), (max-height: ${Media.mobile}) {
+  @media (max-width: ${media.mobile}), (max-height: ${media.mobile}) {
     top: ${props => props.theme.spacingOuter.mobile};
     left: ${props => props.theme.spacingOuter.mobile};
     bottom: auto;
@@ -129,6 +129,7 @@ const HeaderLogo = styled(Link)`
   display: flex;
   position: relative;
   padding: 10px;
+  z-index: 16;
 
   g rect {
     opacity: 0;
@@ -161,7 +162,7 @@ const HeaderNav = styled.nav`
   position: relative;
   top: -10px;
 
-  @media (max-width: ${Media.mobile}), (max-height: ${Media.mobile}) {
+  @media (max-width: ${media.mobile}), (max-height: ${media.mobile}) {
     display: none;
   }
 `;
@@ -174,7 +175,7 @@ const HeaderNavList = styled.div`
 
 const HeaderNavLink = styled(NavLink)`
   padding: 20px;
-  color: ${props => props.theme.colorText(0.8)};
+  color: ${props => rgba(props.theme.colorText, 0.8)};
   text-decoration: none;
   font-weight: 500;
   position: relative;
@@ -185,7 +186,7 @@ const HeaderNavLink = styled(NavLink)`
   &:active,
   &:focus,
   &.active {
-    color: ${props => props.theme.colorText(1)};
+    color: ${props => props.theme.colorText};
   }
 
   &:after {
@@ -195,7 +196,7 @@ const HeaderNavLink = styled(NavLink)`
     right: 10px;
     left: 10px;
     height: 4px;
-    background: ${props => props.theme.colorPrimary(1)};
+    background: ${props => props.theme.colorAccent};
     transform: scaleX(0) translateY(-2px);
     transition: transform 0.4s ${props => props.theme.curveFastoutSlowin};
     transform-origin: right;
@@ -216,7 +217,7 @@ const HeaderNavIcons = styled.div`
   align-items: center;
   justify-content: center;
 
-  @media (max-width: ${Media.mobile}), (max-height: ${Media.mobile}) {
+  @media (max-width: ${media.mobile}), (max-height: ${media.mobile}) {
     flex-direction: row;
     position: absolute;
     bottom: 30px;
@@ -224,7 +225,7 @@ const HeaderNavIcons = styled.div`
     transform: translateX(-50%);
   }
 
-  @media ${Media.mobileLS} {
+  @media ${media.mobileLS} {
     left: 20px;
     transform: none;
     flex-direction: column;
@@ -239,13 +240,13 @@ const HeaderNavIconLink = styled.a`
 `;
 
 const HeaderNavIcon = styled(Icon)`
-  fill: ${props => props.theme.colorText(0.6)};
-  transition: all 0.4s ease;
+  fill: ${props => rgba(props.theme.colorText, 0.6)};
+  transition: fill 0.4s ease;
 
-  ${HeaderNavIconLink}:hover &,
-  ${HeaderNavIconLink}:focus &,
-  ${HeaderNavIconLink}:active & {
-    fill: ${props => props.theme.colorPrimary(1)};
+  ${/* sc-selector */HeaderNavIconLink}:hover &,
+  ${/* sc-selector */HeaderNavIconLink}:focus &,
+  ${/* sc-selector */HeaderNavIconLink}:active & {
+    fill: ${props => props.theme.colorAccent};
   }
 `;
 
@@ -255,31 +256,30 @@ const HeaderMobileNav = styled.nav`
   right: 0;
   bottom: 0;
   left: 0;
-  background: ${props => props.theme.colorBackground(0.9)};
-  transform: translate3d(0, -100%, 0);
-  transition: transform 0.5s ${props => props.theme.curveFastoutSlowin};
+  background: ${props => rgba(props.theme.colorBackground, 0.9)};
+  transform: translate3d(0, ${props => props.status === 'entered' ? 0 : '-100%'}, 0);
+  transition-property: transform, background;
+  transition-duration: 0.5s;
+  transition-timing-function: ${props => props.theme.curveFastoutSlowin};
   display: none;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  backdrop-filter: blur(10px);
 
-  ${props => props.status === 'entered' && css`
-    transform: translate3d(0, 0, 0);
-  `}
-
-  @media (max-width: ${Media.mobile}), (max-height: ${Media.mobile}) {
+  @media (max-width: ${media.mobile}), (max-height: ${media.mobile}) {
     display: flex;
   }
 `;
 
-const HeaderMobileNavLink = styled(NavLink).attrs(props => ({
+const HeaderMobileNavLink = styled(NavLink).attrs({
   active: 'active',
-}))`
+})`
   width: 100%;
   font-size: 22px;
   text-align: center;
   text-decoration: none;
-  color: ${props => props.theme.colorText(1)};
+  color: ${props => props.theme.colorText};
   padding: 20px;
   transform: translate3d(0, -30px, 0);
   opacity: 0;
@@ -288,8 +288,16 @@ const HeaderMobileNavLink = styled(NavLink).attrs(props => ({
   position: relative;
   top: -15px;
 
-  @media ${Media.mobileLS} {
+  @media ${media.mobileLS} {
     top: auto;
+  }
+
+  @media (max-width: 400px) {
+    font-size: 18px;
+  }
+
+  @media (max-height: 360px) {
+    font-size: 18px;
   }
 
   ${props => props.status === 'entered' && css`
@@ -304,7 +312,7 @@ const HeaderMobileNavLink = styled(NavLink).attrs(props => ({
     right: 60px;
     left: 60px;
     height: 4px;
-    background: ${props => props.theme.colorPrimary(1)};
+    background: ${props => props.theme.colorAccent};
     transform: scaleX(0) translateY(-1px);
     transition: transform 0.4s ${props => props.theme.curveFastoutSlowin};
     transform-origin: right;
@@ -318,4 +326,4 @@ const HeaderMobileNavLink = styled(NavLink).attrs(props => ({
   }
 `;
 
-export default React.memo(withTheme(Header));
+export default React.memo(Header);

@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { css, keyframes } from 'styled-components/macro';
+import styled, { css } from 'styled-components/macro';
 import { Transition } from 'react-transition-group';
 import Anchor from '../components/Anchor';
 import { RouterButton } from '../components/Button';
@@ -8,12 +8,12 @@ import ProgressiveImage from '../components/ProgressiveImage';
 import ProfileImg from '../assets/profile.jpg';
 import ProfileImgLarge from '../assets/profile-large.jpg';
 import ProfileImgPlaceholder from '../assets/profile-placeholder.jpg';
-import { Media } from '../utils/StyleUtils';
+import { media } from '../utils/StyleUtils';
 const lab = '/lab';
 
 const ProfileText = ({ status }) => (
   <React.Fragment>
-    <ProfileTitle aria-label="Hi" status={status}>
+    <ProfileTitle status={status} id="profileTitle">
       <DecoderText
         text="Hi"
         start={status !== 'exited'}
@@ -21,7 +21,7 @@ const ProfileText = ({ status }) => (
       />
     </ProfileTitle>
     <ProfileDescription status={status}>
-      I’m a student based in Austin, currently looking for an internship. I create compelling designs that I bring to life with the web's coolest technologies that look perfect on every screen.
+      I’m a student developer based in Austin, currently looking for an internship. I create compelling designs that I bring to life with the web's coolest technologies that look perfect on every screen.
     </ProfileDescription>
     <ProfileDescription status={status}>
       In my free time, I like to create and play video games, play Magic: The Gathering, and <Anchor href={lab} target="_blank" rel="noopener noreferrer">experiment with new tech</Anchor>. I’m always interested in new projects, so feel free to drop me a line.
@@ -30,10 +30,10 @@ const ProfileText = ({ status }) => (
 );
 
 function Profile(props) {
-  const { id, tabIndex, visible, sectionRef } = props;
+  const { id, visible, sectionRef } = props;
 
   return (
-    <ProfileSection id={id} ref={sectionRef} tabIndex={tabIndex}>
+    <ProfileSection id={id} ref={sectionRef} aria-labelledby="profileTitle">
       <Transition in={visible} timeout={0}>
         {status => (
           <ProfileContent>
@@ -43,26 +43,24 @@ function Profile(props) {
                 secondary
                 status={status}
                 to="/contact"
-                style={{ marginTop: 20 }}
                 icon="send"
               >
                 Send me a message
-            </ProfileButton>
+              </ProfileButton>
             </ProfileColumn>
             <ProfileColumn>
-              <ProfileTag status={status}>
+              <ProfileTag status={status} aria-hidden>
                 <ProfileTagText status={status}>About Me</ProfileTagText>
               </ProfileTag>
-              <ProfileImageContainer status={status}>
-                <ProfileImage
-                  status={status}
-                  visible={visible}
-                  placeholder={ProfileImgPlaceholder}
-                  srcSet={`${ProfileImg} 480w, ${ProfileImgLarge} 960w`}
-                  sizes={`(max-width: ${Media.mobile}) 100vw, 480px`}
-                  alt=""
-                />
-              </ProfileImageContainer>
+              <ProfileImage
+                reveal
+                delay={100}
+                visible={visible}
+                placeholder={ProfileImgPlaceholder}
+                srcSet={`${ProfileImg} 480w, ${ProfileImgLarge} 960w`}
+                sizes={`(max-width: ${media.mobile}) 100vw, 480px`}
+                alt=""
+              />
             </ProfileColumn>
           </ProfileContent>
         )}
@@ -76,7 +74,7 @@ const ProfileSection = styled.section`
   min-height: 100vh;
   margin-top: 60px;
   margin-bottom: 40px;
-  padding-top: 40px;
+  padding-top: 60px;
   padding-right: 80px;
   padding-bottom: 40px;
   padding-left: 220px;
@@ -87,30 +85,35 @@ const ProfileSection = styled.section`
     outline: none;
   }
 
-  @media (min-width: ${Media.desktop}) {
+  @media (min-width: ${media.desktop}) {
     padding-left: 120px;
   }
 
-  @media (max-width: ${Media.tablet}) {
-    padding-left: 160px;
+  @media (max-width: ${media.tablet}) {
+    padding-top: 50px;
     padding-right: 80px;
+    padding-left: 160px;
     height: auto;
-    margin-top: 80px;
+    margin-top: 40px;
     margin-bottom: 20px;
   }
 
-  @media (max-width: ${Media.mobile}) {
+  @media (max-width: ${media.mobile}) {
+    margin-top: 0;
+    padding-top: 90px;
     padding-left: 25px;
     padding-right: 25px;
     overflow-x: hidden;
   }
 
-  @media (max-width: ${Media.mobile}), (max-height: ${Media.mobile}) {
-    padding: 0 ${props => props.theme.spacingOuter.mobile};
+  @media (max-width: ${media.mobile}), (max-height: ${media.mobile}) {
+    padding-right: ${props => props.theme.spacingOuter.mobile};
+    padding-left: ${props => props.theme.spacingOuter.mobile};
   }
 
-  @media ${Media.mobileLS} {
-    padding: 0 100px;
+  @media ${media.mobileLS} {
+    padding-right: 100px;
+    padding-left: 100px;
   }
 `;
 
@@ -121,15 +124,15 @@ const ProfileContent = styled.div`
   max-width: 1000px;
   width: 100%;
 
-  @media (min-width: ${Media.desktop}) {
+  @media (min-width: ${media.desktop}) {
     max-width: 1100px;
   }
 
-  @media (max-width: ${Media.tablet}) {
+  @media (max-width: ${media.tablet}) {
     max-width: 600px;
   }
 
-  @media (max-width: ${Media.tablet}) {
+  @media (max-width: ${media.tablet}) {
     grid-template-columns: 100%;
   }
 `;
@@ -149,12 +152,17 @@ const ProfileTitle = styled.h2`
   font-weight: 500;
   margin-bottom: 40px;
   white-space: nowrap;
-  opacity: 0;
+  opacity: ${props => props.status === 'entered' ? 1 : 0};
   transition: opacity 0.8s ease 0.4s;
+  color: ${props => props.theme.colorTitle};
 
-  ${props => props.status === 'entered' && css`
-    opacity: 1;
-  `}
+  @media (max-width: 1245px) {
+    font-size: 36px;
+  }
+
+  @media (max-width: ${media.mobile}) {
+    font-size: 28px;
+  }
 `;
 
 const ProfileDescription = styled.p`
@@ -169,7 +177,7 @@ const ProfileDescription = styled.p`
     opacity: 1;
   `}
 
-  @media (max-width: ${Media.mobile}) {
+  @media (max-width: ${media.mobile}) {
     font-size: 18px;
   }
 `;
@@ -186,21 +194,15 @@ const ProfileTag = styled.div`
     display: block;
     height: 2px;
     top: -1px;
-    background: ${props => props.theme.colorPrimary(1)};
+    background: ${props => props.theme.colorPrimary};
     width: 96px;
     margin-right: 15px;
-    transition: all 0.4s ${props => props.theme.curveFastoutSlowin} 1s;
-    transform: scale3d(0, 1, 1);
+    transition: transform 0.4s ${props => props.theme.curveFastoutSlowin} 1s;
+    transform: scale3d(${props => props.status === 'entered' ? 1 : 0}, 1, 1);
     transform-origin: left;
   }
 
-  ${props => props.status === 'entered' && css`
-    &:before {
-      transform: scale3d(1, 1, 1);
-    }
-  `}
-
-  @media (max-width: ${Media.tablet}) {
+  @media (max-width: ${media.tablet}) {
     margin-top: 30px;
   }
 `;
@@ -208,10 +210,13 @@ const ProfileTag = styled.div`
 const ProfileTagText = styled.div`
   font-size: 16px;
   font-weight: 500;
-  color: ${props => props.theme.colorPrimary(1)};
+  color: ${props => props.theme.colorPrimary};
   transform: translateX(-10px);
   opacity: 0;
-  transition: all 0.4s ${props => props.theme.curveFastoutSlowin} 1.3s;
+  transition-property: opacity, transform;
+  transition-timing-function: ${props => props.theme.curveFastoutSlowin};
+  transition-duration: 0.4s;
+  transition-delay: 1.3s;
 
   ${props => props.status === 'entered' && css`
     transform: translateX(0);
@@ -219,62 +224,10 @@ const ProfileTagText = styled.div`
   `}
 `;
 
-const AnimProfileImage = keyframes`
-  0% {
-    transform: scale3d(0, 1, 1);
-    transform-origin: left;
-  }
-  49% {
-    transform: scale3d(1, 1, 1);
-    transform-origin: left;
-  }
-  50% {
-    transform: scale3d(1, 1, 1);
-    transform-origin: right;
-  }
-  100% {
-    transform: scale3d(0, 1, 1);
-    transform-origin: right;
-  }
-`;
-
-const ProfileImageContainer = styled.div`
-  position: relative;
-  display: flex;
-  align-items: flex-start;
-  transform: translate3d(0, 0, 0);
-  max-width: 100%;
-
-  &:before {
-    content: '';
-    background: ${props => props.theme.colorPrimary(1)};
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    transform: scale3d(0, 1, 1);
-    transform-origin: left;
-    z-index: 16;
-  }
-
-  ${props => props.status === 'entered' && css`
-    &:before {
-      animation: ${AnimProfileImage} 1.8s ${props.theme.curveFastoutSlowin} 0.6s;
-    }
-  `}
-`;
-
 const ProfileImage = styled(ProgressiveImage)`
   max-width: 100%;
   width: 960px;
   height: auto;
-  opacity: 0;
-  transition: opacity 0.4s ease 1.5s;
-
-  ${props => props.status === 'entered' && css`
-    opacity: 1;
-  `}
 `;
 
 const ProfileButton = styled(RouterButton)`

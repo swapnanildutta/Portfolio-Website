@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled, { css, keyframes } from 'styled-components/macro';
-import { Media, AnimFade, ColorTint } from '../utils/StyleUtils';
+import { media, AnimFade, rgba } from '../utils/StyleUtils';
 import ProgressiveImage from '../components/ProgressiveImage';
 import { LinkButton } from '../components/Button';
 
@@ -51,14 +51,13 @@ export function ProjectHeader(props) {
             icon="chevronRight"
             href={url}
             target="_blank"
-            rel="noopener noreferrer"
           >
             {linkLabel ? linkLabel : 'Visit website'}
           </LinkButton>
         </ProjectDetails>
         <ProjectMeta entered={!prerender}>
-          {roles && roles.map((role, index) => (
-            <ProjectMetaItem key={`role_${index}`}>{role}</ProjectMetaItem>
+          {roles && roles.map(role => (
+            <ProjectMetaItem key={role}>{role}</ProjectMetaItem>
           ))}
         </ProjectMeta>
       </ProjectHeaderInner>
@@ -117,11 +116,11 @@ export const ProjectSection = styled.section`
   flex-direction: column;
   align-items: center;
 
-  @media (min-width: ${Media.desktop}) {
+  @media (min-width: ${media.desktop}) {
     padding-left: 120px;
   }
 
-  @media (max-width: ${Media.tablet}) {
+  @media (max-width: ${media.tablet}) {
     padding-top: 60px;
     padding-right: 80px;
     padding-bottom: 60px;
@@ -129,34 +128,34 @@ export const ProjectSection = styled.section`
     height: auto;
   }
 
-  @media (max-width: ${Media.mobile}) {
+  @media (max-width: ${media.mobile}) {
     padding-top: 40px;
     padding-right: 25px;
     padding-bottom: 40px;
     padding-left: 25px;
   }
 
-  @media (max-width: ${Media.mobile}), (max-height: ${Media.mobile}) {
+  @media (max-width: ${media.mobile}), (max-height: ${media.mobile}) {
     padding-left: ${props => props.theme.spacingOuter.mobile};
     padding-right: ${props => props.theme.spacingOuter.mobile};
   }
 
-  @media ${Media.mobileLS} {
+  @media ${media.mobileLS} {
     padding-left: 100px;
     padding-right: 100px;
   }
 
   ${props => props.light && css`
-    background: ${ColorTint(props.theme.colorBackground(1), 0.036)};
+    background: ${props.theme.colorBackgroundLight};
     padding-top: 120px;
     padding-bottom: 140px;
 
-    @media (max-width: ${Media.tablet}) {
+    @media (max-width: ${media.tablet}) {
       padding-top: 80px;
       padding-bottom: 100px;
     }
 
-    @media (max-width: ${Media.mobile}) {
+    @media (max-width: ${media.mobile}) {
       padding-top: 80px;
       padding-bottom: 100px;
     }
@@ -179,6 +178,7 @@ export const ProjectBackgroundImage = styled(ProgressiveImage).attrs(props => ({
   left: 0;
   height: 800px;
   opacity: 0;
+  overflow: hidden;
 
   ${props => props.entered && css`
     animation: ${AnimFade} 2s ease ${initDelay}ms forwards;
@@ -188,7 +188,7 @@ export const ProjectBackgroundImage = styled(ProgressiveImage).attrs(props => ({
     object-fit: cover;
     width: 100%;
     height: 100%;
-  	webkit-filter: blur(3px);
+    webkit-filter: blur(3px);
   	filter: blur(3px);
   }
 
@@ -202,11 +202,7 @@ export const ProjectBackgroundImage = styled(ProgressiveImage).attrs(props => ({
     z-index: 1;
     width: 100%;
     height: 100%;
-	background: linear-gradient(180deg,rgba(17,17,17,0.3) 0%,rgba(17,17,17,0.3) 100% );
-/*    background: linear-gradient(180deg,
-      ${props => props.theme.colorBackground(props.opacity)} 0%,
-      ${props => props.theme.colorBackground(1)} 100%
-    );*/
+    background: linear-gradient(180deg,rgba(17,17,17,0.3) 0%,rgba(17,17,17,0.3) 100% );
   }
 `;
 
@@ -214,12 +210,12 @@ const ProjectHeaderContainer = styled(ProjectSection)`
   padding-top: 140px;
   padding-bottom: 40px;
 
-  @media (max-width: ${Media.tablet}) {
+  @media (max-width: ${media.tablet}) {
     padding-top: 100px;
     padding-bottom: 0;
   }
 
-  @media (max-width: ${Media.mobile}) {
+  @media (max-width: ${media.mobile}) {
     padding-top: 130px;
     padding-bottom: 20px;
   }
@@ -232,7 +228,7 @@ const ProjectHeaderInner = styled.div`
   grid-gap: 100px;
   max-width: 980px;
 
-  @media (min-width: ${Media.desktop}) {
+  @media (min-width: ${media.desktop}) {
     max-width: 1100px;
     grid-template-columns: 1fr 400px;
   }
@@ -242,7 +238,7 @@ const ProjectHeaderInner = styled.div`
     grid-gap: 40px;
   }
 
-  @media (max-width: ${Media.tablet}) {
+  @media (max-width: ${media.tablet}) {
     grid-template-columns: 100%;
     grid-gap: 30px;
   }
@@ -279,12 +275,13 @@ const ProjectTitle = styled.h1`
   font-size: 54px;
   font-weight: 500;
   line-height: 1.1;
+  color: ${props => props.theme.colorTitle};
 
-  @media (max-width: ${Media.tablet}) {
+  @media (max-width: ${media.tablet}) {
     font-size: 48px;
   }
 
-  @media (max-width: ${Media.mobile}) {
+  @media (max-width: ${media.mobile}) {
     font-size: 34px;
   }
 
@@ -297,7 +294,7 @@ const ProjectDescription = styled.p`
   font-size: 22px;
   line-height: 1.4;
 
-  @media (max-width: ${Media.mobile}) {
+  @media (max-width: ${media.mobile}) {
     font-size: 18px;
   }
 `;
@@ -317,38 +314,19 @@ const ProjectMeta = styled.ul`
 const ProjectMetaItem = styled.li`
   padding: 30px 0;
   font-size: 16px;
-  font-weight: 400;
-  border-top: 1px solid ${props => props.theme.colorText(0.2)};
+  font-weight: ${props => props.theme.id === 'light' ? 500 : 400};
+  border-top: 1px solid ${props => rgba(props.theme.colorText, 0.2)};
 
   &:last-child {
-    border-bottom: 1px solid ${props => props.theme.colorText(0.2)};
+    border-bottom: 1px solid ${props => rgba(props.theme.colorText, 0.2)};
   }
 
-  @media (max-width: ${Media.tablet}) {
+  @media (max-width: ${media.tablet}) {
     padding: 20px 0;
   }
 
-  @media (max-width: ${Media.mobile}) {
+  @media (max-width: ${media.mobile}) {
     padding: 15px 0;
-  }
-`;
-
-const AnimProjectImage = keyframes`
-  0% {
-    transform: scale3d(0, 1, 1);
-    transform-origin: left;
-  }
-  49% {
-    transform: scale3d(1, 1, 1);
-    transform-origin: left;
-  }
-  50% {
-    transform: scale3d(1, 1, 1);
-    transform-origin: right;
-  }
-  100% {
-    transform: scale3d(0, 1, 1);
-    transform-origin: right;
   }
 `;
 
@@ -359,33 +337,9 @@ export const ProjectImage = styled.div`
   transform: translate3d(0, 0, 0);
   max-width: 100%;
 
-  &:before {
-    content: '';
-    background: ${props => props.theme.colorPrimary(1)};
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    transform: scale3d(0, 1, 1);
-    transform-origin: left;
-    z-index: 16;
-  }
-
   div {
-    opacity: 0;
     width: 100%;
   }
-
-  ${props => props.entered && css`
-    &:before {
-      animation: ${AnimProjectImage} 1.4s ${props.theme.curveFastoutSlowin} 0.6s;
-    }
-
-    div {
-      animation: ${AnimFade} 0.8s ease 1.4s forwards;
-    }
-  `}
 `;
 
 export const ProjectSectionContent = styled.div`
@@ -394,7 +348,7 @@ export const ProjectSectionContent = styled.div`
   display: flex;
   flex-direction: column;
 
-  @media (min-width: ${Media.desktop}) {
+  @media (min-width: ${media.desktop}) {
     max-width: 1100px;
   }
 `;
@@ -403,8 +357,9 @@ export const ProjectSectionHeading = styled.h2`
   font-size: 32px;
   font-weight: 500;
   margin: 0;
+  color: ${props => props.theme.colorTitle};
 
-  @media (max-width: ${Media.mobile}) {
+  @media (max-width: ${media.mobile}) {
     font-size: 24px;
   }
 `;
@@ -414,10 +369,26 @@ export const ProjectSectionText = styled.p`
   line-height: 1.4;
   margin: 0;
   margin-top: 28px;
-  color: ${props => props.theme.colorText(0.7)};
+  color: ${props => rgba(props.theme.colorText, 0.7)};
 
-  @media (max-width: ${Media.mobile}) {
+  & + a {
+    margin-top: 14px;
+  }
+
+  @media (max-width: ${media.mobile}) {
     font-size: 18px;
     margin-top: 22px;
+  }
+`;
+
+export const ProjectTextRow = styled.div`
+  max-width: 660px;
+  align-self: center;
+  margin-bottom: 80px;
+  text-align: ${props => props.center ? 'center' : 'left'};
+  position: relative;
+
+  @media (max-width: ${media.mobile}) {
+    text-align: left;
   }
 `;

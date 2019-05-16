@@ -1,15 +1,16 @@
 import React, { useContext } from 'react';
-import Helmet from 'react-helmet-async';
+import { Helmet } from 'react-helmet-async';
 import styled from 'styled-components/macro';
+import { AppContext } from '../app/App';
 import ProgressiveImage from '../components/ProgressiveImage';
 import { useScrollToTop } from '../utils/Hooks';
 import Footer from '../components/Footer';
 import {
   ProjectContainer, ProjectSection, ProjectSectionContent, ProjectImage,
-  ProjectSectionHeading, ProjectBackground, ProjectHeader, ProjectFooter
+  ProjectSectionHeading, ProjectBackground, ProjectHeader, ProjectFooter,
+  ProjectTextRow
 } from '../components/Project';
-import { Media } from '../utils/StyleUtils';
-import { AppContext } from '../app/App';
+import { media } from '../utils/StyleUtils';
 import placeholder2 from '../assets/placeholder.png';
 import background from '../assets/ARMTG/background.webp';
 import render from '../assets/ARMTG/ARMTGWeb.webp';
@@ -47,7 +48,7 @@ const roles = [
   '3D Modeling & Animation',
 ];
 
-function Robotics(props) {
+function ArMTG(props) {
   const { status } = useContext(AppContext);
   useScrollToTop(status);
 
@@ -76,7 +77,7 @@ function Robotics(props) {
                 srcSet={`${render} 800w, ${render} 1920w`}
                 placeholder={renderPlaceholder}
                 alt=""
-                sizes={`(max-width: ${Media.mobile}) 100vw, (max-width: ${Media.tablet}) 90vw, 80vw`}
+                sizes={`(max-width: ${media.mobile}) 100vw, (max-width: ${media.tablet}) 90vw, 80vw`}
               />
             </ProjectImage>
           </ProjectSectionContent>
@@ -91,7 +92,7 @@ function Robotics(props) {
                 srcSet={`${labDemo}`}
                 placeholder={placeholder2}
                 alt="Bringing the future to the renowned card game: Magic, the Gathering."
-                sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+                sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
               />
             </SidebarImages>
           </ProjectSectionColumns>
@@ -101,7 +102,7 @@ function Robotics(props) {
                 srcSet={`${branding}`}
                 placeholder={placeholder2}
                 alt=""
-                sizes={`(max-width: ${Media.mobile}) 312px, (max-width: ${Media.tablet}) 408px, 514px`}
+                sizes={`(max-width: ${media.mobile}) 312px, (max-width: ${media.tablet}) 408px, 514px`}
               />
             </ProjectSectionGridBackground>
             <ProjectSectionGridText>
@@ -118,7 +119,7 @@ function Robotics(props) {
               srcSet={`${iconography} 800w, ${iconography} 1440w`}
               placeholder={placeholder2}
               alt=""
-              sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+              sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
           </ProjectSectionContent>
         </ProjectSection>
@@ -131,31 +132,31 @@ function Robotics(props) {
               srcSet={`${home} 800w, ${home} 1440w`}
               placeholder={placeholder2}
               alt=""
-              sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+              sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
             <ProgressiveImage
               srcSet={`${fone} 800w, ${fone} 1440w`}
               placeholder={placeholder2}
               alt=""
-              sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+              sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
             <ProgressiveImage
               srcSet={`${ftwo} 800w, ${ftwo} 1440w`}
               placeholder={placeholder2}
               alt=""
-              sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+              sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
             <ProgressiveImage
               srcSet={`${fthree} 800w, ${fthree} 1440w`}
               placeholder={placeholder2}
               alt=""
-              sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+              sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
             <ProgressiveImage
               srcSet={`${signup} 800w, ${signup} 1440w`}
               placeholder={placeholder2}
               alt=""
-              sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+              sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
           </ProjectSectionContent>
         </ProjectSection>
@@ -168,7 +169,7 @@ function Robotics(props) {
               srcSet={`${app} 800w, ${app} 1440w`}
               placeholder={placeholder2}
               alt=""
-              sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+              sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
           </ProjectSectionContent>
         </ProjectSection>
@@ -181,7 +182,7 @@ function Robotics(props) {
               srcSet={`${login} 800w, ${login} 1440w`}
               placeholder={placeholder2}
               alt=""
-              sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+              sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
           </ProjectSectionContent>
         </ProjectSection>
@@ -194,19 +195,19 @@ function Robotics(props) {
               srcSet={`${labDemo} 800w, ${labDemo} 1440w`}
               placeholder={placeholder2}
               alt=""
-              sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+              sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
             <ProgressiveImage
               srcSet={`${hover} 800w, ${hover} 1440w`}
               placeholder={placeholder2}
               alt=""
-              sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+              sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
             <ProgressiveImage
               srcSet={`${hand} 800w, ${hand} 1440w`}
               placeholder={placeholder2}
               alt=""
-              sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+              sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
           </ProjectSectionContent>
         </ProjectSection>
@@ -222,7 +223,7 @@ function Robotics(props) {
                 srcSet={`${card} 400w, ${card} 898w`}
                 placeholder={placeholder2}
                 alt=""
-                sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+                sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
               />
             </SidebarImages>
             <SidebarImages>
@@ -230,7 +231,7 @@ function Robotics(props) {
                 srcSet={`${markers} 400w, ${markers} 898w`}
                 placeholder={placeholder2}
                 alt=""
-                sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+                sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
               />
             </SidebarImages>
           </ProjectSectionGrid>
@@ -239,7 +240,7 @@ function Robotics(props) {
               srcSet={`${printsheet}`}
               placeholder={placeholder2}
               alt=""
-              sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+              sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
           </ProjectSectionContent>
         </ProjectSection>
@@ -252,31 +253,31 @@ function Robotics(props) {
               srcSet={`${homeF} 800w, ${homeF} 1440w`}
               placeholder={placeholder2}
               alt=""
-              sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+              sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
             <ProgressiveImage
               srcSet={`${oneF} 800w, ${oneF} 1440w`}
               placeholder={placeholder2}
               alt=""
-              sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+              sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
             <ProgressiveImage
               srcSet={`${twoF} 800w, ${twoF} 1440w`}
               placeholder={placeholder2}
               alt=""
-              sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+              sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
             <ProgressiveImage
               srcSet={`${threeF} 800w, ${threeF} 1440w`}
               placeholder={placeholder2}
               alt=""
-              sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+              sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
             <ProgressiveImage
               srcSet={`${signupF} 800w, ${signupF} 1440w`}
               placeholder={placeholder2}
               alt=""
-              sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+              sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
           </ProjectSectionContent>
         </ProjectSection>
@@ -290,19 +291,13 @@ function Robotics(props) {
   );
 }
 
-const ProjectTextRow = styled.div`
-  max-width: 660px;
-  align-self: center;
-  margin-bottom: 80px;
-`;
-
 const ProjectSectionColumns = styled(ProjectSectionContent)`
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 70px;
   margin: 20px 0 60px;
 
-  @media (max-width: ${Media.tablet}) {
+  @media (max-width: ${media.tablet}) {
     grid-template-columns: 1fr;
     margin: 0 0 60px;
   }
@@ -314,7 +309,7 @@ const ProjectSectionGrid = styled(ProjectSectionContent)`
   grid-gap: 70px;
   margin: 40px 0;
 
-  @media (max-width: ${Media.tablet}) {
+  @media (max-width: ${media.tablet}) {
     grid-template-columns: 1fr;
   }
 `;
@@ -323,11 +318,11 @@ const ProjectSectionGridBackground = styled.div`
   grid-column: 1;
   grid-row: 1;
 
-  @media (max-width: ${Media.tablet}) {
+  @media (max-width: ${media.tablet}) {
     padding: 0 120px;
   }
 
-  @media (max-width: ${Media.mobile}) {
+  @media (max-width: ${media.mobile}) {
     padding: 0 60px;
   }
 `;
@@ -335,11 +330,11 @@ const ProjectSectionGridBackground = styled.div`
 const ProjectSectionGridText = styled.div`
   padding-top: 80px;
 
-  @media (max-width: ${Media.desktop}) {
+  @media (max-width: ${media.desktop}) {
     padding-top: 40px;
   }
 
-  @media (max-width: ${Media.tablet}) {
+  @media (max-width: ${media.tablet}) {
     padding-top: 0;
   }
 `;
@@ -349,12 +344,12 @@ const SidebarImages = styled.div`
 /*  grid-template-columns: repeat(6, [col] 1fr);*/
   align-items: center;
 
-  @media (max-width: ${Media.tablet}) {
+  @media (max-width: ${media.tablet}) {
     padding: 0 80px;
     margin-top: 60px;
   }
 
-  @media (max-width: ${Media.mobile}) {
+  @media (max-width: ${media.mobile}) {
     padding: 0 20px;
     margin-top: 40px;
   }
@@ -367,7 +362,7 @@ const SidebarImagesText = styled.div`
   justify-content: center;
   padding-right: 10px;
 
-  @media (max-width: ${Media.tablet}) {
+  @media (max-width: ${media.tablet}) {
     padding-right: 0;
   }
 `;
@@ -388,4 +383,4 @@ const SidebarImage = styled(ProgressiveImage)`
   }
 `;
 
-export default Robotics;
+export default ArMTG;

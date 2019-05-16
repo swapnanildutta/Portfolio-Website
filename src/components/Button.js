@@ -1,38 +1,38 @@
-import React from 'react';
-import styled, { withTheme, css } from 'styled-components/macro';
+import React, { useContext } from 'react';
+import styled, { css } from 'styled-components/macro';
 import { Link } from 'react-router-dom';
 import Loader from '../components/Loader';
 import Icon from '../utils/Icon';
-import { ColorTint } from '../utils/StyleUtils';
+import { tint, rgba } from '../utils/StyleUtils';
+import { AppContext } from '../app/App';
 
-const ButtonContent = withTheme((props) => {
-  const { iconRight, icon, children, secondary, loading, theme } = props;
+const ButtonContent = React.memo(props => {
+  const { currentTheme } = useContext(AppContext);
+  const { iconRight, icon, children, secondary, loading } = props;
 
   return (
     <React.Fragment>
       {icon && <ButtonIcon loading={loading} left icon={icon} secondary={secondary} />}
-      <ButtonText loading={loading} secondary={secondary}>{children}</ButtonText>
+      <ButtonText loading={loading} secondary={secondary}>
+        {children}
+      </ButtonText>
       {iconRight && <ButtonIcon loading={loading} icon={iconRight} secondary={secondary} />}
-      {loading && <ButtonLoader size="24" color={theme.colorBackground(1)} />}
+      {loading && <ButtonLoader size="24" color={currentTheme.colorBackground} />}
     </React.Fragment>
   );
 });
 
-const Button = React.memo((props) => {
+export const Button = React.memo(props => {
   const { className, style, ...restProps } = props;
 
   return (
-    <ButtonContainer
-      className={className}
-      style={style}
-      {...restProps}
-    >
+    <ButtonContainer className={className} style={style} {...restProps}>
       <ButtonContent {...restProps} />
     </ButtonContainer>
   );
 });
 
-const LinkButton = React.memo((props) => {
+export const LinkButton = React.memo(props => {
   const { className, style, href, rel, target, secondary } = props;
 
   return (
@@ -41,7 +41,7 @@ const LinkButton = React.memo((props) => {
       className={className}
       style={style}
       href={href}
-      rel={rel}
+      rel={rel || target === '_blank' ? 'noopener noreferrer' : null}
       target={target}
       secondary={secondary}
     >
@@ -50,17 +50,11 @@ const LinkButton = React.memo((props) => {
   );
 });
 
-const RouterButton = React.memo((props) => {
+export const RouterButton = React.memo(props => {
   const { className, style, to, secondary } = props;
 
   return (
-    <ButtonContainer
-      as={Link}
-      className={className}
-      style={style}
-      to={to}
-      secondary={secondary ? 1 : 0}
-    >
+    <ButtonContainer as={Link} className={className} style={style} to={to} secondary={secondary ? 1 : 0}>
       <ButtonContent {...props} />
     </ButtonContainer>
   );
@@ -83,16 +77,17 @@ const ButtonContainer = styled.button`
   display: flex;
   display: inline-flex;
   align-items: center;
-  color: ${props => props.theme.colorBackground(1)};
+  color: ${props => props.theme.colorBackground};
   text-decoration: none;
   font-family: inherit;
   position: relative;
+  z-index: 1;
 
   ${props => !props.secondary && css`
     &:before {
       content: '';
       transition: all 0.4s ${props.theme.curveFastoutSlowin};
-      background: ${props.theme.colorPrimary(0.4)};
+      background: ${rgba(props.theme.colorPrimary, 0.4)};
       clip-path: ${props.theme.clipPath(10)};
       position: absolute;
       top: -5px;
@@ -106,7 +101,7 @@ const ButtonContainer = styled.button`
     &:after {
       content: '';
       transition: all 0.4s ${props.theme.curveFastoutSlowin};
-      background: ${props.theme.colorPrimary(1)};
+      background: ${props.theme.colorPrimary};
       clip-path: ${props.theme.clipPath(8)};
       position: absolute;
       top: 0;
@@ -126,7 +121,7 @@ const ButtonContainer = styled.button`
 
     &:hover:after,
     &:focus:after {
-      background: ${ColorTint(props.theme.colorPrimary(1), 0.2)};
+      background: ${tint(props.theme.colorPrimary, 0.2)};
     }
 
     &:focus:before {
@@ -141,8 +136,9 @@ const ButtonContainer = styled.button`
 
   ${props => props.secondary && css`
     background: none;
-    color: ${props.theme.colorPrimary(1)};
-    padding: 0 10px;
+    color: ${props.theme.colorPrimary};
+    padding-left: 10px;
+    padding-right: 10px;
     position: relative;
     left: -10px;
 
@@ -154,7 +150,7 @@ const ButtonContainer = styled.button`
       right: 0;
       bottom: 0;
       left: 0;
-      background: ${props.theme.colorPrimary(0.2)};
+      background: ${rgba(props.theme.colorPrimary, 0.2)};
       transform: scale3d(0, 1, 1) translateY(-50%);
       transform-origin: right;
       transition: transform 0.4s ${props.theme.curveFastoutSlowin};
@@ -176,7 +172,7 @@ const ButtonContainer = styled.button`
     }
   `}
 
-  ${props => props.icon && css`
+  ${props => props.icon && !props.secondary && css`
     padding-right: 32px;
   `}
 `;
@@ -191,25 +187,24 @@ const ButtonText = styled.span`
     visibility: hidden;
   `}
 
-  ${props => props.secondary ? `
-    color: ${props.theme.colorPrimary(1)};
-  `: `
-    color: ${props.theme.colorBackground(1)};
+  ${props => props.secondary
+    ? `color: ${props.theme.colorPrimary};`
+    : `color: ${props.theme.colorBackground};
   `}
 `;
 
 const ButtonIcon = styled(Icon)`
-  margin-left: ${props => props.left ? '0' : '6px'};
-  margin-right: ${props => props.left ? '6px' : '0'};
+  margin-left: ${props => (props.left ? '0' : '6px')};
+  margin-right: ${props => (props.left ? '6px' : '0')};
   transition: all 0.3s ${props => props.theme.curveFastoutSlowin};
-  fill: ${props => props.theme.colorBackground(1)};
+  fill: ${props => props.theme.colorBackground};
 
   ${props => props.secondary && css`
-    fill: ${props.theme.colorPrimary(1)};
+    fill: ${props.theme.colorPrimary};
   `}
 
-  ${ButtonContainer}:hover &,
-  ${ButtonContainer}:focus & {
+  ${/* sc-selector */ButtonContainer}:hover &,
+  ${/* sc-selector */ButtonContainer}:focus & {
     ${props => props.icon === 'arrowRight' && css`
       transform: translate3d(3px, 0, 0);
     `}
@@ -219,6 +214,3 @@ const ButtonIcon = styled(Icon)`
     opacity: 0;
   `}
 `;
-
-export default Button;
-export { LinkButton, RouterButton };

@@ -1,29 +1,33 @@
 {
   "name": "portfolio-2019",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "homepage": "https://codyb.co",
   "private": true,
   "devDependencies": {
-    "eslint-plugin-react-hooks": "^1.0.2",
-    "react-scripts": "2.1.5",
-    "react-snap": "1.23.0"
+    "react-scripts": "3.0.0",
+    "react-snap": "1.23.0",
+    "stylelint": "^10.0.1",
+    "stylelint-config-recommended": "^2.2.0",
+    "stylelint-config-styled-components": "^0.1.1",
+    "stylelint-processor-styled-components": "^1.6.0"
   },
   "dependencies": {
-    "@firebase/app": "^0.3.9",
-    "@firebase/database": "^0.3.12",
+    "@firebase/app": "^0.3.16",
+    "@firebase/database": "^0.3.19",
     "autosize": "^4.0.2",
-    "es6-tween": "^5.3.1",
-    "intersection-observer": "^0.5.1",
+    "es6-tween": "^5.3.2",
+    "intersection-observer": "^0.6.0",
     "ios-inner-height": "^1.1.0",
-    "nodemailer": "^6.1.1",
-    "react": "^16.8.2",
-    "react-dom": "^16.8.2",
+    "lottie-web": "^5.5.2",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
     "react-easy-swipe": "^0.0.17",
-    "react-helmet-async": "^0.2.0",
-    "react-router-dom": "4.4.0-beta.6",
-    "react-transition-group": "^2.5.3",
-    "styled-components": "^4.1.3",
-    "three": "^0.101.1"
+    "react-helmet-async": "^1.0.2",
+    "react-intersection-observer": "^8.23.0",
+    "react-router-dom": "5.0.0",
+    "react-transition-group": "^4.0.0",
+    "styled-components": "^4.2.0",
+    "three": "^0.102.0"
   },
   "scripts": {
     "start": "set PORT=80 && react-scripts start",
@@ -38,16 +42,18 @@
   "reactSnap": {
     "skipThirdPartyRequests": true,
     "headless": false,
-    "crawl": true,
-    "include": [
-      "/projects/battlebots",
-      "/projects/gcpsrobotics"
-    ]
+    "crawl": true
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+  "browserslist": {
+    "production": [
+      ">1%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }

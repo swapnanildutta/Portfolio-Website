@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useMemo } from 'react';
+import React, { useEffect, useRef, useContext } from 'react';
 import styled, { keyframes } from 'styled-components/macro';
 import {
   Vector2, WebGLRenderer, PerspectiveCamera, Scene, DirectionalLight, AmbientLight,
@@ -8,9 +8,12 @@ import { Easing, Tween, autoPlay } from 'es6-tween';
 import innerHeight from 'ios-inner-height';
 import VertShader from '../shaders/SphereVertShader';
 import FragmentShader from '../shaders/SphereFragmentShader';
-import { Media } from '../utils/StyleUtils';
+import { media } from '../utils/StyleUtils';
+import { AppContext } from '../app/App';
 
 function DisplacementSphere() {
+  const { currentTheme } = useContext(AppContext);
+  const initialThemeRef = useRef(currentTheme);
   const width = useRef(window.innerWidth);
   const height = useRef(window.innerHeight);
   const start = useRef(Date.now());
@@ -25,16 +28,16 @@ function DisplacementSphere() {
   const material = useRef();
   const geometry = useRef();
   const sphere = useRef();
-  const animating = useRef(false);
 
   useEffect(() => {
     const rand = Math.random();
+    const containerElement = container.current;
     mouse.current = new Vector2(0.8, 0.5);
     renderer.current = new WebGLRenderer();
     camera.current = new PerspectiveCamera(55, width.current / height.current, 0.1, 5000);
     scene.current = new Scene();
-    light.current = new DirectionalLight(0xffffff, 0.6);
-    ambientLight.current = new AmbientLight(0xffffff, 0.1);
+    light.current = new DirectionalLight(initialThemeRef.current.colorWhite, 0.6);
+    ambientLight.current = new AmbientLight(initialThemeRef.current.colorWhite, initialThemeRef.current.id === 'light' ? 0.8 : 0.1);
 
     uniforms.current = UniformsUtils.merge([
       UniformsLib['ambient'],
@@ -52,7 +55,7 @@ function DisplacementSphere() {
 
     geometry.current = new SphereBufferGeometry(32, 128, 128);
     sphere.current = new Mesh(geometry.current, material.current);
-    scene.current.background = new Color(0x111111);
+    scene.current.background = new Color(initialThemeRef.current.colorBackground);
     renderer.current.setSize(width.current, height.current);
     camera.current.position.z = 52;
     light.current.position.z = 200;
@@ -63,19 +66,9 @@ function DisplacementSphere() {
     scene.current.add(sphere.current);
     sphere.current.position.z = 0;
     sphere.current.modifier = rand;
-    animating.current = true;
-    container.current.appendChild(renderer.current.domElement);
-    window.addEventListener('resize', onWindowResize);
-    window.addEventListener('mousemove', onMouseMove);
-    onWindowResize();
-    animate();
-    autoPlay(true);
+    containerElement.appendChild(renderer.current.domElement);
 
     return function cleanUp() {
-      animating.current = false;
-      cancelAnimationFrame(animate);
-      window.removeEventListener('resize', onWindowResize);
-      window.removeEventListener('mousemove', onMouseMove);
       scene.current.remove(sphere.current);
       sphere.current.geometry.dispose();
       sphere.current.material.dispose();
@@ -91,57 +84,84 @@ function DisplacementSphere() {
       uniforms.current = null;
       renderer.current.context = null;
       renderer.current.domElement = null;
+      containerElement.innerHTML = '';
     };
   }, []);
 
-  const onWindowResize = useMemo(() => () => {
-    const windowWidth = window.innerWidth;
-    const fullHeight = innerHeight();
+  useEffect(() => {
+    light.current = new DirectionalLight(currentTheme.colorWhite, 0.6);
+    ambientLight.current = new AmbientLight(currentTheme.colorWhite, currentTheme.id === 'light' ? 0.8 : 0.1);
+    scene.current.background = new Color(currentTheme.colorBackground);
+  }, [currentTheme]);
 
-    container.current.style.height = fullHeight;
-    renderer.current.setSize(windowWidth, fullHeight);
-    camera.current.aspect = windowWidth / fullHeight;
-    camera.current.updateProjectionMatrix();
+  useEffect(() => {
+    const onWindowResize = () => {
+      const windowWidth = window.innerWidth;
+      const fullHeight = innerHeight();
+      container.current.style.height = fullHeight;
+      renderer.current.setSize(windowWidth, fullHeight);
+      camera.current.aspect = windowWidth / fullHeight;
+      camera.current.updateProjectionMatrix();
 
-    if (windowWidth <= Media.numMobile) {
-      sphere.current.position.x = 16;
-      sphere.current.position.y = 8;
-    } else if (windowWidth <= Media.numTablet) {
-      sphere.current.position.x = 20;
-      sphere.current.position.y = 12;
-    } else {
-      sphere.current.position.x = 25;
-      sphere.current.position.y = 10;
-    }
+      if (windowWidth <= media.numMobile) {
+        sphere.current.position.x = 16;
+        sphere.current.position.y = 8;
+      } else if (windowWidth <= media.numTablet) {
+        sphere.current.position.x = 20;
+        sphere.current.position.y = 12;
+      } else {
+        sphere.current.position.x = 25;
+        sphere.current.position.y = 10;
+      }
+    };
+
+    window.addEventListener('resize', onWindowResize);
+    onWindowResize();
+
+    return function cleanup() {
+      window.removeEventListener('resize', onWindowResize);
+    };
   }, []);
 
-  const onMouseMove = useMemo(() => (event) => {
-    const mouseY = event.clientY / window.innerHeight;
-    const mouseX = event.clientX / window.innerWidth;
+  useEffect(() => {
+    autoPlay(true);
 
-    new Tween(sphere.current.rotation)
-      .to({ x: mouseY / 2, y: mouseX / 2 }, 2000)
-      .easing(Easing.Quartic.Out)
-      .start();
+    const onMouseMove = event => {
+      const mouseY = event.clientY / window.innerHeight;
+      const mouseX = event.clientX / window.innerWidth;
+
+      new Tween(sphere.current.rotation)
+        .to({ x: mouseY / 2, y: mouseX / 2 }, 2000)
+        .easing(Easing.Quartic.Out)
+        .start();
+    };
+
+    window.addEventListener('mousemove', onMouseMove);
+
+    return function cleanup() {
+      window.removeEventListener('mousemove', onMouseMove);
+    };
   }, []);
 
-  const animate = useMemo(() => () => {
-    if (animating.current) {
-      requestAnimationFrame(animate);
-      render();
-    }
-  }, []);
+  useEffect(() => {
+    let animation;
 
-  const render = useMemo(() => () => {
-    uniforms.current.time.value = .00005 * (Date.now() - start.current);
-    sphere.current.rotation.z += 0.001;
-    renderer.current.render(scene.current, camera.current);
-  }, []);
+    const animate = () => {
+      animation = requestAnimationFrame(animate);
+      uniforms.current.time.value = .00005 * (Date.now() - start.current);
+      sphere.current.rotation.z += 0.001;
+      renderer.current.render(scene.current, camera.current);
+    };
 
-  console.log(material);
+    animate();
+
+    return function cleanup() {
+      cancelAnimationFrame(animation);
+    };
+  }, []);
 
   return (
-    <SphereContainer ref={container} aria-hidden="true" />
+    <SphereContainer ref={container} aria-hidden />
   );
 }
 

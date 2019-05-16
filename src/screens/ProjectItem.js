@@ -1,37 +1,43 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components/macro';
 import { Transition } from 'react-transition-group';
-import { Media } from '../utils/StyleUtils';
+import { media, rgba } from '../utils/StyleUtils';
 import { RouterButton, LinkButton } from '../components/Button';
-import ProgressiveImage from '../components/ProgressiveImageMacbook';
+import ProgressiveImage from '../components/ProjectImage';
 import phone from '../assets/phone.png';
 import phoneLarge from '../assets/phone-large.png';
 import phonePlaceholder from '../assets/phone-placeholder.png';
 
 function ProjectItem(props) {
   const {
-    id, visible, sectionRef, index, title, description, imageSrc,
-    imageAlt, imageType, imagePlaceholder, buttonText, buttonLink, buttonTo,
+    id, visible, sectionRef, index, title, description, imageSrc, imageAlt, imageType,
+    imagePlaceholder, buttonText, buttonLink, buttonTo, alternate, ...rest
   } = props;
 
   return (
-    <ProjectItemSection index={index} ref={sectionRef} id={id}>
+    <ProjectItemSection
+      aria-labelledby={`${id}-title`}
+      index={index}
+      ref={sectionRef}
+      id={id}
+      alternate={alternate}
+      {...rest}
+    >
       <ProjectItemContent>
         <Transition in={visible} timeout={0}>
           {status => (
             <React.Fragment>
               <ProjectItemDetails>
-                <ProjectItemIndex status={status}>
+                <ProjectItemIndex status={status} aria-hidden>
                   <ProjectItemIndexNumber status={status}>{index}</ProjectItemIndexNumber>
                 </ProjectItemIndex>
-                <ProjectItemTitle status={status}>{title}</ProjectItemTitle>
+                <ProjectItemTitle id={`${id}-title`} status={status}>{title}</ProjectItemTitle>
                 <ProjectItemDescription status={status}>{description}</ProjectItemDescription>
                 <ProjectItemButton status={status}>
                   {buttonLink ?
                     <LinkButton
                       href={buttonLink}
                       target="_blank"
-                      rel="noopener noreferrer"
                       iconRight="arrowRight"
                     >
                       {buttonText}
@@ -48,7 +54,7 @@ function ProjectItem(props) {
                       srcSet={imageSrc[0]}
                       alt={imageAlt[0]}
                       placeholder={imagePlaceholder[0]}
-                      sizes={`(max-width: ${Media.mobile}) 300px,(max-width: ${Media.tablet}) 420px,(max-width: ${Media.desktop}) 860px, 900px`}
+                      sizes={`(max-width: ${media.mobile}) 300px,(max-width: ${media.tablet}) 420px,(max-width: ${media.desktop}) 860px, 900px`}
                     />
                   </ProjectItemPreviewContentLaptop>
                 }
@@ -58,7 +64,7 @@ function ProjectItem(props) {
                       <ProjectItemPhone first={index === 0} status={status} key={`img_${index}`}>
                         <ProjectItemPhoneFrame
                           srcSet={`${phone} 414w, ${phoneLarge} 828w`}
-                          sizes={`(max-width: ${Media.tablet}) 248px, 414px`}
+                          sizes={`(max-width: ${media.tablet}) 248px, 414px`}
                           alt=""
                           role="presentation"
                           placeholder={phonePlaceholder}
@@ -67,7 +73,7 @@ function ProjectItem(props) {
                           srcSet={imageSrc[index]}
                           alt={imageAlt[index]}
                           placeholder={imagePlaceholder[index]}
-                          sizes={`(max-width: ${Media.tablet}) 152px, 254px`}
+                          sizes={`(max-width: ${media.tablet}) 152px, 254px`}
                         />
                       </ProjectItemPhone>
                     ))}
@@ -85,14 +91,13 @@ function ProjectItem(props) {
 const ProjectItemContent = styled.div`
   width: 100%;
   max-width: 1000px;
-  display: flex;
   align-items: center;
   justify-content: center;
   display: grid;
   grid-template-columns: 43% 55%;
   grid-column-gap: 2%;
 
-  @media (min-width: ${Media.desktop}) {
+  @media (min-width: ${media.desktop}) {
     max-width: 1100px;
   }
 
@@ -100,7 +105,7 @@ const ProjectItemContent = styled.div`
     grid-template-columns: 50% 50%;
   }
 
-  @media (max-width: ${Media.tablet}) {
+  @media (max-width: ${media.tablet}) {
     grid-template-columns: 100%;
     flex-direction: column-reverse;
     height: auto;
@@ -113,10 +118,11 @@ const ProjectItemDetails = styled.div`
   z-index: 1;
   position: relative;
 
-  @media (max-width: ${Media.tablet}) {
+  @media (max-width: ${media.tablet}) {
     flex: 0 0 auto;
     max-width: 410px;
-    order: 2;
+    grid-row: 2;
+    grid-column: 1;
     justify-self: center;
   }
 `;
@@ -138,38 +144,22 @@ const ProjectItemSection = styled.section`
   &:focus {
     outline: none;
   }
-/*
-  &:nth-child(2n + 1) {
-    grid-template-columns: 55% 40%;
-  }
 
-  &:nth-child(2n + 1) ${ProjectItemContent} {
-    grid-template-columns: 55% 40%;
-  }
-
-  &:nth-child(2n + 1) ${ProjectItemDetails} {
-    order: 2;
-  }*/
-
-  @media (min-width: ${Media.desktop}) {
+  @media (min-width: ${media.desktop}) {
     padding-left: 120px;
     margin-bottom: 0;
     margin-top: 0;
   }
 
-  @media (max-width: ${Media.tablet}) {
+  @media (max-width: ${media.tablet}) {
     padding-left: 160px;
     padding-right: 80px;
     height: auto;
     margin-top: ${props => props.index === '01' ? '0' : '60px'};
     margin-bottom: 60px;
-
-    &:nth-child(2n + 1) ${ProjectItemContent} {
-      grid-template-columns: 100%;
-    }
   }
 
-  @media (max-width: ${Media.mobile}) {
+  @media (max-width: ${media.mobile}) {
     padding-left: 25px;
     padding-right: 25px;
     padding-bottom: 100px;
@@ -177,10 +167,30 @@ const ProjectItemSection = styled.section`
     overflow-x: hidden;
   }
 
-  @media (max-width: ${Media.mobile}), (max-height: ${Media.mobile}) {
+  @media (max-width: ${media.mobile}), (max-height: ${media.mobile}) {
     padding-right: ${props => props.theme.spacingOuter.mobile};
     padding-left: ${props => props.theme.spacingOuter.mobile};
   }
+
+  ${props => props.alternate && css`
+    ${ProjectItemContent} {
+      grid-template-columns: 55% 40%;
+
+      @media (max-width: ${media.tablet}) {
+        grid-template-columns: 100%;
+      }
+    }
+
+    ${ProjectItemDetails} {
+      grid-column: 2;
+      grid-row: 1;
+
+      @media (max-width: ${media.tablet}) {
+        grid-column: 1;
+        grid-row: 2;
+      }
+    }
+  `}
 `;
 
 const ProjectItemPreview = styled.div`
@@ -207,7 +217,7 @@ const ProjectItemPreviewContentPhone = styled.div`
 const ProjectItemPreviewContentLaptop = styled.div`
   position: relative;
 
-  @media (max-width: ${Media.tablet}) {
+  @media (max-width: ${media.tablet}) {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -226,7 +236,7 @@ const ProjectItemIndex = styled.div`
     display: block;
     height: 2px;
     top: -1px;
-    background: ${props => props.theme.colorPrimary(1)};
+    background: ${props => props.theme.colorPrimary};
     width: 96px;
     margin-right: 15px;
     transition-property: transform, opacity;
@@ -237,7 +247,7 @@ const ProjectItemIndex = styled.div`
     transform-origin: left;
   }
 
-  ${props => props.status === 'entered' && `
+  ${props => props.status === 'entered' && css`
     &:before {
       transform: scale3d(1, 1, 1);
     }
@@ -247,7 +257,7 @@ const ProjectItemIndex = styled.div`
 const ProjectItemIndexNumber = styled.span`
   font-size: 16px;
   font-weight: 500;
-  color: ${props => props.theme.colorPrimary(1)};
+  color: ${props => props.theme.colorPrimary};
   transform: translateX(-10px);
   opacity: 0;
   transition-property: transform, opacity;
@@ -255,7 +265,7 @@ const ProjectItemIndexNumber = styled.span`
   transition-duration: 0.4s;
   transition-delay: 1.3s;
 
-  ${props => props.status === 'entered' && `
+  ${props => props.status === 'entered' && css`
     transform: translateX(0);
     opacity: 1;
   `}
@@ -268,7 +278,7 @@ const ProjectItemTitle = styled.h2`
   margin: 0;
   margin-bottom: 16px;
   padding: 0;
-  color: ${props => props.theme.colorText(1)};
+  color: ${props => props.theme.colorTitle};
   transition-property: transform, opacity;
   transition-timing-function: ${props => props.theme.curveFastoutSlowin};
   transition-duration: 0.8s;
@@ -276,7 +286,7 @@ const ProjectItemTitle = styled.h2`
   transform: translate3d(0, 40px, 0);
   opacity: 0;
 
-  ${props => props.status === 'entered' && `
+  ${props => props.status === 'entered' && css`
     transform: translate3d(0, 0, 0);
     opacity: 1;
   `}
@@ -285,7 +295,7 @@ const ProjectItemTitle = styled.h2`
     font-size: 36px;
   }
 
-  @media (max-width: ${Media.mobile}) {
+  @media (max-width: ${media.mobile}) {
     font-size: 28px;
   }
 `;
@@ -293,7 +303,8 @@ const ProjectItemTitle = styled.h2`
 const ProjectItemDescription = styled.p`
   font-size: 18px;
   line-height: 1.4;
-  color: ${props => props.theme.colorText(0.8)};
+  color: ${props => rgba(props.theme.colorText, 0.8)};
+  font-weight: ${props => props.theme.id === 'light' ? 500 : 300};
   margin-bottom: 38px;
   transition-property: transform, opacity;
   transition-timing-function: ${props => props.theme.curveFastoutSlowin};
@@ -302,12 +313,12 @@ const ProjectItemDescription = styled.p`
   transform: translate3d(0, 40px, 0);
   opacity: 0;
 
-  ${props => props.status === 'entered' && `
+  ${props => props.status === 'entered' && css`
     transform: translate3d(0, 0, 0);
     opacity: 1;
   `}
 
-  @media (max-width: ${Media.mobile}) {
+  @media (max-width: ${media.mobile}) {
     font-size: 16px;
   }
 `;
@@ -320,7 +331,7 @@ const ProjectItemButton = styled.div`
   transform: translate3d(0, 40px, 0);
   opacity: 0;
 
-  ${props => props.status === 'entered' && `
+  ${props => props.status === 'entered' && css`
     transform: translate3d(0, 0, 0);
     opacity: 1;
   `}
@@ -338,9 +349,13 @@ const ProjectItemImageLaptop = styled(ProgressiveImage)`
   position: relative;
   right: -140px;
 
-  ${props => props.status === 'entered' && `
+  ${props => props.status === 'entered' && css`
     transform: translate3d(0, 0, 0);
     opacity: 1;
+  `}
+
+  ${props => props.theme.id === 'light' && css`
+    z-index: 1;
   `}
 
   @media(min-width: 1440px) {
@@ -353,14 +368,14 @@ const ProjectItemImageLaptop = styled(ProgressiveImage)`
     height: 491px;
   }
 
-  @media (max-width: ${Media.tablet}) {
+  @media (max-width: ${media.tablet}) {
     width: 420px;
     height: 258px;
     margin-bottom: 120px;
     right: 0;
   }
 
-  @media (max-width: ${Media.mobile}) {
+  @media (max-width: ${media.mobile}) {
     width: 336px;
     height: 206px;
     margin-bottom: 60px;
@@ -380,29 +395,29 @@ const ProjectItemPhone = styled.div`
   max-width: 100%;
   flex: 1 0 100%;
 
-  ${props => props.first ? `
+  ${props => props.first ? css`
     left: calc(50% - 140px);
     top: -120px;
     transform: translate3d(0, 80px, 0);
     transition-delay: 0s;
 
-    @media (max-width: ${Media.tablet}) {
+    @media (max-width: ${media.tablet}) {
       left: calc(50% - 48px);
       top: -60px;
     }
-  `: `
+  `: css`
     left: calc(-50% + 20px);
     top: 120px;
     transform: translate3d(0, 80px, 0);
     transition-delay: 0.2s;
 
-    @media (max-width: ${Media.tablet}) {
+    @media (max-width: ${media.tablet}) {
       left: calc(-50% + 40px);
       top: 60px;
     }
   `}
 
-  ${props => props.status === 'entered' && `
+  ${props => props.status === 'entered' && css`
     transform: translate3d(0, 0, 0);
     opacity: 1;
   `}
@@ -413,7 +428,7 @@ const ProjectItemPhoneFrame = styled(ProgressiveImage)`
   width: 414px;
   height: 721px;
 
-  @media (max-width: ${Media.tablet}) {
+  @media (max-width: ${media.tablet}) {
     width: 248px;
     height: 431px;
   }
@@ -431,7 +446,7 @@ const ProjectItemPhoneImage = styled(ProgressiveImage)`
     height: 100%;
   }
 
-  @media (max-width: ${Media.tablet}) {
+  @media (max-width: ${media.tablet}) {
     box-shadow: 0 0 0 1px #1C1C1C;
     width: 152px;
     height: 270px;

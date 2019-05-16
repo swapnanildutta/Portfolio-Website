@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef, useMemo, useContext } from 'react';
-import Helmet from 'react-helmet-async';
+import React, { useState, useEffect, useRef, useMemo, useCallback, useContext } from 'react';
+import { Helmet } from 'react-helmet-async';
 import 'intersection-observer';
 import { AppContext } from '../app/App';
 import Intro from '../screens/Intro';
@@ -16,14 +16,13 @@ import BotProject from '../assets/BattleBots/botProject.webp';
 import BotProjectPlaceholder from '../assets/BattleBots/botProjectPlaceholder.png';
 import Robotics from '../assets/Robotics/robotics.webp';
 import RoboticsPlaceholder from '../assets/Robotics/roboticsPlaceholder.png';
-
 const disciplines = ['Developer'];
 
 export default function Home(props) {
   const { status } = useContext(AppContext);
   const { location } = props;
   const { hash } = location;
-  const [disciplineIndex, setDisciplineIndex] = useState(0);
+  const initHash = useRef(hash);
   const [visibleSections, setVisibleSections] = useState([]);
   const [scrollIndicatorHidden, setScrollIndicatorHidden] = useState(false);
   const intro = useRef();
@@ -33,18 +32,17 @@ export default function Home(props) {
   const projectFour = useRef();
   const projectFive = useRef();
   const about = useRef();
-  const disciplineTimeout = useRef();
-  const revealSections = [intro, projectOne, projectTwo, projectThree, projectFour, projectFive, about];
 
   useEffect(() => {
+    const revealSections = [intro, projectOne, projectTwo, projectThree, projectFour, projectFive, about];
 
-    const sectionObserver = new IntersectionObserver((entries) => {
+    const sectionObserver = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           const section = entry.target;
           sectionObserver.unobserve(section);
           if (visibleSections.includes(section)) return;
-          setVisibleSections((prevSections) => [...prevSections, section]);
+          setVisibleSections(prevSections => [...prevSections, section]);
         }
       });
     }, { rootMargin: "0px 0px -10% 0px" });
@@ -53,7 +51,7 @@ export default function Home(props) {
       setScrollIndicatorHidden(!entry.isIntersecting);
     }, { rootMargin: "-100% 0px 0px 0px" });
 
-    revealSections.forEach((section) => {
+    revealSections.forEach(section => {
       sectionObserver.observe(section.current);
     });
 
@@ -65,43 +63,33 @@ export default function Home(props) {
     };
   }, [visibleSections]);
 
+  const handleHashchange = useCallback((hash, scroll) => {
+    const hashSections = [intro, projectOne, projectTwo, projectThree, projectFour, projectFive, about];
+    const hashString = hash.replace('#', '');
+    const element = hashSections.filter(item => item.current.id === hashString)[0];
+
+    if (element) {
+      window.scroll({
+        top: element.current.offsetTop,
+        left: 0,
+        behavior: scroll ? 'smooth' : 'instant',
+      });
+    }
+  }, []);
+
   useEffect(() => {
     if (status === 'entered') {
       handleHashchange(hash, true);
     }
-  }, [location]);
+  }, [handleHashchange, hash, status]);
 
   useEffect(() => {
-    if (hash && status === 'entered') {
-      handleHashchange(hash, false);
+    if (initHash.current && status === 'entered') {
+      handleHashchange(initHash.current, false);
     } else if (status === 'entered') {
       window.scrollTo(0, 0);
     }
-  }, [status]);
-
-  useEffect(() => {
-    disciplineTimeout.current = setTimeout(() => {
-      const index = (disciplineIndex + 1) % disciplines.length;
-      setDisciplineIndex(index);
-    }, 5000);
-
-    return function cleanUp() {
-      clearTimeout(disciplineTimeout.current);
-    };
-  }, [disciplineIndex]);
-
-  const handleHashchange = useMemo(() => (hash, scroll) => {
-    const hashString = hash.replace('#', '');
-    const element = revealSections.filter(item => item.current.id === hashString)[0];
-
-    if (element) {
-      element.current.scrollIntoView({
-        behavior: scroll ? 'smooth' : 'instant',
-        block: 'start',
-        inline: 'nearest',
-      });
-    }
-  }, []);
+  }, [handleHashchange, status]);
 
   return (
     <React.Fragment>
@@ -109,14 +97,13 @@ export default function Home(props) {
         title="Cody Bennett"
         meta={[{
           name: 'description',
-          content: "I’m a student based in Austin, currently looking for an internship. I create compelling designs that I bring to life with the web's coolest technologies that look perfect on every screen.",
+          content: "Portfolio of Cody Bennett – I’m a student developer based in Austin, currently looking for an internship. I create compelling designs that I bring to life with the web's coolest technologies that look perfect on every screen.",
         }]}
       />
       <Intro
         id="intro"
         sectionRef={intro}
         disciplines={disciplines}
-        disciplineIndex={disciplineIndex}
         scrollIndicatorHidden={scrollIndicatorHidden}
       />
       <ProjectItem
@@ -167,7 +154,7 @@ export default function Home(props) {
         visible={visibleSections.includes(projectFour.current)}
         index="04"
         title="BattleBots 2019 Competition Website"
-        description="A fully responsive website in a 3d playground, made with ThreeJS."
+        description="A fully responsive website in a 3d playground, built with ThreeJS."
         buttonText="View Project"
         buttonTo="/projects/battlebots"
         imageSrc={useMemo(() => [`${BotProject}`], [])}
@@ -190,9 +177,9 @@ export default function Home(props) {
         imageType="laptop"
       />
       <Profile
-        id="about"
         sectionRef={about}
         visible={visibleSections.includes(about.current)}
+        id="about"
       />
       <Footer />
     </React.Fragment>

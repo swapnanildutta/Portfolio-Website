@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef, useMemo, useContext } from 'react';
-import Helmet from 'react-helmet-async';
+import React, { useState, useEffect, useRef, useMemo, useCallback, useContext } from 'react';
+import { Helmet } from 'react-helmet-async';
 import 'intersection-observer';
 import { AppContext } from '../app/App';
 import Intro from '../screens/IntroLab';
@@ -20,13 +20,13 @@ import Three from '../assets/Lab/three.webp';
 import ThreePlaceholder from '../assets/Lab/threePlaceholder.png';
 import Four from '../assets/Lab/four.webp';
 import FourPlaceholder from '../assets/Lab/fourPlaceholder.png';
-const disciplines = ['Student'];
+const disciplines = ['Developer'];
 
 export default function Home(props) {
   const { status } = useContext(AppContext);
   const { location } = props;
   const { hash } = location;
-  const [disciplineIndex, setDisciplineIndex] = useState(0);
+  const initHash = useRef(hash);
   const [visibleSections, setVisibleSections] = useState([]);
   const [scrollIndicatorHidden, setScrollIndicatorHidden] = useState(false);
   const intro = useRef();
@@ -38,18 +38,17 @@ export default function Home(props) {
   const projectSix = useRef();
   const projectSeven = useRef();
   const about = useRef();
-  const disciplineTimeout = useRef();
+  const revealSections = [intro, projectOne, projectTwo, projectThree, projectFour, projectFive, projectSix, projectSeven, about];
 
   useEffect(() => {
-    const revealSections = [intro, projectOne, projectTwo, projectThree, projectFour, projectFive, projectSix, projectSeven, about];
 
-    const sectionObserver = new IntersectionObserver((entries) => {
+    const sectionObserver = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           const section = entry.target;
           sectionObserver.unobserve(section);
           if (visibleSections.includes(section)) return;
-          setVisibleSections((prevSections) => [...prevSections, section]);
+          setVisibleSections(prevSections => [...prevSections, section]);
         }
       });
     }, { rootMargin: "0px 0px -10% 0px" });
@@ -58,7 +57,7 @@ export default function Home(props) {
       setScrollIndicatorHidden(!entry.isIntersecting);
     }, { rootMargin: "-100% 0px 0px 0px" });
 
-    revealSections.forEach((section) => {
+    revealSections.forEach(section => {
       sectionObserver.observe(section.current);
     });
 
@@ -70,49 +69,37 @@ export default function Home(props) {
     };
   }, [visibleSections]);
 
-  useEffect(() => {
-    if (status === 'entered') {
-      handleHashchange(hash, true);
-    }
-  }, [location]);
-
-  useEffect(() => {
-    if (hash && status === 'entered') {
-      handleHashchange(hash, false);
-    } else if (status === 'entered') {
-      window.scrollTo(0, 0);
-    }
-  }, [status]);
-
-  useEffect(() => {
-    disciplineTimeout.current = setTimeout(() => {
-      const index = (disciplineIndex + 1) % disciplines.length;
-      setDisciplineIndex(index);
-    }, 5000);
-
-    return function cleanUp() {
-      clearTimeout(disciplineTimeout.current);
-    };
-  }, [disciplineIndex]);
-
-  const handleHashchange = useMemo(() => (hash, scroll) => {
-    const hashSections = [intro, projectOne, about];
+  const handleHashchange = useCallback((hash, scroll) => {
     const hashString = hash.replace('#', '');
-    const element = hashSections.filter(item => item.current.id === hashString)[0];
+    const element = revealSections.filter(item => item.current.id === hashString)[0];
 
     if (element) {
-      element.current.scrollIntoView({
+      window.scroll({
+        top: element.current.offsetTop,
+        left: 0,
         behavior: scroll ? 'smooth' : 'instant',
-        block: 'start',
-        inline: 'nearest',
       });
     }
   }, []);
 
+  useEffect(() => {
+    if (status === 'entered') {
+      handleHashchange(hash, true);
+    }
+  }, [handleHashchange, hash, status]);
+
+  useEffect(() => {
+    if (initHash.current && status === 'entered') {
+      handleHashchange(initHash.current, false);
+    } else if (status === 'entered') {
+      window.scrollTo(0, 0);
+    }
+  }, [handleHashchange, status]);
+
   return (
     <React.Fragment>
       <Helmet
-        title="Cody Bennett | Lab"
+        title="Cody Bennett"
         meta={[{
           name: 'description',
           content: "This is my lab where I experiment with the latest technologies to create beautiful experiences.",
@@ -122,7 +109,6 @@ export default function Home(props) {
         id="intro"
         sectionRef={intro}
         disciplines={disciplines}
-        //disciplineIndex={disciplineIndex}
         scrollIndicatorHidden={scrollIndicatorHidden}
       />
       <ProjectItem
@@ -154,7 +140,7 @@ export default function Home(props) {
         imageType="laptop"
       />
       <ProjectItem
-    		id="project3"
+		    id="project3"
         sectionRef={projectThree}
         visible={visibleSections.includes(projectThree.current)}
         index="03"
@@ -222,7 +208,7 @@ export default function Home(props) {
         imageAlt={useMemo(() => ['First take on a series of ThreeJS experiments toying with BAS Utilites.'], [])}
         imagePlaceholder={useMemo(() => [OnePlaceholder], [])}
         imageType="laptop"
-      />
+	    />
       <Profile
         sectionRef={about}
         visible={visibleSections.includes(about.current)}

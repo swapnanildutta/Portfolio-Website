@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 import Anchor from '../components/Anchor';
-import { Media } from '../utils/StyleUtils';
+import { media, rgba } from '../utils/StyleUtils';
 
 const Footer = () => (
   <FooterContainer role="contentinfo">
@@ -12,16 +12,16 @@ const Footer = () => (
 const FooterContainer = styled.footer`
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: baseline;
   justify-content: center;
   width: 100vw;
   padding: 70px 30px;
   z-index: 16;
   position: relative;
   font-size: 16px;
-  color: ${props => props.theme.colorText(0.6)};
+  color: ${props => rgba(props.theme.colorText, 0.6)};
 
-  @media (max-width: ${Media.tablet}) {
+  @media (max-width: ${media.tablet}) {
     padding: 60px 20px;
   }
 

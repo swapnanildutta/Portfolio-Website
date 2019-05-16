@@ -1,15 +1,16 @@
 import React, { useContext } from 'react';
-import Helmet from 'react-helmet-async';
+import { Helmet } from 'react-helmet-async';
 import styled from 'styled-components/macro';
+import { AppContext } from '../app/App';
 import ProgressiveImage from '../components/ProgressiveImage';
 import { useScrollToTop } from '../utils/Hooks';
 import Footer from '../components/Footer';
 import {
   ProjectContainer, ProjectSection, ProjectSectionContent, ProjectImage,
-  ProjectSectionHeading, ProjectSectionText, ProjectBackground, ProjectHeader, ProjectFooter
+  ProjectSectionHeading, ProjectSectionText, ProjectBackground, ProjectHeader,
+  ProjectFooter, ProjectTextRow
 } from '../components/Project';
-import { Media } from '../utils/StyleUtils';
-import { AppContext } from '../app/App';
+import { media } from '../utils/StyleUtils';
 import placeholder2 from '../assets/placeholder.png';
 import background from '../assets/MystGang/mystGangBack.gif';
 import render from '../assets/MystGang/MystGang.webp';
@@ -41,7 +42,7 @@ const roles = [
   '3D Animation',
 ];
 
-function Robotics(props) {
+function MystGang(props) {
   const { status } = useContext(AppContext);
   useScrollToTop(status);
 
@@ -70,7 +71,7 @@ function Robotics(props) {
                 srcSet={`${render} 800w, ${render} 1920w`}
                 placeholder={renderPlaceholder}
                 alt=""
-                sizes={`(max-width: ${Media.mobile}) 100vw, (max-width: ${Media.tablet}) 90vw, 80vw`}
+                sizes={`(max-width: ${media.mobile}) 100vw, (max-width: ${media.tablet}) 90vw, 80vw`}
               />
             </ProjectImage>
           </ProjectSectionContent>
@@ -85,7 +86,7 @@ function Robotics(props) {
                 srcSet={`${mystGangAnimation}`}
                 placeholder={placeholder2}
                 alt=""
-                sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+                sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
               />
             </SidebarImages>
           </ProjectSectionColumns>
@@ -95,7 +96,7 @@ function Robotics(props) {
                 srcSet={`${branding}`}
                 placeholder={placeholder2}
                 alt=""
-                sizes={`(max-width: ${Media.mobile}) 312px, (max-width: ${Media.tablet}) 408px, 514px`}
+                sizes={`(max-width: ${media.mobile}) 312px, (max-width: ${media.tablet}) 408px, 514px`}
               />
             </ProjectSectionGridBackground>
             <ProjectSectionGridText>
@@ -115,7 +116,7 @@ function Robotics(props) {
                 srcSet={`${one} 400w, ${one} 898w`}
                 placeholder={placeholder2}
                 alt="Animated site design."
-                sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+                sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
               />
               </SidebarImages>
             <SidebarImages>
@@ -123,7 +124,7 @@ function Robotics(props) {
                 srcSet={`${two} 400w, ${two} 898w`}
                 placeholder={placeholder2}
                 alt="Creating the site as well as a 3D loading animation."
-                sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+                sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
               />
             </SidebarImages>
           </ProjectSectionGrid>
@@ -131,7 +132,7 @@ function Robotics(props) {
             srcSet={`${three}`}
             placeholder={placeholder2}
             alt="Creating the 3D scene in ThreeJS."
-            sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+            sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
           />
           <ProjectTextRow>
             <ProjectSectionHeading>&nbsp;</ProjectSectionHeading>
@@ -146,7 +147,7 @@ function Robotics(props) {
                 srcSet={`${four} 400w, ${four} 898w`}
                 placeholder={placeholder2}
                 alt="Throwing some ribbons in."
-                sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+                sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
               />
               </SidebarImages>
             <SidebarImages>
@@ -154,7 +155,7 @@ function Robotics(props) {
                 srcSet={`${five} 400w, ${five} 898w`}
                 placeholder={placeholder2}
                 alt="Adding color to the scene."
-                sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+                sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
               />
             </SidebarImages>
           </ProjectSectionGrid>
@@ -170,7 +171,7 @@ function Robotics(props) {
                 srcSet={`${zeroP} 400w, ${zeroP} 898w`}
                 placeholder={placeholder2}
                 alt="Desktop view of a prototype with a 3D scene from a 2D carousel."
-                sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+                sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
               />
               </SidebarImages>
             <SidebarImages>
@@ -178,7 +179,7 @@ function Robotics(props) {
                 srcSet={`${oneP} 400w, ${oneP} 898w`}
                 placeholder={placeholder2}
                 alt="Mobile view of a prototype with a 3D scene from a 2D carousel."
-                sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+                sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
               />
             </SidebarImages>
             <SidebarImages>
@@ -186,7 +187,7 @@ function Robotics(props) {
                 srcSet={`${twoP} 400w, ${twoP} 898w`}
                 placeholder={placeholder2}
                 alt="Mobile view of a vertical one-page site featuring a interactive carousel."
-                sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+                sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
               />
             </SidebarImages>
             <SidebarImages>
@@ -194,7 +195,7 @@ function Robotics(props) {
                 srcSet={`${threeP} 400w, ${threeP} 898w`}
                 placeholder={placeholder2}
                 alt="Desktop view of a horizontal one-page site featuring a interactive carousel."
-                sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+                sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
               />
           </SidebarImages>
           </ProjectSectionGrid>
@@ -209,19 +210,19 @@ function Robotics(props) {
               srcSet={`${home}`}
               placeholder={placeholder2}
               alt="Interactive 3D home screen."
-              sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+              sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
             <ProgressiveImage
               srcSet={`${work}`}
               placeholder={placeholder2}
               alt="Interactive 3D work carousel."
-              sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+              sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
             <ProgressiveImage
               srcSet={`${about}`}
               placeholder={placeholder2}
               alt="Interactive 3D about and contact page."
-              sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+              sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
           </ProjectSectionContent>
         </ProjectSection>
@@ -235,19 +236,12 @@ function Robotics(props) {
   );
 }
 
-const ProjectTextRow = styled.div`
-  max-width: 660px;
-  align-self: center;
-  margin-bottom: 80px;
-`;
-
 const ProjectSectionColumns = styled(ProjectSectionContent)`
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 70px;
   margin: 20px 0 60px;
-
-  @media (max-width: ${Media.tablet}) {
+  @media (max-width: ${media.tablet}) {
     grid-template-columns: 1fr;
     margin: 0 0 60px;
   }
@@ -258,8 +252,7 @@ const ProjectSectionGrid = styled(ProjectSectionContent)`
   grid-template-columns: 1fr 1fr;
   grid-gap: 70px;
   margin: 40px 0;
-
-  @media (max-width: ${Media.tablet}) {
+  @media (max-width: ${media.tablet}) {
     grid-template-columns: 1fr;
   }
 `;
@@ -267,24 +260,20 @@ const ProjectSectionGrid = styled(ProjectSectionContent)`
 const ProjectSectionGridBackground = styled.div`
   grid-column: 1;
   grid-row: 1;
-
-  @media (max-width: ${Media.tablet}) {
+  @media (max-width: ${media.tablet}) {
     padding: 0 120px;
   }
-
-  @media (max-width: ${Media.mobile}) {
+  @media (max-width: ${media.mobile}) {
     padding: 0 60px;
   }
 `;
 
 const ProjectSectionGridText = styled.div`
   padding-top: 80px;
-
-  @media (max-width: ${Media.desktop}) {
+  @media (max-width: ${media.desktop}) {
     padding-top: 40px;
   }
-
-  @media (max-width: ${Media.tablet}) {
+  @media (max-width: ${media.tablet}) {
     padding-top: 0;
   }
 `;
@@ -293,13 +282,11 @@ const SidebarImages = styled.div`
   display: grid;
 /*  grid-template-columns: repeat(6, [col] 1fr);*/
   align-items: center;
-
-  @media (max-width: ${Media.tablet}) {
+  @media (max-width: ${media.tablet}) {
     padding: 0 80px;
     margin-top: 60px;
   }
-
-  @media (max-width: ${Media.mobile}) {
+  @media (max-width: ${media.mobile}) {
     padding: 0 20px;
     margin-top: 40px;
   }
@@ -311,8 +298,7 @@ const SidebarImagesText = styled.div`
   flex-direction: column;
   justify-content: center;
   padding-right: 10px;
-
-  @media (max-width: ${Media.tablet}) {
+  @media (max-width: ${media.tablet}) {
     padding-right: 0;
   }
 `;
@@ -324,7 +310,6 @@ const SidebarImage = styled(ProgressiveImage)`
     position: relative;
     top: 5%;
   }
-
   &:last-child {
     grid-column: col 3 / span 4;
     grid-row: 1;
@@ -333,4 +318,4 @@ const SidebarImage = styled(ProgressiveImage)`
   }
 `;
 
-export default Robotics;
+export default MystGang;

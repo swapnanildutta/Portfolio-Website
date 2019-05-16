@@ -1,19 +1,19 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useCallback } from 'react';
 import styled, { css } from 'styled-components/macro';
 import { TransitionGroup, Transition } from 'react-transition-group';
-import Helmet from 'react-helmet-async';
+import { Helmet } from 'react-helmet-async';
 import { AppContext } from '../app/App';
 import Input from '../components/Input';
 import DecoderText from '../components/DecoderText';
-import Button, { RouterButton } from '../components/Button';
-import { Media, AnimFade } from '../utils/StyleUtils';
+import { Button, RouterButton } from '../components/Button';
+import { media, AnimFade } from '../utils/StyleUtils';
 import Firebase from '../utils/Firebase';
 import { useScrollToTop, useFormInput } from '../utils/Hooks';
 
 const prerender = navigator.userAgent === 'ReactSnap';
 const initDelay = 300;
 
-function Contact(props) {
+function Contact() {
   const { status } = useContext(AppContext);
   const email = useFormInput('');
   const message = useFormInput('');
@@ -21,7 +21,7 @@ function Contact(props) {
   const [complete, setComplete] = useState(false);
   useScrollToTop(status);
 
-  const onSubmit = async event => {
+  const onSubmit = useCallback(async event => {
     event.preventDefault();
     if (sending) return;
 
@@ -39,19 +39,19 @@ function Contact(props) {
       setSending(false);
       alert(error);
     }
-  };
+  }, [email.value, message.value, sending]);
 
   return (
     <ContactWrapper status={status}>
       <Helmet
         title="Contact me"
         meta={[{
-          name: 'description', content: 'Say hello.',
+          name: 'description', content: 'Send me a message if you’re interested in discussing a project or if you just want to say hi.',
         }]}
       />
       <TransitionGroup component={React.Fragment}>
         {!complete &&
-          <Transition appear timeout={1600} mountOnEnter unmountOnExit>
+          <Transition appear mountOnEnter unmountOnExit timeout={1600}>
             {status => (
               <ContactForm method="post" onSubmit={onSubmit} role="form">
                 <ContactTitle status={status} delay={50}>
@@ -68,7 +68,6 @@ function Contact(props) {
                   delay={200}
                   autoComplete="email"
                   label="Your Email"
-                  id="email"
                   type="email"
                   maxLength={320}
                   required
@@ -79,7 +78,6 @@ function Contact(props) {
                   delay={300}
                   autoComplete="off"
                   label="Message"
-                  id="message"
                   maxLength={2000}
                   required
                   multiline
@@ -110,7 +108,7 @@ function Contact(props) {
                   Message Sent
                 </ContactCompleteTitle>
                 <ContactCompleteText status={status} delay={200}>
-                  I'll get back to you within a couple days.
+                  I’ll get back to you within a couple days
                 </ContactCompleteText>
                 <ContactCompleteButton
                   secondary
@@ -139,15 +137,15 @@ const ContactWrapper = styled.section`
   width: 100%;
   padding-left: 80px;
 
-  @media (max-width: ${Media.tablet}) {
+  @media (max-width: ${media.tablet}) {
     padding-left: 60px;
   }
 
-  @media (max-width: ${Media.mobile}) {
+  @media (max-width: ${media.mobile}) {
     padding-left: 0;
   }
 
-  @media (max-width: ${Media.mobile}), (max-height: ${Media.mobile}) {
+  @media (max-width: ${media.mobile}), (max-height: ${media.mobile}) {
     padding-left: 0;
   }
 
@@ -161,7 +159,7 @@ const ContactForm = styled.form`
   width: 100%;
   padding: 40px 20px;
 
-  @media (max-width: ${Media.mobile}) {
+  @media (max-width: ${media.mobile}) {
     padding: 120px 20px 40px;
     align-self: flex-start;
   }
@@ -173,6 +171,7 @@ const ContactTitle = styled.h1`
   margin-bottom: 40px;
   line-height: 1;
   margin-top: 0;
+  color: ${props => props.theme.colorTitle};
   transition-property: transform, opacity;
   transition-timing-function: ${props => props.theme.curveFastoutSlowin};
   transition-duration: 0.8s;
@@ -199,7 +198,7 @@ const ContactDivider = styled.div`
   margin-bottom: 70px;
   width: 100%;
   height: 1px;
-  background: ${props => props.theme.colorPrimary(1)};
+  background: ${props => props.theme.colorPrimary};
   position: relative;
   transition-property: transform, opacity;
   transition-timing-function: ${props => props.theme.curveFastoutSlowin};
@@ -212,7 +211,7 @@ const ContactDivider = styled.div`
     content: '';
     height: 10px;
     width: 90px;
-    background: ${props => props.theme.colorPrimary(1)};
+    background: ${props => props.theme.colorPrimary};
     position: absolute;
     bottom: 0;
     transform: translateY(100%);
@@ -241,6 +240,7 @@ const ContactDivider = styled.div`
 `;
 
 const ContactInput = styled(Input)`
+  margin-top: 16px;
   margin-bottom: 40px;
   transition-property: transform, opacity;
   transition-timing-function: ${props => props.theme.curveFastoutSlowin};
@@ -316,7 +316,7 @@ const ContactComplete = styled.div`
   align-items: center;
   justify-content: center;
   padding: 30px;
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
@@ -328,6 +328,7 @@ const ContactCompleteTitle = styled.h1`
   font-size: 32px;
   margin: 0;
   text-align: center;
+  color: ${props => props.theme.colorTitle};
   transition-property: transform, opacity;
   transition-timing-function: ${props => props.theme.curveFastoutSlowin};
   transition-duration: 0.8s;

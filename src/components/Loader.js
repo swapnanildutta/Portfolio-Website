@@ -1,8 +1,8 @@
 import React from 'react';
 import styled, { css, keyframes } from 'styled-components/macro';
 
-const Loader = ({ size, color, style, className }) => (
-  <LoaderContainer size={size} style={style} className={className}>
+const Loader = ({ size = 32, color = '#fff', ...rest }) => (
+  <LoaderContainer size={size} {...rest}>
     <LoaderSpan color={color} />
     <LoaderSpan color={color} />
     <LoaderSpan color={color} />
@@ -35,22 +35,24 @@ const LoaderSpan = styled.span`
   margin-left: 2px;
   height: 100%;
   background-color: ${props => props.color};
+  transform: scaleY(0.4);
+  opacity: 0.6;
 
   &:nth-child(1) {
-    animation: ${css`${AnimGrow} 1s ease-in-out infinite`};
+    animation: ${css`${AnimGrow}`} 1s ease-in-out infinite;
     margin-left: 0;
   }
 
   &:nth-child(2) {
-    animation: ${css`${AnimGrow} 1s ease-in-out 0.15s infinite`};
+    animation: ${css`${AnimGrow}`} 1s ease-in-out 0.15s infinite;
   }
 
   &:nth-child(3) {
-    animation: ${css`${AnimGrow} 1s ease-in-out 0.30s infinite`};
+    animation: ${css`${AnimGrow}`} 1s ease-in-out 0.30s infinite;
   }
 
   &:nth-child(4) {
-    animation: ${css`${AnimGrow} 1s ease-in-out 0.45s infinite`};
+    animation: ${css`${AnimGrow}`} 1s ease-in-out 0.45s infinite;
   }
 `;
 

@@ -1,15 +1,16 @@
 import React, { useContext } from 'react';
-import Helmet from 'react-helmet-async';
+import { Helmet } from 'react-helmet-async';
 import styled from 'styled-components/macro';
+import { AppContext } from '../app/App';
 import ProgressiveImage from '../components/ProgressiveImage';
 import { useScrollToTop } from '../utils/Hooks';
 import Footer from '../components/Footer';
 import {
   ProjectContainer, ProjectSection, ProjectSectionContent, ProjectImage,
-  ProjectSectionHeading, ProjectSectionText, ProjectBackground, ProjectHeader, ProjectFooter
+  ProjectSectionHeading, ProjectSectionText, ProjectBackground, ProjectHeader,
+  ProjectFooter, ProjectTextRow
 } from '../components/Project';
-import { Media } from '../utils/StyleUtils';
-import { AppContext } from '../app/App';
+import { media } from '../utils/StyleUtils';
 import placeholder2 from '../assets/placeholder.png';
 import background from '../assets/BattleBots/botBack.webp';
 import botProject from '../assets/BattleBots/botProject.webp';
@@ -29,7 +30,7 @@ import botScore from '../assets/BattleBots/botScore.png';
 import splash from '../assets/BattleBots/splash.png';
 
 const prerender = navigator.userAgent === 'ReactSnap';
-const title = 'BattleBots 2019 (WIP)';
+const title = 'BattleBots 2019';
 const description = 'Inspiring Local Communities with Engineering.';
 const roles = [
   'Front-end Development',
@@ -70,12 +71,12 @@ function BattleBots(props) {
                 srcSet={`${botProject} 800w, ${botProject} 1920w`}
                 placeholder={botProjectPlaceholder}
                 alt=""
-                sizes={`(max-width: ${Media.mobile}) 100vw, (max-width: ${Media.tablet}) 90vw, 80vw`}
+                sizes={`(max-width: ${media.mobile}) 100vw, (max-width: ${media.tablet}) 90vw, 80vw`}
               />
             </ProjectImage>
           </ProjectSectionContent>
         </ProjectSection>
-        <ProjectSection>
+          <ProjectSection>
           <ProjectSectionColumns>
             <SidebarImagesText>
               <ProjectSectionHeading>Ready Player 1</ProjectSectionHeading>
@@ -88,7 +89,7 @@ function BattleBots(props) {
                 srcSet={`${splash} 800w, ${splash} 1440w`}
                 placeholder={placeholder2}
                 alt=""
-                sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+                sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
               />
             </SidebarImages2>
           </ProjectSectionColumns>
@@ -102,7 +103,7 @@ function BattleBots(props) {
               srcSet={`${botTruck} 800w, ${botTruck} 1440w`}
               placeholder={placeholder2}
               alt=""
-              sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+              sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
           </ProjectSectionContent>
           <ProjectSectionGrid>
@@ -111,7 +112,7 @@ function BattleBots(props) {
                 srcSet={`${robotRender} 400w, ${robotRender} 898w`}
                 placeholder={placeholder2}
                 alt=""
-                sizes={`(max-width: ${Media.mobile}) 312px, (max-width: ${Media.tablet}) 408px, 514px`}
+                sizes={`(max-width: ${media.mobile}) 312px, (max-width: ${media.tablet}) 408px, 514px`}
               />
             </ProjectSectionGridBackground>
             <ProjectSectionGridText>
@@ -133,7 +134,7 @@ function BattleBots(props) {
                 srcSet={`${botsProto} 800w, ${botsProto} 1440w`}
                 placeholder={placeholder2}
                 alt=""
-                sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+                sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
               />
             </SidebarImages>
           </ProjectSectionColumns>
@@ -143,7 +144,7 @@ function BattleBots(props) {
                 srcSet={`${renderFiber} 400w, ${renderFiber} 898w`}
                 placeholder={placeholder2}
                 alt=""
-                sizes={`(max-width: ${Media.mobile}) 312px, (max-width: ${Media.tablet}) 408px, 514px`}
+                sizes={`(max-width: ${media.mobile}) 312px, (max-width: ${media.tablet}) 408px, 514px`}
               />
             </ProjectSectionGridBackground>
             <ProjectSectionGridText>
@@ -164,7 +165,7 @@ function BattleBots(props) {
               srcSet={`${botThree} 800w, ${botThree} 1440w`}
               placeholder={placeholder2}
               alt=""
-              sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+              sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
           </ProjectSectionContent>
         </ProjectSection>
@@ -180,7 +181,7 @@ function BattleBots(props) {
             srcSet={`${arenaOne} 800w, ${arenaOne} 1440w`}
             placeholder={placeholder2}
             alt=""
-            sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+            sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
           />
         </SidebarImages>
           <SidebarImages>
@@ -188,7 +189,7 @@ function BattleBots(props) {
               srcSet={`${arenaTwo} 800w, ${arenaTwo} 1440w`}
               placeholder={placeholder2}
               alt=""
-              sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+              sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
           </SidebarImages>
         </ProjectSectionColumns2>
@@ -197,7 +198,7 @@ function BattleBots(props) {
               srcSet={`${arenaFinal} 800w, ${arenaFinal} 1440w`}
               placeholder={placeholder2}
               alt=""
-              sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+              sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
           </ProjectSectionContent>
         </ProjectSection>
@@ -221,7 +222,7 @@ function BattleBots(props) {
                   srcSet={`${botsScoreProto} 800w, ${botsScoreProto} 1440w`}
                   placeholder={placeholder2}
                   alt=""
-                  sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+                  sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
                 />
               </SidebarImages2>
             </ProjectSectionColumns>
@@ -229,19 +230,19 @@ function BattleBots(props) {
               srcSet={`${botLogin} 800w, ${botLogin} 1440w`}
               placeholder={placeholder2}
               alt=""
-              sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+              sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
             <ProgressiveImage
               srcSet={`${botAdmin} 800w, ${botAdmin} 1440w`}
               placeholder={placeholder2}
               alt=""
-              sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+              sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
             <ProgressiveImage
               srcSet={`${botScore} 800w, ${botScore} 1440w`}
               placeholder={placeholder2}
               alt=""
-              sizes={`(max-width: ${Media.mobile}) 500px, (max-width: ${Media.tablet}) 800px, 1000px`}
+              sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
           </ProjectSectionContent>
         </ProjectSection>
@@ -255,19 +256,12 @@ function BattleBots(props) {
   );
 }
 
-const ProjectTextRow = styled.div`
-  max-width: 660px;
-  align-self: center;
-  margin-bottom: 80px;
-`;
-
 const ProjectSectionColumns = styled(ProjectSectionContent)`
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 70px;
   margin: 20px 0 60px;
-
-  @media (max-width: ${Media.tablet}) {
+  @media (max-width: ${media.tablet}) {
     grid-template-columns: 1fr;
     margin: 0 0 60px;
   }
@@ -276,8 +270,7 @@ const ProjectSectionColumns = styled(ProjectSectionContent)`
 const ProjectSectionColumns2 = styled(ProjectSectionContent)`
   display: grid;
   grid-template-columns: 1fr 1fr;
-
-  @media (max-width: ${Media.tablet}) {
+  @media (max-width: ${media.tablet}) {
     grid-template-columns: 1fr;
   }
 `;
@@ -287,8 +280,7 @@ const ProjectSectionGrid = styled(ProjectSectionContent)`
   grid-template-columns: 1fr 1fr;
   grid-gap: 70px;
   margin: 40px 0;
-
-  @media (max-width: ${Media.tablet}) {
+  @media (max-width: ${media.tablet}) {
     grid-template-columns: 1fr;
   }
 `;
@@ -296,24 +288,20 @@ const ProjectSectionGrid = styled(ProjectSectionContent)`
 const ProjectSectionGridBackground = styled.div`
   grid-column: 1;
   grid-row: 1;
-
-  @media (max-width: ${Media.tablet}) {
+  @media (max-width: ${media.tablet}) {
     padding: 0 120px;
   }
-
-  @media (max-width: ${Media.mobile}) {
+  @media (max-width: ${media.mobile}) {
     padding: 0 60px;
   }
 `;
 
 const ProjectSectionGridText = styled.div`
   padding-top: 80px;
-
-  @media (max-width: ${Media.desktop}) {
+  @media (max-width: ${media.desktop}) {
     padding-top: 40px;
   }
-
-  @media (max-width: ${Media.tablet}) {
+  @media (max-width: ${media.tablet}) {
     padding-top: 0;
   }
 `;
@@ -322,13 +310,11 @@ const SidebarImages = styled.div`
   display: grid;
 /*  grid-template-columns: repeat(6, [col] 1fr);*/
   align-items: center;
-
-  @media (max-width: ${Media.tablet}) {
+  @media (max-width: ${media.tablet}) {
     padding: 0 80px;
     margin-top: 60px;
   }
-
-  @media (max-width: ${Media.mobile}) {
+  @media (max-width: ${media.mobile}) {
     padding: 0 20px;
     margin-top: 40px;
   }
@@ -338,13 +324,11 @@ const SidebarImages2 = styled.div`
   display: grid;
   grid-template-columns: repeat(2, [col] 1fr);
   align-items: center;
-
-  @media (max-width: ${Media.tablet}) {
+  @media (max-width: ${media.tablet}) {
     padding: 0 80px;
     margin-top: 60px;
   }
-
-  @media (max-width: ${Media.mobile}) {
+  @media (max-width: ${media.mobile}) {
     padding: 0 20px;
     margin-top: 40px;
   }
@@ -356,8 +340,7 @@ const SidebarImagesText = styled.div`
   flex-direction: column;
   justify-content: center;
   padding-right: 10px;
-
-  @media (max-width: ${Media.tablet}) {
+  @media (max-width: ${media.tablet}) {
     padding-right: 0;
   }
 `;
@@ -369,7 +352,6 @@ const SidebarImage = styled(ProgressiveImage)`
     position: relative;
     top: 5%;
   }
-
   &:last-child {
     grid-column: col 3 / span 4;
     grid-row: 1;

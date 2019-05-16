@@ -27,7 +27,7 @@ function sendMail(email, message) {
   const mailOptions = {
     from: `Portfolio <${gmailEmail}>`,
     to: 'hi@codyb.co',
-    subject: `New message from ${email}`,
+    subject: `Message from ${email}`,
     text: `From: ${email}\n\n${message}`,
   };
 

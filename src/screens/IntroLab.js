@@ -1,35 +1,63 @@
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense, lazy, useMemo, useContext, useEffect, useState } from 'react';
 import styled, { css, keyframes } from 'styled-components/macro';
-import { Transition } from 'react-transition-group';
-import { Media, AnimFade } from '../utils/StyleUtils';
+import { TransitionGroup, Transition } from 'react-transition-group';
+import { media, AnimFade, rgba } from '../utils/StyleUtils';
 import DecoderText from '../components/DecoderText';
+import { AppContext } from '../app/App';
+import { useInterval, usePrevious } from '../utils/Hooks';
 
 const DisplacementSphere = lazy(() => import('../components/DisplacementSphere'));
 const prerender = navigator.userAgent === 'ReactSnap';
 
 function Intro(props) {
+  const { currentTheme } = useContext(AppContext);
   const { id, sectionRef, scrollIndicatorHidden } = props;
+  const prevTheme = usePrevious(currentTheme);
+
+  useEffect(() => {
+    if (prevTheme && prevTheme.id !== currentTheme.id) {
+      setDisciplineIndex(0);
+    }
+  }, [currentTheme.id, prevTheme]);
 
   return (
     <IntroContent ref={sectionRef} id={id}>
       <Transition
+        key={currentTheme.id}
         appear={!prerender}
         in={!prerender}
         timeout={3000}
       >
-        {(status) => (
+        {status => (
           <React.Fragment>
             <Suspense fallback={<React.Fragment />}>
               <DisplacementSphere />
             </Suspense>
             <IntroText>
-              <IntroName aria-label="Cody Bennett" status={status}>
+              <IntroName status={status}>
                 <DecoderText text="Cody Bennett" start={!prerender} offset={120} />
               </IntroName>
-              <IntroTitle aria-label={`Lab`}>
-                <IntroTitleRow prerender={prerender}>
+              <IntroTitle>
+                <IntroTitleLabel>{`Lab`}</IntroTitleLabel>
+                <IntroTitleRow aria-hidden prerender={prerender}>
                   <IntroTitleWord status={status} delay="0.2s">Lab</IntroTitleWord>
+                  <IntroTitleLine status={status} />
                 </IntroTitleRow>
+                <TransitionGroup component={IntroTitleRow} prerender={prerender}>
+                  {currentDisciplines.map((item, index) => (
+                    <Transition
+                      appear
+                      timeout={{ enter: 3000, exit: 2000 }}
+                      key={`${item}_${index}`}
+                    >
+                      {status => (
+                        <IntroTitleWord plus aria-hidden delay="0.5s" status={status}>
+                          {item}
+                        </IntroTitleWord>
+                      )}
+                    </Transition>
+                  ))}
+                </TransitionGroup>
               </IntroTitle>
             </IntroText>
             <MemoizedScrollIndicator isHidden={scrollIndicatorHidden} status={status} />
@@ -48,15 +76,15 @@ const IntroContent = styled.section`
   flex-direction: column;
   padding-left: 120px;
 
-  @media (min-width: ${Media.desktop}) {
+  @media (min-width: ${media.desktop}) {
     padding-right: 80px;
   }
 
-  @media (max-width: ${Media.tablet}) {
+  @media (max-width: ${media.tablet}) {
     padding-left: 60px;
   }
 
-  @media (max-width: ${Media.mobile}), (max-height: ${Media.mobile}) {
+  @media (max-width: ${media.mobile}), (max-height: ${media.mobile}) {
     padding-left: 0;
   }
 `;
@@ -68,21 +96,21 @@ const IntroText = styled.header`
   top: -20px;
   padding: 0 ${props => props.theme.spacingOuter.desktop};
 
-  @media (min-width: ${Media.desktop}) {
+  @media (min-width: ${media.desktop}) {
     padding: 0;
     max-width: 920px;
   }
 
-  @media (max-width: ${Media.tablet}) {
+  @media (max-width: ${media.tablet}) {
     padding: 0 100px;
   }
 
-  @media (max-width: ${Media.mobile}), (max-height: ${Media.mobile}) {
+  @media (max-width: ${media.mobile}), (max-height: ${media.mobile}) {
     padding: 0 ${props => props.theme.spacingOuter.mobile};
     top: 0;
   }
 
-  @media ${Media.mobileLS} {
+  @media ${media.mobileLS} {
     padding: 0 100px;
   }
 `;
@@ -91,8 +119,8 @@ const IntroName = styled.h1`
   text-transform: uppercase;
   font-size: 24px;
   letter-spacing: 0.3em;
-  color: ${props => props.theme.colorText(0.8)};
-  margin-bottom: 60px;
+  color: ${props => rgba(props.theme.colorText, 0.8)};
+  margin-bottom: 40px;
   margin-top: 0;
   font-weight: 500;
   line-height: 1;
@@ -106,17 +134,17 @@ const IntroName = styled.h1`
     opacity: 1;
   `}
 
-  @media (min-width: ${Media.desktop}) {
+  @media (min-width: ${media.desktop}) {
     font-size: 28px;
     margin-bottom: 40px;
   }
 
-  @media (max-width: ${Media.tablet}) {
+  @media (max-width: ${media.tablet}) {
     font-size: 18px;
     margin-bottom: 40px;
   }
 
-  @media (max-width: ${Media.mobile}) {
+  @media (max-width: ${media.mobile}) {
     margin-bottom: 25px;
     margin-top: -30px;
     letter-spacing: 0.2em;
@@ -124,7 +152,7 @@ const IntroName = styled.h1`
     overflow: hidden;
   }
 
-  @media ${Media.mobileLS} {
+  @media ${media.mobileLS} {
     margin-bottom: 20px;
     margin-top: 30px;
   }
@@ -136,9 +164,9 @@ const IntroTitle = styled.h2`
   font-size: 100px;
   margin: 0;
   letter-spacing: -0.005em;
-  font-weight: 500;
+  font-weight: ${props => props.theme.id === 'light' ? 600 : 500};
 
-  @media (min-width: ${Media.desktop}) {
+  @media (min-width: ${media.desktop}) {
     font-size: 120px;
   }
 
@@ -149,6 +177,17 @@ const IntroTitle = styled.h2`
   @media (max-width: 600px) {
     font-size: 42px;
   }
+`;
+
+const IntroTitleLabel = styled.span`
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  position: absolute;
 `;
 
 const IntroTitleRow = styled.span`
@@ -163,10 +202,10 @@ const IntroTitleRow = styled.span`
 `;
 
 const AnimTextReveal = props => keyframes`
-  0% { color: ${props.theme.colorText(0)}; }
-  50% { color: ${props.theme.colorText(0)}; }
-  60% { color: ${props.theme.colorText(1)}; }
-  100% { color: ${props.theme.colorText(1)}; }
+  0% { color: ${rgba(props.theme.colorTitle, 0)}; }
+  50% { color: ${rgba(props.theme.colorTitle, 0)}; }
+  60% { color: ${props.theme.colorTitle}; }
+  100% { color: ${props.theme.colorTitle}; }
 `;
 
 const AnimTextRevealMask = keyframes`
@@ -200,7 +239,7 @@ const IntroTitleWord = styled.span`
   animation-duration: 1.5s;
   animation-fill-mode: forwards;
   animation-timing-function: ${props => props.theme.curveFastoutSlowin};
-  color: ${props => props.theme.colorText(0)};
+  color: ${props => rgba(props.theme.colorTitle, 0)};
   transition: opacity 0.5s ease 0.4s;
 
   ${props => props.status === 'entering' && css`
@@ -208,11 +247,11 @@ const IntroTitleWord = styled.span`
   `}
 
   ${props => props.status === 'entered' && css`
-    color: ${props.theme.colorText(1)};
+    color: ${props.theme.colorTitle};
   `}
 
   ${props => props.status === 'exiting' && css`
-    color: ${props.theme.colorText(1)};
+    color: ${props.theme.colorTitle};
     opacity: 0;
     position: absolute;
     top: 0;
@@ -223,7 +262,7 @@ const IntroTitleWord = styled.span`
     content: '';
     width: 100%;
     height: 100%;
-    background: ${props => props.theme.colorPrimary(1)};
+    background: ${props => props.theme.colorAccent};
     opacity: 0;
     animation-duration: 1.5s;
     animation-fill-mode: forwards;
@@ -264,6 +303,41 @@ const IntroTitleWord = styled.span`
   `}
 `;
 
+const AnimLineIntro = keyframes`
+  0% {
+    transform: scaleX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+`;
+
+const IntroTitleLine = styled.span`
+  content: '';
+  height: 2px;
+  background: ${props => rgba(props.theme.colorText, 0.3)};
+  width: 120%;
+  display: flex;
+  margin-left: 20px;
+  animation-duration: 0.8s;
+  animation-delay: 1s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ${props => props.theme.curveFastoutSlowin};
+  transform-origin: left;
+  opacity: 0;
+
+  ${props => props.status === 'entering' && css`
+    animation-name: ${AnimLineIntro};
+  `}
+
+  ${props => props.status === 'entered' && css`
+    transform: scaleX(1);
+    opacity: 1;
+  `}
+`;
+
 const AnimScrollIndicator = keyframes`
   0% {
     transform: translate3d(-1px, 0, 0);
@@ -280,29 +354,23 @@ const AnimScrollIndicator = keyframes`
 `;
 
 const ScrollIndicator = styled.div`
-  border: 2px solid ${props => props.theme.colorWhite(0.4)};
+  border: 2px solid ${props => rgba(props.theme.colorText, 0.4)};
   border-radius: 20px;
   width: 26px;
   height: 38px;
   position: fixed;
   bottom: 64px;
-  transition: all 0.4s ease;
-  opacity: 0;
-
-  ${props => props.status === 'entered' && css`
-    opacity: 1;
-  `}
-
-  ${props => props.isHidden && css`
-    opacity: 0;
-    transform: translateY(20px);
-  `}
+  transition-property: opacity, transform;
+  transition-duration: 0.6s;
+  transition-timing-function: ease;
+  opacity: ${props => props.status === 'entered' && !props.isHidden ? 1 : 0};
+  transform: translate3d(0, ${props => props.isHidden ? '20px' : 0}, 0);
 
   &:before {
     content: '';
     height: 7px;
     width: 2px;
-    background: ${props => props.theme.colorWhite(0.4)};
+    background: ${props => rgba(props.theme.colorText, 0.4)};
     border-radius: 4px;
     position: absolute;
     top: 6px;
@@ -311,11 +379,11 @@ const ScrollIndicator = styled.div`
     animation: ${css`${AnimScrollIndicator} 2s ease infinite`};
   }
 
-  @media ${Media.mobileLS} {
+  @media ${media.mobileLS} {
     display: none;
   }
 
-  @media (max-width: ${Media.mobile}) {
+  @media (max-width: ${media.mobile}) {
     display: none;
   }
 `;
