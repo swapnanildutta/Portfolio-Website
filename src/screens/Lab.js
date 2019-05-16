@@ -22,7 +22,7 @@ import Four from '../assets/Lab/four.webp';
 import FourPlaceholder from '../assets/Lab/fourPlaceholder.png';
 const disciplines = ['Developer'];
 
-export default function Home(props) {
+export default function Lab(props) {
   const { status } = useContext(AppContext);
   const { location } = props;
   const { hash } = location;

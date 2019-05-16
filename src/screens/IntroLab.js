@@ -8,7 +8,7 @@ import { AppContext } from '../app/App';
 const DisplacementSphere = lazy(() => import('../components/DisplacementSphere'));
 const prerender = navigator.userAgent === 'ReactSnap';
 
-function Intro(props) {
+function IntroLab(props) {
   const { currentTheme } = useContext(AppContext);
   const { id, sectionRef, scrollIndicatorHidden } = props;
 
@@ -367,4 +367,4 @@ const ScrollIndicator = styled.div`
 
 const MemoizedScrollIndicator = React.memo(ScrollIndicator);
 
-export default React.memo(Intro);
+export default React.memo(IntroLab);
