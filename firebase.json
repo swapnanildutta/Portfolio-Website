@@ -5,10 +5,6 @@
       {
         "source": "**",
         "destination": "/index.html"
-      },
-      {
-        "source": "**/design",
-        "destination": "/design/index.html"
       }
     ],
     "headers": [
@@ -22,7 +18,7 @@
         ]
       },
       {
-        "source": "**/*.@(jpg|jpeg|gif|png)",
+        "source": "**/*.@(jpg|jpeg|gif|png|webp)",
         "headers": [
           {
             "key": "Cache-Control",
