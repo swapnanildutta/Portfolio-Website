@@ -22,10 +22,6 @@ import two from '../assets/MystGang/2.webp';
 import three from '../assets/MystGang/3.webp';
 import four from '../assets/MystGang/4.webp';
 import five from '../assets/MystGang/5.webp';
-import zeroP from '../assets/MystGang/p0.webp';
-import oneP from '../assets/MystGang/p1.webp';
-import twoP from '../assets/MystGang/p2.webp';
-import threeP from '../assets/MystGang/p3.webp';
 import home from '../assets/MystGang/home.webp';
 import work from '../assets/MystGang/work.webp';
 import about from '../assets/MystGang/about.webp';
@@ -161,47 +157,6 @@ function MystGang(props) {
           </ProjectSectionGrid>
         </ProjectSection>
         <ProjectSection>
-          <ProjectSectionContent>
-            <ProjectTextRow>
-              <ProjectSectionHeading>Earlier Prototypes</ProjectSectionHeading>
-            </ProjectTextRow>
-            <ProjectSectionGrid>
-            <SidebarImages>
-              <SidebarImage
-                srcSet={`${zeroP} 400w, ${zeroP} 898w`}
-                placeholder={placeholder2}
-                alt="Desktop view of a prototype with a 3D scene from a 2D carousel."
-                sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
-              />
-              </SidebarImages>
-            <SidebarImages>
-              <SidebarImage
-                srcSet={`${oneP} 400w, ${oneP} 898w`}
-                placeholder={placeholder2}
-                alt="Mobile view of a prototype with a 3D scene from a 2D carousel."
-                sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
-              />
-            </SidebarImages>
-            <SidebarImages>
-              <SidebarImage
-                srcSet={`${twoP} 400w, ${twoP} 898w`}
-                placeholder={placeholder2}
-                alt="Mobile view of a vertical one-page site featuring a interactive carousel."
-                sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
-              />
-            </SidebarImages>
-            <SidebarImages>
-              <SidebarImage
-                srcSet={`${threeP} 400w, ${threeP} 898w`}
-                placeholder={placeholder2}
-                alt="Desktop view of a horizontal one-page site featuring a interactive carousel."
-                sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
-              />
-          </SidebarImages>
-          </ProjectSectionGrid>
-          </ProjectSectionContent>
-        </ProjectSection>
-        <ProjectSection light>
           <ProjectSectionContent>
             <ProjectTextRow>
               <ProjectSectionHeading>Final Website</ProjectSectionHeading>
