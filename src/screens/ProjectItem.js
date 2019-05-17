@@ -341,11 +341,10 @@ const ProjectItemButton = styled.div`
 const ProjectItemImageLaptop = styled(ProgressiveImage)`
   width: 862px;
   height: 531px;
+  right: -140px;
   padding: 5.5% 10.9% 7.3% 11.4%;
   display: flex;
   justify-content: center;
-  background-image: url(${macbook});
-  background-size: cover;
   transition-property: transform, opacity;
   transition-duration: 1s;
   transition-delay: 0.4s;
@@ -353,7 +352,6 @@ const ProjectItemImageLaptop = styled(ProgressiveImage)`
   transform: translate3d(40px, 0, 0);
   opacity: 0;
   position: relative;
-  right: -140px;
 
   ${props => props.status === 'entered' && css`
     transform: translate3d(0, 0, 0);
@@ -386,6 +384,9 @@ const ProjectItemImageLaptop = styled(ProgressiveImage)`
     height: 206px;
     margin-bottom: 60px;
   }
+
+  background-image: url(${macbook});
+  background-size: cover;
 `;
 
 const ProjectItemPhone = styled.div`
