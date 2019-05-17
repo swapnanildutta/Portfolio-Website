@@ -355,10 +355,6 @@ const ProjectItemImageLaptop = styled(ProgressiveImage)`
   position: relative;
   right: -140px;
 
-  img {
-    box-shadow: 0 0 0 2px #1C1C1C;
-  }
-
   ${props => props.status === 'entered' && css`
     transform: translate3d(0, 0, 0);
     opacity: 1;
@@ -383,10 +379,6 @@ const ProjectItemImageLaptop = styled(ProgressiveImage)`
     height: 258px;
     margin-bottom: 120px;
     right: 0;
-
-    img {
-      box-shadow: 0 0 0 1px #1C1C1C;
-    }
   }
 
   @media (max-width: ${media.mobile}) {
