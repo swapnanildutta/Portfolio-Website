@@ -66,7 +66,7 @@ export default function Home(props) {
     const element = hashSections.filter(item => item.current.id === hashString)[0];
 
     if (element) {
-      window.scroll({
+      global.scroll({
         top: element.current.offsetTop,
         left: 0,
         behavior: scroll ? 'smooth' : 'instant',
@@ -84,7 +84,7 @@ export default function Home(props) {
     if (initHash.current && status === 'entered') {
       handleHashchange(initHash.current, false);
     } else if (status === 'entered') {
-      window.scrollTo(0, 0);
+      global.scrollTo(0, 0);
     }
   }, [handleHashchange, status]);
 
