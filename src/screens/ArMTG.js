@@ -1,20 +1,21 @@
 import React, { useContext } from 'react';
 import { Helmet } from 'react-helmet-async';
-import styled from 'styled-components/macro';
+//import styled from 'styled-components/macro';
 import { AppContext } from '../app/App';
 import ProgressiveImage from '../components/ProgressiveImage';
 import { useScrollToTop } from '../utils/Hooks';
 import Footer from '../components/Footer';
 import {
   ProjectContainer, ProjectSection, ProjectSectionContent, ProjectImage,
-  ProjectSectionHeading, ProjectBackground, ProjectHeader, ProjectFooter,
-  ProjectTextRow
+  ProjectBackground, ProjectHeader, ProjectFooter,
+  /*ProjectSectionHeading, ProjectTextRow*/
+
 } from '../components/Project';
 import { media } from '../utils/StyleUtils';
-import placeholder2 from '../assets/placeholder.png';
 import background from '../assets/ARMTG/background.webp';
 import render from '../assets/ARMTG/ARMTGWeb.webp';
-import labDemo from '../assets/Lab/ArMTG.webp';
+import renderPlaceholder from '../assets/ARMTG/ARMTGWebPlaceHolder.png';
+/*import labDemo from '../assets/Lab/ArMTG.webp';
 import branding from '../assets/ARMTG/branding.png';
 import iconography from '../assets/ARMTG/iconography.png';
 import home from '../assets/ARMTG/home.png'
@@ -34,7 +35,7 @@ import oneF from '../assets/ARMTG/oneF.png';
 import twoF from '../assets/ARMTG/twoF.png';
 import threeF from '../assets/ARMTG/threeF.png';
 import signupF from '../assets/ARMTG/signupF.png';
-import renderPlaceholder from '../assets/ARMTG/ARMTGWebPlaceHolder.png';
+import placeholder2 from '../assets/placeholder.png';*/
 const prerender = navigator.userAgent === 'ReactSnap';
 const title = 'ARMTG';
 const description = 'Bringing the future to the renowned card game: Magic, the Gathering.';
@@ -81,7 +82,7 @@ function ArMTG(props) {
               />
             </ProjectImage>
           </ProjectSectionContent>
-        </ProjectSection>
+        </ProjectSection>{/*
         <ProjectSection>
           <ProjectSectionColumns>
             <SidebarImagesText>
@@ -280,9 +281,9 @@ function ArMTG(props) {
               sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
           </ProjectSectionContent>
-        </ProjectSection>
+        </ProjectSection>*/}
         <ProjectFooter
-          title='ArMTG'
+          title='Full Project Coming Son'
           url="/#work3"
         />
       </ProjectContainer>
@@ -291,7 +292,7 @@ function ArMTG(props) {
   );
 }
 
-const ProjectSectionColumns = styled(ProjectSectionContent)`
+/*const ProjectSectionColumns = styled(ProjectSectionContent)`
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 70px;
@@ -341,7 +342,6 @@ const ProjectSectionGridText = styled.div`
 
 const SidebarImages = styled.div`
   display: grid;
-/*  grid-template-columns: repeat(6, [col] 1fr);*/
   align-items: center;
 
   @media (max-width: ${media.tablet}) {
@@ -381,6 +381,6 @@ const SidebarImage = styled(ProgressiveImage)`
     position: relative;
     top: -5%;
   }
-`;
+`;*/
 
 export default ArMTG;

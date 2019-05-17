@@ -142,7 +142,6 @@ const ProjectSectionColumns = styled(ProjectSectionContent)`
 
 const SidebarImages = styled.div`
   display: grid;
-/*  grid-template-columns: repeat(6, [col] 1fr);*/
   align-items: center;
   @media (max-width: ${media.tablet}) {
     padding: 0 80px;

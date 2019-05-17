@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import styled, { css, keyframes } from 'styled-components/macro';
 import 'intersection-observer';
-import macbook from '../assets/macbook-large.png';
 
 const prerender = navigator.userAgent === 'ReactSnap';
 
@@ -152,10 +151,6 @@ const ImageContainer = styled.div`
       `};
     }
   `}
-  ${props => props.macbook && css`
-    background-image: url(${macbook});
-    background-size: cover;
-  `}
 `;
 
 const ImageFade = styled.div`
@@ -178,13 +173,6 @@ const ImagePlaceholder = styled.img`
   opacity: ${props => props.loaded ? 0 : 1};
   grid-column: 1;
   grid-row: 1;
-
-  ${props => props.macbook && css`
-    width: 77.62%;
-    height: 78.90%;
-    top: 9.05%;
-    left: 11.35%;
-  `}
 `;
 
 const ImageActual = styled.img`
@@ -194,14 +182,6 @@ const ImageActual = styled.img`
   opacity: ${props => props.loaded ? 1 : 0};
   grid-column: 1;
   grid-row: 1;
-
-  ${props => props.macbook && css`
-    width: 77.62%;
-    height: 78.90%;
-    top: 9.05%;
-    left: 11.35%;
-    position: absolute;
-  `}
 `;
 
 export default React.memo(ProgressiveImage);
