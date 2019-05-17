@@ -113,7 +113,7 @@ export default function Lab(props) {
         scrollIndicatorHidden={scrollIndicatorHidden}
       />
       <ProjectItem
-        id="projects"
+        id="experiment1"
         sectionRef={projectOne}
         visible={visibleSections.includes(projectOne.current)}
         index="01"
@@ -127,7 +127,7 @@ export default function Lab(props) {
         imageType="laptop"
       />
 	    <ProjectItem
-        id="project2"
+        id="experiment2"
         sectionRef={projectTwo}
         visible={visibleSections.includes(projectTwo.current)}
         index="02"
@@ -141,7 +141,7 @@ export default function Lab(props) {
         imageType="laptop"
       />
       <ProjectItem
-		    id="project3"
+		    id="experiment3"
         sectionRef={projectThree}
         visible={visibleSections.includes(projectThree.current)}
         index="03"
@@ -155,7 +155,7 @@ export default function Lab(props) {
         imageType="laptop"
       />
 	    <ProjectItem
-        id="project4"
+        id="experiment4"
 		    sectionRef={projectFour}
         visible={visibleSections.includes(projectFour.current)}
         index="04"
@@ -169,7 +169,7 @@ export default function Lab(props) {
         imageType="laptop"
       />
 	    <ProjectItem
-        id="project5"
+        id="experiment5"
 		    sectionRef={projectFive}
         visible={visibleSections.includes(projectFive.current)}
         index="05"
@@ -183,7 +183,7 @@ export default function Lab(props) {
         imageType="laptop"
       />
 	    <ProjectItem
-        id="project6"
+        id="experiment6"
 		    sectionRef={projectSix}
         visible={visibleSections.includes(projectSix.current)}
         index="06"
@@ -197,7 +197,7 @@ export default function Lab(props) {
         imageType="laptop"
       />
 	    <ProjectItem
-        id="project7"
+        id="experiment7"
 		    sectionRef={projectSeven}
         visible={visibleSections.includes(projectSeven.current)}
         index="07"
