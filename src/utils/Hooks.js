@@ -5,7 +5,7 @@ export function useScrollToTop(status) {
 
   useEffect(() => {
     if (prevStatus.current === 'entering' && status === 'entered') {
-      window.scrollTo(0, 0);
+      global.scrollTo(0, 0);
       document.getElementById('MainContent').focus();
     };
 
