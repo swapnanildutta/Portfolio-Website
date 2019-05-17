@@ -16,7 +16,6 @@ const Lab = lazy(() => import('../screens/Lab'));
 const BellsGC = lazy(() => import('../screens/BellsGC'));
 const MystGang = lazy(() => import('../screens/MystGang'));
 const ArMTG = lazy(() => import('../screens/ArMTG'));
-const BattleBots = lazy(() => import('../screens/BattleBots'));
 const Robotics = lazy(() => import('../screens/Robotics'));
 const Contact = lazy(() => import('../screens/Contact'));
 const Error404 = lazy(() => import('../screens/404'));
@@ -107,8 +106,7 @@ function App() {
               							<Route path="/projects/bellsgc" component={BellsGC} />
               							<Route path="/projects/mystgang" component={MystGang} />
               							<Route path="/projects/armtg" component={ArMTG} />
-              							<Route path="/projects/battlebots" component={BattleBots} />
-              							<Route path="/projects/robotics" component={Robotics} />
+              							<Route path="/projects/gcpsrobotics" component={Robotics} />
                             <Route path="/contact" component={Contact} />
                             <Route component={Error404} />
                           </Switch>

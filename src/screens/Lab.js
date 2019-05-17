@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useMemo, useCallback, useContext } 
 import { Helmet } from 'react-helmet-async';
 import 'intersection-observer';
 import { AppContext } from '../app/App';
-import Intro from '../screens/IntroLab';
+import Intro from '../screens/Intro';
 import ProjectItem from '../screens/ProjectItem';
 import Profile from '../screens/Profile';
 import Footer from '../components/Footer';
@@ -20,7 +20,7 @@ import Three from '../assets/Lab/three.webp';
 import ThreePlaceholder from '../assets/Lab/threePlaceholder.png';
 import Four from '../assets/Lab/four.webp';
 import FourPlaceholder from '../assets/Lab/fourPlaceholder.png';
-const disciplines = ['Developer'];
+const disciplines = ['Lab'];
 
 export default function Lab(props) {
   const { status } = useContext(AppContext);

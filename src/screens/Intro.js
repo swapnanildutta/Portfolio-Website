@@ -49,24 +49,31 @@ function Intro(props) {
               <IntroTitle>
                 <IntroTitleLabel>{`Student + ${introLabel}`}</IntroTitleLabel>
                 <IntroTitleRow aria-hidden prerender={prerender}>
-                  <IntroTitleWord status={status} delay="0.2s">Student</IntroTitleWord>
-                  <IntroTitleLine status={status} />
+                  <IntroTitleWord status={status} delay="0.2s">
+                    {disciplines[0] === 'Lab' && 'Lab'}
+                    {disciplines[0] !== 'Lab' && 'Student'}
+                  </IntroTitleWord>
+                  {disciplines[0] !== 'Lab' &&
+                    <IntroTitleLine status={status} />
+                  }
                 </IntroTitleRow>
-                <TransitionGroup component={IntroTitleRow} prerender={prerender}>
-                  {currentDisciplines.map((item, index) => (
-                    <Transition
-                      appear
-                      timeout={{ enter: 3000, exit: 2000 }}
-                      key={`${item}_${index}`}
-                    >
-                      {status => (
-                        <IntroTitleWord plus aria-hidden delay="0.5s" status={status}>
-                          {item}
-                        </IntroTitleWord>
-                      )}
-                    </Transition>
-                  ))}
-                </TransitionGroup>
+                {disciplines[0] !== 'Lab' &&
+                  <TransitionGroup component={IntroTitleRow} prerender={prerender}>
+                    {currentDisciplines.map((item, index) => (
+                      <Transition
+                        appear
+                        timeout={{ enter: 3000, exit: 2000 }}
+                        key={`${item}_${index}`}
+                      >
+                        {status => (
+                          <IntroTitleWord plus aria-hidden delay="0.5s" status={status}>
+                            {item}
+                          </IntroTitleWord>
+                        )}
+                      </Transition>
+                    ))}
+                  </TransitionGroup>
+                }
               </IntroTitle>
             </IntroText>
             <MemoizedScrollIndicator isHidden={scrollIndicatorHidden} status={status} />

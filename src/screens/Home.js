@@ -12,8 +12,6 @@ import MystGang from '../assets/MystGang/MystGang.webp';
 import MystGangPlaceholder from '../assets/MystGang/MystGangPlaceholder.png';
 import ArMTG from '../assets/ARMTG/ARMTGWeb.webp';
 import ArMTGPlaceholder from '../assets/ARMTG/ARMTGWebPlaceHolder.png';
-import BotProject from '../assets/BattleBots/botProject.webp';
-import BotProjectPlaceholder from '../assets/BattleBots/botProjectPlaceholder.png';
 import Robotics from '../assets/Robotics/robotics.webp';
 import RoboticsPlaceholder from '../assets/Robotics/roboticsPlaceholder.png';
 const disciplines = ['Developer'];
@@ -30,11 +28,10 @@ export default function Home(props) {
   const projectTwo = useRef();
   const projectThree = useRef();
   const projectFour = useRef();
-  const projectFive = useRef();
   const about = useRef();
 
   useEffect(() => {
-    const revealSections = [intro, projectOne, projectTwo, projectThree, projectFour, projectFive, about];
+    const revealSections = [intro, projectOne, projectTwo, projectThree, projectFour, about];
 
     const sectionObserver = new IntersectionObserver(entries => {
       entries.forEach(entry => {
@@ -64,7 +61,7 @@ export default function Home(props) {
   }, [visibleSections]);
 
   const handleHashchange = useCallback((hash, scroll) => {
-    const hashSections = [intro, projectOne, projectTwo, projectThree, projectFour, projectFive, about];
+    const hashSections = [intro, projectOne, projectTwo, projectThree, projectFour, about];
     const hashString = hash.replace('#', '');
     const element = hashSections.filter(item => item.current.id === hashString)[0];
 
@@ -148,25 +145,11 @@ export default function Home(props) {
         imagePlaceholder={useMemo(() => [ArMTGPlaceholder], [])}
         imageType="laptop"
       />
-	     <ProjectItem
-        id="work4"
+      <ProjectItem
+    		id="work4"
         sectionRef={projectFour}
         visible={visibleSections.includes(projectFour.current)}
         index="04"
-        title="BattleBots 2019 Competition Website"
-        description="A fully responsive website in a 3d playground, built with ThreeJS."
-        buttonText="View Project"
-        buttonTo="/projects/battlebots"
-        imageSrc={useMemo(() => [`${BotProject}`], [])}
-        imageAlt={useMemo(() => ["Gateway's BattleBots competition website."], [])}
-        imagePlaceholder={useMemo(() => [BotProjectPlaceholder], [])}
-        imageType="laptop"
-      />
-      <ProjectItem
-    		id="work5"
-        sectionRef={projectFive}
-        visible={visibleSections.includes(projectFive.current)}
-        index="05"
         title="GCPS Robotics"
         description="Creating the website and the robot core that won the BEST Robotics State Competition."
         buttonText="View Project"
