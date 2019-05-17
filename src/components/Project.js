@@ -21,7 +21,7 @@ export function ProjectBackground(props) {
   }, []);
 
   const handleScroll = () => {
-    lastScrollY.current = window.scrollY;
+    lastScrollY.current = global.scrollY;
     if (scheduledAnimationFrame.current) return;
     scheduledAnimationFrame.current = true;
 
