@@ -4,14 +4,14 @@ import { Transition } from 'react-transition-group';
 import { media, rgba } from '../utils/StyleUtils';
 import { RouterButton, LinkButton } from '../components/Button';
 import 'intersection-observer';
-import macbook from '../assets/macbook-large.png';
+import macbook from '../assets/macbook.png';
 import phone from '../assets/phone.png';
 import phoneLarge from '../assets/phone-large.png';
 import phonePlaceholder from '../assets/phone-placeholder.png';
 
 const prerender = navigator.userAgent === 'ReactSnap';
 
-export function ProjectImage(props) {
+function ProjectImage(props) {
   const { className, style, reveal, delay = 0, ...rest } = props;
   const [loaded, setLoaded] = useState(false);
   const [intersect, setIntersect] = useState(false);
@@ -116,88 +116,6 @@ function ImageElements(props) {
   );
 }
 
-export const AnimImageReveal = keyframes`
-  0% {
-    transform: scale3d(0, 1, 1);
-    transform-origin: left;
-  }
-  49% {
-    transform: scale3d(1, 1, 1);
-    transform-origin: left;
-  }
-  50% {
-    transform: scale3d(1, 1, 1);
-    transform-origin: right;
-  }
-  100% {
-    transform: scale3d(0, 1, 1);
-    transform-origin: right;
-  }
-`;
-
-export const ImageContainer = styled.div`
-  position: relative;
-  transform: translate3d(0, 0, 0);
-  display: grid;
-  grid-template-columns: 100%;
-  background-image: url(${macbook});
-  background-size: cover;
-
-  ${props => props.reveal && css`
-    &:before {
-      content: '';
-      background: ${props => props.theme.colorAccent};
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      transform: scale3d(0, 1, 1);
-      transform-origin: left;
-      z-index: 16;
-      animation: ${props.intersect && !prerender && css`
-        ${AnimImageReveal} 1.8s ${props.theme.curveFastoutSlowin} ${props.delay + 200}ms
-      `};
-    }
-  `}
-`;
-
-export const ImageFade = styled.div`
-  opacity: ${props => props.intersect ? 1 : 0};
-  transition: opacity 0.4s ease ${props => props.delay + 1000}ms;
-  transform: translate3d(0, 0, 0);
-  position: relative;
-  display: grid;
-  grid-template-columns: 100%;
-`;
-
-export const ImagePlaceholder = styled.img`
-  width: 77.62%;
-  height: 78.90%;
-  top: 9.05%;
-  left: 11.35%;
-  transition: opacity 0.4s ease;
-  pointer-events: none;
-  display: block;
-  position: relative;
-  z-index: 1;
-  opacity: ${props => props.loaded ? 0 : 1};
-  grid-column: 1;
-  grid-row: 1;
-`;
-
-export const ImageActual = styled.img`
-  width: 77.62%;
-  height: 78.90%;
-  top: 9.05%;
-  left: 11.35%;
-  position: absolute;
-  display: block;
-  opacity: ${props => props.loaded ? 1 : 0};
-  grid-column: 1;
-  grid-row: 1;
-`;
-
 function ProjectItem(props) {
   const {
     id, visible, sectionRef, index, title, description, imageSrc, imageAlt, imageType,
@@ -277,6 +195,88 @@ function ProjectItem(props) {
     </ProjectItemSection>
   );
 };
+
+const AnimImageReveal = keyframes`
+  0% {
+    transform: scale3d(0, 1, 1);
+    transform-origin: left;
+  }
+  49% {
+    transform: scale3d(1, 1, 1);
+    transform-origin: left;
+  }
+  50% {
+    transform: scale3d(1, 1, 1);
+    transform-origin: right;
+  }
+  100% {
+    transform: scale3d(0, 1, 1);
+    transform-origin: right;
+  }
+`;
+
+const ImageContainer = styled.div`
+  position: relative;
+  transform: translate3d(0, 0, 0);
+  display: grid;
+  grid-template-columns: 100%;
+  background-image: url(${macbook});
+  background-size: cover;
+
+  ${props => props.reveal && css`
+    &:before {
+      content: '';
+      background: ${props => props.theme.colorAccent};
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      transform: scale3d(0, 1, 1);
+      transform-origin: left;
+      z-index: 16;
+      animation: ${props.intersect && !prerender && css`
+        ${AnimImageReveal} 1.8s ${props.theme.curveFastoutSlowin} ${props.delay + 200}ms
+      `};
+    }
+  `}
+`;
+
+const ImageFade = styled.div`
+  opacity: ${props => props.intersect ? 1 : 0};
+  transition: opacity 0.4s ease ${props => props.delay + 1000}ms;
+  transform: translate3d(0, 0, 0);
+  position: relative;
+  display: grid;
+  grid-template-columns: 100%;
+`;
+
+const ImagePlaceholder = styled.img`
+  width: 77.62%;
+  height: 78.90%;
+  top: 9.05%;
+  left: 11.35%;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  display: block;
+  position: relative;
+  z-index: 1;
+  opacity: ${props => props.loaded ? 0 : 1};
+  grid-column: 1;
+  grid-row: 1;
+`;
+
+const ImageActual = styled.img`
+  width: 77.62%;
+  height: 78.90%;
+  top: 9.05%;
+  left: 11.35%;
+  position: absolute;
+  display: block;
+  opacity: ${props => props.loaded ? 1 : 0};
+  grid-column: 1;
+  grid-row: 1;
+`;
 
 const ProjectItemContent = styled.div`
   width: 100%;
