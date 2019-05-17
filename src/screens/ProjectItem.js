@@ -240,7 +240,6 @@ function ProjectItem(props) {
                 {imageType === 'laptop' &&
                   <ProjectItemPreviewContentLaptop>
                     <ProjectItemImageLaptop
-                      macbook
                       status={status}
                       srcSet={imageSrc[0]}
                       alt={imageAlt[0]}
