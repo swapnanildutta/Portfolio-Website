@@ -131,13 +131,21 @@ export const GlobalStyles = createGlobalStyle`
     -webkit-font-smoothing: antialiased;
   	-moz-osx-font-smoothing: grayscale;
     font-family: ${props => props.theme.fontStack};
-    background: ${props => props.theme.colorBackground};
+    /*background: ${props => props.theme.colorBackground};*/
     color: ${props => props.theme.colorText};
     border: 0;
     margin: 0;
     width: 100vw;
     overflow-x: hidden;
     font-weight: 300;
+  }
+
+  html {
+    background: ${props => props.theme.colorBackground};
+  }
+
+  body {
+    background: rgba(17,17,17,0.5)!important;
   }
 
   *,
@@ -156,7 +164,8 @@ const MainContent = styled.main`
   overflow-x: hidden;
   position: relative;
   opacity: 0;
-  background: ${props => props.theme.colorBackground};
+  /*background: ${props => props.theme.colorBackground};*/
+  background: transparent !important;
   transition: background 0.4s ease, opacity 0.3s ease;
 
   &:focus {
