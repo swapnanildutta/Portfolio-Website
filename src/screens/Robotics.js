@@ -12,7 +12,7 @@ import {
 } from '../components/Project';
 import { media } from '../utils/StyleUtils';
 import placeholder2 from '../assets/placeholder.png';
-import background from '../assets/Robotics/botBack2.webp';
+import background from '../assets/Robotics/background.webp';
 import robotics from '../assets/Robotics/robotics.webp';
 import roboticsPlaceholder from '../assets/Robotics/roboticsPlaceholder.png';
 import branding from '../assets/Robotics/branding.png';
