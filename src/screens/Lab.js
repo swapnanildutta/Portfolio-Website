@@ -124,7 +124,6 @@ export default function Lab(props) {
         imageSrc={useMemo(() => [`${ArMTG}`], [])}
         imageAlt={useMemo(() => ['ArMTG Website'], [])}
         imagePlaceholder={useMemo(() => [ArMTGPlaceHolder], [])}
-        imageType="laptop"
       />
 	    <ProjectItem
         id="experiment2"
@@ -138,7 +137,6 @@ export default function Lab(props) {
         imageSrc={useMemo(() => [`${Rainbow}`], [])}
         imageAlt={useMemo(() => ["A colorful experiment with BAS Utilities and ThreeJS."], [])}
         imagePlaceholder={useMemo(() => [RainbowPlaceholder], [])}
-        imageType="laptop"
       />
       <ProjectItem
 		    id="experiment3"
@@ -152,7 +150,6 @@ export default function Lab(props) {
         imageSrc={useMemo(() => [`${Cold}`], [])}
         imageAlt={useMemo(() => ['Another animation in ThreeJS with BAS Utilities.'], [])}
         imagePlaceholder={useMemo(() => [ColdPlaceholder], [])}
-        imageType="laptop"
       />
 	    <ProjectItem
         id="experiment4"
@@ -166,7 +163,6 @@ export default function Lab(props) {
         imageSrc={useMemo(() => [`${Four}`], [])}
         imageAlt={useMemo(() => ['The fourth take on a series of ThreeJS experiments toying with BAS Utilities.'], [])}
         imagePlaceholder={useMemo(() => [FourPlaceholder], [])}
-        imageType="laptop"
       />
 	    <ProjectItem
         id="experiment5"
@@ -180,7 +176,6 @@ export default function Lab(props) {
         imageSrc={useMemo(() => [`${Three}`], [])}
         imageAlt={useMemo(() => ['The third take on a series of ThreeJS experiments toying with BAS Utilities.'], [])}
         imagePlaceholder={useMemo(() => [ThreePlaceholder], [])}
-        imageType="laptop"
       />
 	    <ProjectItem
         id="experiment6"
@@ -194,7 +189,6 @@ export default function Lab(props) {
         imageSrc={useMemo(() => [`${Two}`], [])}
         imageAlt={useMemo(() => ['The second take on a series of ThreeJS experiments toying with BAS Utilities.'], [])}
         imagePlaceholder={useMemo(() => [TwoPlaceholder], [])}
-        imageType="laptop"
       />
 	    <ProjectItem
         id="experiment7"
@@ -208,7 +202,6 @@ export default function Lab(props) {
         imageSrc={useMemo(() => [`${One}`], [])}
         imageAlt={useMemo(() => ['First take on a series of ThreeJS experiments toying with BAS Utilites.'], [])}
         imagePlaceholder={useMemo(() => [OnePlaceholder], [])}
-        imageType="laptop"
 	    />
       <Profile
         sectionRef={about}
