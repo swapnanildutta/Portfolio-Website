@@ -164,7 +164,7 @@ const ImageFade = styled.div`
 
 const ImagePlaceholder = styled.img`
   width: 100%;
-  height: auto;
+  height: 100%;
   transition: opacity 0.4s ease;
   pointer-events: none;
   display: block;
@@ -177,7 +177,7 @@ const ImagePlaceholder = styled.img`
 
 const ImageActual = styled.img`
   width: 100%;
-  height: auto;
+  height: 100%;
   display: block;
   opacity: ${props => props.loaded ? 1 : 0};
   grid-column: 1;
