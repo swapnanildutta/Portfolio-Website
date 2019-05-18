@@ -103,10 +103,10 @@ function App() {
                           <Switch location={location}>
                             <Route exact path="/" component={Home} />
                             <Route path="/lab" component={Lab} />
-              							<Route path="/projects/bellsgc" component={BellsGC} />
-              							<Route path="/projects/mystgang" component={MystGang} />
-              							<Route path="/projects/armtg" component={ArMTG} />
-              							<Route path="/projects/gcpsrobotics" component={Robotics} />
+							<Route path="/projects/bellsgc" component={BellsGC} />
+							<Route path="/projects/mystgang" component={MystGang} />
+							<Route path="/projects/armtg" component={ArMTG} />
+							<Route path="/projects/gcpsrobotics" component={Robotics} />
                             <Route path="/contact" component={Contact} />
                             <Route component={Error404} />
                           </Switch>
@@ -164,8 +164,7 @@ const MainContent = styled.main`
   overflow-x: hidden;
   position: relative;
   opacity: 0;
-  /*background: ${props => props.theme.colorBackground};*/
-  background: transparent !important;
+  background: ${props => props.theme.colorBackground};
   transition: background 0.4s ease, opacity 0.3s ease;
 
   &:focus {
