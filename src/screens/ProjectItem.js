@@ -12,82 +12,136 @@ import phonePlaceholder from '../assets/phone-placeholder.png';
 function ProjectItem(props) {
   const {
     id, visible, sectionRef, index, title, description, imageSrc, imageAlt, imageType,
-    imagePlaceholder, buttonText, buttonLink, buttonTo, alternate, ...rest
+    imagePlaceholder, buttonText, buttonLink, buttonTo, alternate, background, ...rest
   } = props;
 
   return (
-    <ProjectItemSection
-      aria-labelledby={`${id}-title`}
-      index={index}
-      ref={sectionRef}
-      id={id}
-      alternate={alternate}
-      {...rest}
-    >
-      <ProjectItemContent>
+    <React.Fragment>
+      {imageType &&
         <Transition in={visible} timeout={0}>
           {status => (
-            <React.Fragment>
-              <ProjectItemDetails>
-                <ProjectItemIndex status={status} aria-hidden>
-                  <ProjectItemIndexNumber status={status}>{index}</ProjectItemIndexNumber>
-                </ProjectItemIndex>
-                <ProjectItemTitle id={`${id}-title`} status={status}>{title}</ProjectItemTitle>
-                <ProjectItemDescription status={status}>{description}</ProjectItemDescription>
-                <ProjectItemButton status={status}>
-                  {buttonLink ?
-                    <LinkButton
-                      href={buttonLink}
-                      target="_blank"
-                      iconRight="arrowRight"
-                    >
-                      {buttonText}
-                    </LinkButton>
-                    : <RouterButton to={buttonTo} iconRight="arrowRight">{buttonText}</RouterButton>
-                  }
-                </ProjectItemButton>
-              </ProjectItemDetails>
-              <ProjectItemPreview>
-                {imageType === 'laptop' &&
-                  <ProjectItemPreviewContentLaptop>
-                    <ProjectItemImageLaptop
-                      status={status}
-                      srcSet={imageSrc[0]}
-                      alt={imageAlt[0]}
-                      placeholder={imagePlaceholder[0]}
-                      sizes={`(max-width: ${media.mobile}) 300px,(max-width: ${media.tablet}) 420px,(max-width: ${media.desktop}) 860px, 900px`}
-                    />
-                  </ProjectItemPreviewContentLaptop>
-                }
-                {imageType === 'phone' &&
-                  <ProjectItemPreviewContentPhone>
-                    {imageSrc && imageSrc.map((src, index) => (
-                      <ProjectItemPhone first={index === 0} status={status} key={`img_${index}`}>
-                        <ProjectItemPhoneFrame
-                          srcSet={`${phone} 414w, ${phoneLarge} 828w`}
-                          sizes={`(max-width: ${media.tablet}) 248px, 414px`}
-                          alt=""
-                          role="presentation"
-                          placeholder={phonePlaceholder}
-                        />
-                        <ProjectItemPhoneImage
-                          srcSet={imageSrc[index]}
-                          alt={imageAlt[index]}
-                          placeholder={imagePlaceholder[index]}
-                          sizes={`(max-width: ${media.tablet}) 152px, 254px`}
-                        />
-                      </ProjectItemPhone>
-                    ))}
-                  </ProjectItemPreviewContentPhone>
-                }
-              </ProjectItemPreview>
-            </React.Fragment>
+            <ProjectWrapper background={background} status={status}>
+              <ProjectBackground status={status}></ProjectBackground>
+            </ProjectWrapper>
           )}
         </Transition>
-      </ProjectItemContent>
-    </ProjectItemSection>
+      }
+      <Transition in={visible} timeout={0}>
+        {status => (
+          <ProjectItemSection
+            aria-labelledby={`${id}-title`}
+            index={index}
+            ref={sectionRef}
+            status={status}
+            id={id}
+            alternate={alternate}
+            {...rest}
+          >
+            <ProjectItemContent>
+              <Transition in={visible} timeout={0}>
+                {status => (
+                  <React.Fragment>
+                    <ProjectItemDetails>
+                      <ProjectItemIndex status={status} aria-hidden>
+                        <ProjectItemIndexNumber status={status}>{index}</ProjectItemIndexNumber>
+                      </ProjectItemIndex>
+                      <ProjectItemTitle id={`${id}-title`} status={status}>{title}</ProjectItemTitle>
+                      <ProjectItemDescription status={status}>{description}</ProjectItemDescription>
+                      <ProjectItemButton status={status}>
+                        {buttonLink ?
+                          <LinkButton
+                            href={buttonLink}
+                            target="_blank"
+                            iconRight="arrowRight"
+                          >
+                            {buttonText}
+                          </LinkButton>
+                          : <RouterButton to={buttonTo} iconRight="arrowRight">{buttonText}</RouterButton>
+                        }
+                      </ProjectItemButton>
+                    </ProjectItemDetails>
+                    <ProjectItemPreview>
+                      {imageType !== 'phone' &&
+                        <ProjectItemPreviewContentLaptop>
+                          <ProjectItemImageLaptop
+                            status={status}
+                            srcSet={imageSrc[0]}
+                            alt={imageAlt[0]}
+                            placeholder={imagePlaceholder[0]}
+                            sizes={`(max-width: ${media.mobile}) 300px,(max-width: ${media.tablet}) 420px,(max-width: ${media.desktop}) 860px, 900px`}
+                          />
+                        </ProjectItemPreviewContentLaptop>
+                      }
+                      {imageType === 'phone' &&
+                        <ProjectItemPreviewContentPhone>
+                          {imageSrc && imageSrc.map((src, index) => (
+                            <ProjectItemPhone first={index === 0} status={status} key={`img_${index}`}>
+                              <ProjectItemPhoneFrame
+                                srcSet={`${phone} 414w, ${phoneLarge} 828w`}
+                                sizes={`(max-width: ${media.tablet}) 248px, 414px`}
+                                alt=""
+                                role="presentation"
+                                placeholder={phonePlaceholder}
+                              />
+                              <ProjectItemPhoneImage
+                                srcSet={imageSrc[index]}
+                                alt={imageAlt[index]}
+                                placeholder={imagePlaceholder[index]}
+                                sizes={`(max-width: ${media.tablet}) 152px, 254px`}
+                              />
+                            </ProjectItemPhone>
+                          ))}
+                        </ProjectItemPreviewContentPhone>
+                      }
+                    </ProjectItemPreview>
+                  </React.Fragment>
+                )}
+              </Transition>
+            </ProjectItemContent>
+          </ProjectItemSection>
+        )}
+      </Transition>
+    </React.Fragment>
   );
 };
+
+const ProjectWrapper = styled.div`
+  position: absolute;
+  min-height: 100vh;
+  height: 100vh;
+  width: 100vw;
+  background-image: url(${props => props.background});
+  background-attachment: fixed;
+  background-size: cover;
+  opacity: 0;
+  transition-property: transform, opacity;
+  transition-timing-function: ${props => props.theme.curveFastoutSlowin};
+  transition-duration: 1s;
+  transition-delay: 0.4s;
+  transform-origin: left;
+
+  ${props => props.status === 'entered' && css`
+    opacity: 1;
+  `}
+`;
+
+const ProjectBackground = styled.div`
+  position: absolute;
+  min-height: 100vh;
+  height: 100vh;
+  width: 100vw;
+  opacity: 0;
+  background-color: transparent;
+  transition-property: background-color, opacity;
+  transition-timing-function: ${props => props.theme.curveFastoutSlowin};
+  transition-duration: 1.1s;
+  transition-delay: 0.3s;
+
+  ${props => props.status === 'entered' && css`
+    background-color: rgba(0,0,0,0.5);
+    opacity: 1;
+  `}
+`;
 
 const ProjectItemContent = styled.div`
   width: 100%;
@@ -343,8 +397,6 @@ const ProjectItemImageLaptop = styled(ProgressiveImage)`
   height: 531px;
   right: -140px;
   padding: 5.5% 10.9% 7.3% 11.4%;
-  display: flex;
-  justify-content: center;
   transition-property: transform, opacity;
   transition-duration: 1s;
   transition-delay: 0.4s;
