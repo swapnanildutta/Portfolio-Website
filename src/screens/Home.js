@@ -8,12 +8,16 @@ import Profile from '../screens/Profile';
 import Footer from '../components/Footer';
 import BellsGC from '../assets/BellsGC/BellsGC.png';
 import BellsGCPlaceholder from '../assets/BellsGC/BellsGCPlaceholder.png';
+import BellsGCBackground from '../assets/BellsGC/background.webp';
 import MystGang from '../assets/MystGang/MystGang.webp';
 import MystGangPlaceholder from '../assets/MystGang/MystGangPlaceholder.png';
+import MystGangBackground from '../assets/MystGang/mystGangBack.gif';
 import ArMTG from '../assets/ARMTG/ARMTGWeb.webp';
 import ArMTGPlaceholder from '../assets/ARMTG/ARMTGWebPlaceHolder.png';
+import ArMTGBackground from '../assets/ARMTG/background.webp';
 import Robotics from '../assets/Robotics/robotics.webp';
 import RoboticsPlaceholder from '../assets/Robotics/roboticsPlaceholder.png';
+import RoboticsBackground from '../assets/Robotics/background.webp';
 const disciplines = ['Developer'];
 
 export default function Home(props) {
@@ -67,7 +71,7 @@ export default function Home(props) {
 
     if (element) {
       global.scroll({
-        top: element.current.offsetTop,
+        top: hashString === 'intro' ? 0 : element.current.offsetTop,
         left: 0,
         behavior: scroll ? 'smooth' : 'instant',
       });
@@ -116,6 +120,7 @@ export default function Home(props) {
         imageAlt={useMemo(() => ['Bell\'s GC Website'], [])}
         imagePlaceholder={useMemo(() => [BellsGCPlaceholder], [])}
         imageType="laptop"
+        background={BellsGCBackground}
       />
       <ProjectItem
         id="work2"
@@ -130,6 +135,7 @@ export default function Home(props) {
         imageAlt={useMemo(() => ['MystGang Website'], [])}
         imagePlaceholder={useMemo(() => [MystGangPlaceholder], [])}
         imageType="laptop"
+        background={MystGangBackground}
       />
       <ProjectItem
         id="work3"
@@ -144,6 +150,7 @@ export default function Home(props) {
         imageAlt={useMemo(() => ['ArMTG Website'], [])}
         imagePlaceholder={useMemo(() => [ArMTGPlaceholder], [])}
         imageType="laptop"
+        background={ArMTGBackground}
       />
       <ProjectItem
     		id="work4"
@@ -158,6 +165,7 @@ export default function Home(props) {
         imageAlt={useMemo(() => ['Gateway Robotics Website'], [])}
         imagePlaceholder={useMemo(() => [RoboticsPlaceholder], [])}
         imageType="laptop"
+        background={RoboticsBackground}
       />
       <Profile
         sectionRef={about}
