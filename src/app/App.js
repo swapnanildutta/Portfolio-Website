@@ -163,10 +163,6 @@ const MainLoader = styled.div`
   height: 100vh;
   width: 100vw;
   z-index: -1;
-  transition-property: opacity;
-  transition-timing-function: ${props => props.theme.curveFastoutSlowin};
-  transition-duration: 1s;
-  animation-fill-mode: forwards;
 `;
 
 const MainContent = styled.main`
