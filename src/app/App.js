@@ -49,7 +49,7 @@ function App() {
 
   useEffect(() => {
     if (!prerender) {
-      var d = new Date();
+      const d = new Date();
 	    console.info( "%c© Cody Bennett 2018-%d\n%cSay hello https://codyb.co/contact\n%chttps://github.com/CodyJasonBennett%c", "font-size:34px; font-weight:200; letter-spacing:0.02em; line-height:1.4em; font-family:helvetica,arial; color:rgba(0,0,0,0.9);", d.getFullYear(), "font-size:21px; font-weight:200; letter-spacing:0.2em; line-height:1.4em; font-family:helvetica,arial; color:rgba(0,0,25,0.5);", "font-size:21px; font-weight:200; letter-spacing:0.2em; line-height:1.4em; font-family:helvetica,arial;color:#0F669D;font-weight:bold;", "font-size:34px; line-height:1.4em;" );
     }
     window.history.scrollRestoration = 'manual';
