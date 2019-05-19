@@ -33,7 +33,7 @@
     "start": "set PORT=80 && react-scripts start",
     "build": "react-scripts build",
     "postbuild": "react-snap",
-    "serve": "firebase serve --only hosting",
+    "serve": "firebase serve --only hosting -p 80",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "finish": "yarn build && firebase deploy --only functions"
