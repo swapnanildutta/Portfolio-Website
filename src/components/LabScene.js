@@ -1,10 +1,9 @@
 import React, { useEffect, useRef, useContext } from 'react';
 import styled, { keyframes } from 'styled-components/macro';
-import {                                                                       //                       .
-  Vector2, WebGLRenderer, PerspectiveCamera, Scene,
-  SphereBufferGeometry, Mesh, Color,
-  Fog, HemisphereLight, Geometry, Vector3, CatmullRomCurve3, Line, LineBasicMaterial, MeshBasicMaterial,
-  BackSide, TubeGeometry, MeshPhongMaterial, FlatShading, BoxBufferGeometry, IcosahedronBufferGeometry
+import {
+  Vector2, WebGLRenderer, PerspectiveCamera, Scene, SphereBufferGeometry, Mesh, Color, Fog, HemisphereLight,
+  Geometry, Vector3, CatmullRomCurve3, Line, LineBasicMaterial, MeshBasicMaterial, BackSide, TubeGeometry,
+  MeshPhongMaterial, BoxBufferGeometry, IcosahedronBufferGeometry
 } from 'three';
 import { media } from '../utils/StyleUtils';
 import { AppContext } from '../app/App';
@@ -198,7 +197,7 @@ function LabScene() {
     }
     var mat = new MeshPhongMaterial({
       color: this.color,
-      shading: FlatShading
+      flatShading: true
     });
     this.mesh = new Mesh(geom, mat);
     this.mesh.scale.set(radius, radius, radius);
