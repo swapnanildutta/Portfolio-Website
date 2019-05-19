@@ -101,7 +101,7 @@ function App() {
                           <link rel="canonical" href={`https://codyb.co${location.pathname}`} />
                         </Helmet>
                         <MainLoader status={status}>
-                          <Loader color="#00E5FF" />
+                          <Loader color={currentTheme.colorAccent} />
                         </MainLoader>
                         <Suspense fallback={<React.Fragment />}>
                           <Switch location={location}>
