@@ -91,6 +91,9 @@ function App() {
                 toggleTheme={toggleTheme}
                 currentTheme={currentTheme}
               />
+              <MainLoader>
+                <Loader color={currentTheme.colorAccent} />
+              </MainLoader>
               {showMenuButton && <NavToggle onClick={toggleMenu} menuOpen={menuOpen} />}
               <TransitionGroup component={React.Fragment}>
                 <Transition key={location.pathname} timeout={300}>
@@ -100,9 +103,6 @@ function App() {
                         <Helmet>
                           <link rel="canonical" href={`https://codyb.co${location.pathname}`} />
                         </Helmet>
-                        <MainLoader status={status}>
-                          <Loader color={currentTheme.colorAccent} />
-                        </MainLoader>
                         <Suspense fallback={<React.Fragment />}>
                           <Switch location={location}>
                             <Route exact path="/" component={Home} />
@@ -162,15 +162,11 @@ const MainLoader = styled.div`
   justify-content: center;
   height: 100vh;
   width: 100vw;
-  z-index: 16;
+  z-index: -1;
   transition-property: opacity;
   transition-timing-function: ${props => props.theme.curveFastoutSlowin};
   transition-duration: 1s;
   animation-fill-mode: forwards;
-  
-  ${props => props.status === 'entered' && css`
-    opacity: 0;
-  `}
 `;
 
 const MainContent = styled.main`
