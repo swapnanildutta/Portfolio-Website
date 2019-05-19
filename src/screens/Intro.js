@@ -7,6 +7,7 @@ import { AppContext } from '../app/App';
 import { useInterval, usePrevious } from '../utils/Hooks';
 
 const DisplacementSphere = lazy(() => import('../components/DisplacementSphere'));
+const LabScene = lazy(() => import('../components/LabScene'));
 const prerender = navigator.userAgent === 'ReactSnap';
 
 function Intro(props) {
@@ -40,7 +41,12 @@ function Intro(props) {
         {status => (
           <React.Fragment>
             <Suspense fallback={<React.Fragment />}>
+            {disciplines[0] !== 'Lab' &&
               <DisplacementSphere />
+            }
+            {disciplines[0] === 'Lab' &&
+              <LabScene />
+            }
             </Suspense>
             <IntroText>
               <IntroName status={status}>
