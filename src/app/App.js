@@ -1,5 +1,5 @@
 import React, { lazy, Suspense, useState, useEffect, createContext, useCallback } from 'react';
-import styled, { createGlobalStyle, ThemeProvider, keyframes, css } from 'styled-components/macro';
+import styled, { createGlobalStyle, ThemeProvider, css } from 'styled-components/macro';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { Transition, TransitionGroup } from 'react-transition-group';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
@@ -167,8 +167,8 @@ const MainLoader = styled.div`
   transition-timing-function: ${props => props.theme.curveFastoutSlowin};
   transition-duration: 1s;
   animation-fill-mode: forwards;
-
-  ${props => props.status === 'entering' || props.status === 'entered' && css`
+  
+  ${props => props.status === 'entered' && css`
     opacity: 0;
   `}
 `;
