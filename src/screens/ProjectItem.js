@@ -4,14 +4,14 @@ import { Transition } from 'react-transition-group';
 import { media, rgba } from '../utils/StyleUtils';
 import { RouterButton, LinkButton } from '../components/Button';
 import ProgressiveImage from '../components/ProgressiveImage';
-import macbook from '../assets/macbook.png';
-import phone from '../assets/phone.png';
-import phoneLarge from '../assets/phone-large.png';
-import phonePlaceholder from '../assets/phone-placeholder.png';
+import Macbook from '../assets/macbook.png';
+import Phone from '../assets/phone.png';
+import PhoneLarge from '../assets/phone-large.png';
+import PhonePlaceholder from '../assets/phone-placeholder.png';
 
 function ProjectItem(props) {
   const {
-    id, visible, sectionRef, index, title, description, imageSrc, imageAlt, imageType,
+    id, visible, sectionRef, index, title, description, imageSrc, imageAlt, phone,
     imagePlaceholder, buttonText, buttonLink, buttonTo, alternate, background, ...rest
   } = props;
 
@@ -61,7 +61,7 @@ function ProjectItem(props) {
                       </ProjectItemButton>
                     </ProjectItemDetails>
                     <ProjectItemPreview>
-                      {!imageType &&
+                      {!phone &&
                         <ProjectItemPreviewContentLaptop>
                           <ProjectItemImageLaptop
                             status={status}
@@ -72,16 +72,16 @@ function ProjectItem(props) {
                           />
                         </ProjectItemPreviewContentLaptop>
                       }
-                      {imageType === 'phone' &&
+                      {phone &&
                         <ProjectItemPreviewContentPhone>
                           {imageSrc && imageSrc.map((src, index) => (
                             <ProjectItemPhone first={index === 0} status={status} key={`img_${index}`}>
                               <ProjectItemPhoneFrame
-                                srcSet={`${phone} 414w, ${phoneLarge} 828w`}
+                                srcSet={`${Phone} 414w, ${PhoneLarge} 828w`}
                                 sizes={`(max-width: ${media.tablet}) 248px, 414px`}
                                 alt=""
                                 role="presentation"
-                                placeholder={phonePlaceholder}
+                                placeholder={PhonePlaceholder}
                               />
                               <ProjectItemPhoneImage
                                 srcSet={imageSrc[index]}
@@ -436,7 +436,7 @@ const ProjectItemImageLaptop = styled(ProgressiveImage)`
     margin-bottom: 60px;
   }
 
-  background-image: url(${macbook});
+  background-image: url(${Macbook});
   background-size: cover;
 `;
 
