@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { css, keyframes } from 'styled-components/macro';
 
-const Loader = ({ size = 32, color = '#fff', ...rest }) => (
+const Loader = ({ size, color = '#fff', ...rest }) => (
   <LoaderContainer size={size} {...rest}>
     <LoaderSpan color={color} />
     <LoaderSpan color={color} />
@@ -11,8 +11,8 @@ const Loader = ({ size = 32, color = '#fff', ...rest }) => (
 );
 
 const LoaderContainer = styled.div`
-  width: ${props => props.size}px;
-  height: ${props => props.size}px;
+  width: ${props => props.size ? props.size + 'px' : '15%'};
+  height: ${props => props.size ? props.size + 'px' : '15%'};
   display: flex;
   justify-content: center;
 `;
@@ -31,8 +31,8 @@ const AnimGrow = keyframes`
 
 const LoaderSpan = styled.span`
   display: block;
-  width: 4px;
-  margin-left: 2px;
+  width: 12.5%;
+  margin-left: 6.25%;
   height: 100%;
   background-color: ${props => props.color};
   transform: scaleY(0.4);
