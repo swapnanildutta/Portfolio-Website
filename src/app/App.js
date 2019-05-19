@@ -10,6 +10,7 @@ import { media } from '../utils/StyleUtils';
 import { useLocalStorage, useWindowSize } from '../utils/Hooks';
 import GothamBook from '../fonts/gotham-book.woff2';
 import GothamMedium from '../fonts/gotham-medium.woff2';
+import Loader from '../components/Loader';
 
 const Home = lazy(() => import('../screens/Home'));
 const Lab = lazy(() => import('../screens/Lab'));
@@ -100,21 +101,7 @@ function App() {
                           <link rel="canonical" href={`https://codyb.co${location.pathname}`} />
                         </Helmet>
                         <MainLoader status={status}>
-                          <Loader viewBox="0 0 40 60">
-                            <polygon
-                              fill="none"
-                              stroke="#00E5FF"
-                              stroke-width="1"
-                              points="16,1 32,32 1,32"
-                            />
-                            <text
-                              x="0"
-                              y="45"
-                              fill="#fff"
-                            >
-                              Loading...
-                            </text>
-                          </Loader>
+                          <Loader color="#00E5FF" />
                         </MainLoader>
                         <Suspense fallback={<React.Fragment />}>
                           <Switch location={location}>
@@ -168,23 +155,6 @@ export const GlobalStyles = createGlobalStyle`
   }
 `;
 
-const LoadingAnimation = keyframes`
-  to {
-    stroke-dashoffset: 136;
-  }
-`;
-
-const LoadingBlink = keyframes`
-  50% {
-    opacity: 0;
-  }
-`;
-
-const Loader = styled.svg`
-  width: 50%;
-  height: 50%;
-`;
-
 const MainLoader = styled.div`
   position: absolute;
   display: flex;
@@ -198,17 +168,7 @@ const MainLoader = styled.div`
   transition-duration: 1s;
   animation-fill-mode: forwards;
 
-  polygon {
-   stroke-dasharray: 17;
-	 animation: ${LoadingAnimation} 2.5s cubic-bezier(0.35, 0.04, 0.63, 0.95) infinite;
-  }
-
-  text {
-    font-size: 7px;
-    animation: ${LoadingBlink} .9s ease-in-out infinite alternate;
-  }
-
-  ${props => props.status === 'entering' && css`
+  ${props => props.status === 'entering' || props.status === 'entered' && css`
     opacity: 0;
   `}
 `;
