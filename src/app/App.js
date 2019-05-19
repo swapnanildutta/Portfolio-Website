@@ -1,5 +1,5 @@
 import React, { lazy, Suspense, useState, useEffect, createContext, useCallback } from 'react';
-import styled, { createGlobalStyle, ThemeProvider, css } from 'styled-components/macro';
+import styled, { createGlobalStyle, ThemeProvider, keyframes, css } from 'styled-components/macro';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { Transition, TransitionGroup } from 'react-transition-group';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
@@ -99,14 +99,31 @@ function App() {
                         <Helmet>
                           <link rel="canonical" href={`https://codyb.co${location.pathname}`} />
                         </Helmet>
+                        <MainLoader status={status}>
+                          <Loader viewBox="0 0 40 60">
+                            <polygon
+                              fill="none"
+                              stroke="#00E5FF"
+                              stroke-width="1"
+                              points="16,1 32,32 1,32"
+                            />
+                            <text
+                              x="0"
+                              y="45"
+                              fill="#fff"
+                            >
+                              Loading...
+                            </text>
+                          </Loader>
+                        </MainLoader>
                         <Suspense fallback={<React.Fragment />}>
                           <Switch location={location}>
                             <Route exact path="/" component={Home} />
                             <Route path="/lab" component={Lab} />
-							<Route path="/projects/bellsgc" component={BellsGC} />
-							<Route path="/projects/mystgang" component={MystGang} />
-							<Route path="/projects/armtg" component={ArMTG} />
-							<Route path="/projects/gcpsrobotics" component={Robotics} />
+              							<Route path="/projects/bellsgc" component={BellsGC} />
+              							<Route path="/projects/mystgang" component={MystGang} />
+              							<Route path="/projects/armtg" component={ArMTG} />
+              							<Route path="/projects/gcpsrobotics" component={Robotics} />
                             <Route path="/contact" component={Contact} />
                             <Route component={Error404} />
                           </Switch>
@@ -131,21 +148,13 @@ export const GlobalStyles = createGlobalStyle`
     -webkit-font-smoothing: antialiased;
   	-moz-osx-font-smoothing: grayscale;
     font-family: ${props => props.theme.fontStack};
-    /*background: ${props => props.theme.colorBackground};*/
+    background: ${props => props.theme.colorBackground};
     color: ${props => props.theme.colorText};
     border: 0;
     margin: 0;
     width: 100vw;
     overflow-x: hidden;
     font-weight: 300;
-  }
-
-  html {
-    background: ${props => props.theme.colorBackground};
-  }
-
-  body {
-    background: rgba(17,17,17,0.5)!important;
   }
 
   *,
@@ -157,6 +166,51 @@ export const GlobalStyles = createGlobalStyle`
   ::selection {
     background: ${props => props.theme.colorAccent};
   }
+`;
+
+const LoadingAnimation = keyframes`
+  to {
+    stroke-dashoffset: 136;
+  }
+`;
+
+const LoadingBlink = keyframes`
+  50% {
+    opacity: 0;
+  }
+`;
+
+const Loader = styled.svg`
+  width: 50%;
+  height: 50%;
+`;
+
+const MainLoader = styled.div`
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  z-index: 16;
+  transition-property: opacity;
+  transition-timing-function: ${props => props.theme.curveFastoutSlowin};
+  transition-duration: 1s;
+  animation-fill-mode: forwards;
+
+  polygon {
+   stroke-dasharray: 17;
+	 animation: ${LoadingAnimation} 2.5s cubic-bezier(0.35, 0.04, 0.63, 0.95) infinite;
+  }
+
+  text {
+    font-size: 7px;
+    animation: ${LoadingBlink} .9s ease-in-out infinite alternate;
+  }
+
+  ${props => props.status === 'entering' && css`
+    opacity: 0;
+  `}
 `;
 
 const MainContent = styled.main`
