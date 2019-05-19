@@ -119,7 +119,6 @@ export default function Home(props) {
         imageSrc={useMemo(() => [`${BellsGC}`], [])}
         imageAlt={useMemo(() => ['Bell\'s GC Website'], [])}
         imagePlaceholder={useMemo(() => [BellsGCPlaceholder], [])}
-        imageType="laptop"
         background={BellsGCBackground}
       />
       <ProjectItem
@@ -134,7 +133,6 @@ export default function Home(props) {
         imageSrc={useMemo(() => [`${MystGang}`], [])}
         imageAlt={useMemo(() => ['MystGang Website'], [])}
         imagePlaceholder={useMemo(() => [MystGangPlaceholder], [])}
-        imageType="laptop"
         background={MystGangBackground}
       />
       <ProjectItem
@@ -149,7 +147,6 @@ export default function Home(props) {
         imageSrc={useMemo(() => [`${ArMTG}`], [])}
         imageAlt={useMemo(() => ['ArMTG Website'], [])}
         imagePlaceholder={useMemo(() => [ArMTGPlaceholder], [])}
-        imageType="laptop"
         background={ArMTGBackground}
       />
       <ProjectItem
@@ -164,7 +161,6 @@ export default function Home(props) {
         imageSrc={useMemo(() => [`${Robotics}`], [])}
         imageAlt={useMemo(() => ['Gateway Robotics Website'], [])}
         imagePlaceholder={useMemo(() => [RoboticsPlaceholder], [])}
-        imageType="laptop"
         background={RoboticsBackground}
       />
       <Profile
