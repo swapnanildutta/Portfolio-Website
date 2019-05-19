@@ -12,6 +12,7 @@ function LabScene() {
   const { currentTheme } = useContext(AppContext);
   const initialThemeRef = useRef(currentTheme);
   const container = useRef();
+  let isRendered = useRef(false);
   let ww = window.innerWidth;
   let wh = window.innerHeight;
   let isMobile = ww < media.mobile;
@@ -19,9 +20,7 @@ function LabScene() {
   function Lab3D() {
     this.init();
     this.createMesh();
-
     this.handleEvents();
-
     window.requestAnimationFrame(this.render.bind(this));
   }
 
@@ -168,10 +167,6 @@ function LabScene() {
 
     for(var i = 0; i < this.particles.length; i++){
       this.particles[i].update(this);
-      if(this.particles[i].burst && this.particles[i].percent > 1){
-        this.particles.splice(i, 1);
-        i--;
-      }
     }
 
     this.renderer.render(this.scene, this.camera);
@@ -189,12 +184,8 @@ function LabScene() {
       geom = this.sphere;
     }
     var range = 50;
-    if(burst){
-      this.color = new Color("hsl("+(time / 50)+",100%,60%)");
-    } else {
-      var offset = 180;
-      this.color = new Color("hsl("+(Math.random()*range+offset)+",100%,80%)");
-    }
+    var offset = 180;
+    this.color = new Color("hsl("+(Math.random()*range+offset)+",100%,80%)");
     var mat = new MeshPhongMaterial({
       color: this.color,
       flatShading: true
@@ -202,16 +193,9 @@ function LabScene() {
     this.mesh = new Mesh(geom, mat);
     this.mesh.scale.set(radius, radius, radius);
     this.mesh.position.set(0,0,1.5);
-    this.percent = burst ? 0.2 : Math.random();
-    this.burst = burst ? true : false;
+    this.percent = Math.random();
     this.offset = new Vector3((Math.random()-0.5)*0.025, (Math.random()-0.5)*0.025, 0);
     this.speed = Math.random()*0.004 + 0.0002;
-    if (this.burst){
-      this.speed += 0.003;
-      this.mesh.scale.x *= 1.4;
-      this.mesh.scale.y *= 1.4;
-      this.mesh.scale.z *= 1.4;
-    }
     this.rotate = new Vector3(-Math.random()*0.1+0.01,0,Math.random()*0.01);
     this.pos = new Vector3(0,0,0);
     scene.add(this.mesh);
@@ -221,7 +205,7 @@ function LabScene() {
   Particle.prototype.sphere = new SphereBufferGeometry(1, 6, 6 );
   Particle.prototype.icosahedron = new IcosahedronBufferGeometry(1,0);
   Particle.prototype.update = function (Lab3D) {
-    this.percent += this.speed * (this.burst?1:Lab3D.speed);
+    this.percent += this.speed * Lab3D.speed;
     this.pos = Lab3D.curve.getPoint(1 - (this.percent%1)).add(this.offset);
     this.mesh.position.x = this.pos.x;
     this.mesh.position.y = this.pos.y;
@@ -232,7 +216,10 @@ function LabScene() {
   };
 
   useEffect(() => {
-    window.Lab3D = new Lab3D();
+    if (!isRendered.current) {
+      window.Lab3D = new Lab3D();
+      isRendered.current = true;
+    }
   });
 
   return (
