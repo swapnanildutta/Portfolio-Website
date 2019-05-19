@@ -17,7 +17,7 @@ function ProjectItem(props) {
 
   return (
     <React.Fragment>
-      {imageType &&
+      {background &&
         <Transition in={visible} timeout={0}>
           {status => (
             <ProjectWrapper background={background} status={status}>
@@ -61,7 +61,7 @@ function ProjectItem(props) {
                       </ProjectItemButton>
                     </ProjectItemDetails>
                     <ProjectItemPreview>
-                      {imageType !== 'phone' &&
+                      {!imageType &&
                         <ProjectItemPreviewContentLaptop>
                           <ProjectItemImageLaptop
                             status={status}
@@ -189,8 +189,8 @@ const ProjectItemSection = styled.section`
   padding-right: 80px;
   padding-bottom: 40px;
   padding-left: 220px;
-  margin-top: ${props => props.index === '01' ? '0' : '120px'};
-  margin-bottom: 120px;
+  padding-top: ${props => props.index === '01' ? '0' : '120px'};
+  padding-bottom: 120px;
   position: relative;
   display: flex;
   align-items: center;
@@ -201,24 +201,23 @@ const ProjectItemSection = styled.section`
   }
 
   @media (min-width: ${media.desktop}) {
+    padding-top: 0;
+    padding-bottom: 0;
     padding-left: 120px;
-    margin-bottom: 0;
-    margin-top: 0;
   }
 
   @media (max-width: ${media.tablet}) {
-    padding-left: 160px;
+    padding-top: ${props => props.index === '01' ? '0' : '60px'};
     padding-right: 80px;
+    padding-bottom: 60px;
+    padding-left: 160px;
     height: auto;
-    margin-top: ${props => props.index === '01' ? '0' : '60px'};
-    margin-bottom: 60px;
   }
 
   @media (max-width: ${media.mobile}) {
-    padding-left: 25px;
     padding-right: 25px;
     padding-bottom: 100px;
-    margin-bottom: 0;
+    padding-left: 25px;
     overflow-x: hidden;
   }
 
