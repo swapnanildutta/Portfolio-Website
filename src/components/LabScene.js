@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useContext } from 'react';
 import styled, { keyframes } from 'styled-components/macro';
+import { useWindowSize } from '../utils/Hooks';
 import {
   Vector2, WebGLRenderer, PerspectiveCamera, Scene, SphereBufferGeometry, Mesh, Color, Fog, HemisphereLight,
   Geometry, Vector3, CatmullRomCurve3, Line, LineBasicMaterial, MeshBasicMaterial, BackSide, TubeGeometry,
@@ -13,8 +14,9 @@ function LabScene() {
   const initialThemeRef = useRef(currentTheme);
   const container = useRef();
   let isRendered = useRef(false);
-  let ww = window.innerWidth;
-  let wh = window.innerHeight;
+  const windowSize = useWindowSize();
+  let ww = windowSize.width;
+  let wh = windowSize.height;
   let isMobile = ww < media.mobile;
 
   function Lab3D() {
