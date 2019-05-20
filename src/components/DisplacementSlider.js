@@ -10,6 +10,7 @@ import Swipe from 'react-easy-swipe';
 import Icon from '../utils/Icon';
 import { media, rgba } from '../utils/StyleUtils';
 import { vertex, fragment } from '../shaders/SliderShader';
+import { AppContext } from '../app/App';
 
 const prerender = navigator.userAgent === 'ReactSnap';
 
@@ -23,6 +24,7 @@ function determineIndex(imageIndex, index, images, direction) {
 };
 
 export default function DispalcementSlider(props) {
+  const { currentTheme } = useContext(AppContext);
   const { width, height, images, placeholder } = props;
   const [imageIndex, setImageIndex] = useState(0);
   const [loaded, setLoaded] = useState(false);
@@ -84,12 +86,12 @@ export default function DispalcementSlider(props) {
     camera.current = new OrthographicCamera(...cameraOptions);
     scene.current = new Scene();
     renderer.current.setPixelRatio(window.devicePixelRatio);
-    renderer.current.setClearColor(0x111111, 1.0);
+    renderer.current.setClearColor(currentTheme ? currentTheme.colorBackground : 0x111111, 1.0);
     renderer.current.setSize(width, height);
     renderer.current.domElement.style.width = '100%';
     renderer.current.domElement.style.height = 'auto';
     renderer.current.domElement.setAttribute('aria-hidden', true);
-    scene.current.background = new Color(0x111111);
+    scene.current.background = new Color(currentTheme ? currentTheme.colorBackground : 0x111111);
     camera.current.position.z = 1;
     containerElement.appendChild(renderer.current.domElement);
 
