@@ -107,10 +107,10 @@ function App() {
                           <Switch location={location}>
                             <Route exact path="/" component={Home} />
                             <Route path="/lab" component={Lab} />
-              							<Route path="/projects/bellsgc" component={BellsGC} />
-              							<Route path="/projects/mystgang" component={MystGang} />
-              							<Route path="/projects/armtg" component={ArMTG} />
-              							<Route path="/projects/gcpsrobotics" component={Robotics} />
+                            <Route path="/projects/bellsgc" component={BellsGC} />
+                            <Route path="/projects/mystgang" component={MystGang} />
+                            <Route path="/projects/armtg" component={ArMTG} />
+                            <Route path="/projects/gcpsrobotics" component={Robotics} />
                             <Route path="/contact" component={Contact} />
                             <Route component={Error404} />
                           </Switch>
