@@ -14,10 +14,12 @@ import { AppContext } from '../app/App';
 function DisplacementSphere() {
   const { currentTheme } = useContext(AppContext);
   const initialThemeRef = useRef(currentTheme);
+  const container = useRef();
+
   const width = useRef(window.innerWidth);
   const height = useRef(window.innerHeight);
   const start = useRef(Date.now());
-  const container = useRef();
+  const rand = useRef(Math.random());
   const mouse = useRef();
   const renderer = useRef();
   const camera = useRef();
@@ -30,7 +32,7 @@ function DisplacementSphere() {
   const sphere = useRef();
 
   useEffect(() => {
-    const rand = Math.random();
+
     const containerElement = container.current;
     mouse.current = new Vector2(0.8, 0.5);
     renderer.current = new WebGLRenderer();
