@@ -46,9 +46,9 @@ function LabScene() {
     this.camera.position.z = 0.35;
 
     this.scene = new Scene();
-    this.scene.fog = new Fog(initialThemeRef.current.colorAccent,0.05,1.6);
+    this.scene.fog = new Fog(initialThemeRef.current.colorAccent ? initialThemeRef.current.colorAccent : 0x00E5FF,0.05,1.6);
 
-    var light = new HemisphereLight(initialThemeRef.current.colorWhite, initialThemeRef.current.id === 'light' ? 0.8 : 0.1);
+    var light = new HemisphereLight(initialThemeRef.current.colorWhite ? initialThemeRef.current.colorWhite : 0xffffff, initialThemeRef.current.id === 'light' ? 0.8 : 0.1);
     this.scene.add( light );
 
     this.addParticle();
@@ -82,7 +82,7 @@ function LabScene() {
 
     this.tubeMaterial = new MeshBasicMaterial({
       side: BackSide,
-      color:initialThemeRef.current.colorBackground
+      color: initialThemeRef.current.colorBackground ? initialThemeRef.current.colorBackground : 0x111111
     });
 
     this.tubeGeometry = new TubeGeometry(this.curve, 70, 0.02, 30, false);
