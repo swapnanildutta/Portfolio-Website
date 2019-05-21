@@ -35,7 +35,7 @@
   },
   "scripts": {
     "start": "set PORT=80 && react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && yarn build-storybook",
     "postbuild": "react-snap",
     "serve": "firebase serve --only hosting -p 80",
     "test": "react-scripts test --env=jsdom",
