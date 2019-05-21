@@ -13,7 +13,6 @@ import { AppContext } from '../app/App';
 
 function DisplacementSphere() {
   const { currentTheme } = useContext(AppContext);
-  const initialThemeRef = useRef(currentTheme);
   const container = useRef();
 
   const width = useRef(window.innerWidth);
