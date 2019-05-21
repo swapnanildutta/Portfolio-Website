@@ -18,7 +18,7 @@ import MystGangDef from '../assets/MystGang/MystGangPlaceholder.png';
 import MystGangAnimation from '../assets/MystGang/mystGangAnimation.webp';
 import MystGangBranding from '../assets/MystGang/visualColors.png';
 import MystGangSketch from '../assets/MystGang/siteDesign.png';
-import MystGangInit from '../assets/MystGang/4.webp';
+import MystGangWebGL from '../assets/MystGang/webGLRender.png';
 import MystGangFinal from '../assets/MystGang/5.webp';
 import { ReactComponent as MystLogo } from '../assets/MystGang/logo.svg';
 
@@ -148,8 +148,8 @@ function Project() {
                     alt: 'Prototype Design'
                   },
                   {
-                    src: MystGangInit,
-                    srcset: `${MystGangInit} 960w, ${MystGangInit} 1920w`,
+                    src: MystGangWebGL,
+                    srcset: `${MystGangWebGL} 960w, ${MystGangWebGL} 1920w`,
                     alt: 'WebGL Prototype',
                   },
                   {
