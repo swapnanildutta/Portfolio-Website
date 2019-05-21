@@ -138,17 +138,17 @@ function Project() {
                 placeholder={MystGangPlaceholder}
                 images={useMemo(() => [
                   {
-                    src: Slide1,
+                    src: MystGangPlaceholder,
                     srcset: `${MystGangPlaceholder} 960w, ${MystGangPlaceholder} 1920w`,
                     alt: ''
                   },
                   {
-                    src: Slide2,
+                    src: MystGangPlaceholder,
                     srcset: `${MystGangPlaceholder} 960w, ${MystGangPlaceholder} 1920w`,
                     alt: '',
                   },
                   {
-                    src: Slide3,
+                    src: MystGangPlaceholder,
                     srcset: `${MystGangPlaceholder} 960w, ${MystGangPlaceholder} 1920w`,
                     alt: '',
                   },
