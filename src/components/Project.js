@@ -65,35 +65,6 @@ export function ProjectHeader(props) {
   );
 }
 
-export function ProjectFooter(props) {
-  const { title, description, linkLabel, url, roles } = props;
-
-  return (
-    <ProjectHeaderContainer>
-      <ProjectHeaderInner2>
-        <ProjectDetails entered={!prerender}>
-          <ProjectTitle>{title}</ProjectTitle>
-          <ProjectDescription>{description}</ProjectDescription>
-          <LinkButton
-            secondary
-            style={{ paddingLeft: '3px' }}
-            icon="chevronRight"
-            href={url}
-            rel="noopener noreferrer"
-          >
-            {linkLabel ? linkLabel : 'Back to homepage'}
-          </LinkButton>
-        </ProjectDetails>
-        <ProjectMeta entered={!prerender}>
-          {roles && roles.map((role, index) => (
-            <ProjectMetaItem key={`role_${index}`}>{role}</ProjectMetaItem>
-          ))}
-        </ProjectMeta>
-      </ProjectHeaderInner2>
-    </ProjectHeaderContainer>
-  );
-}
-
 export const ProjectContainer = styled.article`
   position: relative;
   width: 100vw;
@@ -242,13 +213,6 @@ const ProjectHeaderInner = styled.div`
     grid-template-columns: 100%;
     grid-gap: 30px;
   }
-`;
-
-const ProjectHeaderInner2 = styled.div`
-  position: relative;
-  display: grid;
-  max-width: 100%;
-  text-align:center;
 `;
 
 const AnimFadeSlide = keyframes`
