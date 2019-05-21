@@ -4,10 +4,22 @@
 
 A personal portfolio to showcase a few projects.
 
-## Install & run
+## Install
 
 ```bash
-yarn && yarn start
+yarn
+```
+
+## Run
+
+```bash
+yarn start
+```
+
+## View Style-Guide
+
+```bash
+yarn storybook
 ```
 
 ## Setup Firebase
