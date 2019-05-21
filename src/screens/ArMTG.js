@@ -5,10 +5,11 @@ import { AppContext } from '../app/App';
 import ProgressiveImage from '../components/ProgressiveImage';
 import { useScrollToTop } from '../utils/Hooks';
 import Footer from '../components/Footer';
+import { LinkButton } from '../components/Button';
 import {
   ProjectContainer, ProjectSection, ProjectSectionContent, ProjectImage,
-  ProjectBackground, ProjectHeader, ProjectFooter,
-  /*ProjectSectionHeading, ProjectTextRow*/
+  ProjectBackground, ProjectHeader, ProjectTextRow, ProjectSectionHeading,
+  ProjectSectionText
 
 } from '../components/Project';
 import { media } from '../utils/StyleUtils';
@@ -282,10 +283,23 @@ function ArMTG(props) {
             />
           </ProjectSectionContent>
         </ProjectSection>*/}
-        <ProjectFooter
-          title='Full Project Coming Son'
-          url="/#work3"
-        />
+        <ProjectSection>
+          <ProjectSectionContent>
+            <ProjectTextRow center>
+              <ProjectSectionHeading>ArMTG</ProjectSectionHeading>
+              <ProjectSectionText>
+                Full Project Coming Soon
+              </ProjectSectionText>
+              <LinkButton
+                secondary
+                icon="chevronRight"
+                href="/#work3"
+              >
+                Back to homepage
+              </LinkButton>
+            </ProjectTextRow>
+          </ProjectSectionContent>
+        </ProjectSection>
       </ProjectContainer>
       <Footer />
     </React.Fragment>

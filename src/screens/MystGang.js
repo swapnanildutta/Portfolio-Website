@@ -5,10 +5,11 @@ import { AppContext } from '../app/App';
 import ProgressiveImage from '../components/ProgressiveImage';
 import { useScrollToTop } from '../utils/Hooks';
 import Footer from '../components/Footer';
+import { LinkButton } from '../components/Button';
 import {
   ProjectContainer, ProjectSection, ProjectSectionContent, ProjectImage,
   ProjectSectionHeading, ProjectSectionText, ProjectBackground, ProjectHeader,
-  ProjectFooter, ProjectTextRow
+  ProjectTextRow
 } from '../components/Project';
 import { media } from '../utils/StyleUtils';
 import placeholder2 from '../assets/placeholder.png';
@@ -181,10 +182,20 @@ function MystGang(props) {
             />
           </ProjectSectionContent>
         </ProjectSection>
-        <ProjectFooter
-          title='MystGang 2019'
-          url="/#work2"
-        />
+        <ProjectSection>
+          <ProjectSectionContent>
+            <ProjectTextRow center>
+              <ProjectSectionHeading>MystGang 2019</ProjectSectionHeading>
+              <LinkButton
+                secondary
+                icon="chevronRight"
+                href="/#work2"
+              >
+                Back to homepage
+              </LinkButton>
+            </ProjectTextRow>
+          </ProjectSectionContent>
+        </ProjectSection>
       </ProjectContainer>
       <Footer />
     </React.Fragment>

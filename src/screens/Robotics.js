@@ -5,10 +5,11 @@ import { AppContext } from '../app/App';
 import ProgressiveImage from '../components/ProgressiveImage';
 import { useScrollToTop } from '../utils/Hooks';
 import Footer from '../components/Footer';
+import { LinkButton } from '../components/Button';
 import {
   ProjectContainer, ProjectSection, ProjectSectionContent, ProjectImage,
   ProjectSectionHeading, ProjectSectionText, ProjectBackground, ProjectHeader,
-  ProjectFooter, ProjectTextRow
+  ProjectTextRow
 } from '../components/Project';
 import { media } from '../utils/StyleUtils';
 import placeholder2 from '../assets/placeholder.png';
@@ -220,10 +221,20 @@ function Robotics(props) {
             />
           </ProjectSectionContent>
         </ProjectSection>
-        <ProjectFooter
-          title='GCPS Robotics'
-          url="/#work4"
-        />
+        <ProjectSection>
+          <ProjectSectionContent>
+            <ProjectTextRow center>
+              <ProjectSectionHeading>GCPS Robotics</ProjectSectionHeading>
+              <LinkButton
+                secondary
+                icon="chevronRight"
+                href="/#work4"
+              >
+                Back to homepage
+              </LinkButton>
+            </ProjectTextRow>
+          </ProjectSectionContent>
+        </ProjectSection>
       </ProjectContainer>
       <Footer />
     </React.Fragment>

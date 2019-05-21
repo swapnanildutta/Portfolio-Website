@@ -5,10 +5,10 @@ import { AppContext } from '../app/App';
 import ProgressiveImage from '../components/ProgressiveImage';
 import { useScrollToTop } from '../utils/Hooks';
 import Footer from '../components/Footer';
+import { LinkButton } from '../components/Button';
 import {
   ProjectContainer, ProjectSection, ProjectSectionContent, ProjectImage,
-  ProjectSectionHeading, ProjectBackground, ProjectHeader, ProjectFooter,
-  ProjectTextRow
+  ProjectSectionHeading, ProjectBackground, ProjectHeader, ProjectTextRow
 } from '../components/Project';
 import { media } from '../utils/StyleUtils';
 import placeholder2 from '../assets/placeholder.png';
@@ -119,10 +119,20 @@ function BellsGC(props) {
             />
           </ProjectSectionContent>
         </ProjectSection>
-        <ProjectFooter
-          title='Bell&#39;s Gaming Center'
-          url="/#work"
-        />
+        <ProjectSection>
+          <ProjectSectionContent>
+            <ProjectTextRow center>
+              <ProjectSectionHeading>Bell's Gaming Center</ProjectSectionHeading>
+              <LinkButton
+                secondary
+                icon="chevronRight"
+                href="/#work"
+              >
+                Back to homepage
+              </LinkButton>
+            </ProjectTextRow>
+          </ProjectSectionContent>
+        </ProjectSection>
       </ProjectContainer>
       <Footer />
     </React.Fragment>
