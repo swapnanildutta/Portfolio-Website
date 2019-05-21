@@ -32,7 +32,6 @@ function DisplacementSphere() {
   const sphere = useRef();
 
   useEffect(() => {
-
     const containerElement = container.current;
     mouse.current = new Vector2(0.8, 0.5);
     renderer.current = new WebGLRenderer();
