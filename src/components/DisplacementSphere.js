@@ -38,8 +38,8 @@ function DisplacementSphere() {
     renderer.current = new WebGLRenderer();
     camera.current = new PerspectiveCamera(55, width.current / height.current, 0.1, 5000);
     scene.current = new Scene();
-    light.current = new DirectionalLight(initialThemeRef.current ? initialThemeRef.current.colorWhite : 0xffffff, 0.6);
-    ambientLight.current = new AmbientLight(initialThemeRef.current ? initialThemeRef.current.colorWhite : 0xffffff, initialThemeRef.current.id === 'light' ? 0.8 : 0.1);
+    light.current = new DirectionalLight(currentTheme ? currentTheme.colorWhite : 0xffffff, 0.6);
+    ambientLight.current = new AmbientLight(currentTheme ? currentTheme.colorWhite : 0xffffff, currentTheme.id === 'light' ? 0.8 : 0.1);
 
     uniforms.current = UniformsUtils.merge([
       UniformsLib['ambient'],
@@ -57,7 +57,7 @@ function DisplacementSphere() {
 
     geometry.current = new SphereBufferGeometry(32, 128, 128);
     sphere.current = new Mesh(geometry.current, material.current);
-    scene.current.background = new Color(initialThemeRef.colorBackground ? initialThemeRef.current.colorBackground : 0x111111);
+    scene.current.background = new Color(currentTheme ? currentTheme.colorBackground : 0x111111);
     renderer.current.setSize(width.current, height.current);
     camera.current.position.z = 52;
     light.current.position.z = 200;
@@ -88,7 +88,7 @@ function DisplacementSphere() {
       renderer.current.domElement = null;
       containerElement.innerHTML = '';
     };
-  }, []);
+  }, [currentTheme]);
 
   useEffect(() => {
     light.current = new DirectionalLight(currentTheme ? currentTheme.colorWhite : 0xffffff, 0.6);
