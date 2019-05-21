@@ -20,7 +20,6 @@ const ArMTG = lazy(() => import('../screens/ArMTG'));
 const Robotics = lazy(() => import('../screens/Robotics'));
 const Contact = lazy(() => import('../screens/Contact'));
 const Error404 = lazy(() => import('../screens/404'));
-const Test = lazy(() => import('../screens/Test'));
 
 const prerender = navigator.userAgent === 'ReactSnap';
 export const AppContext = createContext();
@@ -91,7 +90,7 @@ function App() {
                 menuOpen={menuOpen}
                 toggleTheme={toggleTheme}
                 currentTheme={currentTheme}
-                inheritLogo={location.pathname === '/projects/test' ? true : false}
+                inheritLogo={location.pathname === '/projects/mystgang' ? true : false}
               />
               <MainLoader>
                 <Loader color={currentTheme.colorAccent} />
@@ -113,7 +112,6 @@ function App() {
                             <Route path="/projects/mystgang" component={MystGang} />
                             <Route path="/projects/armtg" component={ArMTG} />
                             <Route path="/projects/gcpsrobotics" component={Robotics} />
-                            <Route path="/projects/test" component={Test} />
                             <Route path="/contact" component={Contact} />
                             <Route component={Error404} />
                           </Switch>

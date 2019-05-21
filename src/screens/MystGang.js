@@ -1,33 +1,32 @@
-import React, { useContext } from 'react';
-import { Helmet } from 'react-helmet-async';
+import React, { useEffect, useContext, useMemo, useRef, lazy, Suspense } from 'react';
 import styled from 'styled-components/macro';
+import { Helmet } from 'react-helmet-async';
 import { AppContext } from '../app/App';
 import ProgressiveImage from '../components/ProgressiveImage';
 import { useScrollToTop } from '../utils/Hooks';
-import Footer from '../components/Footer';
 import { LinkButton } from '../components/Button';
+import Footer from '../components/Footer';
 import {
-  ProjectContainer, ProjectSection, ProjectSectionContent, ProjectImage,
-  ProjectSectionHeading, ProjectSectionText, ProjectBackground, ProjectHeader,
-  ProjectTextRow
+  ProjectContainer, ProjectSection, ProjectSectionContent, ProjectImage, ProjectBackground, ProjectHeader,
+  ProjectSectionHeading, ProjectSectionText, ProjectTextRow,
 } from '../components/Project';
 import { media } from '../utils/StyleUtils';
-import placeholder2 from '../assets/placeholder.png';
-import background from '../assets/MystGang/mystGangBack.gif';
-import render from '../assets/MystGang/MystGang.webp';
-import renderPlaceholder from '../assets/MystGang/MystGangPlaceholder.png';
-import branding from '../assets/MystGang/mystBranding.png';
-import mystGangAnimation from '../assets/MystGang/mystGangAnimation.webp';
-import one from '../assets/MystGang/1.webp';
-import two from '../assets/MystGang/2.webp';
-import three from '../assets/MystGang/3.webp';
-import four from '../assets/MystGang/4.webp';
-import five from '../assets/MystGang/5.webp';
-import home from '../assets/MystGang/home.webp';
-import work from '../assets/MystGang/work.webp';
-import about from '../assets/MystGang/about.webp';
+import Background from '../assets/MystGang/mystGangBack.gif';
+import MystGangPlaceholder from '../assets/MystGang/placeholder.png';
+import MystGang from '../assets/MystGang/MystGang.webp'
+import MystGangDef from '../assets/MystGang/MystGangPlaceholder.png';
+import MystGangAnimation from '../assets/MystGang/mystGangAnimation.webp';
+import MystGangBranding from '../assets/MystGang/visualColors.png';
+import MystGangSketch from '../assets/MystGang/siteDesign.png';
+import MystGangWebGL from '../assets/MystGang/webGLRender.png';
+import MystGangFinal from '../assets/MystGang/5.webp';
+import { ReactComponent as MystLogo } from '../assets/MystGang/logo.svg';
+
+const DisplacementSlider = lazy(() => import('../components/DisplacementSlider'));
+
 const prerender = navigator.userAgent === 'ReactSnap';
-const title = 'MystGang 2019';
+
+const title = 'MystGang 2019 - WIP';
 const description = 'Bringing an epic content creator\'s portfolio to life with ThreeJS.';
 const roles = [
   'Front-end Development',
@@ -39,9 +38,31 @@ const roles = [
   '3D Animation',
 ];
 
-function MystGang(props) {
-  const { status } = useContext(AppContext);
+function Project() {
+  const { status, updateTheme, currentTheme } = useContext(AppContext);
+  const currentThemeRef = useRef(currentTheme);
   useScrollToTop(status);
+
+  useEffect(() => {
+    currentThemeRef.current = currentTheme;
+  }, [currentTheme]);
+
+  useEffect(() => {
+    if ((status === 'entered' || status === 'exiting')) {
+      updateTheme({
+        colorPrimary: currentTheme.id === 'dark'
+          ? 'rgba(227, 203, 161, 1)'
+          : 'rgba(181, 155, 105, 1)',
+        colorAccent: 'rgba(227, 203, 161, 1)',
+      });
+    }
+
+    return function cleanUp() {
+      if (status !== 'entered') {
+        updateTheme();
+      }
+    };
+  }, [updateTheme, status, currentTheme.id]);
 
   return (
     <React.Fragment>
@@ -51,136 +72,97 @@ function MystGang(props) {
       />
       <ProjectContainer>
         <ProjectBackground
-          srcSet={`${background} 1000w, ${background} 1920w`}
-          opacity={0.8}
+          srcSet={`${Background} 1000w, ${Background} 1600w`}
+          placeholder={MystGangPlaceholder}
+          opacity={0.5}
           entered={!prerender}
         />
         <ProjectHeader
           title={title}
           description={description}
+          linkLabel="View Website"
           url="https://mystgang.ml"
           roles={roles}
         />
         <ProjectSection>
           <ProjectSectionContent>
-            <ProjectImage entered={!prerender}>
+            <ProjectImage>
               <ProgressiveImage
-                srcSet={`${render} 800w, ${render} 1920w`}
-                placeholder={renderPlaceholder}
+                reveal
+                srcSet={`${MystGang} 800w, ${MystGang} 1100w`}
+                placeholder={MystGangDef}
                 alt=""
-                sizes={`(max-width: ${media.mobile}) 100vw, (max-width: ${media.tablet}) 90vw, 80vw`}
+                sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
               />
             </ProjectImage>
           </ProjectSectionContent>
         </ProjectSection>
         <ProjectSection>
-          <ProjectSectionColumns>
-            <SidebarImagesText>
-              <ProjectSectionHeading>A Truly Epic Logo</ProjectSectionHeading>
-            </SidebarImagesText>
-            <SidebarImages>
-              <SidebarImage
-                srcSet={`${mystGangAnimation}`}
-                placeholder={placeholder2}
-                alt=""
-                sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
-              />
-            </SidebarImages>
-          </ProjectSectionColumns>
-          <ProjectSectionGrid>
-            <ProjectSectionGridBackground>
-              <ProgressiveImage
-                srcSet={`${branding}`}
-                placeholder={placeholder2}
-                alt=""
-                sizes={`(max-width: ${media.mobile}) 312px, (max-width: ${media.tablet}) 408px, 514px`}
-              />
-            </ProjectSectionGridBackground>
-            <ProjectSectionGridText>
-              <ProjectSectionHeading>Visual Identity</ProjectSectionHeading>
-            </ProjectSectionGridText>
-          </ProjectSectionGrid>
-        </ProjectSection>
-        <ProjectSection light>
           <ProjectSectionContent>
-            <ProjectTextRow>
-              <ProjectSectionHeading>Prototyping</ProjectSectionHeading>
-            </ProjectTextRow>
+            <ProgressiveImage
+              srcSet={`${MystGangAnimation} 480w, ${MystGangAnimation} 960w`}
+              placeholder={MystGangPlaceholder}
+              alt=""
+              sizes={`(max-width: ${media.mobile}) 90vw, (max-width: ${media.tablet}) 80vw, 70vw`}
+            />
           </ProjectSectionContent>
-          <ProjectSectionGrid>
-            <SidebarImages>
-              <SidebarImage
-                srcSet={`${one} 400w, ${one} 898w`}
-                placeholder={placeholder2}
-                alt="Animated site design."
-                sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
-              />
-              </SidebarImages>
-            <SidebarImages>
-              <SidebarImage
-                srcSet={`${two} 400w, ${two} 898w`}
-                placeholder={placeholder2}
-                alt="Creating the site as well as a 3D loading animation."
-                sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
-              />
-            </SidebarImages>
-          </ProjectSectionGrid>
-          <ProgressiveImage
-            srcSet={`${three}`}
-            placeholder={placeholder2}
-            alt="Creating the 3D scene in ThreeJS."
-            sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
-          />
-          <ProjectTextRow>
-            <ProjectSectionHeading>&nbsp;</ProjectSectionHeading>
-            <ProjectSectionHeading>Prototyping Continued..</ProjectSectionHeading>
-            <ProjectSectionText>
-              Sprinkling some 3D magic with ThreeJS.
-            </ProjectSectionText>
-          </ProjectTextRow>
-          <ProjectSectionGrid>
-            <SidebarImages>
-              <SidebarImage
-                srcSet={`${four} 400w, ${four} 898w`}
-                placeholder={placeholder2}
-                alt="Throwing some ribbons in."
-                sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
-              />
-              </SidebarImages>
-            <SidebarImages>
-              <SidebarImage
-                srcSet={`${five} 400w, ${five} 898w`}
-                placeholder={placeholder2}
-                alt="Adding color to the scene."
-                sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
-              />
-            </SidebarImages>
-          </ProjectSectionGrid>
+        </ProjectSection>
+        <ProjectSection>
+          <ProjectSectionColumns>
+            <ProgressiveImage
+              srcSet={`${MystGangBranding} 400w, ${MystGangBranding} 800w`}
+              placeholder={MystGangPlaceholder}
+              alt=""
+              sizes={`(max-width: ${media.mobile}) 100vw, (max-width: ${media.tablet}) 100vw, 50vw`}
+            />
+            <TextSection>
+              <ProjectSectionHeading>Truly Epic Colors</ProjectSectionHeading>
+              <ProjectSectionText>
+                With a preference for dark things and with brown as a favorite, light on dark was the theme featuring a progressive gradient of brown.
+              </ProjectSectionText>
+            </TextSection>
+          </ProjectSectionColumns>
         </ProjectSection>
         <ProjectSection>
           <ProjectSectionContent>
-            <ProjectTextRow>
-              <ProjectSectionHeading>Final Website</ProjectSectionHeading>
+            <LogoContainer>
+              <MystLogo />
+            </LogoContainer>
+            <ProjectTextRow center>
+              <ProjectSectionHeading>An Epic Logo for an Epic Creator</ProjectSectionHeading>
+              <ProjectSectionText>
+                Known as a mob boss and sometimes a cowboy, this gangster monogram renewed their identity.
+              </ProjectSectionText>
             </ProjectTextRow>
-            <ProgressiveImage
-              srcSet={`${home}`}
-              placeholder={placeholder2}
-              alt="Interactive 3D home screen."
-              sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
-            />
-            <ProgressiveImage
-              srcSet={`${work}`}
-              placeholder={placeholder2}
-              alt="Interactive 3D work carousel."
-              sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
-            />
-            <ProgressiveImage
-              srcSet={`${about}`}
-              placeholder={placeholder2}
-              alt="Interactive 3D about and contact page."
-              sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
-            />
           </ProjectSectionContent>
+        </ProjectSection>
+        <ProjectSection>
+          <ProjectSectionSlider>
+            <Suspense fallback={<React.Fragment />}>
+              <DisplacementSlider
+                placeholder={MystGangPlaceholder}
+                images={useMemo(() => [
+                  {
+                    src: MystGangSketch,
+                    srcset: `${MystGangSketch} 960w, ${MystGangSketch} 1920w`,
+                    alt: 'Prototype Design'
+                  },
+                  {
+                    src: MystGangWebGL,
+                    srcset: `${MystGangWebGL} 960w, ${MystGangWebGL} 1920w`,
+                    alt: 'WebGL Prototype',
+                  },
+                  {
+                    src: MystGangFinal,
+                    srcset: `${MystGangFinal} 960w, ${MystGangFinal} 1920w`,
+                    alt: 'Final Prototype',
+                  },
+                ], [])}
+                width={useMemo(() => 1920, [])}
+                height={useMemo(() => 1080, [])}
+              />
+            </Suspense>
+          </ProjectSectionSlider>
         </ProjectSection>
         <ProjectSection>
           <ProjectSectionContent>
@@ -202,85 +184,47 @@ function MystGang(props) {
   );
 }
 
+const ProjectSectionSlider = styled(ProjectSectionContent)`
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 70px;
+  margin: 0;
+`;
+
 const ProjectSectionColumns = styled(ProjectSectionContent)`
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 70px;
-  margin: 20px 0 60px;
-  @media (max-width: ${media.tablet}) {
-    grid-template-columns: 1fr;
-    margin: 0 0 60px;
-  }
-`;
+  margin: 0;
 
-const ProjectSectionGrid = styled(ProjectSectionContent)`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 70px;
-  margin: 40px 0;
   @media (max-width: ${media.tablet}) {
     grid-template-columns: 1fr;
   }
 `;
 
-const ProjectSectionGridBackground = styled.div`
-  grid-column: 1;
-  grid-row: 1;
-  @media (max-width: ${media.tablet}) {
-    padding: 0 120px;
-  }
-  @media (max-width: ${media.mobile}) {
-    padding: 0 60px;
-  }
-`;
-
-const ProjectSectionGridText = styled.div`
-  padding-top: 80px;
-  @media (max-width: ${media.desktop}) {
-    padding-top: 40px;
-  }
-  @media (max-width: ${media.tablet}) {
-    padding-top: 0;
-  }
-`;
-
-const SidebarImages = styled.div`
-  display: grid;
-  align-items: center;
-  @media (max-width: ${media.tablet}) {
-    padding: 0 80px;
-    margin-top: 60px;
-  }
-  @media (max-width: ${media.mobile}) {
-    padding: 0 20px;
-    margin-top: 40px;
-  }
-`;
-
-const SidebarImagesText = styled.div`
+const TextSection = styled.div`
   display: flex;
-  align-items: flex-start;
-  flex-direction: column;
   justify-content: center;
-  padding-right: 10px;
-  @media (max-width: ${media.tablet}) {
-    padding-right: 0;
+  flex-direction: column;
+`;
+
+const LogoContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: ${props => props.theme.colorBackground};
+  padding: ${props => props.theme.id === 'light' ? '60px' : 0} 80px;
+  margin-bottom: 80px;
+  width: 100%;
+
+  @media (max-width: ${media.mobile}) {
+    padding: ${props => props.theme.id === 'light' ? '30px' : 0} 40px;
+    margin-bottom: 40px;
+  }
+
+  svg {
+    max-width: 800px;
   }
 `;
 
-const SidebarImage = styled(ProgressiveImage)`
-  &:first-child {
-    grid-column: col 1 / span 4;
-    grid-row: 1;
-    position: relative;
-    top: 5%;
-  }
-  &:last-child {
-    grid-column: col 3 / span 4;
-    grid-row: 1;
-    position: relative;
-    top: -5%;
-  }
-`;
-
-export default MystGang;
+export default Project;
