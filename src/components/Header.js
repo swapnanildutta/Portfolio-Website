@@ -39,7 +39,7 @@ const HeaderIcons = ({ toggleMenu }) => (
 );
 
 function Header(props) {
-  const { menuOpen, toggleMenu, currentTheme, toggleTheme } = props;
+  const { menuOpen, toggleMenu, currentTheme, toggleTheme, inheritLogo } = props;
   const windowSize = useWindowSize();
 
   return (
@@ -92,7 +92,7 @@ function Header(props) {
         )}
       </Transition>
       <HeaderLogo to="/#intro" aria-label="Home">
-        <Monogram highlight={currentTheme.colorAccent} />
+        <Monogram highlight={currentTheme.colorAccent} inheritLogo={inheritLogo} />
       </HeaderLogo>
       <HeaderNav role="navigation">
         <HeaderNavList>
