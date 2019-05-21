@@ -208,6 +208,9 @@ export default function DispalcementSlider(props) {
   return (
     <SliderContainer>
       <SliderContainer>
+        <SliderDescription loaded={!prerender && loaded}>
+          {currentImage.alt}
+        </SliderDescription>
         <SliderImage src={currentImage.src} srcSet={currentImage.srcset} alt={currentImage.alt} />
         <Swipe
           allowMouseEvents
@@ -249,6 +252,22 @@ export default function DispalcementSlider(props) {
 
 const SliderContainer = styled.div`
   position: relative;
+`;
+
+const SliderDescription = styled.p`
+  position: absolute;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 0;
+  color: ${props => props.theme.colorText};
+  background: rgba(${props => props.theme.id === 'dark' ? '17, 17, 17, 0.8' : '216, 216, 216, 0.8'});
+  z-index: 2;
+  bottom: 0;
+  margin-bottom: 0px;
+  transition: opacity 1s ease;
+  opacity: ${props => props.loaded ? 1 : 0};
 `;
 
 const SliderCanvasWrapper = styled.div`
