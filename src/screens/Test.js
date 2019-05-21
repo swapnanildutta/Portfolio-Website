@@ -11,10 +11,15 @@ import {
   ProjectSectionHeading, ProjectSectionText, ProjectTextRow,
 } from '../components/Project';
 import { media } from '../utils/StyleUtils';
-import Background from '../assets/placeholder.png';
-import BackgroundLarge from '../assets/placeholder.png';
-import BackgroundPlaceholder from '../assets/placeholder.png';
+import Background from '../assets/MystGang/mystGangBack.gif';
 import MystGangPlaceholder from '../assets/MystGang/placeholder.png';
+import MystGang from '../assets/MystGang/MystGang.webp'
+import MystGangDef from '../assets/MystGang/MystGangPlaceholder.png';
+import MystGangAnimation from '../assets/MystGang/mystGangAnimation.webp';
+import MystGangBranding from '../assets/MystGang/visualColors.png';
+import MystGangSketch from '../assets/MystGang/siteDesign.png';
+import MystGangInit from '../assets/MystGang/4.webp';
+import MystGangFinal from '../assets/MystGang/5.webp';
 import { ReactComponent as MystLogo } from '../assets/MystGang/logo.svg';
 
 const DisplacementSlider = lazy(() => import('../components/DisplacementSlider'));
@@ -67,8 +72,8 @@ function Project() {
       />
       <ProjectContainer>
         <ProjectBackground
-          srcSet={`${Background} 1000w, ${BackgroundLarge} 1600w`}
-          placeholder={BackgroundPlaceholder}
+          srcSet={`${Background} 1000w, ${Background} 1600w`}
+          placeholder={MystGangPlaceholder}
           opacity={0.5}
           entered={!prerender}
         />
@@ -84,8 +89,8 @@ function Project() {
             <ProjectImage>
               <ProgressiveImage
                 reveal
-                srcSet={`${MystGangPlaceholder} 800w, ${MystGangPlaceholder} 1100w`}
-                placeholder={MystGangPlaceholder}
+                srcSet={`${MystGang} 800w, ${MystGang} 1100w`}
+                placeholder={MystGangDef}
                 alt=""
                 sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
               />
@@ -95,7 +100,7 @@ function Project() {
         <ProjectSection>
           <ProjectSectionContent>
             <ProgressiveImage
-              srcSet={`${MystGangPlaceholder} 480w, ${MystGangPlaceholder} 960w`}
+              srcSet={`${MystGangAnimation} 480w, ${MystGangAnimation} 960w`}
               placeholder={MystGangPlaceholder}
               alt=""
               sizes={`(max-width: ${media.mobile}) 90vw, (max-width: ${media.tablet}) 80vw, 70vw`}
@@ -105,13 +110,13 @@ function Project() {
         <ProjectSection>
           <ProjectSectionColumns>
             <ProgressiveImage
-              srcSet={`${MystGangPlaceholder} 400w, ${MystGangPlaceholder} 800w`}
+              srcSet={`${MystGangBranding} 400w, ${MystGangBranding} 800w`}
               placeholder={MystGangPlaceholder}
-              alt="A 3D render of the full suit of armor."
+              alt=""
               sizes={`(max-width: ${media.mobile}) 100vw, (max-width: ${media.tablet}) 100vw, 50vw`}
             />
             <TextSection>
-              <ProjectSectionHeading>Title</ProjectSectionHeading>
+              <ProjectSectionHeading>Truly Epic</ProjectSectionHeading>
               <ProjectSectionText>
                 ...
               </ProjectSectionText>
@@ -138,19 +143,19 @@ function Project() {
                 placeholder={MystGangPlaceholder}
                 images={useMemo(() => [
                   {
-                    src: MystGangPlaceholder,
-                    srcset: `${MystGangPlaceholder} 960w, ${MystGangPlaceholder} 1920w`,
-                    alt: ''
+                    src: MystGangSketch,
+                    srcset: `${MystGangSketch} 960w, ${MystGangSketch} 1920w`,
+                    alt: 'Prototype Design'
                   },
                   {
-                    src: MystGangPlaceholder,
-                    srcset: `${MystGangPlaceholder} 960w, ${MystGangPlaceholder} 1920w`,
-                    alt: '',
+                    src: MystGangInit,
+                    srcset: `${MystGangInit} 960w, ${MystGangInit} 1920w`,
+                    alt: 'WebGL Prototype',
                   },
                   {
-                    src: MystGangPlaceholder,
-                    srcset: `${MystGangPlaceholder} 960w, ${MystGangPlaceholder} 1920w`,
-                    alt: '',
+                    src: MystGangFinal,
+                    srcset: `${MystGangFinal} 960w, ${MystGangFinal} 1920w`,
+                    alt: 'Final Prototype',
                   },
                 ], [])}
                 width={useMemo(() => 1920, [])}
@@ -162,16 +167,13 @@ function Project() {
         <ProjectSection>
           <ProjectSectionContent>
             <ProjectTextRow center>
-              <ProjectSectionHeading>Title</ProjectSectionHeading>
-              <ProjectSectionText>
-                ...
-              </ProjectSectionText>
+              <ProjectSectionHeading>MystGang 2019</ProjectSectionHeading>
               <LinkButton
                 secondary
                 icon="chevronRight"
-                href="#"
+                href="/#work2"
               >
-                Link
+                Back to homepage
               </LinkButton>
             </ProjectTextRow>
           </ProjectSectionContent>
