@@ -91,7 +91,7 @@ function App() {
                 menuOpen={menuOpen}
                 toggleTheme={toggleTheme}
                 currentTheme={currentTheme}
-                inheritLogo={location.pathname === '/test' ? true : false}
+                inheritLogo={location.pathname === '/projects/test' ? true : false}
               />
               <MainLoader>
                 <Loader color={currentTheme.colorAccent} />
