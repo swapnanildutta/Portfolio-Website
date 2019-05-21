@@ -20,7 +20,7 @@ function ProjectItem(props) {
       {background &&
         <Transition in={visible} timeout={0}>
           {status => (
-            <ProjectWrapper background={background} status={status}>
+            <ProjectWrapper visible={visible} background={background} status={status}>
               <ProjectBackground status={status}></ProjectBackground>
             </ProjectWrapper>
           )}
@@ -110,9 +110,6 @@ const ProjectWrapper = styled.div`
   min-height: 100vh;
   height: 100vh;
   width: 100vw;
-  background-image: url(${props => props.background});
-  background-attachment: fixed;
-  background-size: cover;
   opacity: 0;
   transition-property: transform, opacity;
   transition-timing-function: ${props => props.theme.curveFastoutSlowin};
@@ -120,7 +117,10 @@ const ProjectWrapper = styled.div`
   transition-delay: 0.4s;
   transform-origin: left;
 
-  ${props => props.status === 'entered' && css`
+  ${props => props.status === 'entered' && props.visible && css`
+    background-image: url(${props => props.background});
+    background-attachment: fixed;
+    background-size: cover;
     opacity: 1;
   `}
 `;
