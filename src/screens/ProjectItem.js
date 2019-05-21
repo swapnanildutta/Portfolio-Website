@@ -138,7 +138,7 @@ const ProjectBackground = styled.div`
   transition-delay: 0.3s;
 
   ${props => props.status === 'entered' && css`
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(${props => props.theme.id === 'dark' ? '0,0,0' : '242,242,242'},0.4);
     opacity: 1;
   `}
 `;
