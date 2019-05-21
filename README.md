@@ -10,6 +10,21 @@ A personal portfolio to showcase a few projects.
 yarn
 ```
 
+## Create Config
+
+```json
+// In src/config.json
+
+{
+  "firebase": {
+    "apiKey": "project-key",
+    "databaseURL": "https://domain.firebaseio.com",
+    "projectId": "project-id",
+  }
+}
+```
+
+
 ## Run
 
 ```bash
@@ -20,19 +35,4 @@ yarn start
 
 ```bash
 yarn storybook
-```
-
-## Setup Firebase
-
-```json
-
-// In src/config.json
-
-{
-  "firebase": {
-    "apiKey": "project-key",
-    "databaseURL": "https://domain.firebaseio.com",
-    "projectId": "project-id",
-  }
-}
 ```
