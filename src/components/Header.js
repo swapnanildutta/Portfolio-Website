@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import styled, { css } from 'styled-components/macro';
 import { NavLink, Link } from 'react-router-dom';
 import { Transition } from 'react-transition-group';
 import Monogram from './Monogram';
 import Icon from '../utils/Icon';
 import { media, rgba } from '../utils/StyleUtils';
+import { useWindowSize } from '../utils/Hooks';
+
+const ThemeToggle = lazy(() => import('../components/ThemeToggle'));
 
 const HeaderIcons = ({ toggleMenu }) => (
   <HeaderNavIcons>
@@ -36,7 +39,8 @@ const HeaderIcons = ({ toggleMenu }) => (
 );
 
 function Header(props) {
-  const { menuOpen, toggleMenu, currentTheme } = props;
+  const { menuOpen, toggleMenu, currentTheme, toggleTheme } = props;
+  const windowSize = useWindowSize();
 
   return (
     <HeaderWrapper role="banner">
@@ -81,6 +85,9 @@ function Header(props) {
               Lab
             </HeaderMobileNavLink>
             <HeaderIcons />
+            <Suspense fallback={<React.Fragment />}>
+              <ThemeToggle isMobile themeId={currentTheme.id} toggleTheme={toggleTheme} />
+            </Suspense>
           </HeaderMobileNav>
         )}
       </Transition>
@@ -95,6 +102,11 @@ function Header(props) {
         </HeaderNavList>
         <HeaderIcons />
       </HeaderNav>
+      {windowSize.width > media.numMobile && windowSize.height > 696 &&
+        <Suspense fallback={<React.Fragment />}>
+          <ThemeToggle themeId={currentTheme.id} toggleTheme={toggleTheme} />
+        </Suspense>
+      }
     </HeaderWrapper>
   );
 };
