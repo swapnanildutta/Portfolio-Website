@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useMemo, lazy, Suspense } from 'react';
 import { Helmet } from 'react-helmet-async';
 import styled from 'styled-components/macro';
 import { AppContext } from '../app/App';
@@ -28,6 +28,8 @@ import home from '../assets/Robotics/home.png';
 import game from '../assets/Robotics/game.png';
 import robotS from '../assets/Robotics/robot.png';
 import impact from '../assets/Robotics/impact.png';
+
+const DisplacementSlider = lazy(() => import('../components/DisplacementSlider'));
 
 const prerender = navigator.userAgent === 'ReactSnap';
 const title = 'GCPS Robotics';
@@ -195,30 +197,37 @@ function Robotics(props) {
                 A fully responsive 3d website of the Gateway Robotics team all under 10MB (~3 images in size). This website brought the team to state competition through the BEST Website Award.
               </ProjectSectionText>
             </ProjectTextRow>
-            <ProgressiveImage
-              srcSet={`${home}`}
-              placeholder={placeholder2}
-              alt=""
-              sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
-            />
-            <ProgressiveImage
-              srcSet={`${game}`}
-              placeholder={placeholder2}
-              alt=""
-              sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
-            />
-            <ProgressiveImage
-              srcSet={`${robotS}`}
-              placeholder={placeholder2}
-              alt=""
-              sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
-            />
-            <ProgressiveImage
-              srcSet={`${impact}`}
-              placeholder={placeholder2}
-              alt=""
-              sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
-            />
+            <ProjectSectionSlider>
+              <Suspense fallback={<React.Fragment />}>
+                <DisplacementSlider
+                  placeholder={placeholder2}
+                  images={useMemo(() => [
+                    {
+                      src: home,
+                      srcset: `${home} 960w, ${home} 1920w`,
+                      alt: 'Homepage'
+                    },
+                    {
+                      src: game,
+                      srcset: `${game} 960w, ${game} 1920w`,
+                      alt: 'Game Intro',
+                    },
+                    {
+                      src: robotS,
+                      srcset: `${robotS} 960w, ${robotS} 1920w`,
+                      alt: 'Interactive Robot Map',
+                    },
+                    {
+                      src: impact,
+                      srcset: `${impact} 960w, ${impact} 1920w`,
+                      alt: 'Community Impact',
+                    },
+                  ], [])}
+                  width={useMemo(() => 1920, [])}
+                  height={useMemo(() => 1080, [])}
+                />
+              </Suspense>
+            </ProjectSectionSlider>
           </ProjectSectionContent>
         </ProjectSection>
         <ProjectSection>
@@ -320,6 +329,13 @@ const SidebarImage = styled(ProgressiveImage)`
     position: relative;
     top: -5%;
   }
+`;
+
+const ProjectSectionSlider = styled(ProjectSectionContent)`
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 70px;
+  margin: 0;
 `;
 
 export default Robotics;
