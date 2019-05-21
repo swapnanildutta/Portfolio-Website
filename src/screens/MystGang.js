@@ -54,6 +54,7 @@ function Project() {
           ? 'rgba(227, 203, 161, 1)'
           : 'rgba(181, 155, 105, 1)',
         colorAccent: 'rgba(227, 203, 161, 1)',
+        custom: true,
       });
     }
 

@@ -90,7 +90,7 @@ function App() {
                 menuOpen={menuOpen}
                 toggleTheme={toggleTheme}
                 currentTheme={currentTheme}
-                inheritLogo={location.pathname === '/projects/mystgang' ? true : false}
+                inheritLogo={currentTheme.custom}
               />
               <MainLoader>
                 <Loader color={currentTheme.colorAccent} />
