@@ -113,8 +113,8 @@ function App() {
                             <Route path="/projects/mystgang" component={MystGang} />
                             <Route path="/projects/armtg" component={ArMTG} />
                             <Route path="/projects/gcpsrobotics" component={Robotics} />
+                            <Route path="/projects/test" component={Test} />
                             <Route path="/contact" component={Contact} />
-                            <Route path="/test" component={Test} />
                             <Route component={Error404} />
                           </Switch>
                         </Suspense>
