@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useContext, useRef, useCallback } from 'react';
 import {
   WebGLRenderer, OrthographicCamera, Scene, Mesh, Color, ShaderMaterial,
   LinearFilter, TextureLoader, PlaneBufferGeometry, LoadingManager
@@ -186,7 +186,7 @@ export default function DispalcementSlider(props) {
         material.current.dispose();
       }
     };
-  }, [goToIndex, height, images, width]);
+  }, [currentTheme, goToIndex, height, images, width]);
 
   useEffect(() => {
     let animation;
