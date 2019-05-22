@@ -5,7 +5,7 @@ import { AppContext } from '../app/App';
 import ProgressiveImage from '../components/ProgressiveImage';
 import { useScrollToTop } from '../utils/Hooks';
 import Footer from '../components/Footer';
-import { LinkButton } from '../components/Button';
+import { LinkButton, RouterButton } from '../components/Button';
 import {
   ProjectContainer, ProjectSection, ProjectSectionContent, ProjectImage,
   ProjectSectionHeading, ProjectSectionText, ProjectBackground, ProjectHeader,
@@ -225,13 +225,13 @@ function Robotics(props) {
           <ProjectSectionContent>
             <ProjectTextRow center>
               <ProjectSectionHeading>GCPS Robotics</ProjectSectionHeading>
-              <LinkButton
+              <RouterButton
                 secondary
                 icon="chevronRight"
-                href="/#work4"
+                to="/#work4"
               >
                 Back to homepage
-              </LinkButton>
+              </RouterButton>
             </ProjectTextRow>
           </ProjectSectionContent>
         </ProjectSection>
