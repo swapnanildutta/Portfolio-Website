@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import styled from 'styled-components/macro';
 import { AppContext } from '../app/App';
@@ -34,8 +34,29 @@ const roles = [
 ];
 
 function BellsGC(props) {
-  const { status } = useContext(AppContext);
+  const { status, updateTheme, currentTheme } = useContext(AppContext);
+  const currentThemeRef = useRef(currentTheme);
   useScrollToTop(status);
+
+  useEffect(() => {
+    currentThemeRef.current = currentTheme;
+  }, [currentTheme]);
+
+  useEffect(() => {
+    if ((status === 'entered' || status === 'exiting')) {
+      updateTheme({
+        colorPrimary: 'rgba(251, 201, 98, 1)',
+        colorAccent: 'rgba(251, 201, 98, 1)',
+        custom: true,
+      });
+    }
+
+    return function cleanUp() {
+      if (status !== 'entered') {
+        updateTheme();
+      }
+    };
+  }, [updateTheme, status, currentTheme.id])
 
   return (
     <React.Fragment>
