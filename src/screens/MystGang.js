@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import { AppContext } from '../app/App';
 import ProgressiveImage from '../components/ProgressiveImage';
 import { useScrollToTop } from '../utils/Hooks';
-import { LinkButton } from '../components/Button';
+import { LinkButton, RouterButton } from '../components/Button';
 import Footer from '../components/Footer';
 import {
   ProjectContainer, ProjectSection, ProjectSectionContent, ProjectImage, ProjectBackground, ProjectHeader,
@@ -169,13 +169,13 @@ function Project() {
           <ProjectSectionContent>
             <ProjectTextRow center>
               <ProjectSectionHeading>MystGang 2019</ProjectSectionHeading>
-              <LinkButton
+              <RouterButton
                 secondary
                 icon="chevronRight"
-                href="/#work2"
+                to="/#work2"
               >
                 Back to homepage
-              </LinkButton>
+              </RouterButton>
             </ProjectTextRow>
           </ProjectSectionContent>
         </ProjectSection>
