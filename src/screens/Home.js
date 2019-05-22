@@ -120,6 +120,7 @@ export default function Home(props) {
         imageAlt={useMemo(() => ['Bell\'s GC Website'], [])}
         imagePlaceholder={useMemo(() => [BellsGCPlaceholder], [])}
         background={BellsGCBackground}
+        customColor={'rgba(251, 201, 98, 1)'}
       />
       <ProjectItem
         id="work2"
@@ -134,6 +135,7 @@ export default function Home(props) {
         imageAlt={useMemo(() => ['MystGang Website'], [])}
         imagePlaceholder={useMemo(() => [MystGangPlaceholder], [])}
         background={MystGangBackground}
+        customColor={'rgba(181, 155, 105, 1)'}
       />
       <ProjectItem
         id="work3"
@@ -148,6 +150,7 @@ export default function Home(props) {
         imageAlt={useMemo(() => ['ArMTG Website'], [])}
         imagePlaceholder={useMemo(() => [ArMTGPlaceholder], [])}
         background={ArMTGBackground}
+        customColor={'rgba(101, 154, 247, 1)'}
       />
       <ProjectItem
     		id="work4"
@@ -162,6 +165,7 @@ export default function Home(props) {
         imageAlt={useMemo(() => ['Gateway Robotics Website'], [])}
         imagePlaceholder={useMemo(() => [RoboticsPlaceholder], [])}
         background={RoboticsBackground}
+        customColor={'rgba(54, 210, 120, 1)'}
       />
       <Profile
         sectionRef={about}
