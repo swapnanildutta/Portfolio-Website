@@ -5,7 +5,7 @@ import { AppContext } from '../app/App';
 import ProgressiveImage from '../components/ProgressiveImage';
 import { useScrollToTop } from '../utils/Hooks';
 import Footer from '../components/Footer';
-import { LinkButton } from '../components/Button';
+import { LinkButton, RouterButton } from '../components/Button';
 import {
   ProjectContainer, ProjectSection, ProjectSectionContent, ProjectImage,
   ProjectBackground, ProjectHeader, ProjectTextRow, ProjectSectionHeading,
@@ -311,13 +311,13 @@ function ArMTG(props) {
               <ProjectSectionText>
                 Full Project Coming Soon
               </ProjectSectionText>
-              <LinkButton
+              <RouterButton
                 secondary
                 icon="chevronRight"
-                href="/#work3"
+                to="/#work3"
               >
                 Back to homepage
-              </LinkButton>
+              </RouterButton>
             </ProjectTextRow>
           </ProjectSectionContent>
         </ProjectSection>
