@@ -12,7 +12,8 @@ import PhonePlaceholder from '../assets/phone-placeholder.png';
 function ProjectItem(props) {
   const {
     id, visible, sectionRef, index, title, description, imageSrc, imageAlt, phone,
-    imagePlaceholder, buttonText, buttonLink, buttonTo, alternate, background, ...rest
+    imagePlaceholder, buttonText, buttonLink, buttonTo, alternate, background, customColor,
+    ...rest
   } = props;
 
   return (
@@ -20,7 +21,7 @@ function ProjectItem(props) {
       {background &&
         <Transition in={visible} timeout={0}>
           {status => (
-            <ProjectWrapper visible={visible} background={background} status={status}>
+            <ProjectWrapper visible={visible} background={background} customColor={customColor} status={status}>
               <ProjectBackground status={status}></ProjectBackground>
             </ProjectWrapper>
           )}
@@ -42,21 +43,22 @@ function ProjectItem(props) {
                 {status => (
                   <React.Fragment>
                     <ProjectItemDetails>
-                      <ProjectItemIndex status={status} aria-hidden>
-                        <ProjectItemIndexNumber status={status}>{index}</ProjectItemIndexNumber>
+                      <ProjectItemIndex status={status} customColor={customColor} aria-hidden>
+                        <ProjectItemIndexNumber status={status} customColor={customColor}>{index}</ProjectItemIndexNumber>
                       </ProjectItemIndex>
                       <ProjectItemTitle id={`${id}-title`} status={status}>{title}</ProjectItemTitle>
                       <ProjectItemDescription status={status}>{description}</ProjectItemDescription>
-                      <ProjectItemButton status={status}>
+                      <ProjectItemButton status={status} customColor={customColor}>
                         {buttonLink ?
                           <LinkButton
                             href={buttonLink}
                             target="_blank"
                             iconRight="arrowRight"
+                            customColor={customColor}
                           >
                             {buttonText}
                           </LinkButton>
-                          : <RouterButton to={buttonTo} iconRight="arrowRight">{buttonText}</RouterButton>
+                          : <RouterButton to={buttonTo} iconRight="arrowRight" customColor={customColor}>{buttonText}</RouterButton>
                         }
                       </ProjectItemButton>
                     </ProjectItemDetails>
@@ -138,7 +140,7 @@ const ProjectBackground = styled.div`
   transition-delay: 0.3s;
 
   ${props => props.status === 'entered' && css`
-    background-color: rgba(${props => props.theme.id === 'dark' ? '0,0,0' : '242,242,242'},0.4);
+    background-color: rgba(${props => props.theme.id === 'dark' ? '0, 0, 0' : '242, 242, 242'}, 0.4);
     opacity: 1;
   `}
 `;
@@ -290,7 +292,7 @@ const ProjectItemIndex = styled.div`
     display: block;
     height: 2px;
     top: -1px;
-    background: ${props => props.theme.colorPrimary};
+    background: ${props => props.customColor ? props.customColor : props.theme.colorPrimary};
     width: 96px;
     margin-right: 15px;
     transition-property: transform, opacity;
@@ -311,7 +313,7 @@ const ProjectItemIndex = styled.div`
 const ProjectItemIndexNumber = styled.span`
   font-size: 16px;
   font-weight: 500;
-  color: ${props => props.theme.colorPrimary};
+  color: ${props => props.customColor ? props.customColor : props.theme.colorPrimary};
   transform: translateX(-10px);
   opacity: 0;
   transition-property: transform, opacity;
