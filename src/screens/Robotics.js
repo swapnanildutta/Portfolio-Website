@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useRef, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import styled from 'styled-components/macro';
 import { AppContext } from '../app/App';
@@ -44,8 +44,29 @@ const roles = [
 ];
 
 function Robotics(props) {
-  const { status } = useContext(AppContext);
+  const { status, updateTheme, currentTheme } = useContext(AppContext);
+  const currentThemeRef = useRef(currentTheme);
   useScrollToTop(status);
+
+  useEffect(() => {
+    currentThemeRef.current = currentTheme;
+  }, [currentTheme]);
+
+  useEffect(() => {
+    if ((status === 'entered' || status === 'exiting')) {
+      updateTheme({
+        colorPrimary: 'rgba(54, 210, 120, 1)',
+        colorAccent: 'rgba(54, 210, 120, 1)',
+        custom: true,
+      });
+    }
+
+    return function cleanUp() {
+      if (status !== 'entered') {
+        updateTheme();
+      }
+    };
+  }, [updateTheme, status, currentTheme.id])
 
   return (
     <React.Fragment>
