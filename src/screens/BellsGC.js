@@ -5,7 +5,7 @@ import { AppContext } from '../app/App';
 import ProgressiveImage from '../components/ProgressiveImage';
 import { useScrollToTop } from '../utils/Hooks';
 import Footer from '../components/Footer';
-import { LinkButton, RouterButton } from '../components/Button';
+import { RouterButton } from '../components/Button';
 import {
   ProjectContainer, ProjectSection, ProjectSectionContent, ProjectImage,
   ProjectSectionHeading, ProjectBackground, ProjectHeader, ProjectTextRow
