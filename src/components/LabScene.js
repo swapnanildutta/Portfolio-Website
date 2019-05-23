@@ -27,7 +27,6 @@ function LabScene() {
   }
 
   Lab3D.prototype.init = function() {
-
     this.speed = 1;
     this.prevTime = 0;
 
@@ -162,7 +161,6 @@ function LabScene() {
   };
 
   Lab3D.prototype.render = function(time) {
-
     this.updateCameraPosition();
 
     this.updateCurve();
