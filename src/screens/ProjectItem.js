@@ -13,7 +13,7 @@ function ProjectItem(props) {
   const {
     id, visible, sectionRef, index, title, description, imageSrc, imageAlt, phone,
     imagePlaceholder, buttonText, buttonLink, buttonTo, alternate, background, customColor,
-    ...rest
+    active, ...rest
   } = props;
 
   return (
@@ -21,7 +21,7 @@ function ProjectItem(props) {
       {background &&
         <Transition in={visible} timeout={0}>
           {status => (
-            <ProjectWrapper visible={visible} background={background} customColor={customColor} status={status}>
+            <ProjectWrapper visible={visible} active={active} background={background} customColor={customColor} status={status}>
               <ProjectBackground status={status}></ProjectBackground>
             </ProjectWrapper>
           )}
@@ -112,18 +112,19 @@ const ProjectWrapper = styled.div`
   min-height: 100vh;
   height: 100vh;
   width: 100vw;
+  overflow: hidden;
   opacity: 0;
-  transition-property: transform, opacity;
+  transition-property: background, opacity;
   transition-timing-function: ${props => props.theme.curveFastoutSlowin};
   transition-duration: 1s;
   transition-delay: 0.4s;
-  transform-origin: left;
+  transform-origin: top;
 
   ${props => props.status === 'entered' && props.visible && css`
-    background-image: url(${props => props.background});
+    background: url(${props => props.active ? props.background : 'transparent'});
     background-attachment: fixed;
     background-size: cover;
-    opacity: 1;
+    opacity: ${props => props.active ? 1 : 0};
   `}
 `;
 

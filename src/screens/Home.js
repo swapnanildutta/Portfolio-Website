@@ -27,6 +27,7 @@ export default function Home(props) {
   const initHash = useRef(hash);
   const [visibleSections, setVisibleSections] = useState([]);
   const [scrollIndicatorHidden, setScrollIndicatorHidden] = useState(false);
+  const activeSection = useRef();
   const intro = useRef();
   const projectOne = useRef();
   const projectTwo = useRef();
@@ -41,12 +42,13 @@ export default function Home(props) {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           const section = entry.target;
-          sectionObserver.unobserve(section);
-          if (visibleSections.includes(section)) return;
+          activeSection.current = section.id;
+          //sectionObserver.unobserve(section);
+          //if (visibleSections.includes(section)) return;
           setVisibleSections(prevSections => [...prevSections, section]);
         }
       });
-    }, { rootMargin: "0px 0px -10% 0px" });
+    }, { rootMargin: "0px 0px -10% 0px" }[activeSection]);
 
     const indicatorObserver = new IntersectionObserver(([entry]) => {
       setScrollIndicatorHidden(!entry.isIntersecting);
@@ -121,6 +123,7 @@ export default function Home(props) {
         imagePlaceholder={useMemo(() => [BellsGCPlaceholder], [])}
         background={BellsGCBackground}
         customColor={'rgba(251, 201, 98, 1)'}
+        active={activeSection.current === 'work' || activeSection.current === 'work2'}
       />
       <ProjectItem
         id="work2"
@@ -136,6 +139,7 @@ export default function Home(props) {
         imagePlaceholder={useMemo(() => [MystGangPlaceholder], [])}
         background={MystGangBackground}
         customColor={'rgba(181, 155, 105, 1)'}
+        active={activeSection.current === 'work' || activeSection.current === 'work2' || activeSection.current === 'work3'}
       />
       <ProjectItem
         id="work3"
@@ -151,6 +155,7 @@ export default function Home(props) {
         imagePlaceholder={useMemo(() => [ArMTGPlaceholder], [])}
         background={ArMTGBackground}
         customColor={'rgba(101, 154, 247, 1)'}
+        active={activeSection.current === 'work2' || activeSection.current === 'work3' || activeSection.current === 'work4'}
       />
       <ProjectItem
     		id="work4"
@@ -166,6 +171,7 @@ export default function Home(props) {
         imagePlaceholder={useMemo(() => [RoboticsPlaceholder], [])}
         background={RoboticsBackground}
         customColor={'rgba(54, 210, 120, 1)'}
+        active={activeSection.current === 'work3' || activeSection.current === 'work4' || activeSection.current === 'about'}
       />
       <Profile
         sectionRef={about}
