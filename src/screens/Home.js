@@ -123,7 +123,7 @@ export default function Home(props) {
         imagePlaceholder={useMemo(() => [BellsGCPlaceholder], [])}
         background={BellsGCBackground}
         customColor={'rgba(251, 201, 98, 1)'}
-        active={activeSection.current === 'work' || activeSection.current === 'work2'}
+        active={["work", "work2"].includes(activeSection.current)}
       />
       <ProjectItem
         id="work2"
@@ -139,7 +139,7 @@ export default function Home(props) {
         imagePlaceholder={useMemo(() => [MystGangPlaceholder], [])}
         background={MystGangBackground}
         customColor={'rgba(181, 155, 105, 1)'}
-        active={activeSection.current === 'work' || activeSection.current === 'work2' || activeSection.current === 'work3'}
+        active={["work", "work2", "work3"].includes(activeSection.current)}
       />
       <ProjectItem
         id="work3"
@@ -155,7 +155,7 @@ export default function Home(props) {
         imagePlaceholder={useMemo(() => [ArMTGPlaceholder], [])}
         background={ArMTGBackground}
         customColor={'rgba(101, 154, 247, 1)'}
-        active={activeSection.current === 'work2' || activeSection.current === 'work3' || activeSection.current === 'work4'}
+        active={["work2", "work3", "work4"].includes(activeSection.current)}
       />
       <ProjectItem
     		id="work4"
@@ -171,12 +171,12 @@ export default function Home(props) {
         imagePlaceholder={useMemo(() => [RoboticsPlaceholder], [])}
         background={RoboticsBackground}
         customColor={'rgba(54, 210, 120, 1)'}
-        active={activeSection.current === 'work3' || activeSection.current === 'work4' || activeSection.current === 'about'}
+        active={["work3", "work4", "about"].includes(activeSection.current)}
       />
       <Profile
+        id="about"
         sectionRef={about}
         visible={visibleSections.includes(about.current)}
-        id="about"
       />
       <Footer />
     </React.Fragment>
