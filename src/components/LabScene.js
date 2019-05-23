@@ -47,7 +47,7 @@ function LabScene() {
     this.camera.position.z = 0.35;
 
     this.scene = new Scene();
-    this.scene.fog = new Fog(initialThemeRef.current.colorAccent ? initialThemeRef.current.colorAccent : 0x00E5FF,0.05,1.6);
+    this.scene.fog = new Fog(initialThemeRef.current.id === 'light' ? 0x000000 : 0x00E5FF,0.05,1.6);
 
     var light = new HemisphereLight(initialThemeRef.current.colorWhite ? initialThemeRef.current.colorWhite : 0xffffff, initialThemeRef.current.id === 'light' ? 0.8 : 0.1);
     this.scene.add( light );
