@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, useMemo, useRef, lazy, Suspense } from 'react';
-import styled from 'styled-components/macro';
+import styled, { css } from 'styled-components/macro';
 import { Helmet } from 'react-helmet-async';
 import { AppContext } from '../app/App';
 import ProgressiveImage from '../components/ProgressiveImage';
@@ -72,7 +72,7 @@ function Project() {
         meta={[{ name: 'description', content: description, }]}
       />
       <ProjectContainer>
-        <ProjectBackground
+        <MystBackground
           srcSet={`${Background} 1000w, ${Background} 1600w`}
           placeholder={MystGangPlaceholder}
           opacity={0.5}
@@ -184,6 +184,17 @@ function Project() {
     </React.Fragment>
   );
 }
+
+const MystBackground = styled(ProjectBackground)`
+  transition-property: filter;
+  transition-timing-function: ${props => props.theme.curveFastoutSlowin};
+  transition-duration: 0.4s;
+
+  ${props => props.theme.id === 'light' && css`
+    -webkit-filter:invert(100%);
+    filter:progid:DXImageTransform.Microsoft.BasicImage(invert='1');
+  `}
+`;
 
 const ProjectSectionSlider = styled(ProjectSectionContent)`
   display: grid;
