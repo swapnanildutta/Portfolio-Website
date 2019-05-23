@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Monogram = ({ className, color, highlight, useGradient, inheritLogo }) => (
+const Monogram = ({ className, color, highlight, useGradient, inheritLogo, currentTheme }) => (
 
   <svg className={className} fill={color || "white"} width="60" height="60" viewBox="0 0 16000 16000">
     <defs>
@@ -17,7 +17,7 @@ const Monogram = ({ className, color, highlight, useGradient, inheritLogo }) => 
     <rect clipPath="url(#monogram-clip)" fill={inheritLogo ? highlight : 'url(#linear)'} width="100%" height="100%" />
     {highlight &&
       <g clipPath="url(#monogram-clip)">
-        <rect fill={highlight || '#00e5ff'} width="100%" height="100%" />
+        <rect fill={inheritLogo ? currentTheme.colorText : highlight || '#00e5ff'} width="100%" height="100%" />
       </g>
     }
   </svg>

@@ -92,7 +92,7 @@ function Header(props) {
         )}
       </Transition>
       <HeaderLogo to="/#intro" aria-label="Home">
-        <Monogram highlight={currentTheme.colorAccent} inheritLogo={inheritLogo} />
+        <Monogram highlight={currentTheme.colorAccent} currentTheme={currentTheme} inheritLogo={inheritLogo} />
       </HeaderLogo>
       <HeaderNav role="navigation">
         <HeaderNavList>
