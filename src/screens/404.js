@@ -102,6 +102,9 @@ const NotFoundVideoContainer = styled.div`
   overflow: hidden;
   position: relative;
   border: 30px solid transparent;
+  transition-property: filter;
+  transition-timing-function: ${props => props.theme.curveFastoutSlowin};
+  transition-duration: 0.4s;
 
   @media (max-width: ${media.mobile}) {
     min-height: 240px;
@@ -114,7 +117,6 @@ const NotFoundVideoContainer = styled.div`
     animation-name: ${props => props.status === 'entered' && css`${AnimVideo}`};
     animation-duration: 1.8s;
     animation-timing-function: ${props => props.theme.curveFastoutSlowin};
-
     position: absolute;
     top: 0;
     right: 0;
@@ -124,6 +126,16 @@ const NotFoundVideoContainer = styled.div`
     transform-origin: left;
     z-index: 16;
   }
+
+  ${props => props.theme.id === 'light' && css`
+    -webkit-filter:invert(100%);
+    filter:progid:DXImageTransform.Microsoft.BasicImage(invert='1');
+
+    &:after {
+      -webkit-filter:invert(100%);
+      filter:progid:DXImageTransform.Microsoft.BasicImage(invert='1');
+    }
+  `}
 `;
 
 const NotFoundVideo = styled.video`
