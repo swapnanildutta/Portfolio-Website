@@ -1,6 +1,5 @@
 import React, { useContext, useRef, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-//import styled from 'styled-components/macro';
 import { AppContext } from '../app/App';
 import ProgressiveImage from '../components/ProgressiveImage';
 import { useScrollToTop } from '../utils/Hooks';
