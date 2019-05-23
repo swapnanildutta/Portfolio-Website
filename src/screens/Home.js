@@ -48,7 +48,7 @@ export default function Home(props) {
           setVisibleSections(prevSections => [...prevSections, section]);
         }
       });
-    }, { rootMargin: "0px 0px -10% 0px" }[activeSection]);
+    }, { rootMargin: "0px 0px -10% 0px" });
 
     const indicatorObserver = new IntersectionObserver(([entry]) => {
       setScrollIndicatorHidden(!entry.isIntersecting);
