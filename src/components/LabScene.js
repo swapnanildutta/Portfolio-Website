@@ -13,7 +13,7 @@ function LabScene() {
   const { currentTheme } = useContext(AppContext);
   const initialThemeRef = useRef(currentTheme);
   const container = useRef();
-  let isRendered = useRef(false);
+  const isRendered = useRef(false);
   const windowSize = useWindowSize();
   let ww = windowSize.width;
   let wh = windowSize.height;
