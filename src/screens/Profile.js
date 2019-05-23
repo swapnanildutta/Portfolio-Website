@@ -5,9 +5,9 @@ import Anchor from '../components/Anchor';
 import { RouterButton } from '../components/Button';
 import DecoderText from '../components/DecoderText';
 import ProgressiveImage from '../components/ProgressiveImage';
-import ProfileImg from '../assets/profile.jpg';
-import ProfileImgLarge from '../assets/profile-large.jpg';
-import ProfileImgPlaceholder from '../assets/profile-placeholder.jpg';
+import ProfileImg from '../assets/profile.webp';
+import ProfileImgLarge from '../assets/profile-large.webp';
+import ProfileImgPlaceholder from '../assets/profile-placeholder.webp';
 import { media } from '../utils/StyleUtils';
 const lab = '/lab';
 

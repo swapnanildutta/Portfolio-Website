@@ -7,19 +7,19 @@ import ProjectItem from '../screens/ProjectItem';
 import Profile from '../screens/Profile';
 import Footer from '../components/Footer';
 import ArMTG from '../assets/Lab/ArMTG.webp';
-import ArMTGPlaceHolder from '../assets/Lab/ArMTGPlaceholder.png';
+import ArMTGPlaceHolder from '../assets/Lab/ArMTGPlaceholder.webp';
 import Rainbow from '../assets/Lab/rainbow.webp';
-import RainbowPlaceholder from '../assets/Lab/rainbowPlaceholder.png';
+import RainbowPlaceholder from '../assets/Lab/rainbowPlaceholder.webp';
 import Cold from '../assets/Lab/cold.webp';
-import ColdPlaceholder from '../assets/Lab/coldPlaceholder.png';
+import ColdPlaceholder from '../assets/Lab/coldPlaceholder.webp';
 import One from '../assets/Lab/one.webp';
-import OnePlaceholder from '../assets/Lab/onePlaceholder.png';
+import OnePlaceholder from '../assets/Lab/onePlaceholder.webp';
 import Two from '../assets/Lab/two.webp';
-import TwoPlaceholder from '../assets/Lab/twoPlaceHolder.png';
+import TwoPlaceholder from '../assets/Lab/twoPlaceholder.webp';
 import Three from '../assets/Lab/three.webp';
-import ThreePlaceholder from '../assets/Lab/threePlaceholder.png';
+import ThreePlaceholder from '../assets/Lab/threePlaceholder.webp';
 import Four from '../assets/Lab/four.webp';
-import FourPlaceholder from '../assets/Lab/fourPlaceholder.png';
+import FourPlaceholder from '../assets/Lab/fourPlaceholder.webp';
 const disciplines = ['Lab'];
 
 export default function Lab(props) {

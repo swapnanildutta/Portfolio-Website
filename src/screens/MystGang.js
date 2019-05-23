@@ -12,13 +12,13 @@ import {
 } from '../components/Project';
 import { media } from '../utils/StyleUtils';
 import Background from '../assets/MystGang/mystGangBack.gif';
-import MystGangPlaceholder from '../assets/MystGang/placeholder.png';
+import MystGangPlaceholder from '../assets/MystGang/placeholder.webp';
 import MystGang from '../assets/MystGang/MystGang.webp'
-import MystGangDef from '../assets/MystGang/MystGangPlaceholder.png';
+import MystGangDef from '../assets/MystGang/mystGangPlaceholder.webp';
 import MystGangAnimation from '../assets/MystGang/mystGangAnimation.webp';
-import MystGangBranding from '../assets/MystGang/visualColors.png';
-import MystGangSketch from '../assets/MystGang/siteDesign.png';
-import MystGangWebGL from '../assets/MystGang/webGLRender.png';
+import MystGangBranding from '../assets/MystGang/visualColors.webp';
+import MystGangSketch from '../assets/MystGang/siteDesign.webp';
+import MystGangWebGL from '../assets/MystGang/webGLRender.webp';
 import MystGangFinal from '../assets/MystGang/5.webp';
 import { ReactComponent as MystLogo } from '../assets/MystGang/logo.svg';
 

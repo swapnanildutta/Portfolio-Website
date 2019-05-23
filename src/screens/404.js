@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet-async';
 import { RouterButton } from '../components/Button';
 import DecoderText from '../components/DecoderText';
 import { media, rgba } from '../utils/StyleUtils';
-import NotfoundPoster from '../assets/notfound.jpg';
+import NotfoundPoster from '../assets/notfound.webp';
 
 function NotFound() {
   return (

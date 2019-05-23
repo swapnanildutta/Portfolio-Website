@@ -15,7 +15,7 @@ import {
 import { media } from '../utils/StyleUtils';
 import background from '../assets/ARMTG/background.webp';
 import render from '../assets/ARMTG/ARMTGWeb.webp';
-import renderPlaceholder from '../assets/ARMTG/ARMTGWebPlaceHolder.png';
+import renderPlaceholder from '../assets/ARMTG/ARMTGWebPlaceHolder.webp';
 /*import labDemo from '../assets/Lab/ArMTG.webp';
 import branding from '../assets/ARMTG/branding.png';
 import iconography from '../assets/ARMTG/iconography.png';

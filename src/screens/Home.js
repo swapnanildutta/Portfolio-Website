@@ -6,18 +6,14 @@ import Intro from '../screens/Intro';
 import ProjectItem from '../screens/ProjectItem';
 import Profile from '../screens/Profile';
 import Footer from '../components/Footer';
-import BellsGC from '../assets/BellsGC/BellsGC.png';
-import BellsGCPlaceholder from '../assets/BellsGC/BellsGCPlaceholder.png';
-import BellsGCBackground from '../assets/BellsGC/background.webp';
+import BellsGC from '../assets/BellsGC/BellsGC.webp';
+import BellsGCPlaceholder from '../assets/BellsGC/BellsGCPlaceholder.webp';
 import MystGang from '../assets/MystGang/MystGang.webp';
-import MystGangPlaceholder from '../assets/MystGang/MystGangPlaceholder.png';
-import MystGangBackground from '../assets/MystGang/mystGangBack.gif';
+import MystGangPlaceholder from '../assets/MystGang/mystGangPlaceholder.webp';
 import ArMTG from '../assets/ARMTG/ARMTGWeb.webp';
-import ArMTGPlaceholder from '../assets/ARMTG/ARMTGWebPlaceHolder.png';
-import ArMTGBackground from '../assets/ARMTG/background.webp';
+import ArMTGPlaceholder from '../assets/ARMTG/ARMTGWebPlaceHolder.webp';
 import Robotics from '../assets/Robotics/robotics.webp';
-import RoboticsPlaceholder from '../assets/Robotics/roboticsPlaceholder.png';
-import RoboticsBackground from '../assets/Robotics/background.webp';
+import RoboticsPlaceholder from '../assets/Robotics/roboticsPlaceholder.webp';
 const disciplines = ['Developer'];
 
 export default function Home(props) {
@@ -27,7 +23,6 @@ export default function Home(props) {
   const initHash = useRef(hash);
   const [visibleSections, setVisibleSections] = useState([]);
   const [scrollIndicatorHidden, setScrollIndicatorHidden] = useState(false);
-  const activeSection = useRef();
   const intro = useRef();
   const projectOne = useRef();
   const projectTwo = useRef();
@@ -42,9 +37,8 @@ export default function Home(props) {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           const section = entry.target;
-          activeSection.current = section.id;
-          //sectionObserver.unobserve(section);
-          //if (visibleSections.includes(section)) return;
+          sectionObserver.unobserve(section);
+          if (visibleSections.includes(section)) return;
           setVisibleSections(prevSections => [...prevSections, section]);
         }
       });
@@ -121,9 +115,7 @@ export default function Home(props) {
         imageSrc={useMemo(() => [`${BellsGC}`], [])}
         imageAlt={useMemo(() => ['Bell\'s GC Website'], [])}
         imagePlaceholder={useMemo(() => [BellsGCPlaceholder], [])}
-        background={BellsGCBackground}
         customColor={'rgba(251, 201, 98, 1)'}
-        active={["work", "work2"].includes(activeSection.current)}
       />
       <ProjectItem
         id="work2"
@@ -137,9 +129,7 @@ export default function Home(props) {
         imageSrc={useMemo(() => [`${MystGang}`], [])}
         imageAlt={useMemo(() => ['MystGang Website'], [])}
         imagePlaceholder={useMemo(() => [MystGangPlaceholder], [])}
-        background={MystGangBackground}
         customColor={'rgba(181, 155, 105, 1)'}
-        active={["work", "work2", "work3"].includes(activeSection.current)}
       />
       <ProjectItem
         id="work3"
@@ -153,9 +143,7 @@ export default function Home(props) {
         imageSrc={useMemo(() => [`${ArMTG}`], [])}
         imageAlt={useMemo(() => ['ArMTG Website'], [])}
         imagePlaceholder={useMemo(() => [ArMTGPlaceholder], [])}
-        background={ArMTGBackground}
         customColor={'rgba(101, 154, 247, 1)'}
-        active={["work2", "work3", "work4"].includes(activeSection.current)}
       />
       <ProjectItem
     		id="work4"
@@ -169,9 +157,7 @@ export default function Home(props) {
         imageSrc={useMemo(() => [`${Robotics}`], [])}
         imageAlt={useMemo(() => ['Gateway Robotics Website'], [])}
         imagePlaceholder={useMemo(() => [RoboticsPlaceholder], [])}
-        background={RoboticsBackground}
         customColor={'rgba(54, 210, 120, 1)'}
-        active={["work3", "work4", "about"].includes(activeSection.current)}
       />
       <Profile
         id="about"
