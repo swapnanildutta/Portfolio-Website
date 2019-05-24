@@ -3,14 +3,12 @@ import styled, { keyframes } from 'styled-components/macro';
 import {
   WebGLRenderer, PerspectiveCamera, Scene, DirectionalLight, AmbientLight, Fog,
   Mesh, Color, InstancedBufferGeometry, BufferAttribute, InstancedBufferAttribute,
-  Vector4, RawShaderMaterial,
-  DoubleSide, Clock
+  Vector4, RawShaderMaterial, DoubleSide, Clock
 } from 'three';
 import { AppContext } from '../app/App';
 
 function RoboticsScene() {
   const { currentTheme } = useContext(AppContext);
-  const initialThemeRef = useRef(currentTheme);
   const container = useRef();
 
   useEffect(() => {
@@ -60,7 +58,7 @@ function RoboticsScene() {
             _classCallCheck(this, ParticleSystem);
             this.time = 0.0;
             var triangles = 1;
-            var instances = 7000;
+            var instances = 2000;
             var geometry = new InstancedBufferGeometry();
 
             var vertices = new BufferAttribute(new Float32Array(triangles * 3 * 3), 3);
@@ -71,7 +69,7 @@ function RoboticsScene() {
             geometry.addAttribute('position', vertices);
 
             var offsets = new InstancedBufferAttribute(new Float32Array(instances * 3), 3, 1);
-            var dist = 180;
+            var dist = 60;
             for (var i = 0, ul = offsets.count; i < ul; i++) {
                 offsets.setXYZ(i, (Math.random() - 0.5) * dist, (Math.random() - 0.5) * dist, (Math.random() - 0.5) * dist);
             }
@@ -162,25 +160,25 @@ function RoboticsScene() {
     var aspectRatio = WIDTH / HEIGHT;
     var fieldOfView = 60;
     var nearPlane = 0.1;
-    var farPlane = 100;
+    var farPlane = 60;
     var camera = new PerspectiveCamera(fieldOfView, aspectRatio, nearPlane, farPlane);
 
     var renderer = new WebGLRenderer({
-        alpha: true,
-        antialias: true
+        alpha: false,
+        antialias: false
     });
 
     renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setClearColor(initialThemeRef.current.colorBackground, 1);
+    renderer.setClearColor(currentTheme.colorBackground, 1);
     renderer.setSize(WIDTH, HEIGHT);
     container.current.appendChild(renderer.domElement);
 
-    var ambientLight = new AmbientLight(initialThemeRef.current.colorPrimary, 1.0);
+    var ambientLight = new AmbientLight(currentTheme.colorPrimary, 1.0);
     scene.add(ambientLight);
 
     function handleWindowResize() {
-        HEIGHT = window.innerHeight;
-        WIDTH = window.innerWidth;
+        HEIGHT = window.innerHeight / 10;
+        WIDTH = window.innerWidth / 10;
         renderer.setSize(WIDTH, HEIGHT);
         camera.aspect = WIDTH / HEIGHT;
         camera.updateProjectionMatrix();
@@ -211,8 +209,7 @@ function RoboticsScene() {
 
     var clock = new Clock();
     render();
-  });
-
+  }, [currentTheme]);
 
   return (
     <RoboticsContainer ref={container} aria-hidden />

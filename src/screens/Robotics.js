@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useEffect } from 'react';
+import React, { useContext, useRef, useEffect, lazy } from 'react';
 import { Helmet } from 'react-helmet-async';
 import styled from 'styled-components/macro';
 import { AppContext } from '../app/App';
@@ -8,12 +8,10 @@ import Footer from '../components/Footer';
 import { RouterButton } from '../components/Button';
 import {
   ProjectContainer, ProjectSection, ProjectSectionContent, ProjectImage,
-  ProjectSectionHeading, ProjectSectionText, ProjectBackground, ProjectHeader,
-  ProjectTextRow
+  ProjectSectionHeading, ProjectSectionText, ProjectHeader, ProjectTextRow
 } from '../components/Project';
 import { media } from '../utils/StyleUtils';
 import placeholder2 from '../assets/placeholder.png';
-import background from '../assets/Robotics/background.webp';
 import robotics from '../assets/Robotics/robotics.webp';
 import roboticsPlaceholder from '../assets/Robotics/roboticsPlaceholder.webp';
 import branding from '../assets/Robotics/branding.webp';
@@ -28,6 +26,8 @@ import home from '../assets/Robotics/home.webp';
 import game from '../assets/Robotics/game.webp';
 import robotS from '../assets/Robotics/robot2.webp';
 import impact from '../assets/Robotics/impact.webp';
+
+const RoboticsScene = lazy(() => import('../components/RoboticsScene'));
 
 const prerender = navigator.userAgent === 'ReactSnap';
 const title = 'GCPS Robotics';
@@ -75,11 +75,7 @@ function Robotics(props) {
         meta={[{ name: 'description', content: description, }]}
       />
       <ProjectContainer>
-        <ProjectBackground
-          srcSet={`${background} 1000w, ${background} 1920w`}
-          opacity={0.8}
-          entered={!prerender}
-        />
+        <RoboticsScene />
         <ProjectHeader
           title={title}
           description={description}
@@ -184,7 +180,7 @@ function Robotics(props) {
           <ProjectTextRow>
             <ProjectSectionHeading>Creating the Robot</ProjectSectionHeading>
             <ProjectSectionText>
-              Model and renders of the final robot I did in Autodesk's Fusion 360.
+              Field model and renders of the final robot in Autodesk's Fusion 360.
             </ProjectSectionText>
           </ProjectTextRow>
           <ProjectSectionContent>
