@@ -173,7 +173,7 @@ export const ProjectBackgroundImage = styled(ProgressiveImage).attrs(props => ({
     z-index: 1;
     width: 100%;
     height: 100%;
-    background: linear-gradient(180deg,rgba(${props => props.theme.id === 'dark' ? '17,17,17' : '242,242,242'},0.3) 0%,rgba(${props => props.theme.id === 'dark' ? '17,17,17' : '242,242,242'},0.3) 100% );
+    background: linear-gradient(180deg,rgba(${props => props.theme.id === 'dark' ? '17, 17, 17' : '255, 255, 255'},0.3) 0%,rgba(${props => props.theme.id === 'dark' ? '17,17,17' : '242,242,242'},0.3) 100% );
   }
 `;
 
