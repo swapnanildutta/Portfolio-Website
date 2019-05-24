@@ -7,8 +7,9 @@ import { useScrollToTop } from '../utils/Hooks';
 import { RouterButton } from '../components/Button';
 import Footer from '../components/Footer';
 import {
-  ProjectContainer, ProjectSection, ProjectSectionContent, ProjectImage, ProjectBackground, ProjectHeader,
-  ProjectSectionHeading, ProjectSectionText, ProjectTextRow,
+  ProjectContainer, ProjectSection, ProjectSectionContent, ProjectImage,
+  ProjectBackground, ProjectHeader, ProjectSectionHeading, ProjectSectionText,
+  ProjectTextRow,
 } from '../components/Project';
 import { media } from '../utils/StyleUtils';
 import Background from '../assets/MystGang/mystGangBack.gif';
