@@ -23,10 +23,10 @@ import gcpsDash from '../assets/Robotics/gcps-dash-large.webp';
 import gcpsDashPlaceholder from '../assets/Robotics/gcps-dash-placeholder.webp';
 import firmware from '../assets/Robotics/firmware.webp';
 import robotCourse from '../assets/Robotics/render.webp';
-import robot from '../assets/Robotics/robot2.webp';
+import robot from '../assets/Robotics/robot.webp';
 import home from '../assets/Robotics/home.webp';
 import game from '../assets/Robotics/game.webp';
-import robotS from '../assets/Robotics/robot.webp';
+import robotS from '../assets/Robotics/robot2.webp';
 import impact from '../assets/Robotics/impact.webp';
 
 const prerender = navigator.userAgent === 'ReactSnap';
