@@ -13,7 +13,7 @@ function ProjectItem(props) {
   const {
     id, visible, sectionRef, index, title, description, imageSrc, imageAlt, phone,
     imagePlaceholder, buttonText, buttonLink, buttonTo, alternate, background, customColor,
-    active, ...rest
+    active, still, ...rest
   } = props;
 
   return (
@@ -67,9 +67,10 @@ function ProjectItem(props) {
                         <ProjectItemPreviewContentLaptop>
                           <ProjectItemImageLaptop
                             status={status}
-                            srcSet={imageSrc[0]}
-                            alt={imageAlt[0]}
-                            placeholder={imagePlaceholder[0]}
+                            srcSet={still ? null : imageSrc[0]}
+                            alt={still ? null : imageAlt[0]}
+                            placeholder={still ? null : imagePlaceholder[0]}
+                            still={still}
                             sizes={`(max-width: ${media.mobile}) 300px,(max-width: ${media.tablet}) 420px,(max-width: ${media.desktop}) 860px, 900px`}
                           />
                         </ProjectItemPreviewContentLaptop>
@@ -439,8 +440,14 @@ const ProjectItemImageLaptop = styled(ProgressiveImage)`
     margin-bottom: 60px;
   }
 
-  background-image: url(${Macbook});
+  background-image: url(${props => props.still ? props.still : Macbook});
   background-size: cover;
+
+  ${props => props.still && css`
+    img {
+      display: none;
+    }
+  `}
 `;
 
 const ProjectItemPhone = styled.div`
