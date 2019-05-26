@@ -9,16 +9,16 @@ import Footer from '../components/Footer';
 import { usePrefersReducedMotion } from '../utils/Hooks';
 import BellsGC from '../assets/BellsGC/BellsGC.webp';
 import BellsGCPlaceholder from '../assets/BellsGC/BellsGCPlaceholder.webp';
-import BellsGCStill from '../assets/BellsGC/bells-project.png'
+import BellsGCStill from '../assets/BellsGC/BellsGCStill.webp';
 import MystGang from '../assets/MystGang/MystGang.webp';
 import MystGangPlaceholder from '../assets/MystGang/mystGangPlaceholder.webp';
-import MystGangStill from '../assets/MystGang/mystgang-project.png';
+import MystGangStill from '../assets/MystGang/MystGangStill.webp';
 import ArMTG from '../assets/ARMTG/ARMTGWeb.webp';
 import ArMTGPlaceholder from '../assets/ARMTG/ARMTGWebPlaceHolder.webp';
-import ArMTGStill from '../assets/ARMTG/armtg-project.png';
+import ArMTGStill from '../assets/ARMTG/ARMTGStill.webp';
 import Robotics from '../assets/Robotics/robotics.webp';
 import RoboticsPlaceholder from '../assets/Robotics/roboticsPlaceholder.webp';
-import RoboticsStill from '../assets/Robotics/dash-project.png';
+import RoboticsStill from '../assets/Robotics/roboticsStill.webp';
 const disciplines = ['Developer'];
 
 export default function Home(props) {
