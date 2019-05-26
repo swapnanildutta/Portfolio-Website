@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components/macro';
+import { usePrefersReducedMotion } from '../utils/Hooks';
 
 const chars = [
   'A', 'a', 'B', 'b', 'C', 'c', 'D', 'd', 'E', 'e', 'F', 'f', 'G', 'g', 'H', 'h', 'I', 'i', 'J', 'j', 'K', 'k', 'L', 'l', 'M', 'm', 'N', 'n', 'O', 'o', 'P', 'p', 'Q', 'q', 'R', 'r', 'S', 's', 'T', 't', 'U', 'u', 'V', 'v', 'W', 'w', 'X', 'x', 'Y', 'y', 'Z', 'z',
@@ -24,11 +25,12 @@ function DecoderText(props) {
   const content = useRef(text.split(''));
   const startTime = useRef(0);
   const elapsedTime = useRef(0);
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
     let timeout;
 
-    if (start && !started) {
+    if (start && !started && !prefersReducedMotion) {
       timeout = setTimeout(() => {
         startTime.current = Date.now();
         elapsedTime.current = 0;
@@ -36,10 +38,17 @@ function DecoderText(props) {
       }, delay);
     }
 
+    if (prefersReducedMotion) {
+      setOutput(content.current.map((value, index) => ({
+        type: 'actual',
+        value: content.current[index],
+      })));
+    }
+
     return function cleanUp() {
       clearTimeout(timeout);
     };
-  }, [delay, start, started]);
+  }, [delay, prefersReducedMotion, start, started]);
 
   useEffect(() => {
     let animation;

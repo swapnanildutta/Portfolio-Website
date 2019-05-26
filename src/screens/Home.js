@@ -6,6 +6,7 @@ import Intro from '../screens/Intro';
 import ProjectItem from '../screens/ProjectItem';
 import Profile from '../screens/Profile';
 import Footer from '../components/Footer';
+import { usePrefersReducedMotion } from '../utils/Hooks';
 import BellsGC from '../assets/BellsGC/BellsGC.webp';
 import BellsGCPlaceholder from '../assets/BellsGC/BellsGCPlaceholder.webp';
 import MystGang from '../assets/MystGang/MystGang.webp';
@@ -29,6 +30,7 @@ export default function Home(props) {
   const projectThree = useRef();
   const projectFour = useRef();
   const about = useRef();
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
     const revealSections = [intro, projectOne, projectTwo, projectThree, projectFour, about];
@@ -69,10 +71,10 @@ export default function Home(props) {
       window.scroll({
         top: hashString === 'intro' ? 0 : element.current.offsetTop,
         left: 0,
-        behavior: scroll ? 'smooth' : 'instant',
+        behavior: scroll && !prefersReducedMotion ? 'smooth' : 'instant',
       });
     }
-  }, []);
+  }, [prefersReducedMotion]);
 
   useEffect(() => {
     if (status === 'entered') {
