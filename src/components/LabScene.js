@@ -8,6 +8,7 @@ import {
 } from 'three';
 import { media } from '../utils/StyleUtils';
 import { AppContext } from '../app/App';
+import { usePrefersReducedMotion } from '../utils/Hooks';
 
 function LabScene() {
   const { currentTheme } = useContext(AppContext);
@@ -15,6 +16,7 @@ function LabScene() {
   const container = useRef();
   const isRendered = useRef(false);
   const windowSize = useWindowSize();
+  const prefersReducedMotion = usePrefersReducedMotion();
   let ww = windowSize.width;
   let wh = windowSize.height;
   let isMobile = ww < media.mobile;
@@ -22,8 +24,10 @@ function LabScene() {
   function Lab3D() {
     this.init();
     this.createMesh();
-    this.handleEvents();
-    window.requestAnimationFrame(this.render.bind(this));
+    if (!prefersReducedMotion) {
+      this.handleEvents();
+      window.requestAnimationFrame(this.render.bind(this));
+    }
   }
 
   Lab3D.prototype.init = function() {

@@ -6,10 +6,12 @@ import {
   Vector4, RawShaderMaterial, DoubleSide, Clock
 } from 'three';
 import { AppContext } from '../app/App';
+import { usePrefersReducedMotion } from '../utils/Hooks';
 
 function RoboticsScene() {
   const { currentTheme } = useContext(AppContext);
   const container = useRef();
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
     var SceneRoot = function() {
@@ -185,13 +187,16 @@ function RoboticsScene() {
     }
 
     var render = function render() {
+        if (!prefersReducedMotion) return;
         var delta = clock.getDelta();
         particles.update(delta);
         renderer.render(scene, camera);
         window.requestAnimationFrame(render);
     };
 
-    window.addEventListener('resize', handleWindowResize, false);
+    if (!prefersReducedMotion) {
+      window.addEventListener('resize', handleWindowResize, false);
+    }
 
     ambientLight = new AmbientLight(0xcccccc, 0.4);
     scene.add(ambientLight);
@@ -209,7 +214,7 @@ function RoboticsScene() {
 
     var clock = new Clock();
     render();
-  }, [currentTheme]);
+  }, [currentTheme, prefersReducedMotion]);
 
   return (
     <RoboticsContainer ref={container} aria-hidden />
