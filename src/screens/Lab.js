@@ -185,7 +185,7 @@ export default function Lab(props) {
         title="Up in Flames"
         description="The second take on a series of ThreeJS experiments toying with BAS Utilities."
         buttonText="Launch Experiment"
-        buttonLink="https://codepen.io/cbenn/full/EeRrPWe"
+        buttonLink="https://codepen.io/cbenn/full/EeRrPW"
         imageSrc={useMemo(() => [`${Two}`], [])}
         imageAlt={useMemo(() => ['The second take on a series of ThreeJS experiments toying with BAS Utilities.'], [])}
         imagePlaceholder={useMemo(() => [TwoPlaceholder], [])}
