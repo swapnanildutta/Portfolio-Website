@@ -10,6 +10,8 @@ import { usePrefersReducedMotion } from '../utils/Hooks';
 
 function RoboticsScene() {
   const { currentTheme } = useContext(AppContext);
+  const width = useRef(window.innerWidth);
+  const height = useRef(window.innerHeight);
   const container = useRef();
   const prefersReducedMotion = usePrefersReducedMotion();
 
@@ -153,7 +155,7 @@ function RoboticsScene() {
 
     scene.fog = new Fog(0xfec23e, 2, 10);
 
-    var aspectRatio = window.innerWidth / window.innerHeight;
+    var aspectRatio = width.current / height.current;
     var fieldOfView = 60;
     var nearPlane = 0.1;
     var farPlane = 60;
@@ -166,15 +168,15 @@ function RoboticsScene() {
 
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setClearColor(currentTheme.colorBackground, 1);
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(width.current, height.current);
     container.current.appendChild(renderer.domElement);
 
     var ambientLight = new AmbientLight(currentTheme.colorPrimary, 1.0);
     scene.add(ambientLight);
 
     function handleWindowResize() {
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        camera.aspect = window.innerWidth / window.innerHeight;
+        renderer.setSize(width.current, height.current);
+        camera.aspect = width.current / height.current;
         camera.updateProjectionMatrix();
     }
 
