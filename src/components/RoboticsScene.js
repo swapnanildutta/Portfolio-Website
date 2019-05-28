@@ -70,14 +70,14 @@ function RoboticsScene() {
             vertices.setXYZ(2, 0, 0, unit);
             geometry.addAttribute('position', vertices);
 
-            var offsets = new InstancedBufferAttribute(new Float32Array(instances * 3), 3, 1);
+            var offsets = new InstancedBufferAttribute(new Float32Array(instances * 3), 3, false, 1);
             var dist = 60;
             for (var i = 0, ul = offsets.count; i < ul; i++) {
                 offsets.setXYZ(i, (Math.random() - 0.5) * dist, (Math.random() - 0.5) * dist, (Math.random() - 0.5) * dist);
             }
             geometry.addAttribute('offset', offsets);
 
-            var colors = new InstancedBufferAttribute(new Float32Array(instances * 4), 4, 1);
+            var colors = new InstancedBufferAttribute(new Float32Array(instances * 4), 4, false, 1);
 
             var threeColor = new Color();
             var count = 1;
@@ -95,7 +95,7 @@ function RoboticsScene() {
             }
             geometry.addAttribute('color', colors);
 
-            var timeOffsets = new InstancedBufferAttribute(new Float32Array(instances * 1), 1, 1);
+            var timeOffsets = new InstancedBufferAttribute(new Float32Array(instances * 1), 1, false, 1);
 
             for (var _i2 = 0, _ul2 = timeOffsets.count; _i2 < _ul2; _i2++) {
                 timeOffsets.setX(_i2, Math.random());
@@ -103,7 +103,7 @@ function RoboticsScene() {
             geometry.addAttribute('timeOffset', timeOffsets);
 
             var vector = new Vector4();
-            var orientationsStart = new InstancedBufferAttribute(new Float32Array(instances * 4), 4, 1);
+            var orientationsStart = new InstancedBufferAttribute(new Float32Array(instances * 4), 4, false, 1);
             for (var _i3 = 0, _ul3 = orientationsStart.count; _i3 < _ul3; _i3++) {
                 vector.set(Math.random() * 2 - 1, Math.random() * 2 - 1, Math.random() * 2 - 1, Math.random() * 2 - 1);
                 vector.normalize();
@@ -111,7 +111,7 @@ function RoboticsScene() {
             }
             geometry.addAttribute('orientationStart', orientationsStart);
 
-            var orientationsEnd = new InstancedBufferAttribute(new Float32Array(instances * 4), 4, 1);
+            var orientationsEnd = new InstancedBufferAttribute(new Float32Array(instances * 4), 4, false, 1);
             for (var _i4 = 0, _ul4 = orientationsEnd.count; _i4 < _ul4; _i4++) {
                 vector.set(Math.random() * 2 - 1, Math.random() * 2 - 1, Math.random() * 2 - 1, Math.random() * 2 - 1);
                 vector.normalize();
@@ -128,14 +128,11 @@ function RoboticsScene() {
                         value: 5.0
                     }
                 },
-
                 vertexShader: '\n        precision highp float;\n        uniform float time;\n        uniform mat4 modelViewMatrix;\n        uniform mat4 projectionMatrix;\n        attribute vec3 position;\n        attribute vec3 offset;\n        attribute vec4 color;\n        attribute vec4 orientationStart;\n        attribute vec4 orientationEnd;\n        attribute float timeOffset;\n        varying vec4 vColor;\n        varying float lifeProgress;\n\n        void main(){\n\n          vec3 vPosition = offset;\n\n          lifeProgress = mod(time+timeOffset,1.0);\n\n          vPosition = offset * lifeProgress + position;\n          vec4 orientation = normalize(mix(orientationStart, orientationEnd, lifeProgress));\n          vec3 vcV = cross(orientation.xyz, vPosition);\n          //orientation.w *= time*5.0;\n          vPosition = vcV * (2.0 * orientation.w) + (cross(orientation.xyz, vcV) * 2.0 + vPosition);\n          vColor = color;\n          gl_Position = projectionMatrix * modelViewMatrix * vec4( vPosition, 1.0 );\n        }\n        ',
                 fragmentShader: '\n      precision highp float;\n      uniform float time;\n      varying vec4 vColor;\n      varying float lifeProgress;\n\n      void main() {\n        float depth = gl_FragCoord.z / gl_FragCoord.w / 5.0;\n        float opacity = clamp(0.2, 1.0, depth);\n        vec4 color = vColor;\n        color.a = sin(lifeProgress*100.0)*opacity;\n        gl_FragColor = color;\n      }\n      ',
-
                 side: DoubleSide,
                 transparent: true
             });
-
 
             var mesh = new Mesh(geometry, material);
             mesh.frustumCulled = false;
@@ -152,14 +149,11 @@ function RoboticsScene() {
         return ParticleSystem;
     }();
 
-    var HEIGHT = window.innerHeight;
-    var WIDTH = window.innerWidth;
-
     var scene = new Scene();
 
     scene.fog = new Fog(0xfec23e, 2, 10);
 
-    var aspectRatio = WIDTH / HEIGHT;
+    var aspectRatio = window.innerWidth / window.innerHeight;
     var fieldOfView = 60;
     var nearPlane = 0.1;
     var farPlane = 60;
@@ -167,34 +161,32 @@ function RoboticsScene() {
 
     var renderer = new WebGLRenderer({
         alpha: false,
-        antialias: false
+        antialias: true
     });
 
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setClearColor(currentTheme.colorBackground, 1);
-    renderer.setSize(WIDTH, HEIGHT);
+    renderer.setSize(window.innerWidth, window.innerHeight);
     container.current.appendChild(renderer.domElement);
 
     var ambientLight = new AmbientLight(currentTheme.colorPrimary, 1.0);
     scene.add(ambientLight);
 
     function handleWindowResize() {
-        HEIGHT = window.innerHeight / 10;
-        WIDTH = window.innerWidth / 10;
-        renderer.setSize(WIDTH, HEIGHT);
-        camera.aspect = WIDTH / HEIGHT;
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
     }
 
     var render = function render() {
-        if (!prefersReducedMotion) return;
+        if (prefersReducedMotion) return;
         var delta = clock.getDelta();
         particles.update(delta);
         renderer.render(scene, camera);
         window.requestAnimationFrame(render);
     };
 
-    if (!prefersReducedMotion) {
+    if(!prefersReducedMotion) {
       window.addEventListener('resize', handleWindowResize, false);
     }
 
