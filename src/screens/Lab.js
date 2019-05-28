@@ -6,20 +6,14 @@ import Intro from '../screens/Intro';
 import ProjectItem from '../screens/ProjectItem';
 import Profile from '../screens/Profile';
 import Footer from '../components/Footer';
+import placeholder2 from '../assets/placeholder.png';
 import ArMTG from '../assets/Lab/ArMTG.webp';
-import ArMTGPlaceHolder from '../assets/Lab/ArMTGPlaceholder.webp';
 import Rainbow from '../assets/Lab/rainbow.webp';
-import RainbowPlaceholder from '../assets/Lab/rainbowPlaceholder.webp';
 import Cold from '../assets/Lab/cold.webp';
-import ColdPlaceholder from '../assets/Lab/coldPlaceholder.webp';
-import One from '../assets/Lab/one.webp';
-import OnePlaceholder from '../assets/Lab/onePlaceholder.webp';
-import Two from '../assets/Lab/two.webp';
-import TwoPlaceholder from '../assets/Lab/twoPlaceholder.webp';
-import Three from '../assets/Lab/three.webp';
-import ThreePlaceholder from '../assets/Lab/threePlaceholder.webp';
-import Four from '../assets/Lab/four.webp';
-import FourPlaceholder from '../assets/Lab/fourPlaceholder.webp';
+import World from '../assets/Lab/world.webp';
+import Tunnel from '../assets/Lab/tunnel.webp';
+import Flames from '../assets/Lab/flames.webp';
+import Frames from '../assets/Lab/frames.webp';
 const disciplines = ['Lab'];
 
 export default function Lab(props) {
@@ -123,7 +117,7 @@ export default function Lab(props) {
         buttonLink="https://github.com/CodyJasonBennett/ArMTG"
         imageSrc={useMemo(() => [`${ArMTG}`], [])}
         imageAlt={useMemo(() => ['ArMTG Website'], [])}
-        imagePlaceholder={useMemo(() => [ArMTGPlaceHolder], [])}
+        imagePlaceholder={useMemo(() => [placeholder2], [])}
       />
 	    <ProjectItem
         id="experiment2"
@@ -136,7 +130,7 @@ export default function Lab(props) {
         buttonLink="https://codepen.io/cbenn/full/YBoPRo"
         imageSrc={useMemo(() => [`${Rainbow}`], [])}
         imageAlt={useMemo(() => ["A colorful experiment with BAS Utilities and ThreeJS."], [])}
-        imagePlaceholder={useMemo(() => [RainbowPlaceholder], [])}
+        imagePlaceholder={useMemo(() => [placeholder2], [])}
       />
       <ProjectItem
 		    id="experiment3"
@@ -149,7 +143,7 @@ export default function Lab(props) {
         buttonLink="https://codepen.io/cbenn/full/ywBLMQ"
         imageSrc={useMemo(() => [`${Cold}`], [])}
         imageAlt={useMemo(() => ['Another animation in ThreeJS with BAS Utilities.'], [])}
-        imagePlaceholder={useMemo(() => [ColdPlaceholder], [])}
+        imagePlaceholder={useMemo(() => [placeholder2], [])}
       />
 	    <ProjectItem
         id="experiment4"
@@ -160,9 +154,9 @@ export default function Lab(props) {
         description="The fourth take on a series of ThreeJS experiments toying with BAS Utilities."
         buttonText="Launch Experiment"
         buttonLink="https://codepen.io/cbenn/full/rZKPjj"
-        imageSrc={useMemo(() => [`${Four}`], [])}
+        imageSrc={useMemo(() => [`${World}`], [])}
         imageAlt={useMemo(() => ['The fourth take on a series of ThreeJS experiments toying with BAS Utilities.'], [])}
-        imagePlaceholder={useMemo(() => [FourPlaceholder], [])}
+        imagePlaceholder={useMemo(() => [placeholder2], [])}
       />
 	    <ProjectItem
         id="experiment5"
@@ -173,9 +167,9 @@ export default function Lab(props) {
         description="The third take on a series of ThreeJS experiments toying with BAS Utilities."
         buttonText="Launch Experiment"
         buttonLink="https://codepen.io/cbenn/full/dqKaXm"
-        imageSrc={useMemo(() => [`${Three}`], [])}
+        imageSrc={useMemo(() => [`${Tunnel}`], [])}
         imageAlt={useMemo(() => ['The third take on a series of ThreeJS experiments toying with BAS Utilities.'], [])}
-        imagePlaceholder={useMemo(() => [ThreePlaceholder], [])}
+        imagePlaceholder={useMemo(() => [placeholder2], [])}
       />
 	    <ProjectItem
         id="experiment6"
@@ -186,9 +180,9 @@ export default function Lab(props) {
         description="The second take on a series of ThreeJS experiments toying with BAS Utilities."
         buttonText="Launch Experiment"
         buttonLink="https://codepen.io/cbenn/full/EeRrPW"
-        imageSrc={useMemo(() => [`${Two}`], [])}
+        imageSrc={useMemo(() => [`${Flames}`], [])}
         imageAlt={useMemo(() => ['The second take on a series of ThreeJS experiments toying with BAS Utilities.'], [])}
-        imagePlaceholder={useMemo(() => [TwoPlaceholder], [])}
+        imagePlaceholder={useMemo(() => [placeholder2], [])}
       />
 	    <ProjectItem
         id="experiment7"
@@ -199,9 +193,9 @@ export default function Lab(props) {
         description="First take on a series of ThreeJS experiments toying with BAS Utilites."
         buttonText="Launch Experiment"
         buttonLink="https://codepen.io/cbenn/full/KxeJpK"
-        imageSrc={useMemo(() => [`${One}`], [])}
+        imageSrc={useMemo(() => [`${Frames}`], [])}
         imageAlt={useMemo(() => ['First take on a series of ThreeJS experiments toying with BAS Utilites.'], [])}
-        imagePlaceholder={useMemo(() => [OnePlaceholder], [])}
+        imagePlaceholder={useMemo(() => [placeholder2], [])}
 	    />
       <Profile
         sectionRef={about}
