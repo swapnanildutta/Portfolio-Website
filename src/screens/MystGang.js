@@ -39,7 +39,7 @@ const roles = [
   '3D Animation',
 ];
 
-function Project() {
+function MystGang() {
   const { status, updateTheme, currentTheme } = useContext(AppContext);
   const currentThemeRef = useRef(currentTheme);
   useScrollToTop(status);
