@@ -18,7 +18,7 @@ function Input(props) {
         htmlFor={inputId.current}
         focused={focused}
       >
-        {label}
+        label
       </InputLabel>
       <InputElement
         as={multiline ? TextArea : null}

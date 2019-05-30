@@ -94,12 +94,12 @@ export default function DisplacementSlider(props) {
     camera.current = new OrthographicCamera(...cameraOptions);
     scene.current = new Scene();
     renderer.current.setPixelRatio(window.devicePixelRatio);
-    renderer.current.setClearColor(currentTheme ? currentTheme.colorBackground : 0x111111, 1.0);
+    renderer.current.setClearColor(currentTheme.colorBackground, 1.0);
     renderer.current.setSize(width, height);
     renderer.current.domElement.style.width = '100%';
     renderer.current.domElement.style.height = 'auto';
     renderer.current.domElement.setAttribute('aria-hidden', true);
-    scene.current.background = new Color(currentTheme ? currentTheme.colorBackground : 0x111111);
+    scene.current.background = new Color(currentTheme.colorBackground);
     camera.current.position.z = 1;
     containerElement.appendChild(renderer.current.domElement);
 
