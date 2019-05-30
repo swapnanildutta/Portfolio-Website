@@ -14,7 +14,7 @@ import {
 import { media } from '../utils/StyleUtils';
 import Background from '../assets/MystGang/mystGangBack.gif';
 import MystGangPlaceholder from '../assets/MystGang/placeholder.webp';
-import MystGang from '../assets/MystGang/MystGang.webp'
+import MystGangRender from '../assets/MystGang/MystGang.webp'
 import MystGangDef from '../assets/MystGang/mystGangPlaceholder.webp';
 import MystGangAnimation from '../assets/MystGang/mystGangAnimation.webp';
 import MystGangBranding from '../assets/MystGang/visualColors.webp';
@@ -39,7 +39,7 @@ const roles = [
   '3D Animation',
 ];
 
-function Project() {
+function MystGang() {
   const { status, updateTheme, currentTheme } = useContext(AppContext);
   const currentThemeRef = useRef(currentTheme);
   useScrollToTop(status);
@@ -91,7 +91,7 @@ function Project() {
             <ProjectImage>
               <ProgressiveImage
                 reveal
-                srcSet={`${MystGang} 800w, ${MystGang} 1100w`}
+                srcSet={`${MystGangRender} 800w, ${MystGangRender} 1100w`}
                 placeholder={MystGangDef}
                 alt=""
                 sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
@@ -240,4 +240,4 @@ const LogoContainer = styled.div`
   }
 `;
 
-export default Project;
+export default MystGang;
