@@ -14,25 +14,24 @@ function RoboticsScene() {
   const height = useRef(window.innerHeight);
   const container = useRef();
   const prefersReducedMotion = usePrefersReducedMotion();
+  const SceneRoot = useRef(function() {
+    function defineProperties(target, props) {
+      for (let i = 0; i < props.length; i++) {
+        let descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ("value" in descriptor) descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
+      }
+    }
+    return function(Constructor, protoProps, staticProps) {
+      if (protoProps) defineProperties(Constructor.prototype, protoProps);
+      if (staticProps) defineProperties(Constructor, staticProps);
+      return Constructor;
+    };
+  }());
 
   useEffect(() => {
-    var SceneRoot = function() {
-      function defineProperties(target, props) {
-        for (var i = 0; i < props.length; i++) {
-          var descriptor = props[i];
-          descriptor.enumerable = descriptor.enumerable || false;
-          descriptor.configurable = true;
-          if ("value" in descriptor) descriptor.writable = true;
-          Object.defineProperty(target, descriptor.key, descriptor);
-        }
-      }
-      return function(Constructor, protoProps, staticProps) {
-        if (protoProps) defineProperties(Constructor.prototype, protoProps);
-        if (staticProps) defineProperties(Constructor, staticProps);
-        return Constructor;
-      };
-    }();
-
     function _classCallCheck(instance, Constructor) {
       if (!(instance instanceof Constructor)) {
         throw new TypeError("Class already exists.");
@@ -57,33 +56,33 @@ function RoboticsScene() {
       detailEmissive: 0
     };
 
-    var ParticleSystem = function() {
+    const ParticleSystem = function() {
       function ParticleSystem() {
         _classCallCheck(this, ParticleSystem);
         this.time = 0.0;
-        var triangles = 1;
-        var instances = 2000;
-        var geometry = new InstancedBufferGeometry();
+        const triangles = 1;
+        const instances = 2000;
+        const geometry = new InstancedBufferGeometry();
 
-        var vertices = new BufferAttribute(new Float32Array(triangles * 3 * 3), 3);
-        var unit = 0.055;
+        const vertices = new BufferAttribute(new Float32Array(triangles * 3 * 3), 3);
+        const unit = 0.055;
         vertices.setXYZ(0, unit, -unit, 0);
         vertices.setXYZ(1, -unit, unit, 0);
         vertices.setXYZ(2, 0, 0, unit);
         geometry.addAttribute('position', vertices);
 
-        var offsets = new InstancedBufferAttribute(new Float32Array(instances * 3), 3, false, 1);
-        var dist = 60;
-        for (var i = 0, ul = offsets.count; i < ul; i++) {
+        const offsets = new InstancedBufferAttribute(new Float32Array(instances * 3), 3, false, 1);
+        const dist = 60;
+        for (let i = 0, ul = offsets.count; i < ul; i++) {
           offsets.setXYZ(i, (Math.random() - 0.5) * dist, (Math.random() - 0.5) * dist, (Math.random() - 0.5) * dist);
         }
         geometry.addAttribute('offset', offsets);
 
-        var colors = new InstancedBufferAttribute(new Float32Array(instances * 4), 4, false, 1);
+        const colors = new InstancedBufferAttribute(new Float32Array(instances * 4), 4, false, 1);
 
-        var threeColor = new Color();
-        var count = 1;
-        for (var _i = 0, _ul = colors.count; _i < _ul; _i++) {
+        const threeColor = new Color();
+        let count = 1;
+        for (let _i = 0, _ul = colors.count; _i < _ul; _i++) {
           if (count === 1) {
             var c = threeColor.setHex(gwGreen.mainColor);
             colors.setXYZW(_i, c.r, c.g, c.b, 1);
@@ -97,31 +96,31 @@ function RoboticsScene() {
         }
         geometry.addAttribute('color', colors);
 
-        var timeOffsets = new InstancedBufferAttribute(new Float32Array(instances * 1), 1, false, 1);
+        const timeOffsets = new InstancedBufferAttribute(new Float32Array(instances * 1), 1, false, 1);
 
-        for (var _i2 = 0, _ul2 = timeOffsets.count; _i2 < _ul2; _i2++) {
+        for (let _i2 = 0, _ul2 = timeOffsets.count; _i2 < _ul2; _i2++) {
           timeOffsets.setX(_i2, Math.random());
         }
         geometry.addAttribute('timeOffset', timeOffsets);
 
-        var vector = new Vector4();
-        var orientationsStart = new InstancedBufferAttribute(new Float32Array(instances * 4), 4, false, 1);
-        for (var _i3 = 0, _ul3 = orientationsStart.count; _i3 < _ul3; _i3++) {
+        const vector = new Vector4();
+        const orientationsStart = new InstancedBufferAttribute(new Float32Array(instances * 4), 4, false, 1);
+        for (let _i3 = 0, _ul3 = orientationsStart.count; _i3 < _ul3; _i3++) {
           vector.set(Math.random() * 2 - 1, Math.random() * 2 - 1, Math.random() * 2 - 1, Math.random() * 2 - 1);
           vector.normalize();
           orientationsStart.setXYZW(_i3, vector.x, vector.y, vector.z, vector.w);
         }
         geometry.addAttribute('orientationStart', orientationsStart);
 
-        var orientationsEnd = new InstancedBufferAttribute(new Float32Array(instances * 4), 4, false, 1);
-        for (var _i4 = 0, _ul4 = orientationsEnd.count; _i4 < _ul4; _i4++) {
+        const orientationsEnd = new InstancedBufferAttribute(new Float32Array(instances * 4), 4, false, 1);
+        for (let _i4 = 0, _ul4 = orientationsEnd.count; _i4 < _ul4; _i4++) {
           vector.set(Math.random() * 2 - 1, Math.random() * 2 - 1, Math.random() * 2 - 1, Math.random() * 2 - 1);
           vector.normalize();
           orientationsEnd.setXYZW(_i4, vector.x, vector.y, vector.z, vector.w);
         }
         geometry.addAttribute('orientationEnd', orientationsEnd);
 
-        var material = new RawShaderMaterial({
+        const material = new RawShaderMaterial({
           uniforms: {
             time: {
               value: 5.0
@@ -136,11 +135,11 @@ function RoboticsScene() {
           transparent: true
         });
 
-        var mesh = new Mesh(geometry, material);
+        const mesh = new Mesh(geometry, material);
         mesh.frustumCulled = false;
         this.mesh = mesh;
       }
-      SceneRoot(ParticleSystem, [{
+      SceneRoot.current(ParticleSystem, [{
         key: 'update',
         value: function update(
           dt) {
@@ -151,17 +150,13 @@ function RoboticsScene() {
       return ParticleSystem;
     }();
 
-    var scene = new Scene();
+    const scene = new Scene();
 
     scene.fog = new Fog(0xfec23e, 2, 10);
 
-    var aspectRatio = width.current / height.current;
-    var fieldOfView = 60;
-    var nearPlane = 0.1;
-    var farPlane = 60;
-    var camera = new PerspectiveCamera(fieldOfView, aspectRatio, nearPlane, farPlane);
+    const camera = new PerspectiveCamera(60, width.current / height.current, 0.1, 60);
 
-    var renderer = new WebGLRenderer({
+    const renderer = new WebGLRenderer({
       alpha: false,
       antialias: true
     });
@@ -171,18 +166,15 @@ function RoboticsScene() {
     renderer.setSize(width.current, height.current);
     container.current.appendChild(renderer.domElement);
 
-    var ambientLight = new AmbientLight(currentTheme.colorPrimary, 1.0);
-    scene.add(ambientLight);
-
     function handleWindowResize() {
       renderer.setSize(width.current, height.current);
       camera.aspect = width.current / height.current;
       camera.updateProjectionMatrix();
     }
 
-    var render = function render() {
+    const render = function render() {
       if (prefersReducedMotion) return;
-      var delta = clock.getDelta();
+      const delta = clock.getDelta();
       particles.update(delta);
       renderer.render(scene, camera);
       window.requestAnimationFrame(render);
@@ -192,9 +184,10 @@ function RoboticsScene() {
       window.addEventListener('resize', handleWindowResize, false);
     }
 
-    ambientLight = new AmbientLight(0xcccccc, 0.4);
+    const ambientLight = new AmbientLight(currentTheme.colorPrimary, 1.0);
     scene.add(ambientLight);
-    var directionalLight = new DirectionalLight(0xeeeeee);
+
+    const directionalLight = new DirectionalLight(0xeeeeee);
     directionalLight.position.set(-1, -1, -1);
     directionalLight.position.normalize();
     scene.add(directionalLight);
@@ -202,11 +195,11 @@ function RoboticsScene() {
     camera.position.y = 1.7;
     camera.position.z = 0.5;
 
-    var particles = new ParticleSystem();
+    const particles = new ParticleSystem();
     particles.mesh.position.y = 4;
     scene.add(particles.mesh);
 
-    var clock = new Clock();
+    const clock = new Clock();
     render();
   }, [currentTheme, prefersReducedMotion]);
 
