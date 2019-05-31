@@ -167,6 +167,8 @@ function RoboticsScene() {
     container.current.appendChild(renderer.domElement);
 
     function handleWindowResize() {
+      width.current = window.innerWidth;
+      height.current = window.innerHeight;
       renderer.setSize(width.current, height.current);
       camera.aspect = width.current / height.current;
       camera.updateProjectionMatrix();
