@@ -11,7 +11,7 @@ import {
   ProjectSectionHeading, ProjectSectionText, ProjectHeader, ProjectTextRow
 } from '../components/Project';
 import { media } from '../utils/StyleUtils';
-import placeholder2 from '../assets/placeholder.png';
+import Placeholder from '../assets/placeholder.png';
 import robotics from '../assets/Robotics/robotics.webp';
 import roboticsPlaceholder from '../assets/Robotics/roboticsPlaceholder.webp';
 import branding from '../assets/Robotics/branding.webp';
@@ -105,7 +105,7 @@ function Robotics(props) {
             <SidebarImages>
               <SidebarImage
                 srcSet={`${branding}`}
-                placeholder={placeholder2}
+                placeholder={Placeholder}
                 alt="GCPS logo of a G as a cog and color palette."
                 sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
               />
@@ -115,7 +115,7 @@ function Robotics(props) {
             <ProjectSectionGridBackground>
               <ProgressiveImage
                 srcSet={`${clawbot}`}
-                placeholder={placeholder2}
+                placeholder={Placeholder}
                 alt="A 3D render of a VEX Robotics Clawbot."
                 sizes={`(max-width: ${media.mobile}) 312px, (max-width: ${media.tablet}) 408px, 514px`}
               />
@@ -138,7 +138,7 @@ function Robotics(props) {
             </ProjectTextRow>
             <ProgressiveImage
               srcSet={`${competitionSite}`}
-              placeholder={placeholder2}
+              placeholder={Placeholder}
               alt="A 3D website featuring competition details and a live render of the robot."
               sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
@@ -170,7 +170,7 @@ function Robotics(props) {
             </ProjectTextRow>
             <ProgressiveImage
               srcSet={`${firmware}`}
-              placeholder={placeholder2}
+              placeholder={Placeholder}
               alt=""
               sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
@@ -188,7 +188,7 @@ function Robotics(props) {
               <SidebarImages>
                 <SidebarImage
                   srcSet={`${robotCourse} 400w, ${robotCourse} 898w`}
-                  placeholder={placeholder2}
+                  placeholder={Placeholder}
                   alt=""
                   sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
                 />
@@ -196,7 +196,7 @@ function Robotics(props) {
               <SidebarImages>
                 <SidebarImage
                   srcSet={`${robot} 400w, ${robot} 898w`}
-                  placeholder={placeholder2}
+                  placeholder={Placeholder}
                   alt=""
                   sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
                 />
@@ -214,25 +214,25 @@ function Robotics(props) {
             </ProjectTextRow>
             <ProgressiveImage
               srcSet={`${home}`}
-              placeholder={placeholder2}
+              placeholder={Placeholder}
               alt=""
               sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
             <ProgressiveImage
               srcSet={`${game}`}
-              placeholder={placeholder2}
+              placeholder={Placeholder}
               alt=""
               sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
             <ProgressiveImage
               srcSet={`${robotS}`}
-              placeholder={placeholder2}
+              placeholder={Placeholder}
               alt=""
               sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
             <ProgressiveImage
               srcSet={`${impact}`}
-              placeholder={placeholder2}
+              placeholder={Placeholder}
               alt=""
               sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />

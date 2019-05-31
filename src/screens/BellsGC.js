@@ -11,7 +11,7 @@ import {
   ProjectSectionHeading, ProjectBackground, ProjectHeader, ProjectTextRow
 } from '../components/Project';
 import { media } from '../utils/StyleUtils';
-import placeholder2 from '../assets/placeholder.png';
+import Placeholder from '../assets/placeholder.png';
 import background from '../assets/BellsGC/background.webp';
 import render from '../assets/BellsGC/BellsGC.webp';
 import renderPlaceholder from '../assets/BellsGC/BellsGCPlaceholder.webp';
@@ -96,7 +96,7 @@ function BellsGC(props) {
             <SidebarImages>
               <SidebarImage
                 srcSet={`${branding}`}
-                placeholder={placeholder2}
+                placeholder={Placeholder}
                 alt=""
                 sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
               />
@@ -110,31 +110,31 @@ function BellsGC(props) {
             </ProjectTextRow>
             <ProgressiveImage
               srcSet={`${splash} 800w, ${splash} 1440w`}
-              placeholder={placeholder2}
+              placeholder={Placeholder}
               alt=""
               sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
             <ProgressiveImage
               srcSet={`${home} 800w, ${home} 1440w`}
-              placeholder={placeholder2}
+              placeholder={Placeholder}
               alt=""
               sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
             <ProgressiveImage
               srcSet={`${store} 800w, ${store} 1440w`}
-              placeholder={placeholder2}
+              placeholder={Placeholder}
               alt=""
               sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
             <ProgressiveImage
               srcSet={`${events} 800w, ${events} 1440w`}
-              placeholder={placeholder2}
+              placeholder={Placeholder}
               alt=""
               sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
             <ProgressiveImage
               srcSet={`${about} 800w, ${about} 1440w`}
-              placeholder={placeholder2}
+              placeholder={Placeholder}
               alt=""
               sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
