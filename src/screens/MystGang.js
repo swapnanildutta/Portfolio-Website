@@ -13,14 +13,14 @@ import {
 } from '../components/Project';
 import { media } from '../utils/StyleUtils';
 import Background from '../assets/MystGang/mystGangBack.gif';
-import MystGangPlaceholder from '../assets/MystGang/placeholder.webp';
-import MystGangRender from '../assets/MystGang/MystGang.webp'
-import MystGangDef from '../assets/MystGang/mystGangPlaceholder.webp';
-import MystGangAnimation from '../assets/MystGang/mystGangAnimation.webp';
-import MystGangBranding from '../assets/MystGang/visualColors.webp';
-import MystGangSketch from '../assets/MystGang/siteDesign.webp';
-import MystGangWebGL from '../assets/MystGang/webGLRender.webp';
-import MystGangFinal from '../assets/MystGang/5.webp';
+import Placeholder from '../assets/MystGang/placeholder.png';
+import Render from '../assets/MystGang/MystGang.webp'
+import RenderPlaceholder from '../assets/MystGang/MystGangPlaceholder.png';
+import Animation from '../assets/MystGang/mystGangAnimation.webp';
+import Branding from '../assets/MystGang/visualColors.webp';
+import Sketch from '../assets/MystGang/siteDesign.webp';
+import WebGL from '../assets/MystGang/webGLRender.webp';
+import Final from '../assets/MystGang/5.webp';
 import { ReactComponent as MystLogo } from '../assets/MystGang/logo.svg';
 
 const DisplacementSlider = lazy(() => import('../components/DisplacementSlider'));
@@ -75,7 +75,7 @@ function MystGang() {
       <ProjectContainer>
         <MystBackground
           srcSet={`${Background} 1000w, ${Background} 1600w`}
-          placeholder={MystGangPlaceholder}
+          placeholder={Placeholder}
           opacity={0.5}
           entered={!prerender}
         />
@@ -91,8 +91,8 @@ function MystGang() {
             <ProjectImage>
               <ProgressiveImage
                 reveal
-                srcSet={`${MystGangRender} 800w, ${MystGangRender} 1100w`}
-                placeholder={MystGangDef}
+                srcSet={`${Render} 800w, ${Render} 1100w`}
+                placeholder={RenderPlaceholder}
                 alt=""
                 sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
               />
@@ -102,8 +102,8 @@ function MystGang() {
         <ProjectSection>
           <ProjectSectionContent>
             <ProgressiveImage
-              srcSet={`${MystGangAnimation} 480w, ${MystGangAnimation} 960w`}
-              placeholder={MystGangPlaceholder}
+              srcSet={`${Animation} 480w, ${Animation} 960w`}
+              placeholder={Placeholder}
               alt=""
               sizes={`(max-width: ${media.mobile}) 90vw, (max-width: ${media.tablet}) 80vw, 70vw`}
             />
@@ -112,8 +112,8 @@ function MystGang() {
         <ProjectSection>
           <ProjectSectionColumns>
             <ProgressiveImage
-              srcSet={`${MystGangBranding} 400w, ${MystGangBranding} 800w`}
-              placeholder={MystGangPlaceholder}
+              srcSet={`${Branding} 400w, ${Branding} 800w`}
+              placeholder={Placeholder}
               alt=""
               sizes={`(max-width: ${media.mobile}) 100vw, (max-width: ${media.tablet}) 100vw, 50vw`}
             />
@@ -142,21 +142,21 @@ function MystGang() {
           <ProjectSectionSlider>
             <Suspense fallback={<React.Fragment />}>
               <DisplacementSlider
-                placeholder={MystGangPlaceholder}
+                placeholder={Placeholder}
                 images={useMemo(() => [
                   {
-                    src: MystGangSketch,
-                    srcset: `${MystGangSketch} 960w, ${MystGangSketch} 1920w`,
+                    src: Sketch,
+                    srcset: `${Sketch} 960w, ${Sketch} 1920w`,
                     alt: 'Prototype Design'
                   },
                   {
-                    src: MystGangWebGL,
-                    srcset: `${MystGangWebGL} 960w, ${MystGangWebGL} 1920w`,
+                    src: WebGL,
+                    srcset: `${WebGL} 960w, ${WebGL} 1920w`,
                     alt: 'WebGL Prototype',
                   },
                   {
-                    src: MystGangFinal,
-                    srcset: `${MystGangFinal} 960w, ${MystGangFinal} 1920w`,
+                    src: Final,
+                    srcset: `${Final} 960w, ${Final} 1920w`,
                     alt: 'Final Prototype',
                   },
                 ], [])}

@@ -7,7 +7,7 @@ import DecoderText from '../components/DecoderText';
 import ProgressiveImage from '../components/ProgressiveImage';
 import ProfileImg from '../assets/profile.webp';
 import ProfileImgLarge from '../assets/profile-large.webp';
-import ProfileImgPlaceholder from '../assets/profile-placeholder.webp';
+import ProfileImgPlaceholder from '../assets/profile-placeholder.png';
 import { media } from '../utils/StyleUtils';
 const lab = '/lab';
 

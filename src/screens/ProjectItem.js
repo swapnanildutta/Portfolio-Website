@@ -4,10 +4,10 @@ import { Transition } from 'react-transition-group';
 import { media, rgba } from '../utils/StyleUtils';
 import { RouterButton, LinkButton } from '../components/Button';
 import ProgressiveImage from '../components/ProgressiveImage';
-import Macbook from '../assets/macbook.webp';
+import Macbook from '../assets/macbook-large.png';
 import Phone from '../assets/phone.webp';
 import PhoneLarge from '../assets/phone-large.webp';
-import PhonePlaceholder from '../assets/phone-placeholder.webp';
+import PhonePlaceholder from '../assets/phone-placeholder.png';
 
 function ProjectItem(props) {
   const {

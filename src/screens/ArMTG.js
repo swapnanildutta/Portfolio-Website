@@ -12,9 +12,9 @@ import {
 
 } from '../components/Project';
 import { media } from '../utils/StyleUtils';
-import background from '../assets/ARMTG/background.webp';
-import render from '../assets/ARMTG/ARMTGWeb.webp';
-import renderPlaceholder from '../assets/ARMTG/ARMTGWebPlaceHolder.webp';
+import Background from '../assets/ARMTG/background.webp';
+import Render from '../assets/ARMTG/ARMTGWeb.webp';
+import RenderPlaceholder from '../assets/ARMTG/ARMTGWebPlaceHolder.png';
 const prerender = navigator.userAgent === 'ReactSnap';
 const title = 'ARMTG';
 const description = 'Bringing the future to the renowned card game: Magic, the Gathering.';
@@ -61,7 +61,7 @@ function ArMTG(props) {
       />
       <ProjectContainer>
         <ProjectBackground
-          srcSet={`${background} 1000w, ${background} 1920w`}
+          srcSet={`${Background} 1000w, ${Background} 1920w`}
           opacity={0.8}
           entered={!prerender}
         />
@@ -75,8 +75,8 @@ function ArMTG(props) {
           <ProjectSectionContent>
             <ProjectImage entered={!prerender}>
               <ProgressiveImage
-                srcSet={`${render} 800w, ${render} 1920w`}
-                placeholder={renderPlaceholder}
+                srcSet={`${Render} 800w, ${Render} 1920w`}
+                placeholder={RenderPlaceholder}
                 alt=""
                 sizes={`(max-width: ${media.mobile}) 100vw, (max-width: ${media.tablet}) 90vw, 80vw`}
               />

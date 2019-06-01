@@ -12,15 +12,15 @@ import {
 } from '../components/Project';
 import { media } from '../utils/StyleUtils';
 import Placeholder from '../assets/placeholder.png';
-import background from '../assets/BellsGC/background.webp';
-import render from '../assets/BellsGC/BellsGC.webp';
-import renderPlaceholder from '../assets/BellsGC/BellsGCPlaceholder.webp';
-import branding from '../assets/BellsGC/branding.webp';
-import splash from '../assets/BellsGC/Splash.webp';
-import home from '../assets/BellsGC/Home.webp';
-import store from '../assets/BellsGC/Store.webp';
-import events from '../assets/BellsGC/Events.webp';
-import about from '../assets/BellsGC/About.webp';
+import Background from '../assets/BellsGC/background.webp';
+import Render from '../assets/BellsGC/BellsGC.webp';
+import RenderPlaceholder from '../assets/BellsGC/BellsGCPlaceholder.png';
+import Branding from '../assets/BellsGC/branding.webp';
+import Splash from '../assets/BellsGC/Splash.webp';
+import Home from '../assets/BellsGC/Home.webp';
+import Store from '../assets/BellsGC/Store.webp';
+import Events from '../assets/BellsGC/Events.webp';
+import About from '../assets/BellsGC/About.webp';
 const prerender = navigator.userAgent === 'ReactSnap';
 const title = 'Bell\'s GC';
 const description = 'A website featuring a storefront, events calendar, and games\' dashboard for a local game store.';
@@ -66,7 +66,7 @@ function BellsGC(props) {
       />
       <ProjectContainer>
         <ProjectBackground
-          srcSet={`${background} 1000w, ${background} 1920w`}
+          srcSet={`${Background} 1000w, ${Background} 1920w`}
           opacity={0.8}
           entered={!prerender}
         />
@@ -80,8 +80,8 @@ function BellsGC(props) {
           <ProjectSectionContent>
             <ProjectImage entered={!prerender}>
               <ProgressiveImage
-                srcSet={`${render} 800w, ${render} 1920w`}
-                placeholder={renderPlaceholder}
+                srcSet={`${Render} 800w, ${Render} 1920w`}
+                placeholder={RenderPlaceholder}
                 alt=""
                 sizes={`(max-width: ${media.mobile}) 100vw, (max-width: ${media.tablet}) 90vw, 80vw`}
               />
@@ -95,7 +95,7 @@ function BellsGC(props) {
             </SidebarImagesText>
             <SidebarImages>
               <SidebarImage
-                srcSet={`${branding}`}
+                srcSet={`${Branding}`}
                 placeholder={Placeholder}
                 alt=""
                 sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
@@ -109,31 +109,31 @@ function BellsGC(props) {
               <ProjectSectionHeading>Website</ProjectSectionHeading>
             </ProjectTextRow>
             <ProgressiveImage
-              srcSet={`${splash} 800w, ${splash} 1440w`}
+              srcSet={`${Splash} 800w, ${Splash} 1440w`}
               placeholder={Placeholder}
               alt=""
               sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
             <ProgressiveImage
-              srcSet={`${home} 800w, ${home} 1440w`}
+              srcSet={`${Home} 800w, ${Home} 1440w`}
               placeholder={Placeholder}
               alt=""
               sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
             <ProgressiveImage
-              srcSet={`${store} 800w, ${store} 1440w`}
+              srcSet={`${Store} 800w, ${Store} 1440w`}
               placeholder={Placeholder}
               alt=""
               sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
             <ProgressiveImage
-              srcSet={`${events} 800w, ${events} 1440w`}
+              srcSet={`${Events} 800w, ${Events} 1440w`}
               placeholder={Placeholder}
               alt=""
               sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
             <ProgressiveImage
-              srcSet={`${about} 800w, ${about} 1440w`}
+              srcSet={`${About} 800w, ${About} 1440w`}
               placeholder={Placeholder}
               alt=""
               sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
