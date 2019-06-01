@@ -22,7 +22,7 @@ import RoboticsStill from '../assets/Robotics/roboticsStill.webp';
 const disciplines = ['Developer'];
 
 export default function Home(props) {
-  const status = useContext(AppContext);
+  const { status } = useContext(AppContext);
   const { location } = props;
   const { hash } = location;
   const initHash = useRef(hash);

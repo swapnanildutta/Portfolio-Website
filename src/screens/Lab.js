@@ -17,7 +17,7 @@ import Frames from '../assets/Lab/frames.webp';
 const disciplines = ['Lab'];
 
 export default function Lab(props) {
-  const status = useContext(AppContext);
+  const { status } = useContext(AppContext);
   const { location } = props;
   const { hash } = location;
   const initHash = useRef(hash);
