@@ -128,12 +128,12 @@ const NotFoundVideoContainer = styled.div`
   }
 
   ${props => props.theme.id === 'light' && css`
-    -webkit-filter:invert(100%);
-    filter:progid:DXImageTransform.Microsoft.BasicImage(invert='1');
+    -webkit-filter: invert(100%);
+    filter: progid:DXImageTransform.Microsoft.BasicImage(invert='1');
 
     &:after {
-      -webkit-filter:invert(100%);
-      filter:progid:DXImageTransform.Microsoft.BasicImage(invert='1');
+      -webkit-filter: invert(100%);
+      filter: progid:DXImageTransform.Microsoft.BasicImage(invert='1');
     }
   `}
 `;
