@@ -1,19 +1,41 @@
 import React, { useEffect, useRef, useContext } from 'react';
 import styled, { keyframes } from 'styled-components/macro';
 import {
-  WebGLRenderer, PerspectiveCamera, Scene, DirectionalLight, AmbientLight, Fog,
-  Mesh, Color, InstancedBufferGeometry, BufferAttribute, InstancedBufferAttribute,
+  WebGLRenderer, PerspectiveCamera, Scene, DirectionalLight, AmbientLight, Mesh,
+  Color, InstancedBufferGeometry, BufferAttribute, InstancedBufferAttribute,
   Vector4, RawShaderMaterial, DoubleSide, Clock
 } from 'three';
 import { AppContext } from '../app/App';
 import { usePrefersReducedMotion } from '../utils/Hooks';
+import { theme } from '../utils/Theme';
 
 function RoboticsScene() {
   const { currentTheme } = useContext(AppContext);
   const width = useRef(window.innerWidth);
   const height = useRef(window.innerHeight);
+  const green = useRef({
+    mainColor: 0x8eb934,
+    mainEmissive: 0,
+    secondaryColor: 0xfec23e,
+    secondaryEmissive: 0,
+    detailColor: 0xfec23e,
+    detailEmissive: 0
+  });
+  const orange = useRef({
+    mainColor: 0xfec23e,
+    mainEmissive: 0,
+    secondaryColor: 0x8eb934,
+    secondaryEmissive: 0,
+    detailColor: 0x8eb934,
+    detailEmissive: 0
+  });
+  const scene = useRef();
+  const camera = useRef();
+  const renderer = useRef();
   const container = useRef();
+  const particles = useRef();
   const prefersReducedMotion = usePrefersReducedMotion();
+
   const SceneRoot = useRef(function() {
     function defineProperties(target, props) {
       for (let i = 0; i < props.length; i++) {
@@ -24,41 +46,23 @@ function RoboticsScene() {
         Object.defineProperty(target, descriptor.key, descriptor);
       }
     }
-    return function(Constructor, protoProps, staticProps) {
+    return ((Constructor, protoProps, staticProps) => {
       if (protoProps) defineProperties(Constructor.prototype, protoProps);
       if (staticProps) defineProperties(Constructor, staticProps);
       return Constructor;
-    };
+    });
   }());
 
-  useEffect(() => {
-    function _classCallCheck(instance, Constructor) {
-      if (!(instance instanceof Constructor)) {
-        throw new TypeError("Class already exists.");
-      }
+  const classCallCheck = ((instance, Constructor) => {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Class already exists.");
     }
+  });
 
-    const gwGreen = {
-      mainColor: 0x8eb934,
-      mainEmissive: 0,
-      secondaryColor: 0xfec23e,
-      secondaryEmissive: 0,
-      detailColor: 0xfec23e,
-      detailEmissive: 0
-    };
-
-    const gwOrange = {
-      mainColor: 0xfec23e,
-      mainEmissive: 0,
-      secondaryColor: 0x8eb934,
-      secondaryEmissive: 0,
-      detailColor: 0x8eb934,
-      detailEmissive: 0
-    };
-
+  useEffect(() => {
     const ParticleSystem = function() {
       function ParticleSystem() {
-        _classCallCheck(this, ParticleSystem);
+        classCallCheck(this, ParticleSystem);
         this.time = 0.0;
         const triangles = 1;
         const instances = 2000;
@@ -72,8 +76,7 @@ function RoboticsScene() {
         geometry.addAttribute('position', vertices);
 
         const offsets = new InstancedBufferAttribute(new Float32Array(instances * 3), 3, false, 1);
-        const dist = 60;
-        for (let i = 0, ul = offsets.count; i < ul; i++) {
+        for (let i = 0, dist = 60, ul = offsets.count; i < ul; i++) {
           offsets.setXYZ(i, (Math.random() - 0.5) * dist, (Math.random() - 0.5) * dist, (Math.random() - 0.5) * dist);
         }
         geometry.addAttribute('offset', offsets);
@@ -81,14 +84,13 @@ function RoboticsScene() {
         const colors = new InstancedBufferAttribute(new Float32Array(instances * 4), 4, false, 1);
 
         const threeColor = new Color();
-        let count = 1;
-        for (let _i = 0, _ul = colors.count; _i < _ul; _i++) {
+        for (let _i = 0, count = 1, _ul = colors.count; _i < _ul; _i++) {
           if (count === 1) {
-            var c = threeColor.setHex(gwGreen.mainColor);
+            var c = threeColor.setHex(green.current.mainColor);
             colors.setXYZW(_i, c.r, c.g, c.b, 1);
             count = 0;
           } else {
-            c = threeColor.setHex(gwOrange.mainColor);
+            c = threeColor.setHex(orange.current.mainColor);
             colors.setXYZW(_i, c.r, c.g, c.b, 1);
             count = 1;
           }
@@ -149,61 +151,63 @@ function RoboticsScene() {
       }]);
       return ParticleSystem;
     }();
+    particles.current = new ParticleSystem();
+  });
 
-    const scene = new Scene();
+  useEffect(() => {
+    scene.current = new Scene();
 
-    scene.fog = new Fog(0xfec23e, 2, 10);
+    camera.current = new PerspectiveCamera(60, width.current / height.current, 0.1, 60);
+    camera.current.position.set(0, 1.7, 0.5);
 
-    const camera = new PerspectiveCamera(60, width.current / height.current, 0.1, 60);
-
-    const renderer = new WebGLRenderer({
+    renderer.current = new WebGLRenderer({
       alpha: false,
       antialias: true
     });
+    renderer.current.setPixelRatio(window.devicePixelRatio);
+    renderer.current.setClearColor(currentTheme.colorBackground, 1);
+    renderer.current.setSize(width.current, height.current);
+    container.current.appendChild(renderer.current.domElement);
 
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setClearColor(currentTheme.colorBackground, 1);
-    renderer.setSize(width.current, height.current);
-    container.current.appendChild(renderer.domElement);
+    const ambientLight = new AmbientLight(currentTheme.colorPrimary, 1.0);
+    scene.current.add(ambientLight);
 
-    function handleWindowResize() {
+    const directionalLight = new DirectionalLight(currentTheme.id === 'dark' ? theme.light.colorBackground : theme.dark.colorBackground);
+    directionalLight.position.set(-1, -1, -1);
+    directionalLight.position.normalize();
+    scene.current.add(directionalLight);
+
+    particles.current.mesh.position.y = 4;
+    scene.current.add(particles.current.mesh);
+  }, [currentTheme]);
+
+  useEffect(() => {
+    const handleWindowResize = () => {
       width.current = window.innerWidth;
       height.current = window.innerHeight;
-      renderer.setSize(width.current, height.current);
-      camera.aspect = width.current / height.current;
-      camera.updateProjectionMatrix();
+      renderer.current.setSize(width.current, height.current);
+      camera.current.aspect = width.current / height.current;
+      camera.current.updateProjectionMatrix();
     }
-
-    const render = function render() {
-      if (prefersReducedMotion) return;
-      const delta = clock.getDelta();
-      particles.update(delta);
-      renderer.render(scene, camera);
-      window.requestAnimationFrame(render);
-    };
 
     if (!prefersReducedMotion) {
       window.addEventListener('resize', handleWindowResize, false);
     }
+  }, [prefersReducedMotion]);
 
-    const ambientLight = new AmbientLight(currentTheme.colorPrimary, 1.0);
-    scene.add(ambientLight);
-
-    const directionalLight = new DirectionalLight(0xeeeeee);
-    directionalLight.position.set(-1, -1, -1);
-    directionalLight.position.normalize();
-    scene.add(directionalLight);
-
-    camera.position.y = 1.7;
-    camera.position.z = 0.5;
-
-    const particles = new ParticleSystem();
-    particles.mesh.position.y = 4;
-    scene.add(particles.mesh);
-
+  useEffect(() => {
     const clock = new Clock();
-    render();
-  }, [currentTheme, prefersReducedMotion]);
+    const render = () => {
+      const delta = clock.getDelta();
+      particles.current.update(delta);
+      renderer.current.render(scene.current, camera.current);
+      window.requestAnimationFrame(render);
+    };
+
+    if(!prefersReducedMotion) {
+      render();
+    }
+  }, [prefersReducedMotion]);
 
   return (
     <RoboticsContainer ref={container} aria-hidden />
