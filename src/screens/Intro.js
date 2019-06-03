@@ -56,8 +56,7 @@ function Intro(props) {
                 <IntroTitleLabel>{`Student + ${introLabel}`}</IntroTitleLabel>
                 <IntroTitleRow aria-hidden prerender={prerender}>
                   <IntroTitleWord status={status} delay="0.2s">
-                    {disciplines[0] === 'Lab' && 'Lab'}
-                    {disciplines[0] !== 'Lab' && 'Student'}
+                    {disciplines[0] === 'Lab' ? 'Lab' : 'Student'}
                   </IntroTitleWord>
                   {disciplines[0] !== 'Lab' &&
                     <IntroTitleLine status={status} />
