@@ -4,10 +4,6 @@
   "homepage": "https://codyb.co",
   "private": true,
   "devDependencies": {
-    "@storybook/addon-actions": "^5.0.10",
-    "@storybook/addon-knobs": "^5.0.10",
-    "@storybook/addon-links": "^5.0.10",
-    "@storybook/react": "^5.0.10",
     "react-scripts": "3.0.1",
     "react-snap": "1.23.0",
     "stylelint": "^10.0.1",
@@ -42,9 +38,7 @@
     "eject": "react-scripts eject",
     "deploy": "firebase deploy --only functions",
     "finish": "yarn build && yarn deploy",
-    "ftp": "ftp -d -n -s:../ftp.txt",
-    "storybook": "start-storybook -p 80 -s public",
-    "build-storybook": "build-storybook -s public -o build/storybook"
+    "ftp": "ftp -d -n -s:../ftp.txt"
   },
   "reactSnap": {
     "skipThirdPartyRequests": true,
