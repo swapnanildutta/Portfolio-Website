@@ -15,7 +15,8 @@ import Placeholder from '../assets/placeholder.png';
 import Background from '../assets/BellsGC/background.webp';
 import Render from '../assets/BellsGC/BellsGC.webp';
 import RenderPlaceholder from '../assets/BellsGC/BellsGCPlaceholder.png';
-import Branding from '../assets/BellsGC/branding.webp';
+import BrandingDark from '../assets/BellsGC/brandingDark.webp';
+import BrandingLight from '../assets/BellsGC/brandingLight.webp'
 import Splash from '../assets/BellsGC/Splash.webp';
 import Home from '../assets/BellsGC/Home.webp';
 import Store from '../assets/BellsGC/Store.webp';
@@ -95,7 +96,7 @@ function BellsGC(props) {
             </SidebarImagesText>
             <SidebarImages>
               <SidebarImage
-                srcSet={`${Branding}`}
+                srcSet={`${currentTheme.id === 'dark' ? BrandingDark : BrandingLight}`}
                 placeholder={Placeholder}
                 alt=""
                 sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
