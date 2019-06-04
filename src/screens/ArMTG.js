@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useEffect } from 'react';
+import React, { lazy, useContext, useRef, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { AppContext } from '../app/App';
 import ProgressiveImage from '../components/ProgressiveImage';
@@ -7,14 +7,15 @@ import Footer from '../components/Footer';
 import { RouterButton } from '../components/Button';
 import {
   ProjectContainer, ProjectSection, ProjectSectionContent, ProjectImage,
-  ProjectBackground, ProjectHeader, ProjectTextRow, ProjectSectionHeading,
-  ProjectSectionText
+  ProjectHeader, ProjectTextRow, ProjectSectionHeading, ProjectSectionText
 
 } from '../components/Project';
 import { media } from '../utils/StyleUtils';
-import Background from '../assets/ARMTG/background.webp';
 import Render from '../assets/ARMTG/ARMTGWeb.webp';
 import RenderPlaceholder from '../assets/ARMTG/ARMTGWebPlaceHolder.png';
+
+const ARMTGScene = lazy(() => import('../components/ARMTGScene'));
+
 const prerender = navigator.userAgent === 'ReactSnap';
 const title = 'ARMTG';
 const description = 'Bringing the future to the renowned card game: Magic, the Gathering.';
@@ -60,11 +61,7 @@ function ArMTG(props) {
         meta={[{ name: 'description', content: description, }]}
       />
       <ProjectContainer>
-        <ProjectBackground
-          srcSet={`${Background} 1000w, ${Background} 1920w`}
-          opacity={0.8}
-          entered={!prerender}
-        />
+        <ARMTGScene />
         <ProjectHeader
           title={title}
           description={description}
