@@ -28,7 +28,7 @@
     "react-router-dom": "5.0.0",
     "react-transition-group": "^4.1.0",
     "styled-components": "^4.2.1",
-    "three": "^0.105.1"
+    "three": "^0.105.2"
   },
   "scripts": {
     "start": "set PORT=80 && react-scripts start",
