@@ -5,6 +5,8 @@ import {
   Color, InstancedBufferGeometry, BufferAttribute, InstancedBufferAttribute,
   Vector4, RawShaderMaterial, DoubleSide, Clock
 } from 'three';
+import VertShader from '../shaders/RoboticsVertexShader';
+import FragmentShader from '../shaders/RoboticsFragmentShader';
 import { AppContext } from '../app/App';
 import { usePrefersReducedMotion } from '../utils/Hooks';
 import { theme } from '../utils/Theme';
@@ -131,8 +133,8 @@ function RoboticsScene() {
               value: 5.0
             }
           },
-          vertexShader: '\n        precision highp float;\n        uniform float time;\n        uniform mat4 modelViewMatrix;\n        uniform mat4 projectionMatrix;\n        attribute vec3 position;\n        attribute vec3 offset;\n        attribute vec4 color;\n        attribute vec4 orientationStart;\n        attribute vec4 orientationEnd;\n        attribute float timeOffset;\n        varying vec4 vColor;\n        varying float lifeProgress;\n\n        void main(){\n\n          vec3 vPosition = offset;\n\n          lifeProgress = mod(time+timeOffset,1.0);\n\n          vPosition = offset * lifeProgress + position;\n          vec4 orientation = normalize(mix(orientationStart, orientationEnd, lifeProgress));\n          vec3 vcV = cross(orientation.xyz, vPosition);\n          //orientation.w *= time*5.0;\n          vPosition = vcV * (2.0 * orientation.w) + (cross(orientation.xyz, vcV) * 2.0 + vPosition);\n          vColor = color;\n          gl_Position = projectionMatrix * modelViewMatrix * vec4( vPosition, 1.0 );\n        }\n        ',
-          fragmentShader: '\n      precision highp float;\n      uniform float time;\n      varying vec4 vColor;\n      varying float lifeProgress;\n\n      void main() {\n        float depth = gl_FragCoord.z / gl_FragCoord.w / 5.0;\n        float opacity = clamp(0.2, 1.0, depth);\n        vec4 color = vColor;\n        color.a = sin(lifeProgress*100.0)*opacity;\n        gl_FragColor = color;\n      }\n      ',
+          vertexShader: VertShader,
+          fragmentShader: FragmentShader,
           side: DoubleSide,
           transparent: true
         });
@@ -143,8 +145,7 @@ function RoboticsScene() {
       }
       SceneRoot.current(ParticleSystem, [{
         key: 'update',
-        value: function update(
-          dt) {
+        value: function update(dt) {
           this.time += 0.0001;
           this.mesh.material.uniforms.time.value = Math.sin(this.time);
         }
