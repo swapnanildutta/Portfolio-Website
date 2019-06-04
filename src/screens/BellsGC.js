@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { lazy, useContext, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import styled from 'styled-components/macro';
 import { AppContext } from '../app/App';
@@ -8,11 +8,10 @@ import Footer from '../components/Footer';
 import { RouterButton } from '../components/Button';
 import {
   ProjectContainer, ProjectSection, ProjectSectionContent, ProjectImage,
-  ProjectSectionHeading, ProjectBackground, ProjectHeader, ProjectTextRow
+  ProjectSectionHeading, ProjectHeader, ProjectTextRow
 } from '../components/Project';
 import { media } from '../utils/StyleUtils';
 import Placeholder from '../assets/placeholder.png';
-import Background from '../assets/BellsGC/background.webp';
 import Render from '../assets/BellsGC/BellsGC.webp';
 import RenderPlaceholder from '../assets/BellsGC/BellsGCPlaceholder.png';
 import BrandingDark from '../assets/BellsGC/brandingDark.webp';
@@ -22,6 +21,9 @@ import Home from '../assets/BellsGC/Home.webp';
 import Store from '../assets/BellsGC/Store.webp';
 import Events from '../assets/BellsGC/Events.webp';
 import About from '../assets/BellsGC/About.webp';
+
+const BellsScene = lazy(() => import('../components/BellsScene'));
+
 const prerender = navigator.userAgent === 'ReactSnap';
 const title = 'Bell\'s GC';
 const description = 'A website featuring a storefront, events calendar, and games\' dashboard for a local game store.';
@@ -66,11 +68,7 @@ function BellsGC(props) {
         meta={[{ name: 'description', content: description, }]}
       />
       <ProjectContainer>
-        <ProjectBackground
-          srcSet={`${Background} 1000w, ${Background} 1920w`}
-          opacity={0.8}
-          entered={!prerender}
-        />
+        <BellsScene />
         <ProjectHeader
           title={title}
           description={description}
