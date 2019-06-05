@@ -20,7 +20,6 @@ import BrandingLightPlaceholder from '../assets/BellsGC/brandingLightPlaceholder
 import Splash from '../assets/BellsGC/Splash.webp';
 import SplashPlaceholder from '../assets/BellsGC/SplashPlaceholder.png';
 import Home from '../assets/BellsGC/Home.webp';
-import HomePlaceholder from '../assets/BellsGC/HomePlaceholder.png';
 import Store from '../assets/BellsGC/Store.webp';
 import StorePlaceholder from '../assets/BellsGC/StorePlaceholder.png';
 import Events from '../assets/BellsGC/Events.webp';
@@ -121,7 +120,7 @@ function BellsGC(props) {
             />
             <ProgressiveImage
               srcSet={`${Home}`}
-              placeholder={HomePlaceholder}
+              placeholder={RenderPlaceholder}
               alt=""
               sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
