@@ -11,16 +11,22 @@ import {
   ProjectSectionHeading, ProjectHeader, ProjectTextRow
 } from '../components/Project';
 import { media } from '../utils/StyleUtils';
-import Placeholder from '../assets/placeholder.png';
 import Render from '../assets/BellsGC/BellsGC.webp';
 import RenderPlaceholder from '../assets/BellsGC/BellsGCPlaceholder.png';
 import BrandingDark from '../assets/BellsGC/brandingDark.webp';
+import BrandingDarkPlaceholder from '../assets/BellsGC/brandingDarkPlaceholder.png';
 import BrandingLight from '../assets/BellsGC/brandingLight.webp'
+import BrandingLightPlaceholder from '../assets/BellsGC/brandingLightPlaceholder.png';
 import Splash from '../assets/BellsGC/Splash.webp';
+import SplashPlaceholder from '../assets/BellsGC/SplashPlaceholder.png';
 import Home from '../assets/BellsGC/Home.webp';
+import HomePlaceholder from '../assets/BellsGC/HomePlaceholder.png';
 import Store from '../assets/BellsGC/Store.webp';
+import StorePlaceholder from '../assets/BellsGC/StorePlaceholder.png';
 import Events from '../assets/BellsGC/Events.webp';
+import EventsPlaceholder from '../assets/BellsGC/EventsPlaceholder.png';
 import About from '../assets/BellsGC/About.webp';
+import AboutPlaceholder from '../assets/BellsGC/AboutPlaceholder.png';
 
 const BellsScene = lazy(() => import('../scenes/BellsScene'));
 
@@ -95,7 +101,7 @@ function BellsGC(props) {
             <SidebarImages>
               <SidebarImage
                 srcSet={`${currentTheme.id === 'dark' ? BrandingDark : BrandingLight}`}
-                placeholder={Placeholder}
+                placeholder={`${currentTheme.id === 'dark' ? BrandingDarkPlaceholder : BrandingLightPlaceholder}`}
                 alt=""
                 sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
               />
@@ -109,31 +115,31 @@ function BellsGC(props) {
             </ProjectTextRow>
             <ProgressiveImage
               srcSet={`${Splash}`}
-              placeholder={Placeholder}
+              placeholder={SplashPlaceholder}
               alt=""
               sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
             <ProgressiveImage
               srcSet={`${Home}`}
-              placeholder={Placeholder}
+              placeholder={HomePlaceholder}
               alt=""
               sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
             <ProgressiveImage
               srcSet={`${Store}`}
-              placeholder={Placeholder}
+              placeholder={StorePlaceholder}
               alt=""
               sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
             <ProgressiveImage
               srcSet={`${Events}`}
-              placeholder={Placeholder}
+              placeholder={EventsPlaceholder}
               alt=""
               sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
             <ProgressiveImage
               srcSet={`${About}`}
-              placeholder={Placeholder}
+              placeholder={AboutPlaceholder}
               alt=""
               sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
