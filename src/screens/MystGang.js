@@ -23,9 +23,7 @@ import BrandingPlaceholder from '../assets/MystGang/brandingPlaceholder.png';
 import Sketch from '../assets/MystGang/prototypeRender.webp';
 import SketchPlaceholder from '../assets/MystGang/prototypeRenderPlaceholder.png';
 import WebGL from '../assets/MystGang/webGLRender.webp';
-import WebGLPlaceholder from '../assets/MystGang/webGLRenderPlaceholder.png';
 import Final from '../assets/MystGang/finalRender.webp';
-import FinalPlaceholder from '../assets/MystGang/finalRenderPlaceholder.png';
 import { ReactComponent as MystLogo } from '../assets/MystGang/logo.svg';
 
 const DisplacementSlider = lazy(() => import('../components/DisplacementSlider'));
