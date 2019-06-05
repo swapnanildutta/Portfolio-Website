@@ -91,7 +91,7 @@ function MystGang() {
             <ProjectImage>
               <ProgressiveImage
                 reveal
-                srcSet={`${Render} 800w, ${Render} 1100w`}
+                srcSet={`${Render}`}
                 placeholder={RenderPlaceholder}
                 alt=""
                 sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
@@ -102,7 +102,7 @@ function MystGang() {
         <ProjectSection>
           <ProjectSectionContent>
             <ProgressiveImage
-              srcSet={`${Animation} 480w, ${Animation} 960w`}
+              srcSet={`${Animation}`}
               placeholder={Placeholder}
               alt=""
               sizes={`(max-width: ${media.mobile}) 90vw, (max-width: ${media.tablet}) 80vw, 70vw`}
@@ -112,7 +112,7 @@ function MystGang() {
         <ProjectSection>
           <ProjectSectionColumns>
             <ProgressiveImage
-              srcSet={`${Branding} 400w, ${Branding} 800w`}
+              srcSet={`${Branding}`}
               placeholder={Placeholder}
               alt=""
               sizes={`(max-width: ${media.mobile}) 100vw, (max-width: ${media.tablet}) 100vw, 50vw`}
@@ -146,17 +146,17 @@ function MystGang() {
                 images={useMemo(() => [
                   {
                     src: Sketch,
-                    srcset: `${Sketch} 960w, ${Sketch} 1920w`,
+                    srcset: `${Sketch}`,
                     alt: 'Prototype Design'
                   },
                   {
                     src: WebGL,
-                    srcset: `${WebGL} 960w, ${WebGL} 1920w`,
+                    srcset: `${WebGL}`,
                     alt: 'WebGL Prototype',
                   },
                   {
                     src: Final,
-                    srcset: `${Final} 960w, ${Final} 1920w`,
+                    srcset: `${Final}`,
                     alt: 'Final Prototype',
                   },
                 ], [])}

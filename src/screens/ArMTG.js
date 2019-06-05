@@ -14,7 +14,7 @@ import { media } from '../utils/StyleUtils';
 import Render from '../assets/ARMTG/ARMTGWeb.webp';
 import RenderPlaceholder from '../assets/ARMTG/ARMTGWebPlaceHolder.png';
 
-const ARMTGScene = lazy(() => import('../components/ARMTGScene'));
+const ARMTGScene = lazy(() => import('../scenes/ARMTGScene'));
 
 const prerender = navigator.userAgent === 'ReactSnap';
 const title = 'ARMTG';
@@ -72,7 +72,7 @@ function ArMTG(props) {
           <ProjectSectionContent>
             <ProjectImage entered={!prerender}>
               <ProgressiveImage
-                srcSet={`${Render} 800w, ${Render} 1920w`}
+                srcSet={`${Render}`}
                 placeholder={RenderPlaceholder}
                 alt=""
                 sizes={`(max-width: ${media.mobile}) 100vw, (max-width: ${media.tablet}) 90vw, 80vw`}

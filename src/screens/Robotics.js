@@ -27,7 +27,7 @@ import Game from '../assets/Robotics/game.webp';
 import Robot from '../assets/Robotics/robot2.webp';
 import Impact from '../assets/Robotics/impact.webp';
 
-const RoboticsScene = lazy(() => import('../components/RoboticsScene'));
+const RoboticsScene = lazy(() => import('../scenes/RoboticsScene'));
 
 const prerender = navigator.userAgent === 'ReactSnap';
 const title = 'GCPS Robotics';

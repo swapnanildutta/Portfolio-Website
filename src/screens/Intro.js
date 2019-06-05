@@ -6,8 +6,8 @@ import DecoderText from '../components/DecoderText';
 import { AppContext } from '../app/App';
 import { useInterval, usePrevious } from '../utils/Hooks';
 
-const DisplacementSphere = lazy(() => import('../components/DisplacementSphere'));
-const LabScene = lazy(() => import('../components/LabScene'));
+const HomeScene = lazy(() => import('../scenes/HomeScene'));
+const LabScene = lazy(() => import('../scenes/LabScene'));
 const prerender = navigator.userAgent === 'ReactSnap';
 
 function Intro(props) {
@@ -42,7 +42,7 @@ function Intro(props) {
           <React.Fragment>
             <Suspense fallback={<React.Fragment />}>
             {disciplines[0] !== 'Lab' &&
-              <DisplacementSphere />
+              <HomeScene />
             }
             {disciplines[0] === 'Lab' &&
               <LabScene />
