@@ -12,15 +12,20 @@ import {
   ProjectTextRow,
 } from '../components/Project';
 import { media } from '../utils/StyleUtils';
-import Background from '../assets/MystGang/mystGangBack.gif';
-import Placeholder from '../assets/MystGang/placeholder.png';
+import Background from '../assets/MystGang/background.gif';
+import BackgroundPlaceholder from '../assets/MystGang/backgroundPlaceholder.png';
 import Render from '../assets/MystGang/MystGang.webp'
 import RenderPlaceholder from '../assets/MystGang/MystGangPlaceholder.png';
 import Animation from '../assets/MystGang/mystGangAnimation.webp';
-import Branding from '../assets/MystGang/visualColors.webp';
-import Sketch from '../assets/MystGang/siteDesign.webp';
+import AnimationPlaceholder from '../assets/MystGang/mystGangAnimationPlaceholder.png';
+import Branding from '../assets/MystGang/branding.webp';
+import BrandingPlaceholder from '../assets/MystGang/brandingPlaceholder.png';
+import Sketch from '../assets/MystGang/prototypeRender.webp';
+import SketchPlaceholder from '../assets/MystGang/prototypeRenderPlaceholder.png';
 import WebGL from '../assets/MystGang/webGLRender.webp';
-import Final from '../assets/MystGang/5.webp';
+import WebGLPlaceholder from '../assets/MystGang/webGLRenderPlaceholder.png';
+import Final from '../assets/MystGang/finalRender.webp';
+import FinalPlaceholder from '../assets/MystGang/finalRenderPlaceholder.png';
 import { ReactComponent as MystLogo } from '../assets/MystGang/logo.svg';
 
 const DisplacementSlider = lazy(() => import('../components/DisplacementSlider'));
@@ -74,8 +79,8 @@ function MystGang() {
       />
       <ProjectContainer>
         <MystBackground
-          srcSet={`${Background} 1000w, ${Background} 1600w`}
-          placeholder={Placeholder}
+          srcSet={`${Background}`}
+          placeholder={BackgroundPlaceholder}
           opacity={0.5}
           entered={!prerender}
         />
@@ -103,7 +108,7 @@ function MystGang() {
           <ProjectSectionContent>
             <ProgressiveImage
               srcSet={`${Animation}`}
-              placeholder={Placeholder}
+              placeholder={AnimationPlaceholder}
               alt=""
               sizes={`(max-width: ${media.mobile}) 90vw, (max-width: ${media.tablet}) 80vw, 70vw`}
             />
@@ -113,7 +118,7 @@ function MystGang() {
           <ProjectSectionColumns>
             <ProgressiveImage
               srcSet={`${Branding}`}
-              placeholder={Placeholder}
+              placeholder={BrandingPlaceholder}
               alt=""
               sizes={`(max-width: ${media.mobile}) 100vw, (max-width: ${media.tablet}) 100vw, 50vw`}
             />
@@ -142,7 +147,7 @@ function MystGang() {
           <ProjectSectionSlider>
             <Suspense fallback={<React.Fragment />}>
               <DisplacementSlider
-                placeholder={Placeholder}
+                placeholder={SketchPlaceholder}
                 images={useMemo(() => [
                   {
                     src: Sketch,
