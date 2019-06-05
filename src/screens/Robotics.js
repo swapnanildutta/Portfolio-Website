@@ -11,21 +11,29 @@ import {
   ProjectSectionHeading, ProjectSectionText, ProjectHeader, ProjectTextRow
 } from '../components/Project';
 import { media } from '../utils/StyleUtils';
-import Placeholder from '../assets/placeholder.png';
 import Render from '../assets/Robotics/robotics.webp';
 import RenderPlaceholder from '../assets/Robotics/roboticsPlaceholder.png';
 import Branding from '../assets/Robotics/branding.webp';
+import BrandingPlaceholder from '../assets/Robotics/brandingPlaceholder.png';
 import Clawbot from '../assets/Robotics/clawbot.webp';
+import ClawbotPlaceholder from '../assets/Robotics/clawbotPlaceholder.png';
 import CompetitionSite from '../assets/Robotics/3drobot.webp';
+import CompetitionSitePlaceholder from '../assets/Robotics/3drobotPlaceholder.png';
 import Dash from '../assets/Robotics/dash.webp';
 import DashPlaceholder from '../assets/Robotics/dash-placeholder.png';
 import Firmware from '../assets/Robotics/firmware.webp';
+import FirmwarePlaceholder from '../assets/Robotics/firmwarePlaceholder.png';
 import RobotCourse from '../assets/Robotics/render.webp';
+import RobotCoursePlaceholder from '../assets/Robotics/renderPlaceholder.png';
 import RobotRender from '../assets/Robotics/robot.webp';
+import RobotRenderPlaceholder from '../assets/Robotics/robotPlaceholder.png';
 import Home from '../assets/Robotics/home.webp';
 import Game from '../assets/Robotics/game.webp';
+import GamePlaceholder from '../assets/Robotics/gamePlaceholder.png';
 import Robot from '../assets/Robotics/robot2.webp';
+import RobotPlaceholder from '../assets/Robotics/robot2Placeholder.png';
 import Impact from '../assets/Robotics/impact.webp';
+import ImpactPlaceholder from '../assets/Robotics/impactPlaceholder.png';
 
 const RoboticsScene = lazy(() => import('../scenes/RoboticsScene'));
 
@@ -105,7 +113,7 @@ function Robotics(props) {
             <SidebarImages>
               <SidebarImage
                 srcSet={`${Branding}`}
-                placeholder={Placeholder}
+                placeholder={BrandingPlaceholder}
                 alt="GCPS logo of a G as a cog and color palette."
                 sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
               />
@@ -115,7 +123,7 @@ function Robotics(props) {
             <ProjectSectionGridBackground>
               <ProgressiveImage
                 srcSet={`${Clawbot}`}
-                placeholder={Placeholder}
+                placeholder={ClawbotPlaceholder}
                 alt="A 3D render of a VEX Robotics Clawbot."
                 sizes={`(max-width: ${media.mobile}) 312px, (max-width: ${media.tablet}) 408px, 514px`}
               />
@@ -138,7 +146,7 @@ function Robotics(props) {
             </ProjectTextRow>
             <ProgressiveImage
               srcSet={`${CompetitionSite}`}
-              placeholder={Placeholder}
+              placeholder={CompetitionSitePlaceholder}
               alt="A 3D website featuring competition details and a live render of the robot."
               sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
@@ -170,7 +178,7 @@ function Robotics(props) {
             </ProjectTextRow>
             <ProgressiveImage
               srcSet={`${Firmware}`}
-              placeholder={Placeholder}
+              placeholder={FirmwarePlaceholder}
               alt=""
               sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
@@ -188,7 +196,7 @@ function Robotics(props) {
               <SidebarImages>
                 <SidebarImage
                   srcSet={`${RobotCourse}`}
-                  placeholder={Placeholder}
+                  placeholder={RobotCoursePlaceholder}
                   alt=""
                   sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
                 />
@@ -196,7 +204,7 @@ function Robotics(props) {
               <SidebarImages>
                 <SidebarImage
                   srcSet={`${RobotRender}`}
-                  placeholder={Placeholder}
+                  placeholder={RobotRenderPlaceholder}
                   alt=""
                   sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
                 />
@@ -214,25 +222,25 @@ function Robotics(props) {
             </ProjectTextRow>
             <ProgressiveImage
               srcSet={`${Home}`}
-              placeholder={Placeholder}
+              placeholder={RenderPlaceholder}
               alt=""
               sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
             <ProgressiveImage
               srcSet={`${Game}`}
-              placeholder={Placeholder}
+              placeholder={GamePlaceholder}
               alt=""
               sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
             <ProgressiveImage
               srcSet={`${Robot}`}
-              placeholder={Placeholder}
+              placeholder={RobotPlaceholder}
               alt=""
               sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
             <ProgressiveImage
               srcSet={`${Impact}`}
-              placeholder={Placeholder}
+              placeholder={ImpactPlaceholder}
               alt=""
               sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
