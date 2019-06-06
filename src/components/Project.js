@@ -183,11 +183,17 @@ export const ProjectBackgroundVideo = styled.video.attrs(props => ({
   overflow: hidden;
   object-fit: cover;
   width: 100%;
-  webkit-filter: blur(3px);
-  filter: blur(3px);
+  transition-property: filter;
+  transition-timing-function: ${props => props.theme.curveFastoutSlowin};
+  transition-duration: 0.4s;
 
   ${props => props.entered && css`
     animation: ${AnimFade} 2s ease ${initDelay}ms forwards;
+  `}
+
+  ${props => props.theme.id === 'light' && css`
+    -webkit-filter:invert(100%);
+    filter:progid:DXImageTransform.Microsoft.BasicImage(invert='1');
   `}
 `;
 
