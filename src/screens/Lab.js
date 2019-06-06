@@ -6,19 +6,19 @@ import Intro from '../screens/Intro';
 import ProjectItem from '../screens/ProjectItem';
 import Profile from '../screens/Profile';
 import Footer from '../components/Footer';
-import ArMTG from '../assets/Lab/ArMTG.webp';
+import ArMTG from '../assets/Lab/ArMTG.mp4';
 import ArMTGPlaceholder from '../assets/Lab/ArMTGPlaceholder.png';
-import Rainbow from '../assets/Lab/rainbow.webp';
+import Rainbow from '../assets/Lab/rainbow.mp4';
 import RainbowPlaceholder from '../assets/Lab/rainbowPlaceholder.png';
-import Cold from '../assets/Lab/cold.webp';
+import Cold from '../assets/Lab/cold.mp4';
 import ColdPlaceholder from '../assets/Lab/coldPlaceholder.png';
-import World from '../assets/Lab/world.webp';
+import World from '../assets/Lab/world.mp4';
 import WorldPlaceholder from '../assets/Lab/worldPlaceholder.png';
-import Tunnel from '../assets/Lab/tunnel.webp';
+import Tunnel from '../assets/Lab/tunnel.mp4';
 import TunnelPlaceholder from '../assets/Lab/tunnelPlaceholder.png';
-import Flames from '../assets/Lab/flames.webp';
+import Flames from '../assets/Lab/flames.mp4';
 import FlamesPlaceholder from '../assets/Lab/flamesPlaceholder.png';
-import Frames from '../assets/Lab/frames.webp';
+import Frames from '../assets/Lab/frames.mp4';
 import FramesPlaceholder from '../assets/Lab/framesPlaceholder.png';
 const disciplines = ['Lab'];
 
@@ -124,6 +124,7 @@ export default function Lab(props) {
         imageSrc={useMemo(() => [`${ArMTG}`], [])}
         imageAlt={useMemo(() => ['ArMTG Website'], [])}
         imagePlaceholder={useMemo(() => [ArMTGPlaceholder], [])}
+        video
       />
 	    <ProjectItem
         id="experiment2"
@@ -137,6 +138,7 @@ export default function Lab(props) {
         imageSrc={useMemo(() => [`${Rainbow}`], [])}
         imageAlt={useMemo(() => ["A colorful experiment with BAS Utilities and ThreeJS."], [])}
         imagePlaceholder={useMemo(() => [RainbowPlaceholder], [])}
+        video
       />
       <ProjectItem
 		    id="experiment3"
@@ -150,6 +152,7 @@ export default function Lab(props) {
         imageSrc={useMemo(() => [`${Cold}`], [])}
         imageAlt={useMemo(() => ['Another animation in ThreeJS with BAS Utilities.'], [])}
         imagePlaceholder={useMemo(() => [ColdPlaceholder], [])}
+        video
       />
 	    <ProjectItem
         id="experiment4"
@@ -163,6 +166,7 @@ export default function Lab(props) {
         imageSrc={useMemo(() => [`${World}`], [])}
         imageAlt={useMemo(() => ['The fourth take on a series of ThreeJS experiments toying with BAS Utilities.'], [])}
         imagePlaceholder={useMemo(() => [WorldPlaceholder], [])}
+        video
       />
 	    <ProjectItem
         id="experiment5"
@@ -176,6 +180,7 @@ export default function Lab(props) {
         imageSrc={useMemo(() => [`${Tunnel}`], [])}
         imageAlt={useMemo(() => ['The third take on a series of ThreeJS experiments toying with BAS Utilities.'], [])}
         imagePlaceholder={useMemo(() => [TunnelPlaceholder], [])}
+        video
       />
 	    <ProjectItem
         id="experiment6"
@@ -189,6 +194,7 @@ export default function Lab(props) {
         imageSrc={useMemo(() => [`${Flames}`], [])}
         imageAlt={useMemo(() => ['The second take on a series of ThreeJS experiments toying with BAS Utilities.'], [])}
         imagePlaceholder={useMemo(() => [FlamesPlaceholder], [])}
+        video
       />
 	    <ProjectItem
         id="experiment7"
@@ -202,6 +208,7 @@ export default function Lab(props) {
         imageSrc={useMemo(() => [`${Frames}`], [])}
         imageAlt={useMemo(() => ['First take on a series of ThreeJS experiments toying with BAS Utilites.'], [])}
         imagePlaceholder={useMemo(() => [FramesPlaceholder], [])}
+        video
 	    />
       <Profile
         sectionRef={about}
