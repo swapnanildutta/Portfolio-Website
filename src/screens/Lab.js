@@ -8,12 +8,19 @@ import Profile from '../screens/Profile';
 import Footer from '../components/Footer';
 import Placeholder from '../assets/placeholder.png';
 import ArMTG from '../assets/Lab/ArMTG.webp';
+import ArMTGPlaceholder from '../assets/Lab/ArMTGPlaceholder.png';
 import Rainbow from '../assets/Lab/rainbow.webp';
+import RainbowPlaceholder from '../assets/Lab/rainbowPlaceholder.png';
 import Cold from '../assets/Lab/cold.webp';
+import ColdPlaceholder from '../assets/Lab/coldPlaceholder.png';
 import World from '../assets/Lab/world.webp';
+import WorldPlaceholder from '../assets/Lab/worldPlaceholder.png';
 import Tunnel from '../assets/Lab/tunnel.webp';
+import TunnelPlaceholder from '../assets/Lab/tunnelPlaceholder.png';
 import Flames from '../assets/Lab/flames.webp';
+import FlamesPlaceholder from '../assets/Lab/flamesPlaceholder.png';
 import Frames from '../assets/Lab/frames.webp';
+import FramesPlaceholder from '../assets/Lab/framesPlaceholder.png';
 const disciplines = ['Lab'];
 
 export default function Lab(props) {
