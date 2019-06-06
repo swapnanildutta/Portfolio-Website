@@ -12,11 +12,11 @@ import {
   ProjectTextRow,
 } from '../components/Project';
 import { media } from '../utils/StyleUtils';
-import Background from '../assets/MystGang/background.gif';
+import Background from '../assets/MystGang/background.mp4';
 import BackgroundPlaceholder from '../assets/MystGang/backgroundPlaceholder.png';
 import Render from '../assets/MystGang/MystGang.webp'
 import RenderPlaceholder from '../assets/MystGang/MystGangPlaceholder.png';
-import Animation from '../assets/MystGang/mystGangAnimation.webp';
+import Animation from '../assets/MystGang/mystGangAnimation.mp4';
 import AnimationPlaceholder from '../assets/MystGang/mystGangAnimationPlaceholder.png';
 import Branding from '../assets/MystGang/branding.webp';
 import BrandingPlaceholder from '../assets/MystGang/brandingPlaceholder.png';
@@ -77,9 +77,8 @@ function MystGang() {
       />
       <ProjectContainer>
         <MystBackground
-          srcSet={`${Background}`}
+          src={Background}
           placeholder={BackgroundPlaceholder}
-          opacity={0.5}
           entered={!prerender}
         />
         <ProjectHeader
@@ -104,12 +103,15 @@ function MystGang() {
         </ProjectSection>
         <ProjectSection>
           <ProjectSectionContent>
-            <ProgressiveImage
-              srcSet={`${Animation}`}
-              placeholder={AnimationPlaceholder}
-              alt=""
-              sizes={`(max-width: ${media.mobile}) 90vw, (max-width: ${media.tablet}) 80vw, 70vw`}
-            />
+            <Video
+              autoPlay
+              muted
+              loop
+              playsInline
+              poster={AnimationPlaceholder}
+            >
+              <source src={Animation} type="video/mp4" />
+            </Video>
           </ProjectSectionContent>
         </ProjectSection>
         <ProjectSection>
@@ -188,6 +190,13 @@ function MystGang() {
     </React.Fragment>
   );
 }
+
+const Video = styled.video`
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  position: relative;
+`;
 
 const MystBackground = styled(ProjectBackground)`
   transition-property: filter;

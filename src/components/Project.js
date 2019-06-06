@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled, { css, keyframes } from 'styled-components/macro';
 import { media, AnimFade, rgba } from '../utils/StyleUtils';
-import ProgressiveImage from '../components/ProgressiveImage';
 import { LinkButton } from '../components/Button';
 
 const initDelay = 300;
 const prerender = navigator.userAgent === 'ReactSnap';
 
 export function ProjectBackground(props) {
+  const { src, placeholder } = props;
   const [offset, setOffset] = useState();
   const scheduledAnimationFrame = useRef(false);
   const lastScrollY = useRef(0);
@@ -32,7 +32,16 @@ export function ProjectBackground(props) {
   };
 
   return (
-    <ProjectBackgroundImage offset={offset} {...props} />
+    <ProjectBackgroundVideo
+      autoPlay
+      muted
+      loop
+      playsInline
+      offset={offset}
+      poster={placeholder}
+    >
+      <source src={src} type="video/mp4" />
+    </ProjectBackgroundVideo>
   );
 }
 
@@ -133,10 +142,8 @@ export const ProjectSection = styled.section`
   `}
 `;
 
-export const ProjectBackgroundImage = styled(ProgressiveImage).attrs(props => ({
-  alt: '',
+export const ProjectBackgroundVideo = styled.video.attrs(props => ({
   role: 'presentation',
-  opacity: props.opacity ? props.opacity : 0.7,
   style: {
     transform: `translate3d(0, ${props.offset}px, 0)`,
   },
@@ -148,33 +155,15 @@ export const ProjectBackgroundImage = styled(ProgressiveImage).attrs(props => ({
   bottom: 0;
   left: 0;
   height: 800px;
-  opacity: 0;
   overflow: hidden;
+  object-fit: cover;
+  width: 100%;
+  webkit-filter: blur(3px);
+  filter: blur(3px);
 
   ${props => props.entered && css`
     animation: ${AnimFade} 2s ease ${initDelay}ms forwards;
   `}
-
-  img {
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
-    webkit-filter: blur(3px);
-  	filter: blur(3px);
-  }
-
-  &:after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 1;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(180deg,rgba(${props => props.theme.id === 'dark' ? '17, 17, 17' : '255, 255, 255'},0.3) 0%,rgba(${props => props.theme.id === 'dark' ? '17,17,17' : '242,242,242'},0.3) 100% );
-  }
 `;
 
 const ProjectHeaderContainer = styled(ProjectSection)`
