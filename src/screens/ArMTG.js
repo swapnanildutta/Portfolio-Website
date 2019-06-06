@@ -72,6 +72,7 @@ function ArMTG(props) {
               <Video
                 src={Render}
                 placeholder={RenderPlaceholder}
+                reveal
               />
             </ProjectImage>
           </ProjectSectionContent>

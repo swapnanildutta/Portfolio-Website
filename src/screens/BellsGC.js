@@ -88,6 +88,7 @@ function BellsGC(props) {
                 placeholder={RenderPlaceholder}
                 alt=""
                 sizes={`(max-width: ${media.mobile}) 100vw, (max-width: ${media.tablet}) 90vw, 80vw`}
+                reveal
               />
             </ProjectImage>
           </ProjectSectionContent>

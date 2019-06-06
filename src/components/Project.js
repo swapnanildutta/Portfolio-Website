@@ -2,24 +2,12 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled, { css, keyframes } from 'styled-components/macro';
 import { media, AnimFade, rgba } from '../utils/StyleUtils';
 import { LinkButton } from '../components/Button';
+import ProgressiveVideo from '../components/ProgressiveVideo';
 
 const initDelay = 300;
 const prerender = navigator.userAgent === 'ReactSnap';
 
-export function Video(props) {
-  const { src, poster } = props;
-  return (
-    <ProgressiveVideo
-      autoPlay
-      muted
-      loop
-      playsInline
-      poster={poster}
-    >
-      <source src={src} type="video/mp4" />
-    </ProgressiveVideo>
-  );
-}
+export const Video = ProgressiveVideo;
 
 export function ProjectBackground(props) {
   const { src, placeholder } = props;
@@ -88,16 +76,6 @@ export function ProjectHeader(props) {
     </ProjectHeaderContainer>
   );
 }
-
-export const ProgressiveVideo = styled.video`
-  object-fit: cover;
-  width: 100%;
-  height: 100%;
-  position: relative;
-  outline: 0;
-  border: none;
-  -moz-outline-style: none;
-`;
 
 export const ProjectContainer = styled.article`
   position: relative;

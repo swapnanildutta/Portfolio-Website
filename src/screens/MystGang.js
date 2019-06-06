@@ -94,6 +94,7 @@ function MystGang() {
               <Video
                 src={Render}
                 placeholder={RenderPlaceholder}
+                reveal
               />
             </ProjectImage>
           </ProjectSectionContent>
