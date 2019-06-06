@@ -6,7 +6,6 @@ import Intro from '../screens/Intro';
 import ProjectItem from '../screens/ProjectItem';
 import Profile from '../screens/Profile';
 import Footer from '../components/Footer';
-import Placeholder from '../assets/placeholder.png';
 import ArMTG from '../assets/Lab/ArMTG.webp';
 import ArMTGPlaceholder from '../assets/Lab/ArMTGPlaceholder.png';
 import Rainbow from '../assets/Lab/rainbow.webp';
