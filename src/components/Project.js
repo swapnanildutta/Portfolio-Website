@@ -94,6 +94,9 @@ export const ProgressiveVideo = styled.video`
   width: 100%;
   height: 100%;
   position: relative;
+  outline: 0;
+  border: none;
+  -moz-outline-style: none;
 `;
 
 export const ProjectContainer = styled.article`

@@ -477,6 +477,9 @@ const ProjectItemVideoLaptop = styled.video`
   opacity: 0;
   position: relative;
   object-fit: cover;
+  outline: 0;
+  border: none;
+  -moz-outline-style: none;
 
   ${props => props.status === 'entered' && css`
     transform: translate3d(0, 0, 0);
