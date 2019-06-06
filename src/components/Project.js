@@ -362,15 +362,14 @@ export const ProjectSectionColumns = styled(ProjectSectionContent)`
   grid-gap: 70px;
   margin: 20px 0 60px;
 
-  ${props => props.light && css`
-    @media (max-width: ${media.tablet}), (max-width: ${media.mobile}) {
-      grid-template-columns: 1fr;
+  @media (max-width: ${media.tablet}), (max-width: ${media.mobile}) {
+    grid-template-columns: 1fr;
+    grid-gap: 0;
 
-      ${ProjectTextRow} {
-        text-align: center;
-      }
+    ${ProjectTextRow} {
+      text-align: center;
     }
-  `}
+  }
 `;
 
 export const SidebarImages = styled.div`
