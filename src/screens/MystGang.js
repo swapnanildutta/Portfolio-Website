@@ -30,7 +30,7 @@ const DisplacementSlider = lazy(() => import('../components/DisplacementSlider')
 
 const prerender = navigator.userAgent === 'ReactSnap';
 
-const title = 'MystGang 2019 - WIP';
+const title = 'MystGang 2019';
 const description = 'Bringing an epic content creator\'s portfolio to life with ThreeJS.';
 const roles = [
   'Front-end Development',
