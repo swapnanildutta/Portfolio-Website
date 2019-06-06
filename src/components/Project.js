@@ -387,7 +387,7 @@ export const SidebarImages = styled.div`
 
 export const SidebarImagesText = styled.div`
   display: flex;
-  align-items: flex-start;
+  align-items: ${props => props.center ? 'center' : 'flex-start'};
   flex-direction: column;
   justify-content: center;
   padding-right: 10px;

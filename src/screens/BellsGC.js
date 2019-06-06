@@ -90,7 +90,7 @@ function BellsGC(props) {
         </ProjectSection>
         <ProjectSection>
           <ProjectSectionColumns>
-            <SidebarImagesText>
+            <SidebarImagesText center>
               <ProjectSectionHeading>Visual Identity</ProjectSectionHeading>
             </SidebarImagesText>
             <SidebarImages>

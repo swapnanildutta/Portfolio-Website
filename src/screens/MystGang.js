@@ -237,6 +237,10 @@ const TextSection = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
+
+  @media (max-width: ${media.tablet}), (max-width ${media.mobile}) {
+    margin-top: 18px;
+  }
 `;
 
 const LogoContainer = styled.div`
