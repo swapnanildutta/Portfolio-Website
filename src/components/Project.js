@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled, { css, keyframes } from 'styled-components/macro';
 import { media, AnimFade, rgba } from '../utils/StyleUtils';
 import { LinkButton } from '../components/Button';
+import ProgressiveImage from '../components/ProgressiveImage';
 import ProgressiveVideo from '../components/ProgressiveVideo';
 
 const initDelay = 300;
@@ -352,5 +353,113 @@ export const ProjectTextRow = styled.div`
 
   @media (max-width: ${media.mobile}) {
     text-align: left;
+  }
+`;
+
+export const ProjectSectionColumns = styled(ProjectSectionContent)`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 70px;
+  margin: 20px 0 60px;
+
+  ${props => props.light && css`
+    background: ${props.theme.colorBackgroundLight};
+    margin: 20px 0;
+    padding: 120px 140px;
+    grid-template-columns: 3fr 2fr;
+
+    a {
+      margin-top: 12px;
+    }
+
+    p {
+      margin: 0 0 24px 0;
+    }
+
+    @media (max-width: ${media.tablet}) {
+      padding-top: 80px;
+      padding-bottom: 100px;
+      grid-template-columns: 1fr;
+      margin: 0 0 60px;
+    }
+
+    @media (max-width: ${media.mobile}) {
+      padding-top: 80px;
+      padding-bottom: 100px;
+
+      p {
+        margin: 0 0 18px;
+      }
+    }
+  `}
+`;
+
+export const SidebarImages = styled.div`
+  display: grid;
+  align-items: center;
+  @media (max-width: ${media.tablet}) {
+    padding: 0 80px;
+    margin-top: 60px;
+  }
+  @media (max-width: ${media.mobile}) {
+    padding: 0 20px;
+    margin-top: 40px;
+  }
+`;
+
+export const SidebarImagesText = styled.div`
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: center;
+  padding-right: 10px;
+  @media (max-width: ${media.tablet}) {
+    padding-right: 0;
+  }
+`;
+
+export const SidebarImage = styled(ProgressiveImage)`
+  &:first-child {
+    grid-column: col 1 / span 4;
+    grid-row: 1;
+    position: relative;
+    top: 5%;
+  }
+  &:last-child {
+    grid-column: col 3 / span 4;
+    grid-row: 1;
+    position: relative;
+    top: -5%;
+  }
+`;
+
+export const ProjectSectionGrid = styled(ProjectSectionContent)`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 70px;
+  margin: 40px 0;
+  @media (max-width: ${media.tablet}) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+export const ProjectSectionGridBackground = styled.div`
+  grid-column: 1;
+  grid-row: 1;
+  @media (max-width: ${media.tablet}) {
+    padding: 0 120px;
+  }
+  @media (max-width: ${media.mobile}) {
+    padding: 0 60px;
+  }
+`;
+
+export const ProjectSectionGridText = styled.div`
+  padding-top: 80px;
+  @media (max-width: ${media.desktop}) {
+    padding-top: 40px;
+  }
+  @media (max-width: ${media.tablet}) {
+    padding-top: 0;
   }
 `;

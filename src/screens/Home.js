@@ -22,7 +22,7 @@ import RoboticsStill from '../assets/Robotics/roboticsStill.webp';
 const disciplines = ['Developer'];
 
 export default function Home(props) {
-  const { status } = useContext(AppContext);
+  const { status, updateTheme } = useContext(AppContext);
   const { location } = props;
   const { hash } = location;
   const initHash = useRef(hash);
@@ -35,6 +35,12 @@ export default function Home(props) {
   const projectFour = useRef();
   const about = useRef();
   const prefersReducedMotion = usePrefersReducedMotion();
+
+  useEffect(() => {
+    if ((status === 'entered' || status === 'exiting')) {
+      updateTheme();
+    }
+  }, [updateTheme, status]);
 
   useEffect(() => {
     const revealSections = [intro, projectOne, projectTwo, projectThree, projectFour, about];

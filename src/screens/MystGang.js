@@ -9,7 +9,7 @@ import Footer from '../components/Footer';
 import {
   ProjectContainer, ProjectSection, ProjectSectionContent, ProjectImage,
   ProjectBackground, ProjectHeader, ProjectSectionHeading, ProjectSectionText,
-  ProjectTextRow, Video
+  ProjectTextRow, Video, ProjectSectionColumns, SidebarImages, SidebarImage
 } from '../components/Project';
 import { media } from '../utils/StyleUtils';
 import Background from '../assets/MystGang/background.mp4';
@@ -29,6 +29,7 @@ import About1 from '../assets/MystGang/About1.webp';
 import About2 from '../assets/MystGang/About2.webp';
 import About3 from '../assets/MystGang/About3.webp';
 import Contact from '../assets/MystGang/Contact.webp';
+import NextProject from '../assets/ARMTG/ARMTGStill.webp';
 import { ReactComponent as MystLogo } from '../assets/MystGang/logo.svg';
 
 const DisplacementSlider = lazy(() => import('../components/DisplacementSlider'));
@@ -66,12 +67,6 @@ function MystGang() {
         custom: true,
       });
     }
-
-    return function cleanUp() {
-      if (status !== 'entered') {
-        updateTheme();
-      }
-    };
   }, [updateTheme, status, currentTheme.id]);
 
   return (
@@ -201,18 +196,29 @@ function MystGang() {
           </ProjectSectionSlider>
         </ProjectSection>
         <ProjectSection>
-          <ProjectSectionContent>
+          <ProjectSectionColumns light>
+            <SidebarImages>
+              <SidebarImage
+                srcSet={`${NextProject}`}
+                alt=""
+                reveal
+                sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
+              />
+            </SidebarImages>
             <ProjectTextRow center>
-              <ProjectSectionHeading>MystGang 2019</ProjectSectionHeading>
+              <ProjectSectionText>
+                Next Project
+              </ProjectSectionText>
+              <ProjectSectionHeading>ARMTG</ProjectSectionHeading>
               <RouterButton
                 secondary
                 icon="chevronRight"
-                to="/#work2"
+                to="/projects/armtg"
               >
-                Back to homepage
+                View Project
               </RouterButton>
             </ProjectTextRow>
-          </ProjectSectionContent>
+          </ProjectSectionColumns>
         </ProjectSection>
       </ProjectContainer>
       <Footer />
@@ -225,17 +231,6 @@ const ProjectSectionSlider = styled(ProjectSectionContent)`
   grid-template-columns: 1fr;
   grid-gap: 70px;
   margin: 0;
-`;
-
-const ProjectSectionColumns = styled(ProjectSectionContent)`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 70px;
-  margin: 0;
-
-  @media (max-width: ${media.tablet}) {
-    grid-template-columns: 1fr;
-  }
 `;
 
 const TextSection = styled.div`

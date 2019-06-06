@@ -23,7 +23,7 @@ import FramesPlaceholder from '../assets/Lab/framesPlaceholder.png';
 const disciplines = ['Lab'];
 
 export default function Lab(props) {
-  const { status } = useContext(AppContext);
+  const { status, updateTheme } = useContext(AppContext);
   const { location } = props;
   const { hash } = location;
   const initHash = useRef(hash);
@@ -38,6 +38,12 @@ export default function Lab(props) {
   const experiment6 = useRef();
   const experiment7 = useRef();
   const about = useRef();
+
+  useEffect(() => {
+    if ((status === 'entered' || status === 'exiting')) {
+      updateTheme();
+    }
+  }, [updateTheme, status]);
 
   useEffect(() => {
     const revealSections = [intro, experiment1, experiment2, experiment3, experiment4, experiment5, experiment6, experiment7, about];

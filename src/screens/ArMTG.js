@@ -7,10 +7,12 @@ import { RouterButton } from '../components/Button';
 import {
   ProjectContainer, ProjectSection, ProjectSectionContent, ProjectImage,
   ProjectHeader, ProjectTextRow, ProjectSectionHeading, ProjectSectionText,
-  Video
+  Video, ProjectSectionColumns, SidebarImages, SidebarImage
 } from '../components/Project';
+import { media } from '../utils/StyleUtils';
 import Render from '../assets/ARMTG/ARMTGWeb.mp4';
 import RenderPlaceholder from '../assets/ARMTG/ARMTGWebPlaceHolder.png';
+import NextProject from '../assets/Robotics/roboticsStill.webp';
 
 const ARMTGScene = lazy(() => import('../scenes/ARMTGScene'));
 
@@ -44,12 +46,6 @@ function ArMTG(props) {
         custom: true,
       });
     }
-
-    return function cleanUp() {
-      if (status !== 'entered') {
-        updateTheme();
-      }
-    };
   }, [updateTheme, status, currentTheme.id])
 
   return (
@@ -78,21 +74,29 @@ function ArMTG(props) {
           </ProjectSectionContent>
         </ProjectSection>
         <ProjectSection>
-          <ProjectSectionContent>
+          <ProjectSectionColumns light>
+            <SidebarImages>
+              <SidebarImage
+                srcSet={`${NextProject}`}
+                alt=""
+                reveal
+                sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
+              />
+            </SidebarImages>
             <ProjectTextRow center>
-              <ProjectSectionHeading>ArMTG</ProjectSectionHeading>
               <ProjectSectionText>
-                Full Project Coming Soon
+                Next Project
               </ProjectSectionText>
+              <ProjectSectionHeading>GCPS Robotics</ProjectSectionHeading>
               <RouterButton
                 secondary
                 icon="chevronRight"
-                to="/#work3"
+                to="/projects/gcpsrobotics"
               >
-                Back to homepage
+                View Project
               </RouterButton>
             </ProjectTextRow>
-          </ProjectSectionContent>
+          </ProjectSectionColumns>
         </ProjectSection>
       </ProjectContainer>
       <Footer />

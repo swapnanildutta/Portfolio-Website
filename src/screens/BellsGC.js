@@ -1,6 +1,5 @@
-import React, { lazy, useContext, useEffect, useRef } from 'react';
+import React, { lazy, useContext, useRef, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import styled from 'styled-components/macro';
 import { AppContext } from '../app/App';
 import ProgressiveImage from '../components/ProgressiveImage';
 import { useScrollToTop } from '../utils/Hooks';
@@ -8,7 +7,8 @@ import Footer from '../components/Footer';
 import { RouterButton } from '../components/Button';
 import {
   ProjectContainer, ProjectSection, ProjectSectionContent, ProjectImage,
-  ProjectSectionHeading, ProjectHeader, ProjectTextRow
+  ProjectSectionHeading, ProjectHeader, ProjectTextRow, ProjectSectionText,
+  ProjectSectionColumns, SidebarImagesText, SidebarImages, SidebarImage
 } from '../components/Project';
 import { media } from '../utils/StyleUtils';
 import Render from '../assets/BellsGC/BellsGC.webp';
@@ -26,6 +26,7 @@ import Events from '../assets/BellsGC/Events.webp';
 import EventsPlaceholder from '../assets/BellsGC/EventsPlaceholder.png';
 import About from '../assets/BellsGC/About.webp';
 import AboutPlaceholder from '../assets/BellsGC/AboutPlaceholder.png';
+import NextProject from '../assets/MystGang/MystGangStill.webp';
 
 const BellsScene = lazy(() => import('../scenes/BellsScene'));
 
@@ -58,12 +59,6 @@ function BellsGC(props) {
         custom: true,
       });
     }
-
-    return function cleanUp() {
-      if (status !== 'entered') {
-        updateTheme();
-      }
-    };
   }, [updateTheme, status, currentTheme.id])
 
   return (
@@ -146,73 +141,34 @@ function BellsGC(props) {
           </ProjectSectionContent>
         </ProjectSection>
         <ProjectSection>
-          <ProjectSectionContent>
+          <ProjectSectionColumns light>
+            <SidebarImages>
+              <SidebarImage
+                srcSet={`${NextProject}`}
+                alt=""
+                reveal
+                sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
+              />
+            </SidebarImages>
             <ProjectTextRow center>
-              <ProjectSectionHeading>Bell's Gaming Center</ProjectSectionHeading>
+              <ProjectSectionText>
+                Next Project
+              </ProjectSectionText>
+              <ProjectSectionHeading>MystGang 2019</ProjectSectionHeading>
               <RouterButton
                 secondary
                 icon="chevronRight"
-                to="/#work"
+                to="/projects/mystgang"
               >
-                Back to homepage
+                View Project
               </RouterButton>
             </ProjectTextRow>
-          </ProjectSectionContent>
+          </ProjectSectionColumns>
         </ProjectSection>
       </ProjectContainer>
       <Footer />
     </React.Fragment>
   );
 }
-
-const ProjectSectionColumns = styled(ProjectSectionContent)`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 70px;
-  margin: 20px 0 60px;
-  @media (max-width: ${media.tablet}) {
-    grid-template-columns: 1fr;
-    margin: 0 0 60px;
-  }
-`;
-
-const SidebarImages = styled.div`
-  display: grid;
-  align-items: center;
-  @media (max-width: ${media.tablet}) {
-    padding: 0 80px;
-    margin-top: 60px;
-  }
-  @media (max-width: ${media.mobile}) {
-    padding: 0 20px;
-    margin-top: 40px;
-  }
-`;
-
-const SidebarImagesText = styled.div`
-  display: flex;
-  align-items: flex-start;
-  flex-direction: column;
-  justify-content: center;
-  padding-right: 10px;
-  @media (max-width: ${media.tablet}) {
-    padding-right: 0;
-  }
-`;
-
-const SidebarImage = styled(ProgressiveImage)`
-  &:first-child {
-    grid-column: col 1 / span 4;
-    grid-row: 1;
-    position: relative;
-    top: 5%;
-  }
-  &:last-child {
-    grid-column: col 3 / span 4;
-    grid-row: 1;
-    position: relative;
-    top: -5%;
-  }
-`;
 
 export default BellsGC;

@@ -1,4 +1,4 @@
-import React, { useState, useContext, useCallback } from 'react';
+import React, { useState, useContext, useEffect, useCallback } from 'react';
 import styled, { css } from 'styled-components/macro';
 import { TransitionGroup, Transition } from 'react-transition-group';
 import { Helmet } from 'react-helmet-async';
@@ -14,12 +14,17 @@ const prerender = navigator.userAgent === 'ReactSnap';
 const initDelay = 300;
 
 function Contact() {
-  const { status } = useContext(AppContext);
+  const { status, updateTheme } = useContext(AppContext);
   const email = useFormInput('');
   const message = useFormInput('');
   const [sending, setSending] = useState(false);
   const [complete, setComplete] = useState(false);
   useScrollToTop(status);
+  useEffect(() => {
+    if ((status === 'entered' || status === 'exiting')) {
+      updateTheme();
+    }
+  }, [updateTheme, status]);
 
   const onSubmit = useCallback(async event => {
     event.preventDefault();

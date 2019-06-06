@@ -1,13 +1,20 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import styled, { css, keyframes } from 'styled-components/macro';
 import { Transition } from 'react-transition-group';
 import { Helmet } from 'react-helmet-async';
+import { AppContext } from '../app/App';
 import { RouterButton } from '../components/Button';
 import DecoderText from '../components/DecoderText';
 import { media, rgba } from '../utils/StyleUtils';
 import NotfoundPoster from '../assets/notfound.webp';
 
 function NotFound() {
+  const { status, updateTheme } = useContext(AppContext);
+  useEffect(() => {
+    if ((status === 'entered' || status === 'exiting')) {
+      updateTheme();
+    }
+  }, [updateTheme, status]);
   return (
     <NotFoundSection>
       <Helmet>

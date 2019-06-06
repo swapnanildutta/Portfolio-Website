@@ -1,7 +1,6 @@
 import React from 'react';
 
-const Monogram = ({ className, color, highlight, useGradient, inheritLogo, currentTheme }) => (
-
+const Monogram = ({ className, color, highlight, inheritLogo, currentTheme }) => (
   <svg className={className} fill={color || "white"} width="60" height="60" viewBox="0 0 16000 16000">
     <defs>
       {!inheritLogo &&
