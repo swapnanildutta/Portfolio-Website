@@ -20,10 +20,15 @@ import Animation from '../assets/MystGang/mystGangAnimation.mp4';
 import AnimationPlaceholder from '../assets/MystGang/mystGangAnimationPlaceholder.png';
 import Branding from '../assets/MystGang/branding.webp';
 import BrandingPlaceholder from '../assets/MystGang/brandingPlaceholder.png';
-import Sketch from '../assets/MystGang/prototypeRender.webp';
-import SketchPlaceholder from '../assets/MystGang/prototypeRenderPlaceholder.png';
-import WebGL from '../assets/MystGang/webGLRender.webp';
-import Final from '../assets/MystGang/finalRender.webp';
+import Loader from '../assets/MystGang/Loader.webp';
+import LoaderPlaceholder from '../assets/MystGang/LoaderPlaceholder.png';
+import Home from '../assets/MystGang/Home.webp';
+import Menu from '../assets/MystGang/Menu.webp';
+import Work from '../assets/MystGang/Work.webp';
+import About1 from '../assets/MystGang/About1.webp';
+import About2 from '../assets/MystGang/About2.webp';
+import About3 from '../assets/MystGang/About3.webp';
+import Contact from '../assets/MystGang/Contact.webp';
 import { ReactComponent as MystLogo } from '../assets/MystGang/logo.svg';
 
 const DisplacementSlider = lazy(() => import('../components/DisplacementSlider'));
@@ -137,25 +142,56 @@ function MystGang() {
           </ProjectSectionContent>
         </ProjectSection>
         <ProjectSection>
+          <ProjectSectionContent>
+            <ProjectTextRow center>
+              <ProjectSectionHeading>Final Website</ProjectSectionHeading>
+            </ProjectTextRow>
+          </ProjectSectionContent>
           <ProjectSectionSlider>
             <Suspense fallback={<React.Fragment />}>
               <DisplacementSlider
-                placeholder={SketchPlaceholder}
+                placeholder={LoaderPlaceholder}
                 images={useMemo(() => [
                   {
-                    src: Sketch,
-                    srcset: `${Sketch}`,
-                    alt: 'Prototype Design'
+                    src: Loader,
+                    srcset: `${Loader}`,
+                    alt: 'MystGang Loader',
+                    override: true
                   },
                   {
-                    src: WebGL,
-                    srcset: `${WebGL}`,
-                    alt: 'WebGL Prototype',
+                    src: Home,
+                    srcset: `${Home}`,
+                    alt: 'Landing Screen',
                   },
                   {
-                    src: Final,
-                    srcset: `${Final}`,
-                    alt: 'Final Prototype',
+                    src: Menu,
+                    srcset: `${Menu}`,
+                    alt: 'Menu Screen',
+                  },
+                  {
+                    src: Work,
+                    srcset: `${Work}`,
+                    alt: 'Work Carousel',
+                  },
+                  {
+                    src: About1,
+                    srcset: `${About1}`,
+                    alt: 'About Self'
+                  },
+                  {
+                    src: About2,
+                    srcset: `${About2}`,
+                    alt: 'About Work',
+                  },
+                  {
+                    src: About3,
+                    srcset: `${About3}`,
+                    alt: 'About Socials',
+                  },
+                  {
+                    src: Contact,
+                    srcset: `${Contact}`,
+                    alt: 'Contact Screen',
                   },
                 ], [])}
                 width={useMemo(() => 1920, [])}
