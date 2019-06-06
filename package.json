@@ -25,9 +25,9 @@
     "react-easy-swipe": "^0.0.17",
     "react-helmet-async": "^1.0.2",
     "react-intersection-observer": "^8.23.0",
-    "react-router-dom": "5.0.0",
+    "react-router-dom": "5.0.1",
     "react-transition-group": "^4.1.0",
-    "styled-components": "^4.2.1",
+    "styled-components": "^4.3.0",
     "three": "^0.105.2"
   },
   "scripts": {
