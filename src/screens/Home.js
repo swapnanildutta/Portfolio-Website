@@ -10,13 +10,13 @@ import { usePrefersReducedMotion } from '../utils/Hooks';
 import BellsGC from '../assets/BellsGC/BellsGC.webp';
 import BellsGCPlaceholder from '../assets/BellsGC/BellsGCPlaceholder.png';
 import BellsGCStill from '../assets/BellsGC/BellsGCStill.webp';
-import MystGang from '../assets/MystGang/MystGang.webp';
+import MystGang from '../assets/MystGang/MystGang.mp4';
 import MystGangPlaceholder from '../assets/MystGang/MystGangPlaceholder.png';
 import MystGangStill from '../assets/MystGang/MystGangStill.webp';
-import ArMTG from '../assets/ARMTG/ARMTGWeb.webp';
+import ArMTG from '../assets/ARMTG/ARMTGWeb.mp4';
 import ArMTGPlaceholder from '../assets/ARMTG/ARMTGWebPlaceHolder.png';
 import ArMTGStill from '../assets/ARMTG/ARMTGStill.webp';
-import Robotics from '../assets/Robotics/robotics.webp';
+import Robotics from '../assets/Robotics/robotics.mp4';
 import RoboticsPlaceholder from '../assets/Robotics/roboticsPlaceholder.png';
 import RoboticsStill from '../assets/Robotics/roboticsStill.webp';
 const disciplines = ['Developer'];
@@ -138,6 +138,7 @@ export default function Home(props) {
         imagePlaceholder={useMemo(() => [MystGangPlaceholder], [])}
         customColor={'rgba(181, 155, 105, 1)'}
         still={prefersReducedMotion ? MystGangStill : false}
+        video
       />
       <ProjectItem
         id="work3"
@@ -153,6 +154,7 @@ export default function Home(props) {
         imagePlaceholder={useMemo(() => [ArMTGPlaceholder], [])}
         customColor={'rgba(101, 154, 247, 1)'}
         still={prefersReducedMotion ? ArMTGStill : false}
+        video
       />
       <ProjectItem
     		id="work4"
@@ -168,6 +170,7 @@ export default function Home(props) {
         imagePlaceholder={useMemo(() => [RoboticsPlaceholder], [])}
         customColor={'rgba(54, 210, 120, 1)'}
         still={prefersReducedMotion ? RoboticsStill : false}
+        video
       />
       <Profile
         id="about"

@@ -13,7 +13,7 @@ function ProjectItem(props) {
   const {
     id, visible, sectionRef, index, title, description, imageSrc, imageAlt, phone,
     imagePlaceholder, buttonText, buttonLink, buttonTo, alternate, background, customColor,
-    active, still, ...rest
+    active, still, video, ...rest
   } = props;
 
   return (
@@ -65,14 +65,28 @@ function ProjectItem(props) {
                     <ProjectItemPreview>
                       {!phone &&
                         <ProjectItemPreviewContentLaptop>
-                          <ProjectItemImageLaptop
-                            status={status}
-                            srcSet={still ? null : imageSrc[0]}
-                            alt={still ? null : imageAlt[0]}
-                            placeholder={still ? null : imagePlaceholder[0]}
-                            still={still}
-                            sizes={`(max-width: ${media.mobile}) 300px,(max-width: ${media.tablet}) 420px,(max-width: ${media.desktop}) 860px, 900px`}
-                          />
+                          {!video &&
+                            <ProjectItemImageLaptop
+                              status={status}
+                              srcSet={still ? null : imageSrc[0]}
+                              alt={still ? null : imageAlt[0]}
+                              placeholder={still ? null : imagePlaceholder[0]}
+                              still={still}
+                              sizes={`(max-width: ${media.mobile}) 300px,(max-width: ${media.tablet}) 420px,(max-width: ${media.desktop}) 860px, 900px`}
+                            />
+                          }
+                          {video && !still &&
+                            <ProjectItemVideoLaptop
+                              autoPlay={visible}
+                              muted
+                              loop
+                              playsInline
+                              status={status}
+                              poster={imagePlaceholder[0]}
+                            >
+                              <source src={imageSrc[0]} type="video/mp4" />
+                            </ProjectItemVideoLaptop>
+                          }
                         </ProjectItemPreviewContentLaptop>
                       }
                       {phone &&
@@ -448,6 +462,56 @@ const ProjectItemImageLaptop = styled(ProgressiveImage)`
       display: none;
     }
   `}
+`;
+
+const ProjectItemVideoLaptop = styled.video`
+  width: 862px;
+  height: 531px;
+  right: -140px;
+  padding: 5.5% 10.9% 7.3% 11.4%;
+  transition-property: transform, opacity;
+  transition-duration: 1s;
+  transition-delay: 0.4s;
+  transition-timing-function: ${props => props.theme.curveFastoutSlowin};
+  transform: translate3d(40px, 0, 0);
+  opacity: 0;
+  position: relative;
+  object-fit: cover;
+
+  ${props => props.status === 'entered' && css`
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  `}
+
+  ${props => props.theme.id === 'light' && css`
+    z-index: 1;
+  `}
+
+  @media(min-width: 1440px) {
+    width: 880px;
+    height: 542px;
+  }
+
+  @media(max-width: 1245px) {
+    width: 761px;
+    height: 491px;
+  }
+
+  @media (max-width: ${media.tablet}) {
+    width: 420px;
+    height: 258px;
+    margin-bottom: 120px;
+    right: 0;
+  }
+
+  @media (max-width: ${media.mobile}) {
+    width: 336px;
+    height: 206px;
+    margin-bottom: 60px;
+  }
+
+  background-image: url(${props => props.still ? props.still : Macbook});
+  background-size: cover;
 `;
 
 const ProjectItemPhone = styled.div`

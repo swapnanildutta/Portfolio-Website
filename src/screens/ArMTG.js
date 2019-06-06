@@ -1,17 +1,15 @@
 import React, { lazy, useContext, useRef, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { AppContext } from '../app/App';
-import ProgressiveImage from '../components/ProgressiveImage';
 import { useScrollToTop } from '../utils/Hooks';
 import Footer from '../components/Footer';
 import { RouterButton } from '../components/Button';
 import {
   ProjectContainer, ProjectSection, ProjectSectionContent, ProjectImage,
-  ProjectHeader, ProjectTextRow, ProjectSectionHeading, ProjectSectionText
-
+  ProjectHeader, ProjectTextRow, ProjectSectionHeading, ProjectSectionText,
+  Video
 } from '../components/Project';
-import { media } from '../utils/StyleUtils';
-import Render from '../assets/ARMTG/ARMTGWeb.webp';
+import Render from '../assets/ARMTG/ARMTGWeb.mp4';
 import RenderPlaceholder from '../assets/ARMTG/ARMTGWebPlaceHolder.png';
 
 const ARMTGScene = lazy(() => import('../scenes/ARMTGScene'));
@@ -71,11 +69,9 @@ function ArMTG(props) {
         <ProjectSection>
           <ProjectSectionContent>
             <ProjectImage entered={!prerender}>
-              <ProgressiveImage
-                srcSet={`${Render}`}
+              <Video
+                src={Render}
                 placeholder={RenderPlaceholder}
-                alt=""
-                sizes={`(max-width: ${media.mobile}) 100vw, (max-width: ${media.tablet}) 90vw, 80vw`}
               />
             </ProjectImage>
           </ProjectSectionContent>

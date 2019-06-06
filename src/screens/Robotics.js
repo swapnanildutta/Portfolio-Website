@@ -8,16 +8,16 @@ import Footer from '../components/Footer';
 import { RouterButton } from '../components/Button';
 import {
   ProjectContainer, ProjectSection, ProjectSectionContent, ProjectImage,
-  ProjectSectionHeading, ProjectSectionText, ProjectHeader, ProjectTextRow
+  ProjectSectionHeading, ProjectSectionText, ProjectHeader, ProjectTextRow, Video
 } from '../components/Project';
 import { media } from '../utils/StyleUtils';
-import Render from '../assets/Robotics/robotics.webp';
+import Render from '../assets/Robotics/robotics.mp4';
 import RenderPlaceholder from '../assets/Robotics/roboticsPlaceholder.png';
 import Branding from '../assets/Robotics/branding.webp';
 import BrandingPlaceholder from '../assets/Robotics/brandingPlaceholder.png';
 import Clawbot from '../assets/Robotics/clawbot.webp';
 import ClawbotPlaceholder from '../assets/Robotics/clawbotPlaceholder.png';
-import CompetitionSite from '../assets/Robotics/3drobot.webp';
+import CompetitionSite from '../assets/Robotics/3drobot.mp4';
 import CompetitionSitePlaceholder from '../assets/Robotics/3drobotPlaceholder.png';
 import Dash from '../assets/Robotics/dash.webp';
 import DashPlaceholder from '../assets/Robotics/dash-placeholder.png';
@@ -93,11 +93,9 @@ function Robotics(props) {
         <ProjectSection>
           <ProjectSectionContent>
             <ProjectImage entered={!prerender}>
-              <ProgressiveImage
-                srcSet={`${Render}`}
+              <Video
+                src={Render}
                 placeholder={RenderPlaceholder}
-                alt=""
-                sizes={`(max-width: ${media.mobile}) 100vw, (max-width: ${media.tablet}) 90vw, 80vw`}
               />
             </ProjectImage>
           </ProjectSectionContent>
@@ -144,11 +142,9 @@ function Robotics(props) {
                 A fully interactive 3D website to recruit team members.
               </ProjectSectionText>
             </ProjectTextRow>
-            <ProgressiveImage
-              srcSet={`${CompetitionSite}`}
+            <Video
+              src={CompetitionSite}
               placeholder={CompetitionSitePlaceholder}
-              alt="A 3D website featuring competition details and a live render of the robot."
-              sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
             />
           </ProjectSectionContent>
         </ProjectSection>

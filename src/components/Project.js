@@ -6,6 +6,21 @@ import { LinkButton } from '../components/Button';
 const initDelay = 300;
 const prerender = navigator.userAgent === 'ReactSnap';
 
+export function Video(props) {
+  const { src, poster } = props;
+  return (
+    <ProgressiveVideo
+      autoPlay
+      muted
+      loop
+      playsInline
+      poster={poster}
+    >
+      <source src={src} type="video/mp4" />
+    </ProgressiveVideo>
+  );
+}
+
 export function ProjectBackground(props) {
   const { src, placeholder } = props;
   const [offset, setOffset] = useState();
@@ -73,6 +88,13 @@ export function ProjectHeader(props) {
     </ProjectHeaderContainer>
   );
 }
+
+export const ProgressiveVideo = styled.video`
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  position: relative;
+`;
 
 export const ProjectContainer = styled.article`
   position: relative;
