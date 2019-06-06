@@ -232,6 +232,7 @@ export default function DisplacementSlider(props) {
           left
           aria-label="Previous slide"
           onClick={() => navigate(-1)}
+          override={currentImage.override}
         >
           <Icon icon="slideLeft" />
         </SliderButton>
@@ -239,6 +240,7 @@ export default function DisplacementSlider(props) {
           right
           aria-label="Next slide"
           onClick={() => navigate(1)}
+          override={currentImage.override}
         >
           <Icon icon="slideRight" />
         </SliderButton>
@@ -344,7 +346,7 @@ const SliderButton = styled.button`
 
   &:hover::before,
   &:focus::before {
-    background: ${props => rgba(props.theme.colorWhite, 0.1)};
+    background: ${props => rgba(props.override ? props.theme.colorBlack : props.theme.colorWhite, 0.1)};
   }
 
   &::after {
@@ -374,11 +376,11 @@ const SliderButton = styled.button`
   }
 
   &:focus::after {
-    background: ${props => rgba(props.theme.colorWhite, 0.4)};
+    background: ${props => rgba(props.override ? props.theme.colorBlack : props.theme.colorWhite, 0.4)};
   }
 
   svg {
-    fill: ${props => props.theme.colorWhite};
+    fill: ${props => props.override ? props => props.theme.colorBlack : props => props.theme.colorWhite};
     display: block;
   }
 `;
