@@ -166,7 +166,7 @@ function BellsGC(props) {
           </ProjectSectionColumns>
         </ProjectSection>
       </ProjectContainer>
-      <Footer />
+      <Footer light />
     </React.Fragment>
   );
 }

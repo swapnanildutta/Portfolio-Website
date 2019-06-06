@@ -1,13 +1,16 @@
 import React from 'react';
-import styled from 'styled-components/macro';
+import styled, { css } from 'styled-components/macro';
 import Anchor from '../components/Anchor';
 import { media, rgba } from '../utils/StyleUtils';
 
-const Footer = () => (
-  <FooterContainer role="contentinfo">
-    <FooterDate>{`© 2018-${new Date().getFullYear()}`} Cody Bennett</FooterDate>
-  </FooterContainer>
-);
+const Footer = (props) => {
+  const { light } = props;
+  return (
+    <FooterContainer light={light} role="contentinfo">
+      <FooterDate>{`© 2018-${new Date().getFullYear()}`} Cody Bennett</FooterDate>
+    </FooterContainer>
+  );
+};
 
 const FooterContainer = styled.footer`
   display: flex;
@@ -24,6 +27,10 @@ const FooterContainer = styled.footer`
   @media (max-width: ${media.tablet}) {
     padding: 60px 20px;
   }
+
+  ${props => props.light && css`
+    background: ${props.theme.colorBackgroundLight};
+  `}
 
   ${Anchor} {
     display: inline-flex;

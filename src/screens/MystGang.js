@@ -195,8 +195,8 @@ function MystGang() {
             </Suspense>
           </ProjectSectionSlider>
         </ProjectSection>
-        <ProjectSection>
-          <ProjectSectionColumns light>
+        <ProjectSection light>
+          <ProjectSectionColumns>
             <SidebarImages>
               <SidebarImage
                 srcSet={`${NextProject}`}

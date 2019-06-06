@@ -363,32 +363,11 @@ export const ProjectSectionColumns = styled(ProjectSectionContent)`
   margin: 20px 0 60px;
 
   ${props => props.light && css`
-    background: ${props.theme.colorBackgroundLight};
-    margin: 20px 0;
-    padding: 120px 140px;
-    grid-template-columns: 3fr 2fr;
-
-    a {
-      margin-top: 12px;
-    }
-
-    p {
-      margin: 0 0 24px 0;
-    }
-
-    @media (max-width: ${media.tablet}) {
-      padding-top: 80px;
-      padding-bottom: 100px;
+    @media (max-width: ${media.tablet}), (max-width: ${media.mobile}) {
       grid-template-columns: 1fr;
-      margin: 0 0 60px;
-    }
 
-    @media (max-width: ${media.mobile}) {
-      padding-top: 80px;
-      padding-bottom: 100px;
-
-      p {
-        margin: 0 0 18px;
+      ${ProjectTextRow} {
+        text-align: center;
       }
     }
   `}
