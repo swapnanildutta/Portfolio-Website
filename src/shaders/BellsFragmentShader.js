@@ -2,12 +2,6 @@ export default`
   uniform vec2 u_resolution;
   uniform vec2 u_mouse;
   uniform float u_time;
-  uniform sampler2D u_noise;
-
-  vec2 hash2(vec2 p) {
-    vec2 o = texture2D(u_noise, (p + 0.5) / 256.0, -100.0).xy;
-    return o;
-  }
 
   const int octaves = 5;
 

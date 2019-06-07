@@ -1,12 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 import styled, { keyframes } from 'styled-components/macro';
 import {
-  TextureLoader, RepeatWrapping, LinearFilter, Camera, Scene, PlaneBufferGeometry,
-  Vector2, ShaderMaterial, Mesh, WebGLRenderer
+  Camera, Scene, PlaneBufferGeometry, Vector2, ShaderMaterial, Mesh, WebGLRenderer
 } from 'three';
 import VertShader from '../shaders/BellsVertexShader';
 import FragmentShader from '../shaders/BellsFragmentShader';
-import Noise from '../assets/BellsGC/noise.png';
 import { usePrefersReducedMotion } from '../utils/Hooks';
 
 function BellsScene() {
@@ -16,22 +14,7 @@ function BellsScene() {
   const renderer = useRef();
   const mesh = useRef();
   const uniforms = useRef();
-  const texture = useRef();
   const prefersReducedMotion = usePrefersReducedMotion();
-
-  useEffect(() => {
-    const loader = new TextureLoader();
-    loader.load(Noise, ((tex) => {
-      texture.current = tex;
-      texture.current.wrapS = RepeatWrapping;
-      texture.current.wrapT = RepeatWrapping;
-      texture.current.minFilter = LinearFilter;
-    }));
-
-    return function cleanup() {
-      texture.current = null;
-    };
-  });
 
   useEffect(() => {
     const containerRef = container.current;
@@ -47,7 +30,6 @@ function BellsScene() {
       uniforms.current = {
         u_time: { type: "f", value: 1.0 },
         u_resolution: { type: "v2", value: new Vector2() },
-        u_noise: { type: "t", value: texture.current },
         u_mouse: { type: "v2", value: new Vector2() }
       };
 
