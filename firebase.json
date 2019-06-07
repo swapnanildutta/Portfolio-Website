@@ -18,7 +18,7 @@
         ]
       },
       {
-        "source": "**/*.@(jpg|jpeg|gif|png|webp|mp4)",
+        "source": "**/*.@(jpg|jpeg|gif|png|webp|mp4|svg)",
         "headers": [
           {
             "key": "Cache-Control",
@@ -53,6 +53,11 @@
           }
         ]
       }
+    ]
+  },
+  "functions": {
+    "predeploy": [
+      "npm --prefix ./functions run lint"
     ]
   }
 }
