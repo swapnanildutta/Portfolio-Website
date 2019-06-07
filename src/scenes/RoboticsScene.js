@@ -209,24 +209,37 @@ function RoboticsScene() {
       window.addEventListener('scroll', handleScroll);
 
       return function cleanUp() {
-        window.removeEventListener('resize', handleWindowResize);
+        window.removeEventListener('resize', handleWindowResize, false);
         window.removeEventListener('scroll', handleScroll);
       };
     }
   }, [prefersReducedMotion]);
 
   useEffect(() => {
+    let animation;
     const clock = new Clock();
     const render = () => {
       const delta = clock.getDelta();
       particles.current.update(delta);
       renderer.current.render(scene.current, camera.current);
-      window.requestAnimationFrame(render);
+      animation = requestAnimationFrame(render);
     };
 
     if(!prefersReducedMotion) {
       render();
     }
+
+    return function cleanup() {
+      cancelAnimationFrame(animation);
+      renderer.current.dispose();
+      renderer.current.forceContextLoss();
+      scene.current.dispose();
+      camera.current = null;
+      renderer.current.context = null;
+      renderer.current.domElement = null;
+      particles.current = null;
+      SceneRoot.current = null;
+    };
   }, [prefersReducedMotion]);
 
   return (
