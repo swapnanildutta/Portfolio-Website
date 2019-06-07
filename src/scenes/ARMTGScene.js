@@ -56,13 +56,25 @@ function ARMTGScene() {
           this.particles = this.particles.filter(function(p) {
             return p.move();
           });
-          requestAnimationFrame(this.update.bind(this));
+          this.animation = requestAnimationFrame(this.update.bind(this));
         }
       }
 
       resize() {
         document.getElementsByTagName('canvas')[0].remove();
         this.init();
+      }
+
+      purge() {
+        this.progress = 0;
+        this.scene = null;
+        this.sprite = null;
+        this.app = null;
+        this.bunny = null;
+        this.interval = null;
+        this.particles = [];
+        clearInterval(this.init.interval);
+        cancelAnimationFrame(this.animation);
       }
     }
 
@@ -143,9 +155,15 @@ function ARMTGScene() {
     const icosaedro = new Icosaedro();
     icosaedro.update();
 
-    window.addEventListener('resize', debounce(function() {
+    const resizeFunction = debounce(() => {
       icosaedro.resize();
-    }, 200));
+    }, 200);
+
+    window.addEventListener('resize', resizeFunction);
+
+    return function cleanup() {
+      window.removeEventListener('resize', resizeFunction);
+    };
   }, [prefersReducedMotion]);
 
   return (
