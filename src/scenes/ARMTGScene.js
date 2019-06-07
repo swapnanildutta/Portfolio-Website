@@ -31,8 +31,7 @@ function ARMTGScene() {
           transparent: true
         });
 
-        const amount = this.app.renderer instanceof WebGLRenderer ? 100 : 5;
-        if (amount === 5) {
+        if (!this.app.renderer instanceof WebGLRenderer) {
           this.app.renderer.context.mozImageSmoothingEnabled = false;
           this.app.renderer.context.webkitImageSmoothingEnabled = false;
         }
@@ -42,6 +41,9 @@ function ARMTGScene() {
         this.app.stage.addChild(scene);
         this.app.view.style['transform'] = 'translatez(0)';
         this.interval = setInterval(function() {
+          if (this.cleanup) {
+            return this.particles = [];
+          }
           this.particles.push(
             new Particle(this.app, scene, {
               speed: 1 + Math.random() * 4,
@@ -61,20 +63,8 @@ function ARMTGScene() {
       }
 
       resize() {
-        document.getElementsByTagName('canvas')[0].remove();
+        container.current.innerHTML = '';
         this.init();
-      }
-
-      purge() {
-        this.progress = 0;
-        this.scene = null;
-        this.sprite = null;
-        this.app = null;
-        this.bunny = null;
-        this.interval = null;
-        this.particles = [];
-        clearInterval(this.init.interval);
-        cancelAnimationFrame(this.animation);
       }
     }
 
@@ -82,7 +72,7 @@ function ARMTGScene() {
       constructor(app, scene, options) {
         this.app = app;
         this.scene = scene;
-        this.destroy = false;
+        this.destroy = icosaedro.cleanup || false;
         this.a = [0.5, 1, 1.5][Math.round(Math.random() * 2)];
         this.steps = window.innerWidth / 5;
         this.scale = 0.5 * Math.random();
@@ -90,10 +80,8 @@ function ARMTGScene() {
         this.siner = 300 * Math.random();
         this.speed = options.speed;
         this.progress = 0;
-
         this.texture = new Sprite(media[0]);
-        let n = [0.344, 0.4346, 0.7444, 0.992222][Math.round(Math.random() * 3)];
-        this.texture.tint = n * 0xFFFFFF;
+        this.texture.tint = [0.344, 0.4346, 0.7444, 0.992222][Math.round(Math.random() * 3)] * 0xFFFFFF;
         this.texture.cacheAsBitmap = true;
         this.texture.anchor.set(0.5);
 
@@ -138,10 +126,10 @@ function ARMTGScene() {
 
     function debounce(func, wait, immediate) {
       let timeout;
-      return function() {
+      return () => {
         const context = this,
           args = arguments;
-        const later = function() {
+        const later = () => {
           timeout = null;
           if (!immediate) func.apply(context, args);
         };
@@ -155,14 +143,16 @@ function ARMTGScene() {
     const icosaedro = new Icosaedro();
     icosaedro.update();
 
-    const resizeFunction = debounce(() => {
+    const onResize = debounce(() => {
       icosaedro.resize();
     }, 200);
 
-    window.addEventListener('resize', resizeFunction);
+    window.addEventListener('resize', onResize);
 
     return function cleanup() {
-      window.removeEventListener('resize', resizeFunction);
+      window.removeEventListener('resize', onResize);
+      cancelAnimationFrame(icosaedro.animation);
+      icosaedro.cleanup = true;
     };
   }, [prefersReducedMotion]);
 
