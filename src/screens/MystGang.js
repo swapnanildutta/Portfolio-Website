@@ -99,15 +99,7 @@ function MystGang() {
             </ProjectImage>
           </ProjectSectionContent>
         </ProjectSection>
-        <ProjectSection>
-          <ProjectSectionContent>
-            <Video
-              src={Animation}
-              placeholder={AnimationPlaceholder}
-            />
-          </ProjectSectionContent>
-        </ProjectSection>
-        <ProjectSection>
+        <ProjectSection light>
           <ProjectSectionColumns>
             <ProgressiveImage
               srcSet={`${Branding}`}
@@ -124,6 +116,14 @@ function MystGang() {
           </ProjectSectionColumns>
         </ProjectSection>
         <ProjectSection>
+          <ProjectSectionContent>
+            <Video
+              src={Animation}
+              placeholder={AnimationPlaceholder}
+            />
+          </ProjectSectionContent>
+        </ProjectSection>
+        <ProjectSection light>
           <ProjectSectionContent>
             <LogoContainer>
               <MystLogo />
@@ -248,12 +248,12 @@ const LogoContainer = styled.div`
   justify-content: center;
   align-items: center;
   background: ${props => props.theme.colorBackground};
-  padding: ${props => props.theme.id === 'light' ? '60px' : 0} 80px;
+  padding: 60px 80px;
   margin-bottom: 80px;
   width: 100%;
 
   @media (max-width: ${media.mobile}) {
-    padding: ${props => props.theme.id === 'light' ? '30px' : 0} 40px;
+    padding: 30px 40px;
     margin-bottom: 40px;
   }
 
