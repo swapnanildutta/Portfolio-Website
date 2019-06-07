@@ -14,12 +14,9 @@ function BellsScene() {
   const camera = useRef();
   const scene = useRef();
   const renderer = useRef();
+  const mesh = useRef();
   const uniforms = useRef();
   const texture = useRef();
-  const init = useRef();
-  const onWindowResize = useRef();
-  const animate = useRef();
-  const render = useRef();
   const prefersReducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
@@ -29,13 +26,17 @@ function BellsScene() {
       texture.current.wrapS = RepeatWrapping;
       texture.current.wrapT = RepeatWrapping;
       texture.current.minFilter = LinearFilter;
-      init.current();
-      animate.current();
     }));
+
+    return function cleanup() {
+      texture.current = null;
+    };
   });
 
   useEffect(() => {
-    init.current = () => {
+    const containerRef = container.current;
+
+    const init = () => {
       camera.current = new Camera();
       camera.current.position.z = 1;
 
@@ -57,42 +58,65 @@ function BellsScene() {
       });
       material.extensions.derivatives = true;
 
-      const mesh = new Mesh(geometry, material);
-      scene.current.add(mesh);
+      mesh.current = new Mesh(geometry, material);
+      scene.current.add(mesh.current);
 
       renderer.current = new WebGLRenderer();
       renderer.current.setPixelRatio(window.devicePixelRatio);
 
       container.current.appendChild(renderer.current.domElement);
+    };
 
-      onWindowResize.current();
-      window.addEventListener('resize', onWindowResize.current, false);
+    init();
+
+    return function cleanup() {
+      scene.current.remove(mesh.current);
+      mesh.current.geometry.dispose();
+      mesh.current.material.dispose();
+      mesh.current = null;
+      renderer.current.dispose();
+      renderer.current.forceContextLoss();
+      scene.current.dispose();
+      camera.current = null;
+      uniforms.current = null;
+      renderer.current.context = null;
+      renderer.current.domElement = null;
+      containerRef.innerHTML = '';
     };
   });
 
   useEffect(() => {
-    onWindowResize.current = (event) => {
+    const onWindowResize = () => {
       renderer.current.setSize(window.innerWidth, window.innerHeight);
       uniforms.current.u_resolution.value.x = renderer.current.domElement.width;
       uniforms.current.u_resolution.value.y = renderer.current.domElement.height;
     };
+
+    onWindowResize();
+    window.addEventListener('resize', onWindowResize, false);
+
+    return function cleanup() {
+      window.removeEventListener('resize', onWindowResize, false);
+    };
   });
 
   useEffect(() => {
-    animate.current = () => {
-      if(!prefersReducedMotion) {
-        requestAnimationFrame(animate.current);
-        render.current();
-      }
-    };
-  }, [prefersReducedMotion]);
+    let animation;
 
-  useEffect(() => {
-    render.current = () => {
+    const animate = () => {
+      animation = requestAnimationFrame(animate);
       uniforms.current.u_time.value += 0.01;
       renderer.current.render(scene.current, camera.current);
     };
-  });
+
+    if(!prefersReducedMotion) {
+      animate();
+    }
+
+    return function cleanup() {
+      cancelAnimationFrame(animation);
+    };
+  }, [prefersReducedMotion]);
 
   return (
     <BellsContainer ref={container} aria-hidden />

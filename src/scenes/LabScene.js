@@ -50,9 +50,9 @@ function LabScene() {
       this.camera.position.z = 0.35;
 
       this.scene = new Scene();
-      this.scene.fog = new Fog(initialThemeRef ? initialThemeRef.current.colorPrimary : 0x00E5FF, 0.05, 1.6);
+      this.scene.fog = new Fog(initialThemeRef.current.id === 'dark' ? 0x00E5FF : 0x000000, 0.05, 1.6);
 
-      const light = new HemisphereLight(initialThemeRef ? initialThemeRef.current.colorPrimary : 0xffffff, initialThemeRef.current.id === 'light' ? 0.8 : 0.1);
+      const light = new HemisphereLight(initialThemeRef.current.id === 'dark' ? 0x00E5FF : 0xffffff, initialThemeRef.current.id === 'light' ? 0.8 : 0.1);
       this.scene.add(light);
 
       this.addParticle();
