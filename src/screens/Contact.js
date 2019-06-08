@@ -125,7 +125,7 @@ function Contact() {
                   Message Sent
                 </ContactCompleteTitle>
                 <ContactCompleteText status={status} delay={200}>
-                  I’ll get back to you within a couple days, sit tight
+                  I’ll get back to you within a couple days
                 </ContactCompleteText>
                 <ContactCompleteButton
                   secondary
