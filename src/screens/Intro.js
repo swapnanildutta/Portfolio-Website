@@ -1,7 +1,7 @@
 import React, { Suspense, lazy, useMemo, useContext, useEffect, useState } from 'react';
 import styled, { css, keyframes } from 'styled-components/macro';
 import { TransitionGroup, Transition } from 'react-transition-group';
-import { media, AnimFade, rgba } from '../utils/StyleUtils';
+import { media, AnimFade, rgba, sectionPadding } from '../utils/StyleUtils';
 import DecoderText from '../components/DecoderText';
 import { AppContext } from '../app/App';
 import { useInterval, usePrevious } from '../utils/Hooks';
@@ -95,18 +95,7 @@ const IntroContent = styled.section`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  padding-left: 120px;
-
-  @media (min-width: ${media.desktop}) {
-    padding-right: 80px;
-  }
-
-  @media (max-width: ${media.tablet}) {
-    padding-left: 60px;
-  }
-
-  @media (max-width: ${media.mobile}), (max-height: ${media.mobile}) {
-    padding-left: 0;
+  ${sectionPadding}
   }
 `;
 

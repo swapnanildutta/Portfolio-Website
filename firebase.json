@@ -5,10 +5,6 @@
       {
         "source": "**",
         "destination": "/index.html"
-      },
-      {
-        "source": "/functions/**",
-        "function": "app"
       }
     ],
     "headers": [

@@ -7,9 +7,9 @@ import Input from '../components/Input';
 import DecoderText from '../components/DecoderText';
 import { Button, RouterButton } from '../components/Button';
 import { media, AnimFade } from '../utils/StyleUtils';
-import Firebase from '../utils/Firebase';
 import { useScrollToTop, useFormInput } from '../utils/Hooks';
 
+const sendMessageUrl = 'https://us-central1-portfolio-4e46f.cloudfunctions.net/app/sendMessage';
 const prerender = navigator.userAgent === 'ReactSnap';
 const initDelay = 300;
 
@@ -33,16 +33,27 @@ function Contact() {
     try {
       setSending(true);
 
-      await Firebase.database().ref('messages').push({
-        email: email.value,
-        message: message.value,
+      const response = await fetch(sendMessageUrl, {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email.value,
+          message: message.value,
+        }),
       });
+
+      if (response.status !== 200) {
+        throw new Error(`Fetch failed, status: ${response.status}`);
+      }
 
       setComplete(true);
       setSending(false);
     } catch (error) {
       setSending(false);
-      alert(error);
+      alert(error.message);
     }
   }, [email.value, message.value, sending]);
 
@@ -51,7 +62,8 @@ function Contact() {
       <Helmet
         title="Contact me"
         meta={[{
-          name: 'description', content: 'Send me a message if you’re interested in discussing a project or if you just want to say hi.',
+          name: 'description',
+          content: 'Send me a message if you’re interested in discussing a project or if you just want to say hi',
         }]}
       />
       <TransitionGroup component={React.Fragment}>
@@ -62,7 +74,7 @@ function Contact() {
                 <ContactTitle status={status} delay={50}>
                   <DecoderText
                     text="Say hello"
-                    start={status === 'entering' && !prerender}
+                    start={status !== 'exited' && !prerender}
                     offset={140}
                   />
                 </ContactTitle>
@@ -113,7 +125,7 @@ function Contact() {
                   Message Sent
                 </ContactCompleteTitle>
                 <ContactCompleteText status={status} delay={200}>
-                  I’ll get back to you within a couple days
+                  I’ll get back to you within a couple days, sit tight
                 </ContactCompleteText>
                 <ContactCompleteButton
                   secondary
@@ -129,6 +141,8 @@ function Contact() {
           </Transition>
         }
       </TransitionGroup>
+      <ContactMeta>
+      </ContactMeta>
     </ContactWrapper>
   );
 }
@@ -376,6 +390,28 @@ const ContactCompleteButton = styled(RouterButton)`
     transform: translate3d(0, 0, 0);
     opacity: 1;
   `}
+`;
+
+const ContactMeta = styled.div`
+  position: fixed;
+  right: ${props => props.theme.spacingOuter.desktop};
+  bottom: ${props => props.theme.spacingOuter.desktop};
+  transform: rotate(-90deg) translate3d(100%, 0, 0);
+  transform-origin: bottom right;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  opacity: 0;
+  animation: ${css`${AnimFade}`} 0.8s ease 1s forwards;
+
+  @media (max-width: ${media.tablet}) {
+    right: ${props => props.theme.spacingOuter.tablet};
+    bottom: ${props => props.theme.spacingOuter.tablet};
+  }
+
+  @media (max-width: ${media.mobile}) {
+    display: none;
+  }
 `;
 
 export default React.memo(Contact);

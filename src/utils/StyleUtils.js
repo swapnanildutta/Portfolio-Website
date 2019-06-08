@@ -1,4 +1,4 @@
-import { keyframes } from 'styled-components/macro';
+import { keyframes, css } from 'styled-components/macro';
 
 export const AnimFade = keyframes`
   0% {opacity: 0}
@@ -18,6 +18,35 @@ export const media = {
   mobile: `${numMedia.numMobile}px`,
   mobileLS: `(max-width: 820px) and (max-height: 420px)`,
 };
+
+export const sectionPadding = css`
+  padding-right: 120px;
+  padding-left: 200px;
+
+  @media (min-width: ${media.desktop}) {
+    padding-left: 120px;
+  }
+
+  @media (max-width: ${media.tablet}) {
+    padding-top: 60px;
+    padding-left: 160px;
+  }
+
+  @media (max-width: ${media.mobile}) {
+    padding-right: 25px;
+    padding-left: 25px;
+  }
+
+  @media (max-width: ${media.mobile}), (max-height: ${media.mobile}) {
+    padding-left: ${props => props.theme.spacingOuter.mobile};
+    padding-right: ${props => props.theme.spacingOuter.mobile};
+  }
+
+  @media ${media.mobileLS} {
+    padding-left: 100px;
+    padding-right: 100px;
+  }
+`;
 
 function stringToRgba(colorString) {
   return colorString.split(' ').join('').replace('rgb(', '').replace('rgba(', '').replace(')', '').split(',');

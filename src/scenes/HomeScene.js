@@ -19,7 +19,6 @@ function DisplacementSphere() {
   const height = useRef(window.innerHeight);
   const start = useRef(Date.now());
   const container = useRef();
-
   const mouse = useRef();
   const renderer = useRef();
   const camera = useRef();
@@ -159,6 +158,8 @@ function DisplacementSphere() {
 
     if (!prefersReducedMotion) {
       animate();
+    } else {
+      renderer.current.render(scene.current, camera.current);
     }
 
     return function cleanup() {

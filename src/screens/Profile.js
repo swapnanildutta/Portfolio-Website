@@ -8,7 +8,7 @@ import ProgressiveImage from '../components/ProgressiveImage';
 import ProfileImg from '../assets/profile.webp';
 import ProfileImgLarge from '../assets/profile-large.webp';
 import ProfileImgPlaceholder from '../assets/profile-placeholder.png';
-import { media } from '../utils/StyleUtils';
+import { media, sectionPadding } from '../utils/StyleUtils';
 const lab = '/lab';
 
 const ProfileText = ({ status }) => (
@@ -80,6 +80,7 @@ const ProfileSection = styled.section`
   padding-left: 220px;
   display: flex;
   justify-content: center;
+  ${sectionPadding}
 
   &:focus {
     outline: none;
@@ -121,11 +122,11 @@ const ProfileContent = styled.div`
   display: grid;
   grid-template-columns: 44% 48%;
   grid-column-gap: 8%;
-  max-width: 1000px;
+  max-width: ${props => props.theme.maxWidthLaptop}px;
   width: 100%;
 
   @media (min-width: ${media.desktop}) {
-    max-width: 1100px;
+    max-width: ${props => props.theme.maxWidthDesktop}px;
   }
 
   @media (max-width: ${media.tablet}) {
@@ -162,6 +163,7 @@ const ProfileTitle = styled.h2`
 
   @media (max-width: ${media.mobile}) {
     font-size: 28px;
+    margin-bottom: 30px;
   }
 `;
 

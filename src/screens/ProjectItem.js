@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components/macro';
 import { Transition } from 'react-transition-group';
-import { media, rgba } from '../utils/StyleUtils';
+import { media, rgba, sectionPadding } from '../utils/StyleUtils';
 import { RouterButton, LinkButton } from '../components/Button';
 import ProgressiveImage from '../components/ProgressiveImage';
 import Macbook from '../assets/macbook-large.webp';
@@ -77,7 +77,7 @@ function ProjectItem(props) {
                           }
                           {video && !still &&
                             <ProjectItemVideoLaptop
-                              autoPlay={visible}
+                              autoPlay
                               muted
                               loop
                               playsInline
@@ -163,7 +163,7 @@ const ProjectBackground = styled.div`
 
 const ProjectItemContent = styled.div`
   width: 100%;
-  max-width: 1000px;
+  max-width: ${props => props.theme.maxWidthLaptop}px;
   align-items: center;
   justify-content: center;
   display: grid;
@@ -171,7 +171,7 @@ const ProjectItemContent = styled.div`
   grid-column-gap: 2%;
 
   @media (min-width: ${media.desktop}) {
-    max-width: 1100px;
+    max-width: ${props => props.theme.maxWidthDesktop}px;
   }
 
   @media (max-width: 1245px) {
@@ -213,6 +213,7 @@ const ProjectItemSection = styled.section`
   display: flex;
   align-items: center;
   justify-content: center;
+  ${sectionPadding}
 
   &:focus {
     outline: none;
@@ -221,27 +222,17 @@ const ProjectItemSection = styled.section`
   @media (min-width: ${media.desktop}) {
     padding-top: 0;
     padding-bottom: 0;
-    padding-left: 120px;
   }
 
   @media (max-width: ${media.tablet}) {
     padding-top: ${props => props.index === '01' ? '0' : '60px'};
-    padding-right: 80px;
     padding-bottom: 60px;
-    padding-left: 160px;
     height: auto;
   }
 
   @media (max-width: ${media.mobile}) {
-    padding-right: 25px;
     padding-bottom: 100px;
-    padding-left: 25px;
     overflow-x: hidden;
-  }
-
-  @media (max-width: ${media.mobile}), (max-height: ${media.mobile}) {
-    padding-right: ${props => props.theme.spacingOuter.mobile};
-    padding-left: ${props => props.theme.spacingOuter.mobile};
   }
 
   ${props => props.alternate && css`

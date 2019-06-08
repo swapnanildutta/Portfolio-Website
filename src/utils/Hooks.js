@@ -119,10 +119,10 @@ export function usePrefersReducedMotion() {
       }
     };
 
-    mediaQuery.addEventListener('change', handleMediaChange);
+    mediaQuery.addListener(handleMediaChange);
 
     return function cleanup() {
-      mediaQuery.removeEventListener('change', handleMediaChange);
+      mediaQuery.removeListener(handleMediaChange);
     };
   }, []);
 

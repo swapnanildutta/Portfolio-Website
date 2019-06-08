@@ -26,6 +26,8 @@ const base = {
   fontStack: `Gotham, system-ui, -apple-system, BlinkMacSystemFont, 'San Francisco', Roboto, 'Segoe UI', Oxygen, Ubuntu, Cantarell, Helvetica Neue, sans-serif`,
   colorBlack: 'rgba(0, 0, 0, 1)',
   colorWhite: 'rgba(255, 255, 255, 1)',
+  maxWidthDesktop: 1100,
+  maxWidthLaptop: 1000,
 };
 
 const dark = {
