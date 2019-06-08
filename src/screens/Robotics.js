@@ -40,7 +40,7 @@ const RoboticsScene = lazy(() => import('../scenes/RoboticsScene'));
 
 const prerender = navigator.userAgent === 'ReactSnap';
 const title = 'GCPS Robotics';
-const description = 'Creating the website and the robot core that won the BEST Robotics State Competition.';
+const description = 'Creating the website and the robot core that won the BEST Robotics State Competition Website Award.';
 const roles = [
   'Front-end Development',
   'Back-end Development',
@@ -165,7 +165,7 @@ function Robotics(props) {
             <ProjectTextRow>
               <ProjectSectionHeading>Powering Up</ProjectSectionHeading>
               <ProjectSectionText>
-                The firmware and robot core that won Best Robotics' 2018 State Competition.
+                The firmware and robot core that brought the team to Best Robotics' 2018 State Competition.
               </ProjectSectionText>
             </ProjectTextRow>
             <ProgressiveImage
@@ -209,7 +209,7 @@ function Robotics(props) {
             <ProjectTextRow>
               <ProjectSectionHeading>Final Website</ProjectSectionHeading>
               <ProjectSectionText>
-                A fully responsive 3d website of the Gateway Robotics team all under 10MB (~3 images in size). This website brought the team to state competition through the BEST Website Award.
+                A fully responsive 3d website of the Gateway Robotics team all under 10MB (~3 images in size). This website brought the team to state competition by winning the BEST Website Award.
               </ProjectSectionText>
             </ProjectTextRow>
             <ProgressiveImage

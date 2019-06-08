@@ -9,7 +9,6 @@ import ProfileImg from '../assets/profile.webp';
 import ProfileImgLarge from '../assets/profile-large.webp';
 import ProfileImgPlaceholder from '../assets/profile-placeholder.png';
 import { media, sectionPadding } from '../utils/StyleUtils';
-const lab = '/lab';
 
 const ProfileText = ({ status }) => (
   <React.Fragment>
@@ -21,10 +20,10 @@ const ProfileText = ({ status }) => (
       />
     </ProfileTitle>
     <ProfileDescription status={status}>
-      I’m a student developer based in Austin, currently looking for an internship. I create compelling designs that I bring to life with the web's coolest technologies that look perfect on every screen.
+      I’m a student developer based in Austin. I create compelling designs that I bring to life with the web's coolest technologies that look perfect on every screen.
     </ProfileDescription>
     <ProfileDescription status={status}>
-      In my free time, I like to create and play video games, play Magic: The Gathering, and <Anchor href={lab} target="_blank" rel="noopener noreferrer">experiment with new tech</Anchor>. I’m always interested in new projects, so feel free to drop me a line.
+      In my free time, I like to create and play video games, play Magic: The Gathering, and <Anchor href="/lab">experiment with new tech</Anchor>. I’m always interested in new projects, so feel free to drop me a line.
     </ProfileDescription>
   </React.Fragment>
 );

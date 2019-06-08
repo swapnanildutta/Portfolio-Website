@@ -112,7 +112,7 @@ export default function Home(props) {
         title="Cody Bennett"
         meta={[{
           name: 'description',
-          content: "Portfolio of Cody Bennett – I’m a student developer based in Austin, currently looking for an internship. I create compelling designs that I bring to life with the web's coolest technologies that look perfect on every screen.",
+          content: "Portfolio of Cody Bennett – I’m a student developer based in Austin. I create compelling designs that I bring to life with the web's coolest technologies that look perfect on every screen.",
         }]}
       />
       <Intro
@@ -174,7 +174,7 @@ export default function Home(props) {
         visible={visibleSections.includes(projectFour.current)}
         index="04"
         title="GCPS Robotics"
-        description="Creating the website and the robot core that won the BEST Robotics State Competition."
+        description="Creating the website and the robot core that won the BEST Robotics State Competition Website Award."
         buttonText="View Project"
         buttonTo="/projects/gcpsrobotics"
         imageSrc={useMemo(() => [`${Robotics}`], [])}
