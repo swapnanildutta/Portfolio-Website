@@ -68,12 +68,12 @@ function ProgressiveVideo(props) {
 };
 
 function VideoElements(props) {
-  const { intersect, src, placeholder } = props;
+  const { src, placeholder } = props;
 
   return (
     <React.Fragment>
       <VideoActual
-        autoPlay={!prerender && intersect}
+        autoPlay
         muted
         loop
         playsInline
