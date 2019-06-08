@@ -153,6 +153,9 @@ export const ProjectBackgroundVideo = styled.video.attrs(props => ({
   transition-property: filter;
   transition-timing-function: ${props => props.theme.curveFastoutSlowin};
   transition-duration: 0.4s;
+  outline: 0;
+  border: none;
+  -moz-outline-style: none;
 
   ${props => props.entered && css`
     animation: ${AnimFade} 2s ease ${initDelay}ms forwards;
