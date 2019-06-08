@@ -57,7 +57,8 @@
   },
   "functions": {
     "predeploy": [
-      "npm --prefix ./functions run lint"
-    ]
+      "npm --prefix \"$RESOURCE_DIR\" run lint"
+    ],
+    "source": "functions"
   }
 }
