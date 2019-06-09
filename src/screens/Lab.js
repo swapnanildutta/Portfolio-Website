@@ -6,6 +6,8 @@ import Intro from '../screens/Intro';
 import ProjectItem from '../screens/ProjectItem';
 import Profile from '../screens/Profile';
 import Footer from '../components/Footer';
+import Cube from '../assets/Lab/Cube.webp';
+import CubePlaceholder from '../assets/Lab/CubePlaceholder.png';
 import ArMTG from '../assets/Lab/ArMTG.mp4';
 import ArMTGPlaceholder from '../assets/Lab/ArMTGPlaceholder.png';
 import Rainbow from '../assets/Lab/rainbow.mp4';
@@ -37,6 +39,7 @@ export default function Lab(props) {
   const experiment5 = useRef();
   const experiment6 = useRef();
   const experiment7 = useRef();
+  const experiment8 = useRef();
   const about = useRef();
 
   useEffect(() => {
@@ -46,7 +49,7 @@ export default function Lab(props) {
   }, [updateTheme, status]);
 
   useEffect(() => {
-    const revealSections = [intro, experiment1, experiment2, experiment3, experiment4, experiment5, experiment6, experiment7, about];
+    const revealSections = [intro, experiment1, experiment2, experiment3, experiment4, experiment5, experiment6, experiment7, experiment8, about];
 
     const sectionObserver = new IntersectionObserver(entries => {
       entries.forEach(entry => {
@@ -76,7 +79,7 @@ export default function Lab(props) {
   }, [visibleSections]);
 
   const handleHashchange = useCallback((hash, scroll) => {
-    const hashSections = [intro, experiment1, experiment2, experiment3, experiment4, experiment5, experiment6, experiment7, about];
+    const hashSections = [intro, experiment1, experiment2, experiment3, experiment4, experiment5, experiment6, experiment7, experiment8, about];
     const hashString = hash.replace('#', '');
     const element = hashSections.filter(item => item.current.id === hashString)[0];
 
@@ -123,6 +126,19 @@ export default function Lab(props) {
         sectionRef={experiment1}
         visible={visibleSections.includes(experiment1.current)}
         index="01"
+        title="RGB Color Cube"
+        description="A 3D cube map of the color spectrum of RGB in ThreeJS."
+        buttonText="Launch Experiment"
+        buttonLink="https://codepen.io/cbenn/full/Xwvxgy"
+        imageSrc={useMemo(() => [`${Cube}`], [])}
+        imageAlt={useMemo(() => ['A 3D cube graph of RGB colors'], [])}
+        imagePlaceholder={useMemo(() => [CubePlaceholder], [])}
+      />
+      <ProjectItem
+        id="experiment2"
+        sectionRef={experiment2}
+        visible={visibleSections.includes(experiment2.current)}
+        index="02"
         title="ArMTG"
         description="Bringing the future to the renowned card game: Magic, the Gathering."
         buttonText="Launch Experiment"
@@ -133,10 +149,10 @@ export default function Lab(props) {
         video
       />
 	    <ProjectItem
-        id="experiment2"
-        sectionRef={experiment2}
-        visible={visibleSections.includes(experiment2.current)}
-        index="02"
+        id="experiment3"
+        sectionRef={experiment3}
+        visible={visibleSections.includes(experiment3.current)}
+        index="03"
         title="Explosions of Color"
         description="A colorful experiment with BAS Utilities and ThreeJS."
         buttonText="Launch Experiment"
@@ -147,10 +163,10 @@ export default function Lab(props) {
         video
       />
       <ProjectItem
-		    id="experiment3"
-        sectionRef={experiment3}
-        visible={visibleSections.includes(experiment3.current)}
-        index="03"
+		    id="experiment4"
+        sectionRef={experiment4}
+        visible={visibleSections.includes(experiment4.current)}
+        index="04"
         title="It's Cold Outside"
         description="Another animation in ThreeJS with BAS Utilities."
         buttonText="Launch Experiment"
@@ -161,10 +177,10 @@ export default function Lab(props) {
         video
       />
 	    <ProjectItem
-        id="experiment4"
-		    sectionRef={experiment4}
-        visible={visibleSections.includes(experiment4.current)}
-        index="04"
+        id="experiment5"
+		    sectionRef={experiment5}
+        visible={visibleSections.includes(experiment5.current)}
+        index="05"
         title="A World of Shapes"
         description="The fourth take on a series of ThreeJS experiments toying with BAS Utilities."
         buttonText="Launch Experiment"
@@ -175,10 +191,10 @@ export default function Lab(props) {
         video
       />
 	    <ProjectItem
-        id="experiment5"
-		    sectionRef={experiment5}
-        visible={visibleSections.includes(experiment5.current)}
-        index="05"
+        id="experiment6"
+		    sectionRef={experiment6}
+        visible={visibleSections.includes(experiment6.current)}
+        index="06"
         title="Tunnel Vision"
         description="The third take on a series of ThreeJS experiments toying with BAS Utilities."
         buttonText="Launch Experiment"
@@ -189,10 +205,10 @@ export default function Lab(props) {
         video
       />
 	    <ProjectItem
-        id="experiment6"
-		    sectionRef={experiment6}
-        visible={visibleSections.includes(experiment6.current)}
-        index="06"
+        id="experiment7"
+		    sectionRef={experiment7}
+        visible={visibleSections.includes(experiment7.current)}
+        index="07"
         title="Up in Flames"
         description="The second take on a series of ThreeJS experiments toying with BAS Utilities."
         buttonText="Launch Experiment"
@@ -203,10 +219,10 @@ export default function Lab(props) {
         video
       />
 	    <ProjectItem
-        id="experiment7"
-		    sectionRef={experiment7}
-        visible={visibleSections.includes(experiment7.current)}
-        index="07"
+        id="experiment8"
+		    sectionRef={experiment8}
+        visible={visibleSections.includes(experiment8.current)}
+        index="08"
         title="In Between Frames"
         description="First take on a series of ThreeJS experiments toying with BAS Utilites."
         buttonText="Launch Experiment"
