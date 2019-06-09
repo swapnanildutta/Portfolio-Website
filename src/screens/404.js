@@ -114,8 +114,7 @@ const NotFoundVideoContainer = styled.div`
   transition-duration: 0.4s;
 
   @media (max-width: ${media.mobile}) {
-    min-height: 240px;
-    grid-row: 1;
+    display: none;
   }
 
   &:after {
