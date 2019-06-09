@@ -84,7 +84,7 @@ function ProjectItem(props) {
                               status={status}
                               poster={imagePlaceholder[0]}
                             >
-                              <source src={visible ? imageSrc[0] : null} type="video/mp4" />
+                              <source src={imageSrc[0]} type="video/mp4" />
                             </ProjectItemVideoLaptop>
                           }
                         </ProjectItemPreviewContentLaptop>
