@@ -18,7 +18,7 @@ const ARMTGScene = lazy(() => import('../scenes/ARMTGScene'));
 
 const prerender = navigator.userAgent === 'ReactSnap';
 const title = 'ARMTG';
-const description = 'Bringing the future to the renowned card game: Magic, the Gathering.';
+const description = 'A VR, AR, and multi-platform application to play the card game: Magic, the Gathering with database-fed decks displayed on real, physical cards in real-time. Automatic shuffling, an intuitive deck editor, and a cool 3D interface brought the technology of the future to the game.';
 const roles = [
   'Front-end Development',
   'Back-end Development',

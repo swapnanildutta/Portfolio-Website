@@ -127,7 +127,7 @@ export default function Home(props) {
         visible={visibleSections.includes(projectOne.current)}
         index="01"
         title="Bell's Gaming Center"
-        description="A website featuring a storefront, events calendar, and games' dashboard for a local game store."
+        description="An ongoing project for a local game store powered by Google's Firebase. A simple solution for the store to manage their games and storefront with as little clicks and hoops for them to jump through as possible."
         buttonText="View Project"
         buttonTo="/projects/bellsgc"
         imageSrc={useMemo(() => [`${BellsGC}`], [])}
@@ -142,7 +142,7 @@ export default function Home(props) {
         visible={visibleSections.includes(projectTwo.current)}
         index="02"
         title="MystGang"
-        description="Bringing an epic content creator's portfolio to life with ThreeJS."
+        description="A responsive 3D website for the gaming content creator known as MystGang, featuring a 3D carousel to show off their work. The site is sped up with Ajax and animated with Tweenmax and Greensock, rendering a 3D landscape in WebGL with Three.js. This included the design of the monogram in the center of the screen."
         buttonText="View Project"
         buttonTo="/projects/mystgang"
         imageSrc={useMemo(() => [`${MystGang}`], [])}
@@ -158,7 +158,7 @@ export default function Home(props) {
         visible={visibleSections.includes(projectThree.current)}
         index="03"
         title="ArMTG"
-        description="Bringing the future to the renowned card game: Magic, the Gathering."
+        description="A VR, AR, and multi-platform application to play the card game: Magic, the Gathering with database-fed decks displayed on real, physical cards in real-time. Automatic shuffling, an intuitive deck editor, and a cool 3D interface brought the technology of the future to the game."
         buttonText="View Project"
         buttonTo="/projects/armtg"
         imageSrc={useMemo(() => [`${ArMTG}`], [])}

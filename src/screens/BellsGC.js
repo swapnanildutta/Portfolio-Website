@@ -32,7 +32,7 @@ const BellsScene = lazy(() => import('../scenes/BellsScene'));
 
 const prerender = navigator.userAgent === 'ReactSnap';
 const title = 'Bell\'s GC';
-const description = 'A website featuring a storefront, events calendar, and games\' dashboard for a local game store.';
+const description = 'An ongoing project for a local game store powered by Google\'s Firebase. A simple solution for the store to manage their games and storefront with as little clicks and hoops for them to jump through as possible.';
 const roles = [
   'Front-end Development',
   'Back-end Development',
