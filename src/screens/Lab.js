@@ -109,7 +109,7 @@ export default function Lab(props) {
   return (
     <React.Fragment>
       <Helmet
-        title="Cody Bennett"
+        title="Cody Bennett - Lab"
         meta={[{
           name: 'description',
           content: "This is my lab where I experiment with the latest technologies to create beautiful experiences.",
