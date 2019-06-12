@@ -29,9 +29,3 @@ yarn
 ```bash
 yarn start
 ```
-
-## View Style-Guide
-
-```bash
-yarn storybook
-```
