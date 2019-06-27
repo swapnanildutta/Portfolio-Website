@@ -1,76 +1,73 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled, { css, keyframes } from 'styled-components/macro';
-import { media, AnimFade, rgba, sectionPadding } from '../utils/StyleUtils';
-import { LinkButton } from '../components/Button';
+import { media, AnimFade, rgba, sectionPadding } from '../utils/styleUtils';
 import ProgressiveImage from '../components/ProgressiveImage';
-import ProgressiveVideo from '../components/ProgressiveVideo';
+import { LinkButton } from '../components/Button';
+import { usePrefersReducedMotion } from '../utils/hooks';
 
 const initDelay = 300;
 const prerender = navigator.userAgent === 'ReactSnap';
 
-export const Video = ProgressiveVideo;
-
 export function ProjectBackground(props) {
-  const { src, placeholder } = props;
   const [offset, setOffset] = useState();
   const scheduledAnimationFrame = useRef(false);
+  const prefersReducedMotion = usePrefersReducedMotion();
   const lastScrollY = useRef(0);
 
   useEffect(() => {
+    const handleScroll = () => {
+      if (prefersReducedMotion || scheduledAnimationFrame.current) return;
+      lastScrollY.current = window.scrollY;
+      scheduledAnimationFrame.current = true;
+
+      requestAnimationFrame(() => {
+        setOffset(lastScrollY.current * 0.4);
+        scheduledAnimationFrame.current = false;
+      });
+    };
+
     window.addEventListener('scroll', handleScroll);
 
     return function cleanUp() {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []);
-
-  const handleScroll = () => {
-    lastScrollY.current = window.scrollY;
-    if (scheduledAnimationFrame.current) return;
-    scheduledAnimationFrame.current = true;
-
-    requestAnimationFrame(() => {
-      setOffset(lastScrollY.current * 0.4);
-      scheduledAnimationFrame.current = false;
-    });
-  };
+  }, [prefersReducedMotion]);
 
   return (
-    <ProjectBackgroundVideo
-      autoPlay
-      muted
-      loop
-      playsInline
-      offset={offset}
-      poster={placeholder}
-    >
-      <source src={src} type="video/mp4" />
-    </ProjectBackgroundVideo>
+    <ProjectBackgroundImage offsetValue={offset} {...props} />
   );
 }
 
 export function ProjectHeader(props) {
-  const { title, description, linkLabel, url, roles } = props;
+  const { title, description, linkLabel = 'Visit website', url, roles } = props;
 
   return (
     <ProjectHeaderContainer>
       <ProjectHeaderInner>
-        <ProjectDetails entered={!prerender}>
-          <ProjectTitle>{title}</ProjectTitle>
-          <ProjectDescription>{description}</ProjectDescription>
-          <LinkButton
+        <ProjectDetails>
+          <ProjectTitle entered={!prerender}>{title}</ProjectTitle>
+          <ProjectDescription entered={!prerender}>{description}</ProjectDescription>
+          <ProjectLinkButton
             secondary
+            iconHoverShift
+            entered={!prerender}
             style={{ paddingLeft: '3px' }}
             icon="chevronRight"
             href={url}
             target="_blank"
           >
-            {linkLabel ? linkLabel : 'Visit website'}
-          </LinkButton>
+            {linkLabel}
+          </ProjectLinkButton>
         </ProjectDetails>
-        <ProjectMeta entered={!prerender}>
-          {roles && roles.map(role => (
-            <ProjectMetaItem key={role}>{role}</ProjectMetaItem>
+        <ProjectMeta>
+          {roles && roles.map((role, index) => (
+            <ProjectMetaItem
+              key={role}
+              index={index}
+              entered={!prerender}
+            >
+              {role}
+            </ProjectMetaItem>
           ))}
         </ProjectMeta>
       </ProjectHeaderInner>
@@ -92,18 +89,12 @@ export const ProjectSection = styled.section`
   position: relative;
   width: 100vw;
   padding-top: 100px;
-  padding-right: 120px;
   padding-bottom: 100px;
-  padding-left: 210px;
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
   ${sectionPadding}
-
-  @media (min-width: ${media.desktop}) {
-    padding-left: 120px;
-  }
 
   @media (max-width: ${media.tablet}) {
     padding-top: 60px;
@@ -114,7 +105,6 @@ export const ProjectSection = styled.section`
   @media (max-width: ${media.mobile}) {
     padding-top: 40px;
     padding-bottom: 40px;
-    padding-left: 25px;
   }
 
   ${props => props.light && css`
@@ -134,10 +124,12 @@ export const ProjectSection = styled.section`
   `}
 `;
 
-export const ProjectBackgroundVideo = styled.video.attrs(props => ({
+export const ProjectBackgroundImage = styled(ProgressiveImage).attrs(props => ({
+  alt: '',
   role: 'presentation',
+  opacity: props.opacity ? props.opacity : 0.7,
   style: {
-    transform: `translate3d(0, ${props.offset}px, 0)`,
+    transform: `translate3d(0, ${props.offsetValue}px, 0)`,
   },
 }))`
   z-index: 0;
@@ -147,24 +139,38 @@ export const ProjectBackgroundVideo = styled.video.attrs(props => ({
   bottom: 0;
   left: 0;
   height: 800px;
+  opacity: 0;
   overflow: hidden;
-  object-fit: cover;
-  width: 100%;
-  transition-property: filter;
-  transition-timing-function: ${props => props.theme.curveFastoutSlowin};
-  transition-duration: 0.4s;
-  outline: 0;
-  border: none;
-  -moz-outline-style: none;
+
+  @media (prefers-reduced-motion: reduce) {
+    opacity: 1;
+  }
 
   ${props => props.entered && css`
     animation: ${AnimFade} 2s ease ${initDelay}ms forwards;
   `}
 
-  ${props => props.theme.id === 'light' && css`
-    -webkit-filter:invert(100%);
-    filter:progid:DXImageTransform.Microsoft.BasicImage(invert='1');
-  `}
+  img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg,
+      ${props => rgba(props.theme.colorBackground, props.opacity)} 0%,
+      ${props => props.theme.colorBackground} 100%
+    );
+  }
 `;
 
 const ProjectHeaderContainer = styled(ProjectSection)`
@@ -217,11 +223,7 @@ const AnimFadeSlide = keyframes`
 `;
 
 const ProjectDetails = styled.div`
-  opacity: 0;
-
-  ${props => props.entered && css`
-    animation: ${AnimFadeSlide} 1.4s ${props.theme.curveFastoutSlowin} ${initDelay}ms forwards;
-  `}
+  position: relative;
 `;
 
 const ProjectTitle = styled.h1`
@@ -230,6 +232,15 @@ const ProjectTitle = styled.h1`
   font-weight: 500;
   line-height: 1.1;
   color: ${props => props.theme.colorTitle};
+  opacity: 0;
+
+  @media (prefers-reduced-motion: reduce) {
+    opacity: 1;
+  }
+
+  ${props => props.entered && css`
+    animation: ${AnimFadeSlide} 1.4s ${props.theme.curveFastoutSlowin} ${initDelay}ms forwards;
+  `}
 
   @media (max-width: ${media.tablet}) {
     font-size: 48px;
@@ -247,10 +258,31 @@ const ProjectTitle = styled.h1`
 const ProjectDescription = styled.p`
   font-size: 22px;
   line-height: 1.4;
+  opacity: 0;
+
+  @media (prefers-reduced-motion: reduce) {
+    opacity: 1;
+  }
+
+  ${props => props.entered && css`
+    animation: ${AnimFadeSlide} 1.4s ${props.theme.curveFastoutSlowin} ${initDelay + 100}ms forwards;
+  `}
 
   @media (max-width: ${media.mobile}) {
     font-size: 18px;
   }
+`;
+
+const ProjectLinkButton = styled(LinkButton)`
+  opacity: 0;
+
+  @media (prefers-reduced-motion: reduce) {
+    opacity: 1;
+  }
+
+  ${props => props.entered && css`
+    animation: ${AnimFadeSlide} 1.4s ${props.theme.curveFastoutSlowin} ${initDelay + 200}ms forwards;
+  `}
 `;
 
 const ProjectMeta = styled.ul`
@@ -258,11 +290,6 @@ const ProjectMeta = styled.ul`
   margin: 0;
   padding: 0;
   margin-top: 10px;
-  opacity: 0;
-
-  ${props => props.entered && css`
-    animation: ${AnimFadeSlide} 1.4s ${props.theme.curveFastoutSlowin} ${initDelay + 200}ms forwards;
-  `}
 `;
 
 const ProjectMetaItem = styled.li`
@@ -270,10 +297,19 @@ const ProjectMetaItem = styled.li`
   font-size: 16px;
   font-weight: ${props => props.theme.id === 'light' ? 500 : 400};
   border-top: 1px solid ${props => rgba(props.theme.colorText, 0.2)};
+  opacity: 0;
 
   &:last-child {
     border-bottom: 1px solid ${props => rgba(props.theme.colorText, 0.2)};
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    opacity: 1;
+  }
+
+  ${props => props.entered && css`
+    animation: ${AnimFadeSlide} 1.5s ${props.theme.curveFastoutSlowin} ${initDelay + 300 + props.index * 140}ms forwards;
+  `}
 
   @media (max-width: ${media.tablet}) {
     padding: 20px 0;
@@ -338,97 +374,17 @@ export const ProjectSectionText = styled.p`
 export const ProjectTextRow = styled.div`
   max-width: 660px;
   align-self: center;
-  margin-bottom: 80px;
+  margin-bottom: ${props => props.noMargin ? 0 : 80}px;
   text-align: ${props => props.center ? 'center' : 'left'};
   position: relative;
-
-  @media (max-width: ${media.mobile}) {
-    text-align: left;
-  }
-`;
-
-export const ProjectSectionColumns = styled(ProjectSectionContent)`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 70px;
-  margin: 20px 0 60px;
-
-  @media (max-width: ${media.tablet}), (max-width: ${media.mobile}) {
-    grid-template-columns: 1fr;
-    grid-gap: 0;
-
-    ${ProjectTextRow} {
-      text-align: center;
-    }
-  }
-`;
-
-export const SidebarImages = styled.div`
-  display: grid;
-  align-items: center;
-  @media (max-width: ${media.tablet}) {
-    padding: 0 80px;
-    margin-top: 60px;
-  }
-  @media (max-width: ${media.mobile}) {
-    padding: 0 20px;
-    margin-top: 40px;
-  }
-`;
-
-export const SidebarImagesText = styled.div`
   display: flex;
-  align-items: ${props => props.center ? 'center' : 'flex-start'};
   flex-direction: column;
-  justify-content: center;
-  padding-right: 10px;
-  @media (max-width: ${media.tablet}) {
-    padding-right: 0;
-  }
-`;
+  align-items: ${props => props.center ? 'center' : 'flex-start'};
 
-export const SidebarImage = styled(ProgressiveImage)`
-  &:first-child {
-    grid-column: col 1 / span 4;
-    grid-row: 1;
-    position: relative;
-    top: 5%;
-  }
-  &:last-child {
-    grid-column: col 3 / span 4;
-    grid-row: 1;
-    position: relative;
-    top: -5%;
-  }
-`;
-
-export const ProjectSectionGrid = styled(ProjectSectionContent)`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 70px;
-  margin: 40px 0;
-  @media (max-width: ${media.tablet}) {
-    grid-template-columns: 1fr;
-  }
-`;
-
-export const ProjectSectionGridBackground = styled.div`
-  grid-column: 1;
-  grid-row: 1;
-  @media (max-width: ${media.tablet}) {
-    padding: 0 120px;
-  }
-  @media (max-width: ${media.mobile}) {
-    padding: 0 60px;
-  }
-`;
-
-export const ProjectSectionGridText = styled.div`
-  padding-top: 80px;
-  @media (max-width: ${media.desktop}) {
-    padding-top: 40px;
-  }
-  @media (max-width: ${media.tablet}) {
-    padding-top: 0;
-  }
+  ${props => !props.centerMobile && css`
+    @media (max-width: ${media.mobile}) {
+      text-align: left;
+      align-items: flex-start;
+    }
+  `}
 `;

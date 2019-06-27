@@ -1,27 +1,26 @@
-import React, { useContext, useEffect } from 'react';
+import React from 'react';
 import styled, { css, keyframes } from 'styled-components/macro';
 import { Transition } from 'react-transition-group';
 import { Helmet } from 'react-helmet-async';
-import { AppContext } from '../app/App';
 import { RouterButton } from '../components/Button';
 import DecoderText from '../components/DecoderText';
-import { media, rgba } from '../utils/StyleUtils';
-import NotfoundPoster from '../assets/notfound.webp';
+import { media, rgba } from '../utils/styleUtils';
+import Notfound from '../assets/notfound.mp4';
+import NotfoundPoster from '../assets/notfound.jpg';
 
 function NotFound() {
-  const { status, updateTheme } = useContext(AppContext);
-  useEffect(() => {
-    if ((status === 'entered' || status === 'exiting')) {
-      updateTheme();
-    }
-  }, [updateTheme, status]);
   return (
     <NotFoundSection>
       <Helmet>
         <title tag="title">404 | Not Found</title>
         <meta name="description" content="404 page not found. This page doesn't exist" />
       </Helmet>
-      <Transition appear in={true} timeout={0}>
+      <Transition
+        appear
+        in={true}
+        timeout={0}
+        onEnter={node => node && node.offsetHeight}
+      >
         {status => (
           <React.Fragment>
             <NotfoundDetails>
@@ -31,10 +30,11 @@ function NotFound() {
                   <DecoderText text="That is an error" start={status !== 'exited'} offset={100} />
                 </NotFoundSubHeading>
                 <NotFoundDescription status={status}>
-                  This page could not be found. It either doesn't exist or was deleted.
+                  This page could not be found. It either doesn’t exist or was deleted.
                 </NotFoundDescription>
                 <NotFoundButton
                   secondary
+                  iconHoverShift
                   status={status}
                   to="/"
                   icon="chevronRight"
@@ -53,8 +53,15 @@ function NotFound() {
                 poster={NotfoundPoster}
                 status={status}
               >
-                <source src={NotfoundPoster} type="video/mp4" />
+                <source src={Notfound} type="video/mp4" />
               </NotFoundVideo>
+              <NotFoundCredit status={status}
+                href="https://twitter.com/ruinergame"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Animation from Ruiner
+              </NotFoundCredit>
             </NotFoundVideoContainer>
           </React.Fragment>
         )}
@@ -109,20 +116,19 @@ const NotFoundVideoContainer = styled.div`
   overflow: hidden;
   position: relative;
   border: 30px solid transparent;
-  transition-property: filter;
-  transition-timing-function: ${props => props.theme.curveFastoutSlowin};
-  transition-duration: 0.4s;
 
   @media (max-width: ${media.mobile}) {
-    display: none;
+    min-height: 240px;
+    grid-row: 1;
   }
 
-  &:after {
+  &::after {
     content: '';
     background: ${props => props.theme.colorAccent};
     animation-name: ${props => props.status === 'entered' && css`${AnimVideo}`};
     animation-duration: 1.8s;
     animation-timing-function: ${props => props.theme.curveFastoutSlowin};
+
     position: absolute;
     top: 0;
     right: 0;
@@ -132,16 +138,6 @@ const NotFoundVideoContainer = styled.div`
     transform-origin: left;
     z-index: 16;
   }
-
-  ${props => props.theme.id === 'light' && css`
-    -webkit-filter: invert(100%);
-    filter: progid:DXImageTransform.Microsoft.BasicImage(invert='1');
-
-    &:after {
-      -webkit-filter: invert(100%);
-      filter: progid:DXImageTransform.Microsoft.BasicImage(invert='1');
-    }
-  `}
 `;
 
 const NotFoundVideo = styled.video`
@@ -160,6 +156,31 @@ const NotFoundVideo = styled.video`
 
   @media(max-width: ${media.mobile}) {
     left: 0;
+  }
+`;
+
+const NotFoundCredit = styled.a`
+  color: ${props => rgba(props.theme.colorWhite, 0.4)};
+  background: ${props => rgba(props.theme.colorBlack, 0.6)};
+  padding: 4px 8px;
+  font-size: 14px;
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  transform: translate3d(0, 0, 0);
+  text-decoration: none;
+  transition-property: all;
+  transition-delay: 0.4s;
+  transition-duration: 0.4s;
+  opacity: 0;
+
+  ${props => props.status === 'entered' && css`
+    opacity: 1;
+  `}
+
+  &:hover,
+  &:focus {
+    color: ${props => props.theme.colorWhite};
   }
 `;
 

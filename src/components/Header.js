@@ -1,89 +1,127 @@
-import React, { lazy, Suspense } from 'react';
+import React, { lazy, Suspense, useRef, useState } from 'react';
 import styled, { css } from 'styled-components/macro';
 import { NavLink, Link } from 'react-router-dom';
 import { Transition } from 'react-transition-group';
-import Monogram from './Monogram';
-import Icon from '../utils/Icon';
-import { media, rgba } from '../utils/StyleUtils';
-import { useWindowSize } from '../utils/Hooks';
+import Monogram from '../components/Monogram';
+import Icon from '../components/Icon';
+import NavToggle from '../components/NavToggle';
+import { media, rgba } from '../utils/styleUtils';
+import { useWindowSize } from '../utils/hooks';
 
 const ThemeToggle = lazy(() => import('../components/ThemeToggle'));
 
-const HeaderIcons = ({ toggleMenu }) => (
+const navLinks = [
+  {
+    label: 'Work',
+    pathname: '/',
+    hash: '#work',
+  },
+  {
+    label: 'About',
+    pathname: '/',
+    hash: '#about'
+  },
+  {
+    label: 'Contact',
+    pathname: '/contact',
+  },
+];
+
+const socialLinks = [
+  {
+    label: 'Codepen',
+    url: 'https://codepen.io/cbenn',
+    icon: 'codepen',
+  },
+  {
+    label: 'Github',
+    url: 'https://github.com/CodyJasonBennett',
+    icon: 'github',
+  },
+  {
+    label: 'Email',
+    url: 'mailto:hi@codyb.co',
+    icon: 'email',
+  },
+];
+
+const HeaderIcons = () => (
   <HeaderNavIcons>
-    <HeaderNavIconLink
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label="Codepen"
-      href="https://codepen.io/cbenn"
-    >
-      <HeaderNavIcon icon="codepen" />
-    </HeaderNavIconLink>
-    <HeaderNavIconLink
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label="Github"
-      href="https://github.com/CodyJasonBennett"
-    >
-      <HeaderNavIcon icon="github" />
-    </HeaderNavIconLink>
-    <HeaderNavIconLink
-      as={Link}
-      aria-label="Contact"
-      to="/contact"
-      onClick={!!toggleMenu ? () => toggleMenu() : null}
-    >
-      <HeaderNavIcon icon="email" />
-    </HeaderNavIconLink>
+    {socialLinks.map(({ label, url, icon }) => (
+      <HeaderNavIconLink key={label} aria-label={label} href={url}>
+        <HeaderNavIcon icon={icon} />
+      </HeaderNavIconLink>
+    ))}
   </HeaderNavIcons>
 );
 
 function Header(props) {
-  const { menuOpen, toggleMenu, currentTheme, toggleTheme, inheritLogo } = props;
+  const { menuOpen, location, toggleMenu, currentTheme, toggleTheme } = props;
+  const [hashKey, setHashKey] = useState();
   const windowSize = useWindowSize();
+  const headerRef = useRef();
+  const isMobile = windowSize.width <= media.numMobile || windowSize.height <= 696;
+
+  const handleNavClick = () => {
+    setHashKey(Math.random().toString(32).substr(2, 8));
+  };
+
+  const handleMobileNavClick = () => {
+    handleNavClick();
+    if (menuOpen) toggleMenu();
+  };
+
+  const isMatch = ({ match, hash = '' }) => {
+    if (!match) return false;
+    return `${match.url}${hash}` === `${location.pathname}${location.hash}`;
+  };
 
   return (
-    <HeaderWrapper role="banner">
+    <HeaderWrapper role="banner" ref={headerRef}>
+      <HeaderLogo
+        to={{ pathname: '/', hash: '#intro', state: hashKey }}
+        aria-label="Cody Bennett, Designer & Developer"
+        onClick={handleMobileNavClick}
+      >
+        <Monogram highlight />
+      </HeaderLogo>
+      <NavToggle onClick={toggleMenu} menuOpen={menuOpen} />
+      <HeaderNav role="navigation">
+        <HeaderNavList>
+          {navLinks.map(({ label, pathname, hash }) => (
+            <HeaderNavLink
+              exact
+              isActive={(match) => isMatch({ match, hash })}
+              onClick={handleNavClick}
+              key={label}
+              to={{ pathname, hash, state: hashKey }}
+            >
+              {label}
+            </HeaderNavLink>
+          ))}
+        </HeaderNavList>
+        <HeaderIcons />
+      </HeaderNav>
       <Transition
         mountOnEnter
         unmountOnExit
         in={menuOpen}
         timeout={{ enter: 0, exit: 500 }}
+        onEnter={node => node && node.offsetHeight}
       >
         {status => (
           <HeaderMobileNav status={status}>
-            <HeaderMobileNavLink
-              delay={250}
-              status={status}
-              onClick={toggleMenu}
-              to="/#intro"
-            >
-              Home
-            </HeaderMobileNavLink>
-            <HeaderMobileNavLink
-              delay={300}
-              status={status}
-              onClick={toggleMenu}
-              to="/#work"
-            >
-              Work
-            </HeaderMobileNavLink>
-            <HeaderMobileNavLink
-              delay={350}
-              status={status}
-              onClick={toggleMenu}
-              to="/#about"
-            >
-              About
-            </HeaderMobileNavLink>
-            <HeaderMobileNavLink
-              delay={400}
-              status={status}
-              onClick={toggleMenu}
-              to="/lab"
-            >
-              Lab
-            </HeaderMobileNavLink>
+            {navLinks.map(({ label, pathname, hash }, index) => (
+              <HeaderMobileNavLink
+                key={label}
+                delay={300 + index * 50}
+                status={status}
+                onClick={handleMobileNavClick}
+                to={{ pathname, hash, state: hashKey }}
+              >
+                {label}
+              </HeaderMobileNavLink>
+            ))}
             <HeaderIcons />
             <Suspense fallback={<React.Fragment />}>
               <ThemeToggle isMobile themeId={currentTheme.id} toggleTheme={toggleTheme} />
@@ -91,18 +129,7 @@ function Header(props) {
           </HeaderMobileNav>
         )}
       </Transition>
-      <HeaderLogo to="/#intro" aria-label="Home">
-        <Monogram highlight={currentTheme.colorAccent} currentTheme={currentTheme} inheritLogo={inheritLogo} />
-      </HeaderLogo>
-      <HeaderNav role="navigation">
-        <HeaderNavList>
-          <HeaderNavLink to="/#work">Work</HeaderNavLink>
-          <HeaderNavLink to="/#about">About</HeaderNavLink>
-          <HeaderNavLink to="/lab">Lab</HeaderNavLink>
-        </HeaderNavList>
-        <HeaderIcons />
-      </HeaderNav>
-      {windowSize.width > media.numMobile && windowSize.height > 696 &&
+      {!isMobile &&
         <Suspense fallback={<React.Fragment />}>
           <ThemeToggle themeId={currentTheme.id} toggleTheme={toggleTheme} />
         </Suspense>
@@ -142,26 +169,6 @@ const HeaderLogo = styled(Link)`
   position: relative;
   padding: 10px;
   z-index: 16;
-
-  g rect {
-    opacity: 0;
-    transform: scale3d(1, 0, 1);
-    transform-origin: top;
-    transition:
-      transform 0.4s ${props => props.theme.curveFastoutSlowin},
-      opacity 0.1s ease 0.4s;
-  }
-
-  &:hover g rect,
-  &:focus g rect,
-  &:active g rect {
-    opacity: 1;
-    transform: scale3d(1, 1, 1);
-    transform-origin: bottom;
-    transition:
-      transform 0.4s ${props => props.theme.curveFastoutSlowin},
-      opacity 0.1s ease;
-  }
 `;
 
 const HeaderNav = styled.nav`
@@ -201,7 +208,7 @@ const HeaderNavLink = styled(NavLink)`
     color: ${props => props.theme.colorText};
   }
 
-  &:after {
+  &::after {
     content: '';
     position: absolute;
     top: 50%;
@@ -228,13 +235,14 @@ const HeaderNavIcons = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  position: relative;
+  z-index: 16;
 
   @media (max-width: ${media.mobile}), (max-height: ${media.mobile}) {
     flex-direction: row;
     position: absolute;
     bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 30px;
   }
 
   @media ${media.mobileLS} {
@@ -246,7 +254,10 @@ const HeaderNavIcons = styled.div`
   }
 `;
 
-const HeaderNavIconLink = styled.a`
+const HeaderNavIconLink = styled.a.attrs({
+  target: '_blank',
+  rel: 'noopener noreferrer',
+})`
   display: flex;
   padding: 10px;
 `;
@@ -317,7 +328,7 @@ const HeaderMobileNavLink = styled(NavLink).attrs({
     transform: translate3d(0, 0, 0);
   `}
 
-  &:after {
+  &::after {
     content: '';
     position: absolute;
     top: 50%;

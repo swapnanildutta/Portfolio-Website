@@ -1,20 +1,57 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import styled, { css, keyframes } from 'styled-components/macro';
+import { usePrefersReducedMotion } from '../utils/hooks';
 
-const Loader = ({ size, color = '#fff', ...rest }) => (
-  <LoaderContainer size={size} {...rest}>
-    <LoaderSpan color={color} />
-    <LoaderSpan color={color} />
-    <LoaderSpan color={color} />
-    <LoaderSpan color={color} />
-  </LoaderContainer>
-);
+const Loader = ({ size = 32, color = '#fff', text = 'Loading...', ...rest }) => {
+  const prefersReducedMotion = usePrefersReducedMotion();
+
+  const renderScreenReaderTextPortal = () => ReactDOM.createPortal(
+    <LoaderAnnouncement aria-live="assertive">{text}</LoaderAnnouncement>
+    , document.body);
+
+  if (prefersReducedMotion) {
+    return (
+      <LoaderText color={color} {...rest}>
+        {text}
+        {renderScreenReaderTextPortal()}
+      </LoaderText>
+    );
+  }
+
+  return (
+    <LoaderContainer aria-label={text} size={size} {...rest}>
+      <LoaderSpan color={color} />
+      <LoaderSpan color={color} />
+      <LoaderSpan color={color} />
+      <LoaderSpan color={color} />
+      {renderScreenReaderTextPortal()}
+    </LoaderContainer>
+  );
+};
 
 const LoaderContainer = styled.div`
-  width: ${props => props.size ? props.size + 'px' : '15%'};
-  height: ${props => props.size ? props.size + 'px' : '15%'};
+  width: ${props => props.size}px;
+  height: ${props => props.size}px;
   display: flex;
   justify-content: center;
+`;
+
+const LoaderText = styled.div`
+  color: ${props => props.color};
+  font-size: 16px;
+  font-weight: 500;
+`;
+
+const LoaderAnnouncement = styled.div`
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  position: absolute;
 `;
 
 const AnimGrow = keyframes`
@@ -31,8 +68,8 @@ const AnimGrow = keyframes`
 
 const LoaderSpan = styled.span`
   display: block;
-  width: 12.5%;
-  margin-left: 6.25%;
+  width: 4px;
+  margin-left: 2px;
   height: 100%;
   background-color: ${props => props.color};
   transform: scaleY(0.4);

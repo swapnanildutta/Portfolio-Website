@@ -1,49 +1,31 @@
 import React, { useState, useEffect, useRef, useMemo, useContext } from 'react';
 import { Helmet } from 'react-helmet-async';
-import 'intersection-observer';
 import { AppContext } from '../app/App';
 import Intro from '../screens/Intro';
 import ProjectItem from '../screens/ProjectItem';
 import Profile from '../screens/Profile';
 import Footer from '../components/Footer';
-import { usePrefersReducedMotion } from '../utils/Hooks';
-import BellsGC from '../assets/BellsGC/BellsGC.webp';
-import BellsGCPlaceholder from '../assets/BellsGC/BellsGCPlaceholder.png';
-import BellsGCStill from '../assets/BellsGC/BellsGCStill.webp';
-import MystGang from '../assets/MystGang/MystGang.mp4';
-import MystGangPlaceholder from '../assets/MystGang/MystGangPlaceholder.png';
-import MystGangStill from '../assets/MystGang/MystGangStill.webp';
-import ArMTG from '../assets/ARMTG/ARMTGWeb.mp4';
-import ArMTGPlaceholder from '../assets/ARMTG/ARMTGWebPlaceHolder.png';
-import ArMTGStill from '../assets/ARMTG/ARMTGStill.webp';
-import Robotics from '../assets/Robotics/robotics.mp4';
-import RoboticsPlaceholder from '../assets/Robotics/roboticsPlaceholder.png';
-import RoboticsStill from '../assets/Robotics/roboticsStill.webp';
-const disciplines = ['Developer'];
+import { usePrefersReducedMotion } from '../utils/hooks';
+import dttProject from '../assets/dtt-project.png';
+import dttProjectLarge from '../assets/dtt-project-large.png';
+import dttProjectPlaceholder from '../assets/dtt-project-placeholder.png';
+
+const disciplines = ['Developer', 'Creator', 'Animator', 'Student'];
 
 export default function Home(props) {
-  const { status, updateTheme } = useContext(AppContext);
+  const { status } = useContext(AppContext);
   const { location } = props;
-  const { hash } = location;
-  const initHash = useRef(hash);
+  const { hash, state } = location;
+  const initHash = useRef(true);
   const [visibleSections, setVisibleSections] = useState([]);
   const [scrollIndicatorHidden, setScrollIndicatorHidden] = useState(false);
   const intro = useRef();
   const projectOne = useRef();
-  const projectTwo = useRef();
-  const projectThree = useRef();
-  const projectFour = useRef();
   const about = useRef();
   const prefersReducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
-    if ((status === 'entered' || status === 'exiting')) {
-      updateTheme();
-    }
-  }, [updateTheme, status]);
-
-  useEffect(() => {
-    const revealSections = [intro, projectOne, projectTwo, projectThree, projectFour, about];
+    const revealSections = [intro, projectOne, about];
 
     const sectionObserver = new IntersectionObserver(entries => {
       entries.forEach(entry => {
@@ -54,11 +36,11 @@ export default function Home(props) {
           setVisibleSections(prevSections => [...prevSections, section]);
         }
       });
-    }, { rootMargin: "0px 0px -10% 0px" });
+    }, { rootMargin: '0px 0px -10% 0px' });
 
     const indicatorObserver = new IntersectionObserver(([entry]) => {
       setScrollIndicatorHidden(!entry.isIntersecting);
-    }, { rootMargin: "-100% 0px 0px 0px" });
+    }, { rootMargin: '-100% 0px 0px 0px' });
 
     revealSections.forEach(section => {
       sectionObserver.observe(section.current);
@@ -77,12 +59,22 @@ export default function Home(props) {
     const supportsNativeSmoothScroll = 'scrollBehavior' in document.documentElement.style;
 
     const handleHashchange = (hash, scroll) => {
-      const hashSections = [intro, projectOne, projectTwo, projectThree, projectFour, about];
+      const hashSections = [intro, projectOne, about];
       const hashString = hash.replace('#', '');
       const element = hashSections.filter(item => item.current.id === hashString)[0];
       if (!element) return;
       const behavior = scroll && !prefersReducedMotion ? 'smooth' : 'instant';
-      const top = hashString === 'intro' ? 0 : element.current.offsetTop;
+      const top = element.current.offsetTop;
+
+      const scrollObserver = new IntersectionObserver(entries => {
+        const [entry] = entries;
+        if (entry.isIntersecting) {
+          element.current.focus();
+          scrollObserver.unobserve(entry.target);
+        }
+      }, { rootMargin: '-20% 0px -20% 0px' });
+
+      scrollObserver.observe(element.current);
 
       if (supportsNativeSmoothScroll) {
         window.scroll({
@@ -104,7 +96,7 @@ export default function Home(props) {
     } else if (hasEntered) {
       handleHashchange(hash, true);
     }
-  }, [hash, prefersReducedMotion, status]);
+  }, [hash, state, prefersReducedMotion, status]);
 
   return (
     <React.Fragment>
@@ -112,7 +104,7 @@ export default function Home(props) {
         title="Cody Bennett"
         meta={[{
           name: 'description',
-          content: "Portfolio of Cody Bennett – I’m a student developer based in Austin. I create compelling designs that I bring to life with the web's coolest technologies that look perfect on every screen.",
+          content: "Portfolio of Cody Bennett – a creator of web &amp; mobile solutions with a focus on motion and user experience.",
         }]}
       />
       <Intro
@@ -126,68 +118,19 @@ export default function Home(props) {
         sectionRef={projectOne}
         visible={visibleSections.includes(projectOne.current)}
         index="01"
-        title="Bell's Gaming Center"
-        description="An ongoing project for a local game store powered by Google's Firebase. A simple solution for the store to manage their games and storefront with as little clicks and hoops for them to jump through as possible."
+        title="A Tool for Everything"
+        description="Creating a platfrom to help developers build better software."
         buttonText="View Project"
-        buttonTo="/projects/bellsgc"
-        imageSrc={useMemo(() => [`${BellsGC}`], [])}
-        imageAlt={useMemo(() => ['Bell\'s GC Website'], [])}
-        imagePlaceholder={useMemo(() => [BellsGCPlaceholder], [])}
-        customColor={'rgba(251, 201, 98, 1)'}
-        still={prefersReducedMotion ? BellsGCStill : false}
-      />
-      <ProjectItem
-        id="work2"
-        sectionRef={projectTwo}
-        visible={visibleSections.includes(projectTwo.current)}
-        index="02"
-        title="MystGang"
-        description="A responsive 3D website for the gaming content creator known as MystGang, featuring a 3D carousel to show off their work. The site is sped up with Ajax and animated with Tweenmax and Greensock, rendering a 3D landscape in WebGL with Three.js. This included the design of the monogram in the center of the screen."
-        buttonText="View Project"
-        buttonTo="/projects/mystgang"
-        imageSrc={useMemo(() => [`${MystGang}`], [])}
-        imageAlt={useMemo(() => ['MystGang Website'], [])}
-        imagePlaceholder={useMemo(() => [MystGangPlaceholder], [])}
-        customColor={'rgba(181, 155, 105, 1)'}
-        still={prefersReducedMotion ? MystGangStill : false}
-        video
-      />
-      <ProjectItem
-        id="work3"
-        sectionRef={projectThree}
-        visible={visibleSections.includes(projectThree.current)}
-        index="03"
-        title="ArMTG"
-        description="A VR, AR, and multi-platform application to play the card game: Magic, the Gathering with database-fed decks displayed on real, physical cards in real-time. Automatic shuffling, an intuitive deck editor, and a cool 3D interface brought the technology of the future to the game."
-        buttonText="View Project"
-        buttonTo="/projects/armtg"
-        imageSrc={useMemo(() => [`${ArMTG}`], [])}
-        imageAlt={useMemo(() => ['ArMTG Website'], [])}
-        imagePlaceholder={useMemo(() => [ArMTGPlaceholder], [])}
-        customColor={'rgba(101, 154, 247, 1)'}
-        still={prefersReducedMotion ? ArMTGStill : false}
-        video
-      />
-      <ProjectItem
-    		id="work4"
-        sectionRef={projectFour}
-        visible={visibleSections.includes(projectFour.current)}
-        index="04"
-        title="GCPS Robotics"
-        description="Creating the website and the robot core that won the BEST Robotics State Competition Website Award."
-        buttonText="View Project"
-        buttonTo="/projects/gcpsrobotics"
-        imageSrc={useMemo(() => [`${Robotics}`], [])}
-        imageAlt={useMemo(() => ['Gateway Robotics Website'], [])}
-        imagePlaceholder={useMemo(() => [RoboticsPlaceholder], [])}
-        customColor={'rgba(54, 210, 120, 1)'}
-        still={prefersReducedMotion ? RoboticsStill : false}
-        video
+        buttonTo="/projects/devtech-tools"
+        imageSrc={useMemo(() => [`${dttProject} 980w, ${dttProjectLarge} 1376w`], [])}
+        imageAlt={useMemo(() => ['DevTech Tools Landing Page'], [])}
+        imagePlaceholder={useMemo(() => [dttProjectPlaceholder], [])}
+        imageType="laptop"
       />
       <Profile
-        id="about"
         sectionRef={about}
         visible={visibleSections.includes(about.current)}
+        id="about"
       />
       <Footer />
     </React.Fragment>

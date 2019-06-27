@@ -7,6 +7,7 @@ export const AnimFade = keyframes`
 
 const numMedia = {
   numDesktop: 1440,
+  numLaptop: 1280,
   numTablet: 1024,
   numMobile: 696,
 };
@@ -14,6 +15,7 @@ const numMedia = {
 export const media = {
   ...numMedia,
   desktop: `${numMedia.numDesktop}px`,
+  laptop: `${numMedia.numLaptop}px`,
   tablet: `${numMedia.numTablet}px`,
   mobile: `${numMedia.numMobile}px`,
   mobileLS: `(max-width: 820px) and (max-height: 420px)`,
@@ -28,7 +30,6 @@ export const sectionPadding = css`
   }
 
   @media (max-width: ${media.tablet}) {
-    padding-top: 60px;
     padding-left: 160px;
   }
 
@@ -53,13 +54,14 @@ function stringToRgba(colorString) {
 }
 
 export function tint(colorString, percent) {
-  const colorArray = colorString.split(',');
+  const colorArray = colorString.replace('rgba(', '').replace(')', '').split(',');
   const t = percent < 0 ? 0 : 255;
   const p = percent < 0 ? percent * - 1 : percent;
   const r = parseInt(colorArray[0], 10);
   const g = parseInt(colorArray[1], 10);
   const b = parseInt(colorArray[2], 10);
   const a = parseInt(colorArray[3], 10);
+  console.log(colorArray);
   return `rgba(${(Math.round((t - r) * p) + r)}, ${(Math.round((t - g) * p) + g)}, ${(Math.round((t - b) * p) + b)}, ${a})`;
 };
 

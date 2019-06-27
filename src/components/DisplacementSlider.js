@@ -1,17 +1,15 @@
-import React, { useState, useEffect, useContext, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import {
   WebGLRenderer, OrthographicCamera, Scene, Mesh, Color, ShaderMaterial,
   LinearFilter, TextureLoader, PlaneBufferGeometry, LoadingManager
 } from 'three';
 import styled from 'styled-components/macro';
-import 'intersection-observer';
 import { Easing, Tween, autoPlay } from 'es6-tween';
 import Swipe from 'react-easy-swipe';
-import Icon from '../utils/Icon';
-import { media, rgba } from '../utils/StyleUtils';
-import { vertex, fragment } from '../shaders/SliderShader';
-import { usePrefersReducedMotion } from '../utils/Hooks';
-import { AppContext } from '../app/App';
+import Icon from './Icon';
+import { media, rgba } from '../utils/styleUtils';
+import { vertex, fragment } from '../shaders/sliderShader';
+import { usePrefersReducedMotion } from '../utils/hooks';
 
 const prerender = navigator.userAgent === 'ReactSnap';
 
@@ -24,68 +22,103 @@ function determineIndex(imageIndex, index, images, direction) {
   return finalIndex;
 };
 
-export default function DisplacementSlider(props) {
-  const currentTheme = useContext(AppContext);
-  const { width, height, images, placeholder } = props;
+export default function DispalcementSlider(props) {
+  const { width, height, images, placeholder, ...rest } = props;
   const [imageIndex, setImageIndex] = useState(0);
   const [loaded, setLoaded] = useState(false);
+  const [showPlaceholder, setShowPlaceholder] = useState(true);
+  const [sliderImages, setSliderImages] = useState();
+  const [canvasWidth, setCanvasWidth] = useState();
   const container = useRef();
   const imagePlane = useRef();
   const geometry = useRef();
   const material = useRef();
-  const sliderImages = useRef();
   const scene = useRef();
   const camera = useRef();
   const renderer = useRef();
   const animating = useRef(false);
+  const swipeDirection = useRef();
+  const lastSwipePosition = useRef();
   const scheduledAnimationFrame = useRef();
-  const currentImage = images[imageIndex];
   const prefersReducedMotion = usePrefersReducedMotion();
+  const placeholderRef = useRef();
+  const currentImageAlt = `Slide ${imageIndex + 1} of ${images.length}. ${images[imageIndex].alt}`;
 
-  const goToIndex = useCallback((index, direction = 1) => {
-    animating.current = true;
+  const goToIndex = useCallback(({
+    index,
+    direction = 1,
+    duration = 1200,
+    easing = Easing.Exponential.InOut,
+  }) => {
+    if (!sliderImages) return;
     setImageIndex(index);
     const uniforms = material.current.uniforms;
-    uniforms.nextImage.value = sliderImages.current[index];
+    uniforms.nextImage.value = sliderImages[index];
     uniforms.direction.value = direction;
 
-    if (!prefersReducedMotion) {
+    const onComplete = () => {
+      uniforms.currentImage.value = sliderImages[index];
+      uniforms.dispFactor.value = 0;
+      animating.current = false;
+    };
+
+    if (!prefersReducedMotion && uniforms.dispFactor.value !== 1) {
+      animating.current = true;
+
       new Tween(uniforms.dispFactor)
-        .to({ value: 1 }, 1200)
-        .easing(Easing.Exponential.InOut)
-        .on('complete', () => {
-          uniforms.currentImage.value = sliderImages.current[index];
-          uniforms.dispFactor.value = 0.0;
-          animating.current = false;
-        })
+        .to({ value: 1 }, duration)
+        .easing(easing)
+        .on('complete', onComplete)
         .start();
     } else {
-      uniforms.currentImage.value = sliderImages.current[index];
-      uniforms.dispFactor.value = 0.0;
-      setTimeout(() => {
-        animating.current = false;
-      }, 100);
+      onComplete();
+      renderer.current.render(scene.current, camera.current);
     }
-  }, [prefersReducedMotion]);
+  }, [prefersReducedMotion, sliderImages]);
 
-  const navigate = useCallback((direction, index = null) => {
+  const navigate = useCallback(({
+    direction,
+    index = null,
+    ...rest,
+  }) => {
     if (!loaded) return;
 
     if (animating.current) {
       cancelAnimationFrame(scheduledAnimationFrame.current);
-      scheduledAnimationFrame.current = requestAnimationFrame(() => navigate(direction, index));
+      scheduledAnimationFrame.current = requestAnimationFrame(() =>
+        navigate({ direction, index, ...rest }));
       return;
     }
 
-    const finalIndex = determineIndex(imageIndex, index, sliderImages.current, direction);
-    goToIndex(finalIndex, direction);
-  }, [goToIndex, imageIndex, loaded]);
+    const finalIndex = determineIndex(imageIndex, index, sliderImages, direction);
+    goToIndex({ index: finalIndex, direction: direction, ...rest });
+  }, [goToIndex, imageIndex, loaded, sliderImages]);
 
   const onNavClick = useCallback(index => {
     if (index === imageIndex) return;
     const direction = index > imageIndex ? 1 : -1;
-    navigate(direction, index);
+    navigate({ direction, index });
   }, [imageIndex, navigate]);
+
+  useEffect(() => {
+    if (sliderImages && loaded) {
+      renderer.current.render(scene.current, camera.current);
+    }
+  }, [goToIndex, loaded, sliderImages]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const width = parseInt(getComputedStyle(container.current).width, 10);
+      setCanvasWidth(width);
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    return function cleanup() {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     const containerElement = container.current;
@@ -94,12 +127,12 @@ export default function DisplacementSlider(props) {
     camera.current = new OrthographicCamera(...cameraOptions);
     scene.current = new Scene();
     renderer.current.setPixelRatio(window.devicePixelRatio);
-    renderer.current.setClearColor(currentTheme.colorBackground, 1.0);
+    renderer.current.setClearColor(0x111111, 1.0);
     renderer.current.setSize(width, height);
     renderer.current.domElement.style.width = '100%';
     renderer.current.domElement.style.height = 'auto';
     renderer.current.domElement.setAttribute('aria-hidden', true);
-    scene.current.background = new Color(currentTheme.colorBackground);
+    scene.current.background = new Color(0x111111);
     camera.current.position.z = 1;
     containerElement.appendChild(renderer.current.domElement);
 
@@ -122,7 +155,6 @@ export default function DisplacementSlider(props) {
       imagePlane.current.position.set(0, 0, 0);
       scene.current.add(imagePlane.current);
       autoPlay(true);
-      goToIndex(0, 0);
     };
 
     const loadImages = async () => {
@@ -138,7 +170,10 @@ export default function DisplacementSlider(props) {
         return new Promise((resolve, reject) => {
           const tempImage = new Image();
           tempImage.src = item.src;
-          tempImage.srcset = item.srcset;
+
+          if (item.srcset) {
+            tempImage.srcset = item.srcset;
+          }
 
           const onLoad = () => {
             tempImage.removeEventListener('load', onLoad);
@@ -154,7 +189,7 @@ export default function DisplacementSlider(props) {
       });
 
       const imageResults = await Promise.all(results);
-      sliderImages.current = imageResults;
+      setSliderImages(imageResults);
       addObjects(imageResults);
     };
 
@@ -194,7 +229,7 @@ export default function DisplacementSlider(props) {
         material.current.dispose();
       }
     };
-  }, [currentTheme, goToIndex, height, images, width]);
+  }, [height, images, width]);
 
   useEffect(() => {
     let animation;
@@ -213,34 +248,132 @@ export default function DisplacementSlider(props) {
     };
   }, []);
 
+  useEffect(() => {
+    if (placeholder) {
+      const purgePlaceholder = () => {
+        setShowPlaceholder(false);
+      };
+
+      const placeholderElement = placeholderRef.current;
+      placeholderElement.addEventListener('transitionend', purgePlaceholder);
+
+      return function cleanUp() {
+        if (placeholderElement) {
+          placeholderElement.removeEventListener('transitionend', purgePlaceholder);
+        }
+      };
+    }
+  }, [placeholder]);
+
+  const onSwipeMove = useCallback((position, event) => {
+    if (animating.current || !material.current) return;
+    const { x } = position;
+    const absoluteX = Math.abs(x);
+    const containerWidth = canvasWidth;
+    if (absoluteX > 20) event.preventDefault();
+    lastSwipePosition.current = x;
+    swipeDirection.current = x > 0 ? -1 : 1;
+    const swipePercentage = 1 - (absoluteX - containerWidth) / containerWidth * -1;
+    const nextIndex = determineIndex(imageIndex, null, images, swipeDirection.current);
+    const uniforms = material.current.uniforms;
+    const displacementClamp = Math.min(Math.max(swipePercentage, 0), 1);
+
+    uniforms.currentImage.value = sliderImages[imageIndex];
+    uniforms.nextImage.value = sliderImages[nextIndex];
+    uniforms.direction.value = swipeDirection.current;
+
+    if (!prefersReducedMotion) {
+      uniforms.dispFactor.value = displacementClamp;
+    }
+
+    requestAnimationFrame(() => {
+      renderer.current.render(scene.current, camera.current);
+    });
+  }, [canvasWidth, imageIndex, images, prefersReducedMotion, sliderImages]);
+
+  const onSwipeEnd = useCallback(() => {
+    if (!material.current) return;
+    const uniforms = material.current.uniforms;
+    const duration = (1 - uniforms.dispFactor.value) * 1000;
+    const position = Math.abs(lastSwipePosition.current);
+    const minSwipeDistance = canvasWidth * 0.2;
+    lastSwipePosition.current = 0;
+
+    if (animating.current) return;
+    if (position === 0 || !position) return;
+
+    if (position > minSwipeDistance) {
+      navigate({
+        duration,
+        direction: swipeDirection.current,
+        easing: Easing.Exponential.Out,
+      });
+    } else {
+      uniforms.currentImage.value = uniforms.nextImage.value;
+      uniforms.nextImage.value = uniforms.currentImage.value;
+      uniforms.dispFactor.value = 1 - uniforms.dispFactor.value;
+
+      navigate({
+        duration: uniforms.dispFactor.value * 1000,
+        direction: swipeDirection.current * -1,
+        index: imageIndex,
+        easing: Easing.Exponential.Out,
+      });
+    }
+  }, [canvasWidth, imageIndex, navigate]);
+
+  const handleKeyDown = (event) => {
+    const actions = {
+      ArrowRight: () => navigate({ direction: 1 }),
+      ArrowLeft: () => navigate({ direction: -1 }),
+    };
+
+    const selectedAction = actions[event.key];
+
+    if (!!selectedAction) {
+      selectedAction();
+    }
+  };
+
   return (
-    <SliderContainer>
+    <SliderContainer onKeyDown={handleKeyDown} {...rest}>
       <SliderContainer>
-        <SliderDescription loaded={!prerender && loaded}>
-          {currentImage.alt}
-        </SliderDescription>
-        <SliderImage src={currentImage.src} srcSet={currentImage.srcset} alt={currentImage.alt} />
         <Swipe
           allowMouseEvents
-          onSwipeRight={() => navigate(-1)}
-          onSwipeLeft={() => navigate(1)}
+          onSwipeEnd={onSwipeEnd}
+          onSwipeMove={onSwipeMove}
         >
-          <SliderCanvasWrapper ref={container} />
+          <SliderImageWrapper>
+            <SliderCanvasWrapper
+              aria-atomic
+              aria-live="polite"
+              aria-label={currentImageAlt}
+              ref={container}
+              role="img"
+            />
+            {showPlaceholder && placeholder &&
+              <SliderPlaceholder
+                aria-hidden
+                src={placeholder}
+                ref={placeholderRef}
+                alt=""
+                role="presentation"
+                loaded={!prerender && loaded && sliderImages}
+              />
+            }
+          </SliderImageWrapper>
         </Swipe>
-        <SliderPlaceholder aria-hidden src={placeholder} alt="" loaded={!prerender && loaded} />
         <SliderButton
           left
           aria-label="Previous slide"
-          onClick={() => navigate(-1)}
-          override={currentImage.override}
+          onClick={() => navigate({ direction: -1 })}
         >
           <Icon icon="slideLeft" />
         </SliderButton>
         <SliderButton
           right
           aria-label="Next slide"
-          onClick={() => navigate(1)}
-          override={currentImage.override}
+          onClick={() => navigate({ direction: 1 })}
         >
           <Icon icon="slideRight" />
         </SliderButton>
@@ -248,7 +381,7 @@ export default function DisplacementSlider(props) {
       <SliderNav>
         {images.map((image, index) => (
           <SliderNavButton
-            key={image.src}
+            key={image.alt}
             onClick={() => onNavClick(index)}
             active={index === imageIndex}
             aria-label={`Jump to slide ${index + 1}`}
@@ -264,25 +397,22 @@ const SliderContainer = styled.div`
   position: relative;
 `;
 
-const SliderDescription = styled.p`
-  position: absolute;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px 0;
-  color: ${props => props.theme.colorText};
-  background: rgba(${props => props.theme.id === 'dark' ? '17, 17, 17, 0.8' : '216, 216, 216, 0.8'});
-  z-index: 2;
-  bottom: 0;
-  margin-bottom: 0px;
-  transition: opacity 1s ease;
-  opacity: ${props => props.loaded ? 1 : 0};
+const SliderImageWrapper = styled.div`
+  position: relative;
+  display: grid;
+  grid-template-columns: 100%;
+  cursor: grab;
+
+  &:active {
+    cursor: grabbing;
+  }
 `;
 
 const SliderCanvasWrapper = styled.div`
   position: relative;
-  cursor: grab;
+  grid-column: 1;
+  grid-row: 1;
+  user-select: none;
 
   canvas {
     position: relative;
@@ -290,24 +420,15 @@ const SliderCanvasWrapper = styled.div`
   }
 `;
 
-const SliderImage = styled.img`
-  position: absolute;
-  pointer-events: none;
-  opacity: 0.001;
-  width: 100%;
-  display: block;
-`;
-
 const SliderPlaceholder = styled.img`
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  grid-column: 1;
+  grid-row: 1;
   width: 100%;
   transition: opacity 1s ease;
   opacity: ${props => props.loaded ? 0 : 1};
   pointer-events: none;
+  position: relative;
+  z-index: 1;
 `;
 
 const SliderButton = styled.button`
@@ -346,7 +467,7 @@ const SliderButton = styled.button`
 
   &:hover::before,
   &:focus::before {
-    background: ${props => rgba(props.override ? props.theme.colorBlack : props.theme.colorWhite, 0.1)};
+    background: ${props => rgba(props.theme.colorWhite, 0.1)};
   }
 
   &::after {
@@ -376,11 +497,11 @@ const SliderButton = styled.button`
   }
 
   &:focus::after {
-    background: ${props => rgba(props.override ? props.theme.colorBlack : props.theme.colorWhite, 0.4)};
+    background: ${props => rgba(props.theme.colorWhite, 0.4)};
   }
 
   svg {
-    fill: ${props => props.override ? props => props.theme.colorBlack : props => props.theme.colorWhite};
+    fill: ${props => props.theme.colorWhite};
     display: block;
   }
 `;

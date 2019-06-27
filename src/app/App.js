@@ -1,25 +1,19 @@
 import React, { lazy, Suspense, useState, useEffect, createContext, useCallback } from 'react';
 import styled, { createGlobalStyle, ThemeProvider, css } from 'styled-components/macro';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import { Transition, TransitionGroup } from 'react-transition-group';
+import { Transition, TransitionGroup, config } from 'react-transition-group';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import Header from '../components/Header';
-import NavToggle from '../components/NavToggle';
-import { theme } from '../utils/Theme';
-import { media } from '../utils/StyleUtils';
-import { useLocalStorage, useWindowSize } from '../utils/Hooks';
+import { theme } from '../utils/theme';
+import { useLocalStorage, usePrefersReducedMotion } from '../utils/hooks';
 import GothamBook from '../fonts/gotham-book.woff2';
 import GothamMedium from '../fonts/gotham-medium.woff2';
-import Loader from '../components/Loader';
 
 const Home = lazy(() => import('../screens/Home'));
-const Lab = lazy(() => import('../screens/Lab'));
-const BellsGC = lazy(() => import('../screens/BellsGC'));
-const MystGang = lazy(() => import('../screens/MystGang'));
-const ArMTG = lazy(() => import('../screens/ArMTG'));
-const Robotics = lazy(() => import('../screens/Robotics'));
 const Contact = lazy(() => import('../screens/Contact'));
-const Error404 = lazy(() => import('../screens/404'));
+const ProjectDTT = lazy(() => import('../screens/ProjectDTT'));
+const Blog = lazy(() => import('../screens/Blog'));
+const NotFound = lazy(() => import('../screens/404'));
 
 const prerender = navigator.userAgent === 'ReactSnap';
 export const AppContext = createContext();
@@ -44,8 +38,15 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [storedTheme, setStoredTheme] = useLocalStorage('theme', 'dark');
   const [currentTheme, setCurrentTheme] = useState(theme.dark);
-  const windowSize = useWindowSize();
-  const showMenuButton = windowSize.width <= media.numMobile || windowSize.height <= 696;
+  const prefersReducedMotion = usePrefersReducedMotion();
+
+  useEffect(() => {
+    if (prefersReducedMotion) {
+      config.disabled = true;
+    } else {
+      config.disabled = false;
+    }
+  }, [prefersReducedMotion]);
 
   useEffect(() => {
     if (!prerender) {
@@ -79,6 +80,7 @@ function App() {
           <Route render={({ location }) => (
             <React.Fragment>
               <Helmet>
+                <link rel="canonical" href={`https://codyb.co${location.pathname}`} />
                 <link rel="preload" href={GothamBook} as="font" crossorigin="crossorigin" />
                 <link rel="preload" href={GothamMedium} as="font" crossorigin="crossorigin" />
                 <style>{fontStyles}</style>
@@ -90,33 +92,32 @@ function App() {
                 menuOpen={menuOpen}
                 toggleTheme={toggleTheme}
                 currentTheme={currentTheme}
-                inheritLogo={currentTheme.custom}
+                location={location}
               />
-              <MainLoader>
-                <Loader color={currentTheme.colorAccent} />
-              </MainLoader>
-              {showMenuButton && <NavToggle onClick={toggleMenu} menuOpen={menuOpen} />}
-              <TransitionGroup component={React.Fragment}>
-                <Transition key={location.pathname} timeout={300}>
+              <TransitionGroup
+                component={AppMainContent}
+                tabIndex={-1}
+                id="MainContent"
+                role="main"
+              >
+                <Transition
+                  key={location.pathname}
+                  timeout={300}
+                  onEnter={node => node && node.offsetHeight}
+                >
                   {status => (
                     <AppContext.Provider value={{ status, updateTheme, toggleTheme, currentTheme }}>
-                      <MainContent status={status} id="MainContent" role="main" tabIndex={-1}>
-                        <Helmet>
-                          <link rel="canonical" href={`https://codyb.co${location.pathname}`} />
-                        </Helmet>
+                      <AppPage status={status} >
                         <Suspense fallback={<React.Fragment />}>
                           <Switch location={location}>
                             <Route exact path="/" component={Home} />
-                            <Route path="/lab" component={Lab} />
-                            <Route path="/projects/bellsgc" component={BellsGC} />
-                            <Route path="/projects/mystgang" component={MystGang} />
-                            <Route path="/projects/armtg" component={ArMTG} />
-                            <Route path="/projects/gcpsrobotics" component={Robotics} />
                             <Route path="/contact" component={Contact} />
-                            <Route component={Error404} />
+                            <Route path="/projects/devtech-tools" component={ProjectDTT} />
+                            <Route path="/blog" component={Blog} />
+                            <Route component={NotFound} />
                           </Switch>
                         </Suspense>
-                      </MainContent>
+                      </AppPage>
                     </AppContext.Provider>
                   )}
                 </Transition>
@@ -142,56 +143,51 @@ export const GlobalStyles = createGlobalStyle`
     margin: 0;
     width: 100vw;
     overflow-x: hidden;
-    font-weight: 300;
+    font-weight: 400;
   }
 
   *,
-  *:before,
-  *:after {
+  *::before,
+  *::after {
     box-sizing: inherit;
-
-    @media (prefers-reduced-motion: reduce) {
-      animation-duration: 0s !important;
-      transition-duration: 0s !important;
-      animation-delay: 0s !important;
-      transition-delay: 0s !important;
-    }
   }
 
   ::selection {
     background: ${props => props.theme.colorAccent};
+    color: rgb(0, 0, 0, 0.9);
+  }
+
+  #root *,
+  #root *::before,
+  #root *::after {
+    @media (prefers-reduced-motion: reduce) {
+      animation-duration: 0s;
+      animation-delay: 0s;
+      transition-duration: 0s;
+      transition-delay: 0s;
+    }
   }
 `;
 
-const MainLoader = styled.div`
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  width: 100vw;
-  z-index: -1;
-`;
-
-const MainContent = styled.main`
+const AppMainContent = styled.main`
   width: 100%;
   overflow-x: hidden;
   position: relative;
-  opacity: 0;
   background: ${props => props.theme.colorBackground};
-  transition: background 0.4s ease, opacity 0.3s ease;
+  transition: background 0.4s ease;
+  outline: none;
+  display: grid;
+  grid-template-columns: 100%;
+`;
 
-  &:focus {
-    outline: none;
-  }
+const AppPage = styled.div`
+  overflow-x: hidden;
+  opacity: 0;
+  grid-column: 1;
+  grid-row: 1;
+  transition: opacity 0.3s ease;
 
-  ${props => props.status === 'exiting' && css`
-    position: absolute;
-    opacity: 0;
-  `}
-
-  ${props => props.status === 'entering' && css`
-    position: absolute;
+  ${props => (props.status === 'exiting' || props.status === 'entering') && css`
     opacity: 0;
   `}
 

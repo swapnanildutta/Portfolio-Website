@@ -1,4 +1,29 @@
-import { rgba } from './StyleUtils';
+import { rgba } from './styleUtils';
+
+const fonstStack = [
+  'Gotham',
+  'system-ui',
+  '-apple-system',
+  'BlinkMacSystemFont',
+  'San Francisco',
+  'Roboto',
+  'Segoe UI',
+  'Oxygen',
+  'Ubuntu',
+  'Cantarell',
+  'Helvetica Neue',
+  'sans-serif',
+];
+
+const monoFontStack = [
+  'SFMono Regular',
+  'Roboto Mono',
+  'Consolas',
+  'Liberation Mono',
+  'Menlo',
+  'Courier',
+  'monospace',
+];
 
 const numSpacing = {
   numSpacingGutter: 20,
@@ -23,7 +48,8 @@ const spacing = {
 const base = {
   curveFastoutSlowin: 'cubic-bezier(0.4, 0.0, 0.2, 1)',
   clipPath: (size = 8) => `polygon(0 0, 100% 0, 100% calc(100% - ${size}px), calc(100% - ${size}px) 100%, 0 100%)`,
-  fontStack: `Gotham, system-ui, -apple-system, BlinkMacSystemFont, 'San Francisco', Roboto, 'Segoe UI', Oxygen, Ubuntu, Cantarell, Helvetica Neue, sans-serif`,
+  fontStack: fonstStack.join(', '),
+  monoFontStack: monoFontStack.join(', '),
   colorBlack: 'rgba(0, 0, 0, 1)',
   colorWhite: 'rgba(255, 255, 255, 1)',
   maxWidthDesktop: 1100,
@@ -40,7 +66,6 @@ const dark = {
   colorText: base.colorWhite,
   colorPrimary: 'rgba(0, 229, 255, 1)',
   colorAccent: 'rgba(0, 229, 255, 1)',
-  sphereAmbientLight: 0.1,
 };
 
 const light = {
@@ -53,7 +78,6 @@ const light = {
   colorText: rgba(base.colorBlack, 0.8),
   colorPrimary: 'rgba(0, 0, 0, 1)',
   colorAccent: 'rgba(0, 229, 255, 1)',
-  sphereAmbientLight: 0.8,
 };
 
 export const theme = { dark, light };

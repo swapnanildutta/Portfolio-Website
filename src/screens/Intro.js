@@ -1,23 +1,24 @@
 import React, { Suspense, lazy, useMemo, useContext, useEffect, useState } from 'react';
 import styled, { css, keyframes } from 'styled-components/macro';
 import { TransitionGroup, Transition } from 'react-transition-group';
-import { media, AnimFade, rgba, sectionPadding } from '../utils/StyleUtils';
+import { media, AnimFade, rgba, sectionPadding } from '../utils/styleUtils';
 import DecoderText from '../components/DecoderText';
+import Svg from '../components/Svg';
 import { AppContext } from '../app/App';
-import { useInterval, usePrevious } from '../utils/Hooks';
+import { useInterval, usePrevious, useWindowSize } from '../utils/hooks';
 
-const HomeScene = lazy(() => import('../scenes/HomeScene'));
-const LabScene = lazy(() => import('../scenes/LabScene'));
+const DisplacementSphere = lazy(() => import('../components/DisplacementSphere'));
 const prerender = navigator.userAgent === 'ReactSnap';
 
 function Intro(props) {
   const { currentTheme } = useContext(AppContext);
   const { id, sectionRef, disciplines, scrollIndicatorHidden } = props;
   const [disciplineIndex, setDisciplineIndex] = useState(0);
+  const windowSize = useWindowSize();
   const prevTheme = usePrevious(currentTheme);
-
   const introLabel = useMemo(() => [disciplines.slice(0, -1).join(', '), disciplines.slice(-1)[0]].join(', and '), [disciplines]);
   const currentDisciplines = useMemo(() => disciplines.filter((item, index) => index === disciplineIndex), [disciplineIndex, disciplines]);
+  const titleId = `${id}-title`;
 
   useInterval(() => {
     const index = (disciplineIndex + 1) % disciplines.length;
@@ -31,57 +32,66 @@ function Intro(props) {
   }, [currentTheme.id, prevTheme]);
 
   return (
-    <IntroContent ref={sectionRef} id={id}>
+    <IntroContent
+      ref={sectionRef}
+      id={id}
+      aria-labelledby={titleId}
+      tabIndex={-1}
+    >
       <Transition
         key={currentTheme.id}
         appear={!prerender}
         in={!prerender}
         timeout={3000}
+        onEnter={node => node && node.offsetHeight}
       >
         {status => (
           <React.Fragment>
             <Suspense fallback={<React.Fragment />}>
-            {disciplines[0] !== 'Lab' &&
-              <HomeScene />
-            }
-            {disciplines[0] === 'Lab' &&
-              <LabScene />
-            }
+              <DisplacementSphere />
             </Suspense>
             <IntroText>
-              <IntroName status={status}>
+              <IntroName status={status} id={titleId}>
                 <DecoderText text="Cody Bennett" start={!prerender} offset={120} />
               </IntroName>
               <IntroTitle>
-                <IntroTitleLabel>{`Student + ${introLabel}`}</IntroTitleLabel>
+                <IntroTitleLabel>{`Designer + ${introLabel}`}</IntroTitleLabel>
                 <IntroTitleRow aria-hidden prerender={prerender}>
-                  <IntroTitleWord status={status} delay="0.2s">
-                    {disciplines[0] === 'Lab' ? 'Lab' : 'Student'}
-                  </IntroTitleWord>
-                  {disciplines[0] !== 'Lab' &&
-                    <IntroTitleLine status={status} />
-                  }
+                  <IntroTitleWord status={status} delay="0.2s">Designer</IntroTitleWord>
+                  <IntroTitleLine status={status} />
                 </IntroTitleRow>
-                {disciplines[0] !== 'Lab' &&
-                  <TransitionGroup component={IntroTitleRow} prerender={prerender}>
-                    {currentDisciplines.map((item, index) => (
-                      <Transition
-                        appear
-                        timeout={{ enter: 3000, exit: 2000 }}
-                        key={`${item}_${index}`}
-                      >
-                        {status => (
-                          <IntroTitleWord plus aria-hidden delay="0.5s" status={status}>
-                            {item}
-                          </IntroTitleWord>
-                        )}
-                      </Transition>
-                    ))}
-                  </TransitionGroup>
-                }
+                <TransitionGroup component={IntroTitleRow} prerender={prerender}>
+                  {currentDisciplines.map((item, index) => (
+                    <Transition
+                      appear
+                      timeout={{ enter: 3000, exit: 2000 }}
+                      key={`${item}_${index}`}
+                      onEnter={node => node && node.offsetHeight}
+                    >
+                      {status => (
+                        <IntroTitleWord plus aria-hidden delay="0.5s" status={status}>
+                          {item}
+                        </IntroTitleWord>
+                      )}
+                    </Transition>
+                  ))}
+                </TransitionGroup>
               </IntroTitle>
             </IntroText>
-            <MemoizedScrollIndicator isHidden={scrollIndicatorHidden} status={status} />
+            {windowSize.width > media.numTablet &&
+              <MemoizedScrollIndicator
+                isHidden={scrollIndicatorHidden}
+                status={status}
+              />
+            }
+            {windowSize.width <= media.numTablet &&
+              <MemoizedMobileScrollIndicator
+                isHidden={scrollIndicatorHidden}
+                status={status}
+              >
+                <Svg icon="arrowDown" />
+              </MemoizedMobileScrollIndicator>
+            }
           </React.Fragment>
         )}
       </Transition>
@@ -95,33 +105,26 @@ const IntroContent = styled.section`
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  outline: none;
   ${sectionPadding}
-  }
 `;
 
 const IntroText = styled.header`
-  max-width: 860px;
+  max-width: 780px;
   width: 100%;
   position: relative;
   top: -20px;
-  padding: 0 ${props => props.theme.spacingOuter.desktop};
 
   @media (min-width: ${media.desktop}) {
-    padding: 0;
     max-width: 920px;
   }
 
-  @media (max-width: ${media.tablet}) {
-    padding: 0 100px;
+  @media (max-width: ${media.mobile}) {
+    top: -30px;
   }
 
-  @media (max-width: ${media.mobile}), (max-height: ${media.mobile}) {
-    padding: 0 ${props => props.theme.spacingOuter.mobile};
-    top: 0;
-  }
-
-  @media ${media.mobileLS} {
-    padding: 0 100px;
+  @media (max-width: ${media.mobileLS}) {
+    top: -16px;
   }
 `;
 
@@ -155,8 +158,7 @@ const IntroName = styled.h1`
   }
 
   @media (max-width: ${media.mobile}) {
-    margin-bottom: 25px;
-    margin-top: -30px;
+    margin-bottom: 20px;
     letter-spacing: 0.2em;
     white-space: nowrap;
     overflow: hidden;
@@ -268,7 +270,7 @@ const IntroTitleWord = styled.span`
     z-index: 0;
   `}
 
-  &:after {
+  &::after {
     content: '';
     width: 100%;
     height: 100%;
@@ -299,13 +301,13 @@ const IntroTitleWord = styled.span`
   ${props => props.delay && css`
     animation-delay: ${props.delay};
 
-    &:after {
+    &::after {
       animation-delay: ${props.delay};
     }
   `}
 
   ${props => props.plus && css`
-    &:before {
+    &::before {
       content: '+';
       margin-right: 10px;
       opacity: 0.4;
@@ -376,7 +378,7 @@ const ScrollIndicator = styled.div`
   opacity: ${props => props.status === 'entered' && !props.isHidden ? 1 : 0};
   transform: translate3d(0, ${props => props.isHidden ? '20px' : 0}, 0);
 
-  &:before {
+  &::before {
     content: '';
     height: 7px;
     width: 2px;
@@ -392,12 +394,42 @@ const ScrollIndicator = styled.div`
   @media ${media.mobileLS} {
     display: none;
   }
+`;
 
-  @media (max-width: ${media.mobile}) {
+const AnimMobileScrollIndicator = keyframes`
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+`;
+
+const MobileScrollIndicator = styled.div`
+  position: fixed;
+  bottom: 20px;
+  opacity: ${props => props.status === 'entered' && !props.isHidden ? 1 : 0};
+  transform: translate3d(0, ${props => props.isHidden ? '20px' : 0}, 0);
+  animation-name: ${AnimMobileScrollIndicator};
+  animation-duration: 1.5s;
+  animation-iteration-count: infinite;
+  transition-property: opacity, transform;
+  transition-timing-function: cubic-bezier(.8,.1,.27,1);
+  transition-duration: 0.4s;
+
+  @media ${media.mobileLS} {
     display: none;
+  }
+
+  svg {
+    stroke: ${props => rgba(props.theme.colorText, 0.5)};
   }
 `;
 
 const MemoizedScrollIndicator = React.memo(ScrollIndicator);
+const MemoizedMobileScrollIndicator = React.memo(MobileScrollIndicator);
 
 export default React.memo(Intro);

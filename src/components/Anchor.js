@@ -1,51 +1,30 @@
 import styled from 'styled-components/macro';
-import { rgba } from '../utils/StyleUtils';
+import { rgba } from '../utils/styleUtils';
+
+const lineColor = (opacity, props) => props.secondary
+  ? rgba(props.theme.colorText, opacity)
+  : rgba(props.theme.colorPrimary, opacity);
 
 const Anchor = styled.a.attrs(({ target, rel }) => ({
   rel: rel || target === '_blank' ? 'noreferrer noopener' : null,
 }))`
-  position: relative;
+  display: inline;
   text-decoration: none;
   color: ${props => props.secondary
     ? 'inherit'
     : props.theme.colorPrimary};
 
+  background:
+    linear-gradient(${props => lineColor(1, props)}, ${props => lineColor(1, props)}) no-repeat 100% 100% / 0 2px,
+    linear-gradient(${props => lineColor(0.2, props)}, ${props => lineColor(0.2, props)}) no-repeat 0 100% / 100% 2px;
+  transition: background-size 0.4s ${props => props.theme.curveFastoutSlowin};
+  padding-bottom: 2px;
+
   &:hover,
-  &:focus,
-  &:active {
-    text-decoration-color: ${props => props.secondary
-      ? rgba(props.theme.colorText, 0.6)
-      : props.theme.colorPrimary};
-    }
-
-    &::before,
-    &::after {
-      content: '';
-      position: absolute;
-      bottom: -2px;
-      right: 0;
-      left: 0;
-      height: 2px;
-    }
-
-    &::before {
-      background-color: ${props => props.secondary
-      ? rgba(props.theme.colorText, 0.2)
-      : rgba(props.theme.colorPrimary, 0.4)};
-    }
-
-    &::after {
-      background-color: ${props => props.secondary
-      ? rgba(props.theme.colorText, 1)
-      : rgba(props.theme.colorPrimary, 1)};
-      transition: transform 0.4s ${props => props.theme.curveFastoutSlowin};
-      transform: scale3d(0, 1, 1);
-      transform-origin: center right;
-    }
-
-    &:hover::after {
-      transform: scale3d(1, 1, 1);
-      transform-origin: center left;
+  &:focus {
+    background:
+      linear-gradient(${props => lineColor(1, props)}, ${props => lineColor(1, props)}) no-repeat 0 100% / 100% 2px,
+      linear-gradient(${props => lineColor(0.2, props)}, ${props => lineColor(0.2, props)}) no-repeat 0 100% / 100% 2px;
   }
 `;
 

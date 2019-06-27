@@ -1,31 +1,31 @@
 # Portfolio Website
 
-![Site preview](/preview.png)
+[![Site preview](/public/social-image.png)](https://codyb.co)
 
-A personal portfolio to showcase a few projects.
+A personal portfolio to showcase a few projects. Check out a live version of the [component design system](https://codyb.co/storybook).
 
-## Install
+## Install & run
+
+Make sure you have npm and yarn installed. Install dependencies with:
 
 ```bash
 yarn
 ```
 
-## Create Config
-
-```json
-// In src/config.json
-
-{
-  "firebase": {
-    "apiKey": "project-key",
-    "databaseURL": "https://domain.firebaseio.com",
-    "projectId": "project-id",
-  }
-}
-```
-
-## Run
+Once it's done start up a local server with:
 
 ```bash
 yarn start
+```
+
+To view the components and style guide:
+
+```bash
+yarn storybook
+```
+
+To run tests:
+
+```bash
+yarn test
 ```

@@ -1,165 +1,136 @@
 import React from 'react';
 import styled, { css } from 'styled-components/macro';
 import { Transition } from 'react-transition-group';
-import { media, rgba, sectionPadding } from '../utils/StyleUtils';
+import { media, rgba, sectionPadding } from '../utils/styleUtils';
 import { RouterButton, LinkButton } from '../components/Button';
 import ProgressiveImage from '../components/ProgressiveImage';
-import Macbook from '../assets/macbook-large.webp';
-import Phone from '../assets/phone.webp';
-import PhoneLarge from '../assets/phone-large.webp';
-import PhonePlaceholder from '../assets/phone-placeholder.png';
+import Divider from '../components/Divider';
+import { useWindowSize } from '../utils/hooks';
+import phone from '../assets/phone.png';
+import phoneLarge from '../assets/phone-large.png';
+import phonePlaceholder from '../assets/phone-placeholder.png';
 
 function ProjectItem(props) {
   const {
-    id, visible, sectionRef, index, title, description, imageSrc, imageAlt, phone,
-    imagePlaceholder, buttonText, buttonLink, buttonTo, alternate, background, customColor,
-    active, still, video, ...rest
+    id, visible, sectionRef, index, title, description, imageSrc, imageAlt, imageType,
+    imagePlaceholder, buttonText, buttonLink, buttonTo, alternate, ...rest
   } = props;
 
+  const windowSize = useWindowSize();
+  const titleId = `${id}-title`;
+  const isMobile = windowSize.width <= media.numTablet;
+
+  const renderDetails = (status) => (
+    <ProjectItemDetails>
+      <ProjectItemIndex aria-hidden>
+        <Divider
+          notchWidth="64px"
+          notchHeight="8px"
+          collapsed={status !== 'entered'}
+          collapseDelay={1000}
+        />
+        <ProjectItemIndexNumber status={status}>{index}</ProjectItemIndexNumber>
+      </ProjectItemIndex>
+      <ProjectItemTitle id={titleId} status={status}>{title}</ProjectItemTitle>
+      <ProjectItemDescription status={status}>{description}</ProjectItemDescription>
+      <ProjectItemButton status={status}>
+        {buttonLink &&
+          <LinkButton
+            iconHoverShift
+            href={buttonLink}
+            target="_blank"
+            iconRight="arrowRight"
+          >
+            {buttonText}
+          </LinkButton>
+        }
+        {buttonTo &&
+          <RouterButton
+            iconHoverShift
+            to={buttonTo}
+            iconRight="arrowRight"
+          >
+            {buttonText}
+          </RouterButton>
+        }
+      </ProjectItemButton>
+    </ProjectItemDetails>
+  );
+
+  const renderPreview = (status) => (
+    <ProjectItemPreview>
+      {imageType === 'laptop' &&
+        <ProjectItemPreviewContentLaptop>
+          <ProjectItemImageLaptop
+            status={status}
+            srcSet={imageSrc[0]}
+            alt={imageAlt[0]}
+            placeholder={imagePlaceholder[0]}
+            sizes={`(max-width: ${media.mobile}) 300px,(max-width: ${media.tablet}) 420px,(max-width: ${media.desktop}) 860px, 900px`}
+          />
+        </ProjectItemPreviewContentLaptop>
+      }
+      {imageType === 'phone' &&
+        <ProjectItemPreviewContentPhone>
+          {imageSrc && imageSrc.map((src, index) => (
+            <ProjectItemPhone first={index === 0} status={status} key={`img_${index}`}>
+              <ProjectItemPhoneFrame
+                srcSet={`${phone} 414w, ${phoneLarge} 828w`}
+                sizes={`(max-width: ${media.tablet}) 248px, 414px`}
+                alt=""
+                role="presentation"
+                placeholder={phonePlaceholder}
+              />
+              <ProjectItemPhoneImage
+                srcSet={imageSrc[index]}
+                alt={imageAlt[index]}
+                placeholder={imagePlaceholder[index]}
+                sizes={`(max-width: ${media.tablet}) 152px, 254px`}
+              />
+            </ProjectItemPhone>
+          ))}
+        </ProjectItemPreviewContentPhone>
+      }
+    </ProjectItemPreview>
+  );
+
   return (
-    <React.Fragment>
-      {background &&
-        <Transition in={visible} timeout={0}>
+    <ProjectItemSection
+      aria-labelledby={titleId}
+      index={index}
+      ref={sectionRef}
+      id={id}
+      alternate={alternate}
+      tabIndex={-1}
+      {...rest}
+    >
+      <ProjectItemContent>
+        <Transition
+          in={visible}
+          timeout={0}
+          onEnter={node => node && node.offsetHeight}
+        >
           {status => (
-            <ProjectWrapper visible={visible} active={active} background={background} customColor={customColor} status={status}>
-              <ProjectBackground status={status}></ProjectBackground>
-            </ProjectWrapper>
+            <React.Fragment>
+              {!alternate && !isMobile &&
+                <React.Fragment>
+                  {renderDetails(status)}
+                  {renderPreview(status)}
+                </React.Fragment>
+              }
+              {(alternate || isMobile) &&
+                <React.Fragment>
+                  {renderPreview(status)}
+                  {renderDetails(status)}
+                </React.Fragment>
+              }
+            </React.Fragment>
           )}
         </Transition>
-      }
-      <Transition in={visible} timeout={0}>
-        {status => (
-          <ProjectItemSection
-            aria-labelledby={`${id}-title`}
-            index={index}
-            ref={sectionRef}
-            status={status}
-            id={id}
-            alternate={alternate}
-            {...rest}
-          >
-            <ProjectItemContent>
-              <Transition in={visible} timeout={0}>
-                {status => (
-                  <React.Fragment>
-                    <ProjectItemDetails>
-                      <ProjectItemIndex status={status} customColor={customColor} aria-hidden>
-                        <ProjectItemIndexNumber status={status} customColor={customColor}>{index}</ProjectItemIndexNumber>
-                      </ProjectItemIndex>
-                      <ProjectItemTitle id={`${id}-title`} status={status}>{title}</ProjectItemTitle>
-                      <ProjectItemDescription status={status}>{description}</ProjectItemDescription>
-                      <ProjectItemButton status={status} customColor={customColor}>
-                        {buttonLink ?
-                          <LinkButton
-                            href={buttonLink}
-                            target="_blank"
-                            iconRight="arrowRight"
-                            customColor={customColor}
-                          >
-                            {buttonText}
-                          </LinkButton>
-                          : <RouterButton to={buttonTo} iconRight="arrowRight" customColor={customColor}>{buttonText}</RouterButton>
-                        }
-                      </ProjectItemButton>
-                    </ProjectItemDetails>
-                    <ProjectItemPreview>
-                      {!phone &&
-                        <ProjectItemPreviewContentLaptop>
-                          {!video &&
-                            <ProjectItemImageLaptop
-                              status={status}
-                              srcSet={still ? null : imageSrc[0]}
-                              alt={still ? null : imageAlt[0]}
-                              placeholder={still ? null : imagePlaceholder[0]}
-                              still={still}
-                              sizes={`(max-width: ${media.mobile}) 300px,(max-width: ${media.tablet}) 420px,(max-width: ${media.desktop}) 860px, 900px`}
-                            />
-                          }
-                          {video && !still &&
-                            <ProjectItemVideoLaptop
-                              autoPlay
-                              muted
-                              loop
-                              playsInline
-                              status={status}
-                              poster={imagePlaceholder[0]}
-                            >
-                              <source src={imageSrc[0]} type="video/mp4" />
-                            </ProjectItemVideoLaptop>
-                          }
-                        </ProjectItemPreviewContentLaptop>
-                      }
-                      {phone &&
-                        <ProjectItemPreviewContentPhone>
-                          {imageSrc && imageSrc.map((src, index) => (
-                            <ProjectItemPhone first={index === 0} status={status} key={`img_${index}`}>
-                              <ProjectItemPhoneFrame
-                                srcSet={`${Phone} 414w, ${PhoneLarge} 828w`}
-                                sizes={`(max-width: ${media.tablet}) 248px, 414px`}
-                                alt=""
-                                role="presentation"
-                                placeholder={PhonePlaceholder}
-                              />
-                              <ProjectItemPhoneImage
-                                srcSet={imageSrc[index]}
-                                alt={imageAlt[index]}
-                                placeholder={imagePlaceholder[index]}
-                                sizes={`(max-width: ${media.tablet}) 152px, 254px`}
-                              />
-                            </ProjectItemPhone>
-                          ))}
-                        </ProjectItemPreviewContentPhone>
-                      }
-                    </ProjectItemPreview>
-                  </React.Fragment>
-                )}
-              </Transition>
-            </ProjectItemContent>
-          </ProjectItemSection>
-        )}
-      </Transition>
-    </React.Fragment>
+      </ProjectItemContent>
+    </ProjectItemSection>
   );
 };
-
-const ProjectWrapper = styled.div`
-  position: absolute;
-  min-height: 100vh;
-  height: 100vh;
-  width: 100vw;
-  overflow: hidden;
-  opacity: 0;
-  transition-property: background, opacity;
-  transition-timing-function: ${props => props.theme.curveFastoutSlowin};
-  transition-duration: 1s;
-  transition-delay: 0.4s;
-  transform-origin: top;
-
-  ${props => props.status === 'entered' && props.visible && css`
-    background: url(${props => props.active ? props.background : 'transparent'});
-    background-attachment: fixed;
-    background-size: cover;
-    opacity: ${props => props.active ? 1 : 0};
-  `}
-`;
-
-const ProjectBackground = styled.div`
-  position: absolute;
-  min-height: 100vh;
-  height: 100vh;
-  width: 100vw;
-  opacity: 0;
-  background-color: transparent;
-  transition-property: background-color, opacity;
-  transition-timing-function: ${props => props.theme.curveFastoutSlowin};
-  transition-duration: 1.1s;
-  transition-delay: 0.3s;
-
-  ${props => props.status === 'entered' && css`
-    background-color: rgba(${props => props.theme.id === 'dark' ? '0, 0, 0' : '242, 242, 242'}, 0.4);
-    opacity: 1;
-  `}
-`;
 
 const ProjectItemContent = styled.div`
   width: 100%;
@@ -207,31 +178,29 @@ const ProjectItemSection = styled.section`
   padding-right: 80px;
   padding-bottom: 40px;
   padding-left: 220px;
-  padding-top: ${props => props.index === '01' ? '0' : '120px'};
-  padding-bottom: 120px;
+  margin-top: ${props => props.index === '01' ? '0' : '120px'};
+  margin-bottom: 120px;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
+  outline: none;
   ${sectionPadding}
 
-  &:focus {
-    outline: none;
-  }
-
   @media (min-width: ${media.desktop}) {
-    padding-top: 0;
-    padding-bottom: 0;
+    margin-bottom: 0;
+    margin-top: 0;
   }
 
   @media (max-width: ${media.tablet}) {
-    padding-top: ${props => props.index === '01' ? '0' : '60px'};
-    padding-bottom: 60px;
     height: auto;
+    margin-top: ${props => props.index === '01' ? '0' : '60px'};
+    margin-bottom: 60px;
   }
 
   @media (max-width: ${media.mobile}) {
     padding-bottom: 100px;
+    margin-bottom: 0;
     overflow-x: hidden;
   }
 
@@ -241,16 +210,6 @@ const ProjectItemSection = styled.section`
 
       @media (max-width: ${media.tablet}) {
         grid-template-columns: 100%;
-      }
-    }
-
-    ${ProjectItemDetails} {
-      grid-column: 2;
-      grid-row: 1;
-
-      @media (max-width: ${media.tablet}) {
-        grid-column: 1;
-        grid-row: 2;
       }
     }
   `}
@@ -289,38 +248,17 @@ const ProjectItemPreviewContentLaptop = styled.div`
 
 const ProjectItemIndex = styled.div`
   position: relative;
-  display: flex;
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  grid-gap: 12px;
   align-items: center;
   margin-bottom: 32px;
-
-  &:before {
-    content: '';
-    position: relative;
-    display: block;
-    height: 2px;
-    top: -1px;
-    background: ${props => props.customColor ? props.customColor : props.theme.colorPrimary};
-    width: 96px;
-    margin-right: 15px;
-    transition-property: transform, opacity;
-    transition-timing-function: ${props => props.theme.curveFastoutSlowin};
-    transition-duration: 0.4s;
-    transition-delay: 1s;
-    transform: scale3d(0, 1, 1);
-    transform-origin: left;
-  }
-
-  ${props => props.status === 'entered' && css`
-    &:before {
-      transform: scale3d(1, 1, 1);
-    }
-  `}
 `;
 
 const ProjectItemIndexNumber = styled.span`
   font-size: 16px;
   font-weight: 500;
-  color: ${props => props.customColor ? props.customColor : props.theme.colorPrimary};
+  color: ${props => props.theme.colorPrimary};
   transform: translateX(-10px);
   opacity: 0;
   transition-property: transform, opacity;
@@ -403,8 +341,6 @@ const ProjectItemButton = styled.div`
 const ProjectItemImageLaptop = styled(ProgressiveImage)`
   width: 862px;
   height: 531px;
-  right: -140px;
-  padding: 5.5% 10.9% 7.3% 11.4%;
   transition-property: transform, opacity;
   transition-duration: 1s;
   transition-delay: 0.4s;
@@ -412,6 +348,7 @@ const ProjectItemImageLaptop = styled(ProgressiveImage)`
   transform: translate3d(40px, 0, 0);
   opacity: 0;
   position: relative;
+  right: -140px;
 
   ${props => props.status === 'entered' && css`
     transform: translate3d(0, 0, 0);
@@ -444,68 +381,6 @@ const ProjectItemImageLaptop = styled(ProgressiveImage)`
     height: 206px;
     margin-bottom: 60px;
   }
-
-  background-image: url(${props => props.still ? props.still : Macbook});
-  background-size: cover;
-
-  ${props => props.still && css`
-    img {
-      display: none;
-    }
-  `}
-`;
-
-const ProjectItemVideoLaptop = styled.video`
-  width: 862px;
-  height: 531px;
-  right: -140px;
-  padding: 5.5% 10.9% 7.3% 11.4%;
-  transition-property: transform, opacity;
-  transition-duration: 1s;
-  transition-delay: 0.4s;
-  transition-timing-function: ${props => props.theme.curveFastoutSlowin};
-  transform: translate3d(40px, 0, 0);
-  opacity: 0;
-  position: relative;
-  object-fit: cover;
-  outline: 0;
-  border: none;
-  -moz-outline-style: none;
-
-  ${props => props.status === 'entered' && css`
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-  `}
-
-  ${props => props.theme.id === 'light' && css`
-    z-index: 1;
-  `}
-
-  @media(min-width: 1440px) {
-    width: 880px;
-    height: 542px;
-  }
-
-  @media(max-width: 1245px) {
-    width: 761px;
-    height: 491px;
-  }
-
-  @media (max-width: ${media.tablet}) {
-    width: 420px;
-    height: 258px;
-    margin-bottom: 120px;
-    right: 0;
-  }
-
-  @media (max-width: ${media.mobile}) {
-    width: 336px;
-    height: 206px;
-    margin-bottom: 60px;
-  }
-
-  background-image: url(${props => props.still ? props.still : Macbook});
-  background-size: cover;
 `;
 
 const ProjectItemPhone = styled.div`

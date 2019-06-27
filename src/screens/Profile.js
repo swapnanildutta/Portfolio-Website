@@ -1,18 +1,20 @@
 import React from 'react';
 import styled, { css } from 'styled-components/macro';
 import { Transition } from 'react-transition-group';
+import { Link } from 'react-router-dom';
 import Anchor from '../components/Anchor';
 import { RouterButton } from '../components/Button';
 import DecoderText from '../components/DecoderText';
+import Divider from '../components/Divider';
 import ProgressiveImage from '../components/ProgressiveImage';
-import ProfileImg from '../assets/profile.webp';
-import ProfileImgLarge from '../assets/profile-large.webp';
-import ProfileImgPlaceholder from '../assets/profile-placeholder.png';
-import { media, sectionPadding } from '../utils/StyleUtils';
+import ProfileImg from '../assets/profile.jpg';
+import ProfileImgLarge from '../assets/profile-large.jpg';
+import ProfileImgPlaceholder from '../assets/profile-placeholder.jpg';
+import { media, sectionPadding } from '../utils/styleUtils';
 
-const ProfileText = ({ status }) => (
+const ProfileText = ({ status, titleId }) => (
   <React.Fragment>
-    <ProfileTitle status={status} id="profileTitle">
+    <ProfileTitle status={status} id={titleId}>
       <DecoderText
         text="Hi"
         start={status !== 'exited'}
@@ -20,24 +22,34 @@ const ProfileText = ({ status }) => (
       />
     </ProfileTitle>
     <ProfileDescription status={status}>
-      I’m a student developer based in Austin. I create compelling designs that I bring to life with the web's coolest technologies that look perfect on every screen.
+      I’m Cody. I create compelling designs that I bring to life with the web's coolest technologies that look perfect on every screen.
     </ProfileDescription>
     <ProfileDescription status={status}>
-      In my free time, I like to create and play video games, play Magic: The Gathering, and <Anchor href="/lab">experiment with new tech</Anchor>. I’m always interested in new projects, so feel free to drop me a line.
+      In my spare time, I like to create and play video games, play Magic: The Gathering, and <Anchor as={Link} to="/lab">experiment with new tech</Anchor>. I’m always interested in new projects, so feel free to drop me a line.
     </ProfileDescription>
   </React.Fragment>
 );
 
 function Profile(props) {
   const { id, visible, sectionRef } = props;
+  const titleId = `${id}-title`;
 
   return (
-    <ProfileSection id={id} ref={sectionRef} aria-labelledby="profileTitle">
-      <Transition in={visible} timeout={0}>
+    <ProfileSection
+      id={id}
+      ref={sectionRef}
+      aria-labelledby={titleId}
+      tabIndex={-1}
+    >
+      <Transition
+        in={visible}
+        timeout={0}
+        onEnter={node => node && node.offsetHeight}
+      >
         {status => (
           <ProfileContent>
             <ProfileColumn>
-              <ProfileText status={status} />
+              <ProfileText status={status} titleId={titleId} />
               <ProfileButton
                 secondary
                 status={status}
@@ -48,7 +60,13 @@ function Profile(props) {
               </ProfileButton>
             </ProfileColumn>
             <ProfileColumn>
-              <ProfileTag status={status} aria-hidden>
+              <ProfileTag aria-hidden>
+                <Divider
+                  notchWidth="64px"
+                  notchHeight="8px"
+                  collapsed={status !== 'entered'}
+                  collapseDelay={1000}
+                />
                 <ProfileTagText status={status}>About Me</ProfileTagText>
               </ProfileTag>
               <ProfileImage
@@ -58,7 +76,7 @@ function Profile(props) {
                 placeholder={ProfileImgPlaceholder}
                 srcSet={`${ProfileImg} 480w, ${ProfileImgLarge} 960w`}
                 sizes={`(max-width: ${media.mobile}) 100vw, 480px`}
-                alt=""
+                alt="Me at the Torii (gate) on Miyajima, an island off the coast of Hiroshima in Japan"
               />
             </ProfileColumn>
           </ProfileContent>
@@ -186,22 +204,10 @@ const ProfileDescription = styled.p`
 const ProfileTag = styled.div`
   margin-top: 220px;
   margin-bottom: 40px;
-  display: flex;
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  grid-gap: 12px;
   align-items: center;
-
-  &:before {
-    content: '';
-    position: relative;
-    display: block;
-    height: 2px;
-    top: -1px;
-    background: ${props => props.theme.colorPrimary};
-    width: 96px;
-    margin-right: 15px;
-    transition: transform 0.4s ${props => props.theme.curveFastoutSlowin} 1s;
-    transform: scale3d(${props => props.status === 'entered' ? 1 : 0}, 1, 1);
-    transform-origin: left;
-  }
 
   @media (max-width: ${media.tablet}) {
     margin-top: 30px;

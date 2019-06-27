@@ -1,9 +1,26 @@
 import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components/macro';
-import { usePrefersReducedMotion } from '../utils/Hooks';
+import { usePrefersReducedMotion } from '../utils/hooks';
 
 const chars = [
-  'A', 'a', 'B', 'b', 'C', 'c', 'D', 'd', 'E', 'e', 'F', 'f', 'G', 'g', 'H', 'h', 'I', 'i', 'J', 'j', 'K', 'k', 'L', 'l', 'M', 'm', 'N', 'n', 'O', 'o', 'P', 'p', 'Q', 'q', 'R', 'r', 'S', 's', 'T', 't', 'U', 'u', 'V', 'v', 'W', 'w', 'X', 'x', 'Y', 'y', 'Z', 'z',
+  'A', 'a', 'B', 'b', 'C', 'c', 'D', 'd',
+  'E', 'e', 'F', 'f', 'G', 'g', 'H', 'h',
+  'I', 'i', 'J', 'j', 'K', 'k', 'L', 'l',
+  'M', 'm', 'N', 'n', 'O', 'o', 'P', 'p',
+  'Q', 'q', 'R', 'r', 'S', 's', 'T', 't',
+  'U', 'u', 'V', 'v', 'W', 'w', 'X', 'x',
+  'Y', 'y', 'Z', 'z',
+];
+
+const japaneseFonts = [
+  'ヒラギノ角ゴ Pro W3',
+  'Hiragino Kaku Gothic Pro',
+  'Hiragino Sans',
+  'Osaka',
+  'メイリオ',
+  'Meiryo',
+  'Segoe UI',
+  'sans-serif',
 ];
 
 function shuffle(content, chars, position) {
@@ -18,7 +35,7 @@ function shuffle(content, chars, position) {
 };
 
 function DecoderText(props) {
-  const { text, start, offset = 100, delay = 300, fps = 24, ...rest } = props;
+  const { text, start, offset, delay, fps, ...rest } = props;
   const [position, setPosition] = useState(0);
   const [started, setStarted] = useState(false);
   const [output, setOutput] = useState([{ type: 'code', value: '' }]);
@@ -78,32 +95,45 @@ function DecoderText(props) {
   }, [fps, offset, position, started]);
 
   return (
-    <span {...rest}>
-      <DecoderLabel>{text}</DecoderLabel>
+    <DecoderWrapper className="decoder-text" {...rest}>
+      <span className="decoder-text__label">{text}</span>
       {output.map((item, index) => item.type === 'actual'
-        ? <span aria-hidden key={`${item.value}-${index}`}>{item.value}</span>
-        : <DecoderCode aria-hidden key={`${item.value}-${index}`}>{item.value}</DecoderCode>
+        ? <span aria-hidden className="decoder-text__value" key={`${item.value}-${index}`}>{item.value}</span>
+        : <span aria-hidden className="decoder-text__code" key={`${item.value}-${index}`}>{item.value}</span>
       )}
-    </span>
+    </DecoderWrapper>
   );
 };
 
-const DecoderLabel = styled.span`
-  border: 0;
-  clip: rect(0 0 0 0);
-  height: 1px;
-  width: 1px;
-  margin: -1px;
-  padding: 0;
-  overflow: hidden;
-  position: absolute;
-`;
+DecoderText.defaultProps = {
+  offset: 100,
+  delay: 300,
+  fps: 24,
+};
 
-const DecoderCode = styled.span`
-  opacity: 0.8;
-  font-weight: 400;
-  font-family: 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'Hiragino Sans', Osaka, 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif;
-  line-height: 0;
+const DecoderWrapper = styled.span`
+  &::after {
+    content: '_';
+    visibility: hidden;
+  }
+
+  .decoder-text__label {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    width: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    position: absolute;
+  }
+
+  .decoder-text__code {
+    opacity: 0.8;
+    font-weight: 400;
+    font-family: ${japaneseFonts.join(', ')};
+    line-height: 0;
+  }
 `;
 
 export default React.memo(DecoderText);

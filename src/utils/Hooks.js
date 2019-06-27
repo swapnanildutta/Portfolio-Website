@@ -1,16 +1,30 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState, useCallback, useContext } from 'react';
+import { AppContext } from '../app/App';
 
-export function useScrollToTop(status) {
-  const prevStatus = useRef();
+let id = 0;
+const genId = () => ++id;
+
+export const useId = () => {
+  const [id, setId] = useState(null);
+  useEffect(() => setId(genId()), []);
+  return id;
+};
+
+export function useScrollToTop() {
+  const { status } = useContext(AppContext);
+  const prevStatus = usePrevious(status);
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
-    if (prevStatus.current === 'entering' && status === 'entered') {
+    const hasEntered = prevStatus === 'entering' && status === 'entered';
+    const hasEnteredReducedMotion = prefersReducedMotion && status === 'entered';
+
+    if (hasEntered || hasEnteredReducedMotion) {
       window.scrollTo(0, 0);
       document.getElementById('MainContent').focus();
     };
 
-    prevStatus.current = status;
-  }, [status]);
+  }, [prefersReducedMotion, prevStatus, status]);
 }
 
 export function useFormInput(initialValue) {
@@ -108,14 +122,14 @@ export function useLocalStorage(key, initialValue) {
 
 export function usePrefersReducedMotion() {
   const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(mediaQuery.matches);
+  const [reducedMotion, setReducedMotion] = useState(mediaQuery.matches);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 
     const handleMediaChange = () => {
       if (mediaQuery.matches) {
-        setPrefersReducedMotion(true);
+        setReducedMotion(true);
       }
     };
 
@@ -126,5 +140,5 @@ export function usePrefersReducedMotion() {
     };
   }, []);
 
-  return prefersReducedMotion;
+  return reducedMotion;
 }

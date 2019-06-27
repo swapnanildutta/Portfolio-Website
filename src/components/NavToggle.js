@@ -1,10 +1,17 @@
 import React from 'react';
 import styled, { css } from 'styled-components/macro';
-import Icon from '../utils/Icon';
-import { media, rgba } from '../utils/StyleUtils';
+import Icon from './Icon';
+import { Button } from '../components/Button';
+import { media } from '../utils/styleUtils';
 
 const NavToggle = ({ onClick, menuOpen, ...rest }) => (
-  <NavToggleButton aria-label="Menu" aria-expanded={menuOpen} onClick={onClick} {...rest}>
+  <NavToggleButton
+    iconOnly
+    aria-label="Menu"
+    aria-expanded={menuOpen}
+    onClick={onClick}
+    {...rest}
+  >
     <NavToggleInner>
       <NavToggleIcon open={menuOpen} icon="menu" size={32} color="white" />
       <NavToggleIcon open={menuOpen} icon="close" size={32} color="white" />
@@ -12,30 +19,17 @@ const NavToggle = ({ onClick, menuOpen, ...rest }) => (
   </NavToggleButton>
 );
 
-const NavToggleButton = styled.button`
-  background: none;
-  border: 0;
-  padding: 0;
-  margin: 0;
+const NavToggleButton = styled(Button)`
   position: fixed;
   top: ${props => props.theme.spacingOuter.mobile};
   right: ${props => props.theme.spacingOuter.mobile};
-  display: none;
   width: 48px;
   height: 48px;
-  transition: background 0.4s ease;
   z-index: 1024;
-  clip-path: ${props => props.theme.clipPath(8)};
-
-  &:hover,
-  &:focus,
-  &:active {
-    background: ${props => rgba(props.theme.colorText, 0.1)};
-    outline: none;
-  }
+  display: none;
 
   @media (max-width: ${media.mobile}), (max-height: ${media.mobile}) {
-    display: block;
+    display: flex;
   }
 `;
 

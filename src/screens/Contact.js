@@ -1,30 +1,38 @@
-import React, { useState, useContext, useEffect, useCallback } from 'react';
+import React, { useState, useContext, useCallback } from 'react';
 import styled, { css } from 'styled-components/macro';
 import { TransitionGroup, Transition } from 'react-transition-group';
 import { Helmet } from 'react-helmet-async';
 import { AppContext } from '../app/App';
 import Input from '../components/Input';
 import DecoderText from '../components/DecoderText';
+import Divider from '../components/Divider';
 import { Button, RouterButton } from '../components/Button';
-import { media, AnimFade } from '../utils/StyleUtils';
-import { useScrollToTop, useFormInput } from '../utils/Hooks';
+import { media, AnimFade, sectionPadding } from '../utils/styleUtils';
+import { useScrollToTop, useFormInput } from '../utils/hooks';
 
-const sendMessageUrl = 'https://us-central1-portfolio-4e46f.cloudfunctions.net/app/sendMessage';
 const prerender = navigator.userAgent === 'ReactSnap';
 const initDelay = 300;
 
+function getStatusError(status) {
+  if (status === 200) return false;
+
+  const genericErrorMessage = 'There was a problem sending your message';
+
+  const statuses = {
+    500: 'There was a problem with the server, try again later',
+    404: 'There was a problem connecting to the server. Make sure you are connected to the internet',
+  };
+
+  return statuses[status] || genericErrorMessage;
+}
+
 function Contact() {
-  const { status, updateTheme } = useContext(AppContext);
+  const { status } = useContext(AppContext);
   const email = useFormInput('');
   const message = useFormInput('');
   const [sending, setSending] = useState(false);
   const [complete, setComplete] = useState(false);
-  useScrollToTop(status);
-  useEffect(() => {
-    if ((status === 'entered' || status === 'exiting')) {
-      updateTheme();
-    }
-  }, [updateTheme, status]);
+  useScrollToTop();
 
   const onSubmit = useCallback(async event => {
     event.preventDefault();
@@ -33,7 +41,7 @@ function Contact() {
     try {
       setSending(true);
 
-      const response = await fetch(sendMessageUrl, {
+      const response = await fetch('/functions/sendMessage', {
         method: 'POST',
         mode: 'cors',
         headers: {
@@ -45,9 +53,8 @@ function Contact() {
         }),
       });
 
-      if (response.status !== 200) {
-        throw new Error(`Fetch failed, status: ${response.status}`);
-      }
+      const errorStatus = getStatusError(response.status);
+      if (errorStatus) throw new Error(errorStatus);
 
       setComplete(true);
       setSending(false);
@@ -68,7 +75,13 @@ function Contact() {
       />
       <TransitionGroup component={React.Fragment}>
         {!complete &&
-          <Transition appear mountOnEnter unmountOnExit timeout={1600}>
+          <Transition
+            appear
+            mountOnEnter
+            unmountOnExit
+            timeout={1600}
+            onEnter={node => node && node.offsetHeight}
+          >
             {status => (
               <ContactForm method="post" onSubmit={onSubmit} role="form">
                 <ContactTitle status={status} delay={50}>
@@ -79,53 +92,59 @@ function Contact() {
                   />
                 </ContactTitle>
                 <ContactDivider status={status} delay={100} />
-                <ContactInput
-                  {...email}
-                  status={status}
-                  delay={200}
-                  autoComplete="email"
-                  label="Your Email"
-                  type="email"
-                  maxLength={320}
-                  required
-                />
-                <ContactInput
-                  {...message}
-                  status={status}
-                  delay={300}
-                  autoComplete="off"
-                  label="Message"
-                  maxLength={2000}
-                  required
-                  multiline
-                />
-                <ContactButton
-                  disabled={sending}
-                  sending={sending}
-                  loading={sending}
-                  status={status}
-                  delay={400}
-                  icon="send"
-                  type="submit"
-                >
-                  Send Message
-                </ContactButton>
+                <ContactFields>
+                  <ContactInput
+                    {...email}
+                    status={status}
+                    delay={200}
+                    autoComplete="email"
+                    label="Your Email"
+                    type="email"
+                    maxLength={320}
+                    required
+                  />
+                  <ContactInput
+                    {...message}
+                    status={status}
+                    delay={300}
+                    autoComplete="off"
+                    label="Message"
+                    maxLength={5000}
+                    required
+                    multiline
+                  />
+                  <ContactButton
+                    disabled={sending}
+                    sending={sending}
+                    loading={sending}
+                    loadingText="Sending..."
+                    status={status}
+                    delay={400}
+                    icon="send"
+                    type="submit"
+                  >
+                    Send Message
+                  </ContactButton>
+                </ContactFields>
               </ContactForm>
             )}
           </Transition>
         }
         {complete &&
-          <Transition appear timeout={10} mountOnEnter unmountOnExit>
+          <Transition
+            appear
+            mountOnEnter
+            unmountOnExit
+            timeout={10}
+            onEnter={node => node && node.offsetHeight}
+          >
             {status => (
-              <ContactComplete>
-                <ContactCompleteTitle
-                  status={status}
-                  delay={10}
-                >
+              <ContactComplete aria-live="polite">
+                <ContactCompleteTitle status={status} delay={10}>
                   Message Sent
                 </ContactCompleteTitle>
                 <ContactCompleteText status={status} delay={200}>
-                  I’ll get back to you within a couple days
+                  I’ll get back to you within a couple days, sit tight
                 </ContactCompleteText>
                 <ContactCompleteButton
                   secondary
@@ -141,8 +160,6 @@ function Contact() {
           </Transition>
         }
       </TransitionGroup>
-      <ContactMeta>
-      </ContactMeta>
     </ContactWrapper>
   );
 }
@@ -154,19 +171,7 @@ const ContactWrapper = styled.section`
   justify-content: center;
   min-height: 100vh;
   width: 100%;
-  padding-left: 80px;
-
-  @media (max-width: ${media.tablet}) {
-    padding-left: 60px;
-  }
-
-  @media (max-width: ${media.mobile}) {
-    padding-left: 0;
-  }
-
-  @media (max-width: ${media.mobile}), (max-height: ${media.mobile}) {
-    padding-left: 0;
-  }
+  ${sectionPadding}
 
   ${props => (props.status === 'entered' || props.status === 'exiting') && css`
     position: relative;
@@ -176,12 +181,18 @@ const ContactWrapper = styled.section`
 const ContactForm = styled.form`
   max-width: 440px;
   width: 100%;
-  padding: 40px 20px;
+  padding: 40px 0;
 
   @media (max-width: ${media.mobile}) {
-    padding: 120px 20px 40px;
+    padding: 120px 0 40px;
     align-self: flex-start;
   }
+`;
+
+const ContactFields = styled.div`
+  display: grid;
+  grid-template-columns: 100%;
+  grid-gap: 32px;
 `;
 
 const ContactTitle = styled.h1`
@@ -213,36 +224,14 @@ const ContactTitle = styled.h1`
   `}
 `;
 
-const ContactDivider = styled.div`
-  margin-bottom: 70px;
-  width: 100%;
-  height: 1px;
-  background: ${props => props.theme.colorPrimary};
-  position: relative;
+const ContactDivider = styled(Divider)`
+  margin-bottom: 62px;
   transition-property: transform, opacity;
   transition-timing-function: ${props => props.theme.curveFastoutSlowin};
   transition-duration: 0.8s;
   transition-delay: ${props => props.delay + initDelay}ms;
   transform: translate3d(0, 90px, 0);
   opacity: 0;
-
-  &:before {
-    content: '';
-    height: 10px;
-    width: 90px;
-    background: ${props => props.theme.colorPrimary};
-    position: absolute;
-    bottom: 0;
-    transform: translateY(100%);
-    clip-path: polygon(
-      0 0,
-      100% 0,
-      100% calc(100% - 10px),
-      calc(100% - 10px) 100%,
-      10px 100%,
-      0 0
-    );
-  }
 
   ${props => (props.status === 'entering' ||
     props.status === 'entered') && !prerender && css`
@@ -259,8 +248,6 @@ const ContactDivider = styled.div`
 `;
 
 const ContactInput = styled(Input)`
-  margin-top: 16px;
-  margin-bottom: 40px;
   transition-property: transform, opacity;
   transition-timing-function: ${props => props.theme.curveFastoutSlowin};
   transition-duration: 0.8s;
@@ -283,13 +270,14 @@ const ContactInput = styled(Input)`
 `;
 
 const ContactButton = styled(Button)`
-  margin-top: 20px;
+  margin-top: 28px;
   transition-property: transform, opacity;
   transition-timing-function: ${props => props.theme.curveFastoutSlowin};
   transition-delay: ${props => props.status === 'entered' ? '0ms' : `${props.delay + initDelay}ms`};
   transition-duration: ${props => props.status === 'entered' ? '0.4s' : '0.8s'};
   transform: translate3d(0, 80px, 0);
   opacity: 0;
+  justify-self: flex-start;
 
   ${props => props.sending && css`
     svg {
@@ -299,13 +287,12 @@ const ContactButton = styled(Button)`
     }
 
     div {
-      opacity: 0;
-    }
-  `}
-
-  ${props => props.sending && css`
-   div {
       animation: ${AnimFade} 0.5s ease 0.6s forwards;
+      opacity: 0;
+
+      @media (prefers-reduced-motion: reduce) {
+        opacity: 1;
+      }
     }
   `}
 
@@ -334,7 +321,7 @@ const ContactComplete = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 30px;
+  padding: 30px 0;
   position: fixed;
   top: 0;
   right: 0;
@@ -390,28 +377,6 @@ const ContactCompleteButton = styled(RouterButton)`
     transform: translate3d(0, 0, 0);
     opacity: 1;
   `}
-`;
-
-const ContactMeta = styled.div`
-  position: fixed;
-  right: ${props => props.theme.spacingOuter.desktop};
-  bottom: ${props => props.theme.spacingOuter.desktop};
-  transform: rotate(-90deg) translate3d(100%, 0, 0);
-  transform-origin: bottom right;
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  opacity: 0;
-  animation: ${css`${AnimFade}`} 0.8s ease 1s forwards;
-
-  @media (max-width: ${media.tablet}) {
-    right: ${props => props.theme.spacingOuter.tablet};
-    bottom: ${props => props.theme.spacingOuter.tablet};
-  }
-
-  @media (max-width: ${media.mobile}) {
-    display: none;
-  }
 `;
 
 export default React.memo(Contact);

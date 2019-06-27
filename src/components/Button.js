@@ -1,43 +1,76 @@
-import React, { useContext } from 'react';
-import styled, { css } from 'styled-components/macro';
+import React from 'react';
+import styled, { css, withTheme } from 'styled-components/macro';
 import { Link } from 'react-router-dom';
 import Loader from '../components/Loader';
-import Icon from '../utils/Icon';
-import { tint, rgba } from '../utils/StyleUtils';
-import { AppContext } from '../app/App';
+import Icon from './Icon';
+import { rgba } from '../utils/styleUtils';
 
-const ButtonContent = React.memo(props => {
-  const { currentTheme } = useContext(AppContext);
-  const { iconRight, icon, children, secondary, loading } = props;
+const ButtonContent = withTheme(props => {
+  const {
+    iconRight,
+    icon,
+    children,
+    secondary,
+    iconOnly,
+    loading,
+    loadingText,
+    iconHoverShift,
+    theme,
+  } = props;
 
   return (
     <React.Fragment>
-      {icon && <ButtonIcon loading={loading} left icon={icon} secondary={secondary} />}
-      <ButtonText loading={loading} secondary={secondary}>
-        {children}
-      </ButtonText>
-      {iconRight && <ButtonIcon loading={loading} icon={iconRight} secondary={secondary} />}
-      {loading && <ButtonLoader size="24" color={currentTheme.colorBackground} />}
+      {icon &&
+        <ButtonIcon
+          left
+          loading={loading}
+          secondary={secondary}
+          iconHoverShift={iconHoverShift}
+          icon={icon}
+          iconOnly={iconOnly}
+        />
+      }
+      {children &&
+        <ButtonText
+          loading={loading}
+          secondary={secondary}
+          iconOnly={iconOnly}
+        >
+          {children}
+        </ButtonText>
+      }
+      {iconRight &&
+        <ButtonIcon
+          loading={loading}
+          secondary={secondary}
+          iconHoverShift={iconHoverShift}
+          icon={iconRight}
+          iconOnly={iconOnly}
+        />
+      }
+      {loading &&
+        <ButtonLoader
+          size="24"
+          text={loadingText}
+          color={theme.colorBackground}
+        />
+      }
     </React.Fragment>
   );
 });
 
-export const Button = React.memo(props => {
-  const { className, style, ...restProps } = props;
+export const Button = props => {
+  const { className, style, ...rest } = props;
 
   return (
-    <ButtonContainer
-      className={className}
-      style={style}
-      {...restProps}
-    >
-      <ButtonContent {...restProps} />
+    <ButtonContainer className={className} style={style} {...rest}>
+      <ButtonContent {...rest} />
     </ButtonContainer>
   );
-});
+};
 
-export const LinkButton = React.memo(props => {
-  const { className, style, href, rel, target, secondary, customColor } = props;
+export const LinkButton = props => {
+  const { className, style, href, rel, target, ...rest } = props;
 
   return (
     <ButtonContainer
@@ -47,22 +80,20 @@ export const LinkButton = React.memo(props => {
       href={href}
       rel={rel || target === '_blank' ? 'noopener noreferrer' : null}
       target={target}
-      secondary={secondary}
-      custom={customColor}
+      {...rest}
     >
       <ButtonContent {...props} />
     </ButtonContainer>
   );
-});
+};
 
-export const RouterButton = React.memo(props => {
-  const { className, style, to, secondary, customColor } = props;
+export const RouterButton = props => {
+  const { className, style, to, secondary } = props;
 
   return (
     <ButtonContainer
       as={Link}
       className={className}
-      custom={customColor}
       style={style}
       to={to}
       secondary={secondary ? 1 : 0}
@@ -70,7 +101,7 @@ export const RouterButton = React.memo(props => {
       <ButtonContent {...props} />
     </ButtonContainer>
   );
-});
+};
 
 const ButtonLoader = styled(Loader)`
   position: absolute;
@@ -81,7 +112,7 @@ const ButtonLoader = styled(Loader)`
 const ButtonContainer = styled.button`
   background: none;
   height: 56px;
-  padding: 0 26px;
+  padding: ${props => props.iconOnly ? 0 : ' 0 26px'};
   border: 0;
   margin: 0;
   cursor: pointer;
@@ -89,17 +120,21 @@ const ButtonContainer = styled.button`
   display: flex;
   display: inline-flex;
   align-items: center;
-  color: ${props => props.custom ? props.custom : props.theme.colorBackground};
+  color: ${props => props.theme.colorBackground};
   text-decoration: none;
   font-family: inherit;
   position: relative;
   z-index: 1;
 
+  &::-moz-focus-inner {
+    border: 0;
+  }
+
   ${props => !props.secondary && css`
-    &:before {
+    &::before {
       content: '';
       transition: all 0.4s ${props.theme.curveFastoutSlowin};
-      background: ${rgba(props.custom ? props.custom : props.theme.colorPrimary, 0.4)};
+      background: ${rgba(props.theme.colorPrimary, 0.4)};
       clip-path: ${props.theme.clipPath(10)};
       position: absolute;
       top: -5px;
@@ -110,10 +145,10 @@ const ButtonContainer = styled.button`
       opacity: 0;
     }
 
-    &:after {
+    &::after {
       content: '';
       transition: all 0.4s ${props.theme.curveFastoutSlowin};
-      background: ${props.custom ? props.custom : props.theme.colorPrimary};
+      background: ${props.theme.colorPrimary};
       clip-path: ${props.theme.clipPath(8)};
       position: absolute;
       top: 0;
@@ -124,16 +159,48 @@ const ButtonContainer = styled.button`
     }
   `}
 
+  ${props => props.iconOnly && css`
+    width: 56px;
+    align-items: center;
+    justify-content: center;
+
+    &::after {
+      background: ${rgba(props.theme.colorText, 0)};
+    }
+
+    &:hover::after,
+    &:focus::after {
+      background: ${rgba(props.theme.colorText, 0.1)};
+    }
+
+    &::before {
+      background: ${rgba(props.theme.colorText, 0.4)};
+      top: -4px;
+      right: -4px;
+      bottom: -4px;
+      left: -4px;
+      clip-path: polygon(
+        0% 0%,
+        0% 100%,
+        4px 100%,
+        4px 4px,
+        calc(100% - 4px) 4px,
+        calc(100% - 4px) calc(100% - 13px),
+        calc(100% - 13px) calc(100% - 4px),
+        4px calc(100% - 4px),
+        4px 100%,
+        calc(100% - 11px) 100%,
+        100% calc(100% - 11px),
+        100% 0%
+      );
+    }
+  `}
+
   ${props => !props.disabled && !props.secondary && css`
     &:hover,
     &:focus {
       outline: none;
-      transform: scale(1.05);
-    }
-
-    &:hover:after,
-    &:focus:after {
-      background: ${tint(props.custom ? props.custom : props.theme.colorPrimary, 0.2)};
+      transform: ${props.iconOnly ? 'none' : 'scale(1.05)'};
     }
 
     &:focus:before {
@@ -148,13 +215,13 @@ const ButtonContainer = styled.button`
 
   ${props => props.secondary && css`
     background: none;
-    color: ${props.custom ? props.custom : props.theme.colorPrimary};
+    color: ${props.theme.colorPrimary};
     padding-left: 10px;
     padding-right: 10px;
     position: relative;
     left: -10px;
 
-    &:after {
+    &::after {
       content: '';
       height: 30px;
       position: absolute;
@@ -162,7 +229,7 @@ const ButtonContainer = styled.button`
       right: 0;
       bottom: 0;
       left: 0;
-      background: ${rgba(props.custom ? props.custom : props.theme.colorPrimary, 0.2)};
+      background: ${rgba(props.theme.colorPrimary, 0.2)};
       transform: scale3d(0, 1, 1) translateY(-50%);
       transform-origin: right;
       transition: transform 0.4s ${props.theme.curveFastoutSlowin};
@@ -176,15 +243,31 @@ const ButtonContainer = styled.button`
       background: transparent;
     }
 
-    &:hover:after,
-    &:focus:after,
-    &:active:after {
+    &:hover::after,
+    &:focus::after,
+    &:active::after {
       transform: scale3d(1, 1, 1) translateY(-50%);
       transform-origin: left;
     }
+
+    &::before {
+      content: '';
+      transition: box-shadow 0.4s ${props.theme.curveFastoutSlowin};
+      transform: translateY(-50%);
+      height: 30px;
+      position: absolute;
+      top: 50%;
+      right: 0;
+      bottom: 0;
+      left: 0;
+    }
+
+    &:focus::before {
+      box-shadow: 0 0 0 4px ${props => rgba(props.theme.colorPrimary, 0.4)};
+    }
   `}
 
-  ${props => props.icon && !props.secondary && css`
+  ${props => props.icon && !props.secondary && !props.iconOnly && css`
     padding-right: 32px;
   `}
 `;
@@ -194,14 +277,19 @@ const ButtonText = styled.span`
   font-weight: 500;
   position: relative;
   line-height: 1;
+  flex: 1 1 auto;
 
   ${props => props.loading && css`
     visibility: hidden;
   `}
 
   ${props => props.secondary
-    ? `color: ${props.custom ? props.custom : props.theme.colorPrimary};`
+    ? `color: ${props.theme.colorPrimary};`
     : `color: ${props.theme.colorBackground};
+  `}
+
+  ${props => props.iconOnly && `
+    color: ${props.theme.colorText};
   `}
 `;
 
@@ -212,13 +300,18 @@ const ButtonIcon = styled(Icon)`
   fill: ${props => props.theme.colorBackground};
 
   ${props => props.secondary && css`
-    fill: ${props.custom ? props.custom : props.theme.colorPrimary};
+    fill: ${props.theme.colorPrimary};
+  `}
+
+  ${props => props.iconOnly && css`
+    fill: ${props.theme.colorText};
+    margin: 0;
   `}
 
   ${/* sc-selector */ButtonContainer}:hover &,
   ${/* sc-selector */ButtonContainer}:focus & {
-    ${props => props.icon === 'arrowRight' && css`
-      transform: translate3d(3px, 0, 0);
+    ${props => props.iconHoverShift && css`
+      transform: translate3d(4px, 0, 0);
     `}
   }
 

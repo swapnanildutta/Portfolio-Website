@@ -20,15 +20,16 @@ const mailTransport = nodemailer.createTransport({
 
 admin.initializeApp();
 app.use(helmet());
+app.use(express.json());
 app.use(cors({ origin: 'https://codyb.co' }));
-app.use(express.json({ limit: '20kb' }));
 
-app.post('/sendMessage', async (req, res) => {
+app.post('/functions/sendMessage', async (req, res) => {
   try {
     const { email, message } = req.body;
     await admin.database().ref('/messages').push({ email, message });
-    res.status(200).end();
+    res.status(200).json({ message: 'Message sent successfully' });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: 'Message rejected' });
   }
 });
@@ -37,7 +38,7 @@ function sendMail(email, message) {
   const mailOptions = {
     from: `Portfolio <${gmailEmail}>`,
     to: 'hi@codyb.co',
-    subject: `Message from ${email}`,
+    subject: `New message from ${email}`,
     text: `From: ${email}\n\n${message}`,
   };
 
