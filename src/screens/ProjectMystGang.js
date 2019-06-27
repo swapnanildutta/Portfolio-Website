@@ -1,9 +1,8 @@
-import React, { useEffect, useContext, useMemo, useRef, lazy, Suspense } from 'react';
+import React, { useMemo, lazy, Suspense } from 'react';
 import styled from 'styled-components/macro';
 import { Helmet } from 'react-helmet-async';
-import { AppContext } from '../app/App';
 import ProgressiveImage from '../components/ProgressiveImage';
-import { useScrollToTop } from '../utils/Hooks';
+import { useScrollToTop } from '../utils/hooks';
 import { RouterButton } from '../components/Button';
 import Footer from '../components/Footer';
 import {
@@ -11,7 +10,7 @@ import {
   ProjectBackground, ProjectHeader, ProjectSectionHeading, ProjectSectionText,
   ProjectTextRow, Video, ProjectSectionColumns, SidebarImages, SidebarImage
 } from '../components/Project';
-import { media } from '../utils/StyleUtils';
+import { media } from '../utils/styleUtils';
 import Background from '../assets/MystGang/background.mp4';
 import BackgroundPlaceholder from '../assets/MystGang/backgroundPlaceholder.png';
 import Render from '../assets/MystGang/MystGang.mp4'
@@ -29,8 +28,9 @@ import About1 from '../assets/MystGang/About1.webp';
 import About2 from '../assets/MystGang/About2.webp';
 import About3 from '../assets/MystGang/About3.webp';
 import Contact from '../assets/MystGang/Contact.webp';
-import NextProject from '../assets/ARMTG/ARMTGStill.webp';
-import { ReactComponent as MystLogo } from '../assets/MystGang/logo.svg';
+import NextProject from '../assets/ARMTG/armtg-project-large.png';
+import MystLogo from '../assets/MystGang/logo.png';
+import MystLogoPlaceholder from '../assets/MystGang/logoPlaceholder.png';
 
 const DisplacementSlider = lazy(() => import('../components/DisplacementSlider'));
 
@@ -49,25 +49,7 @@ const roles = [
 ];
 
 function MystGang() {
-  const { status, updateTheme, currentTheme } = useContext(AppContext);
-  const currentThemeRef = useRef(currentTheme);
-  useScrollToTop(status);
-
-  useEffect(() => {
-    currentThemeRef.current = currentTheme;
-  }, [currentTheme]);
-
-  useEffect(() => {
-    if ((status === 'entered' || status === 'exiting')) {
-      updateTheme({
-        colorPrimary: currentTheme.id === 'dark'
-          ? 'rgba(227, 203, 161, 1)'
-          : 'rgba(181, 155, 105, 1)',
-        colorAccent: 'rgba(227, 203, 161, 1)',
-        custom: true,
-      });
-    }
-  }, [updateTheme, status, currentTheme.id]);
+  useScrollToTop();
 
   return (
     <React.Fragment>
@@ -80,6 +62,7 @@ function MystGang() {
           src={Background}
           placeholder={BackgroundPlaceholder}
           entered={!prerender}
+          video
         />
         <ProjectHeader
           title={title}
@@ -126,7 +109,11 @@ function MystGang() {
         <ProjectSection light>
           <ProjectSectionContent>
             <LogoContainer>
-              <MystLogo />
+            <ProgressiveImage
+              srcSet={`${MystLogo}`}
+              placeholder={MystLogoPlaceholder}
+              alt=""
+            />
             </LogoContainer>
             <ProjectTextRow center>
               <ProjectSectionHeading>An Epic Logo for an Epic Creator</ProjectSectionHeading>
@@ -257,7 +244,7 @@ const LogoContainer = styled.div`
     margin-bottom: 40px;
   }
 
-  svg {
+  div, img {
     max-width: 800px;
   }
 `;

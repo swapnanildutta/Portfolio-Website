@@ -2,10 +2,12 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled, { css, keyframes } from 'styled-components/macro';
 import { media, AnimFade, rgba, sectionPadding } from '../utils/styleUtils';
 import ProgressiveImage from '../components/ProgressiveImage';
+import ProgressiveVideo from '../components/ProgressiveVideo';
 import { LinkButton } from '../components/Button';
 import { usePrefersReducedMotion } from '../utils/hooks';
 
 const initDelay = 300;
+export const Video = ProgressiveVideo;
 const prerender = navigator.userAgent === 'ReactSnap';
 
 export function ProjectBackground(props) {
@@ -32,6 +34,19 @@ export function ProjectBackground(props) {
       window.removeEventListener('scroll', handleScroll);
     };
   }, [prefersReducedMotion]);
+
+  if(props.video) return (
+      <ProjectBackgroundVideo
+        autoPlay
+        muted
+        loop
+        playsInline
+        offset={offset}
+        poster={props.placeholder}
+      >
+        <source src={props.src} type="video/mp4" />
+      </ProjectBackgroundVideo>
+    );
 
   return (
     <ProjectBackgroundImage offsetValue={offset} {...props} />
@@ -155,6 +170,61 @@ export const ProjectBackgroundImage = styled(ProgressiveImage).attrs(props => ({
     width: 100%;
     height: 100%;
   }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg,
+      ${props => rgba(props.theme.colorBackground, props.opacity)} 0%,
+      ${props => props.theme.colorBackground} 100%
+    );
+  }
+`;
+
+export const ProjectBackgroundVideo = styled.video.attrs(props => ({
+  role: 'presentation',
+  opacity: props.opacity ? props.opacity : 0.7,
+  style: {
+    transform: `translate3d(0, ${props.offsetValue}px, 0)`,
+  },
+}))`
+  z-index: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 800px;
+  overflow: hidden;
+  object-fit: cover;
+  width: 100%;
+  transition-property: filter;
+  transition-timing-function: ${props => props.theme.curveFastoutSlowin};
+  transition-duration: 0.4s;
+  outline: 0;
+  border: none;
+  -moz-outline-style: none;
+
+  @media (prefers-reduced-motion: reduce) {
+    opacity: 1;
+    transition: none;
+  }
+
+  ${props => props.entered && css`
+    animation: ${AnimFade} 2s ease ${initDelay}ms forwards;
+  `}
+
+  ${props => props.theme.id === 'light' && css`
+    -webkit-filter:invert(100%);
+    filter:progid:DXImageTransform.Microsoft.BasicImage(invert='1');
+  `}
 
   &::after {
     content: '';
@@ -387,4 +457,88 @@ export const ProjectTextRow = styled.div`
       align-items: flex-start;
     }
   `}
+`;
+
+export const ProjectSectionColumns = styled(ProjectSectionContent)`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 70px;
+  margin: 20px 0 60px;
+  @media (max-width: ${media.tablet}), (max-width: ${media.mobile}) {
+    grid-template-columns: 1fr;
+    grid-gap: 0;
+    ${ProjectTextRow} {
+      text-align: center;
+    }
+  }
+`;
+
+export const SidebarImages = styled.div`
+  display: grid;
+  align-items: center;
+  @media (max-width: ${media.tablet}) {
+    padding: 0 80px;
+    margin-top: 60px;
+  }
+  @media (max-width: ${media.mobile}) {
+    padding: 0 20px;
+    margin-top: 40px;
+  }
+`;
+
+export const SidebarImagesText = styled.div`
+  display: flex;
+  align-items: ${props => props.center ? 'center' : 'flex-start'};
+  flex-direction: column;
+  justify-content: center;
+  padding-right: 10px;
+  @media (max-width: ${media.tablet}) {
+    padding-right: 0;
+  }
+`;
+
+export const SidebarImage = styled(ProgressiveImage)`
+  &:first-child {
+    grid-column: col 1 / span 4;
+    grid-row: 1;
+    position: relative;
+    top: 5%;
+  }
+  &:last-child {
+    grid-column: col 3 / span 4;
+    grid-row: 1;
+    position: relative;
+    top: -5%;
+  }
+`;
+
+export const ProjectSectionGrid = styled(ProjectSectionContent)`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 70px;
+  margin: 40px 0;
+  @media (max-width: ${media.tablet}) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+export const ProjectSectionGridBackground = styled.div`
+  grid-column: 1;
+  grid-row: 1;
+  @media (max-width: ${media.tablet}) {
+    padding: 0 120px;
+  }
+  @media (max-width: ${media.mobile}) {
+    padding: 0 60px;
+  }
+`;
+
+export const ProjectSectionGridText = styled.div`
+  padding-top: 80px;
+  @media (max-width: ${media.desktop}) {
+    padding-top: 40px;
+  }
+  @media (max-width: ${media.tablet}) {
+    padding-top: 0;
+  }
 `;

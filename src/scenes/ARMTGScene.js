@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import styled, { keyframes } from 'styled-components/macro';
 import { Texture, Application, WebGLRenderer, Container, Sprite } from 'pixi.js';
-import { usePrefersReducedMotion } from '../utils/Hooks';
+import { usePrefersReducedMotion } from '../utils/hooks';
 
 function ARMTGScene() {
   const container = useRef();

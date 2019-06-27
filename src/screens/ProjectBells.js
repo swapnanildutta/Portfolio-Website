@@ -1,8 +1,8 @@
-import React, { lazy, useContext, useRef, useEffect } from 'react';
+import React, { lazy, useContext } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { AppContext } from '../app/App';
 import ProgressiveImage from '../components/ProgressiveImage';
-import { useScrollToTop } from '../utils/Hooks';
+import { useScrollToTop } from '../utils/hooks';
 import Footer from '../components/Footer';
 import { RouterButton } from '../components/Button';
 import {
@@ -10,7 +10,7 @@ import {
   ProjectSectionHeading, ProjectHeader, ProjectTextRow, ProjectSectionText,
   ProjectSectionColumns, SidebarImagesText, SidebarImages, SidebarImage
 } from '../components/Project';
-import { media } from '../utils/StyleUtils';
+import { media } from '../utils/styleUtils';
 import Render from '../assets/BellsGC/BellsGC.webp';
 import RenderPlaceholder from '../assets/BellsGC/BellsGCPlaceholder.png';
 import BrandingDark from '../assets/BellsGC/brandingDark.webp';
@@ -26,7 +26,7 @@ import Events from '../assets/BellsGC/Events.webp';
 import EventsPlaceholder from '../assets/BellsGC/EventsPlaceholder.png';
 import About from '../assets/BellsGC/About.webp';
 import AboutPlaceholder from '../assets/BellsGC/AboutPlaceholder.png';
-import NextProject from '../assets/MystGang/MystGangStill.webp';
+import NextProject from '../assets/MystGang/mystgang-project-large.png';
 
 const BellsScene = lazy(() => import('../scenes/BellsScene'));
 
@@ -42,24 +42,9 @@ const roles = [
   'Creative Direction',
 ];
 
-function BellsGC(props) {
-  const { status, updateTheme, currentTheme } = useContext(AppContext);
-  const currentThemeRef = useRef(currentTheme);
-  useScrollToTop(status);
-
-  useEffect(() => {
-    currentThemeRef.current = currentTheme;
-  }, [currentTheme]);
-
-  useEffect(() => {
-    if ((status === 'entered' || status === 'exiting')) {
-      updateTheme({
-        colorPrimary: 'rgba(251, 201, 98, 1)',
-        colorAccent: 'rgba(251, 201, 98, 1)',
-        custom: true,
-      });
-    }
-  }, [updateTheme, status, currentTheme.id])
+function BellsGC() {
+  useScrollToTop();
+   const { currentTheme } = useContext(AppContext);
 
   return (
     <React.Fragment>

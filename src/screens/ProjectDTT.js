@@ -3,17 +3,20 @@ import { Helmet } from 'react-helmet-async';
 import ProgressiveImage from '../components/ProgressiveImage';
 import { useScrollToTop } from '../utils/hooks';
 import Footer from '../components/Footer';
+import { RouterButton } from '../components/Button';
 import {
   ProjectContainer, ProjectSection, ProjectSectionContent, ProjectImage,
-  ProjectSectionHeading, ProjectBackground, ProjectHeader
+  ProjectSectionHeading, ProjectBackground, ProjectHeader, ProjectSectionColumns,
+  SidebarImages, SidebarImage, ProjectTextRow, ProjectSectionText
 } from '../components/Project';
 import { media } from '../utils/styleUtils';
-import background from '../assets/dtt-background.png';
-import backgroundLarge from '../assets/dtt-background-large.png';
-import backgroundPlaceholder from '../assets/dtt-background-placeholder.png';
-import imageDevTechTools from '../assets/devtech-tools.png';
-import imageDevTechToolsLarge from '../assets/devtech-tools-large.png';
-import imageDevTechToolsPlaceholder from '../assets/devtech-tools-placeholder.png';
+import background from '../assets/DTT/dtt-background.png';
+import backgroundLarge from '../assets/DTT/dtt-background-large.png';
+import backgroundPlaceholder from '../assets/DTT/dtt-background-placeholder.png';
+import imageDevTechTools from '../assets/DTT/devtech-tools.png';
+import imageDevTechToolsLarge from '../assets/DTT/devtech-tools-large.png';
+import imageDevTechToolsPlaceholder from '../assets/DTT/devtech-tools-placeholder.png';
+import NextProject from '../assets/BellsGC/bells-project-large.png'
 
 const prerender = navigator.userAgent === 'ReactSnap';
 
@@ -64,6 +67,31 @@ function ProjectDTT() {
           <ProjectSectionHeading>Full project coming soon...</ProjectSectionHeading>
         </ProjectSection>
       </ProjectContainer>
+      <ProjectSection>
+        <ProjectSectionColumns light>
+          <SidebarImages>
+            <SidebarImage
+              srcSet={`${NextProject}`}
+              alt=""
+              reveal
+              sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
+            />
+          </SidebarImages>
+          <ProjectTextRow center>
+            <ProjectSectionText>
+              Next Project
+            </ProjectSectionText>
+            <ProjectSectionHeading>Bell's Gaming Center</ProjectSectionHeading>
+            <RouterButton
+              secondary
+              icon="chevronRight"
+              to="/projects/bells"
+            >
+              View Project
+            </RouterButton>
+          </ProjectTextRow>
+        </ProjectSectionColumns>
+      </ProjectSection>
       <Footer />
     </React.Fragment>
   );

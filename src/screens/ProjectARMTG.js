@@ -1,7 +1,6 @@
-import React, { lazy, useContext, useRef, useEffect } from 'react';
+import React, { lazy } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { AppContext } from '../app/App';
-import { useScrollToTop } from '../utils/Hooks';
+import { useScrollToTop } from '../utils/hooks';
 import Footer from '../components/Footer';
 import { RouterButton } from '../components/Button';
 import {
@@ -9,10 +8,10 @@ import {
   ProjectHeader, ProjectTextRow, ProjectSectionHeading, ProjectSectionText,
   Video, ProjectSectionColumns, SidebarImages, SidebarImage
 } from '../components/Project';
-import { media } from '../utils/StyleUtils';
+import { media } from '../utils/styleUtils';
 import Render from '../assets/ARMTG/ARMTGWeb.mp4';
 import RenderPlaceholder from '../assets/ARMTG/ARMTGWebPlaceHolder.png';
-import NextProject from '../assets/Robotics/roboticsStill.webp';
+import NextProject from '../assets/Robotics/robotics-project-large.png';
 
 const ARMTGScene = lazy(() => import('../scenes/ARMTGScene'));
 
@@ -29,24 +28,8 @@ const roles = [
   '3D Modeling & Animation',
 ];
 
-function ArMTG(props) {
-  const { status, updateTheme, currentTheme } = useContext(AppContext);
-  const currentThemeRef = useRef(currentTheme);
-  useScrollToTop(status);
-
-  useEffect(() => {
-    currentThemeRef.current = currentTheme;
-  }, [currentTheme]);
-
-  useEffect(() => {
-    if ((status === 'entered' || status === 'exiting')) {
-      updateTheme({
-        colorPrimary: 'rgba(101, 154, 247, 1)',
-        colorAccent: 'rgba(101, 154, 247, 1)',
-        custom: true,
-      });
-    }
-  }, [updateTheme, status, currentTheme.id])
+function ArMTG() {
+  useScrollToTop();
 
   return (
     <React.Fragment>
@@ -91,7 +74,7 @@ function ArMTG(props) {
               <RouterButton
                 secondary
                 icon="chevronRight"
-                to="/projects/gcpsrobotics"
+                to="/projects/robotics"
               >
                 View Project
               </RouterButton>

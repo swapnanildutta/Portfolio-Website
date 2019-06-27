@@ -1,8 +1,7 @@
-import React, { useContext, lazy, useRef, useEffect } from 'react';
+import React, { lazy } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { AppContext } from '../app/App';
 import ProgressiveImage from '../components/ProgressiveImage';
-import { useScrollToTop } from '../utils/Hooks';
+import { useScrollToTop } from '../utils/hooks';
 import Footer from '../components/Footer';
 import { RouterButton } from '../components/Button';
 import {
@@ -11,7 +10,7 @@ import {
   ProjectSectionColumns, SidebarImagesText, SidebarImages, SidebarImage,
   ProjectSectionGrid, ProjectSectionGridBackground, ProjectSectionGridText,
 } from '../components/Project';
-import { media } from '../utils/StyleUtils';
+import { media } from '../utils/styleUtils';
 import Render from '../assets/Robotics/robotics.mp4';
 import RenderPlaceholder from '../assets/Robotics/roboticsPlaceholder.png';
 import Branding from '../assets/Robotics/branding.webp';
@@ -52,24 +51,8 @@ const roles = [
   '3D Animation',
 ];
 
-function Robotics(props) {
-  const { status, updateTheme, currentTheme } = useContext(AppContext);
-  const currentThemeRef = useRef(currentTheme);
-  useScrollToTop(status);
-
-  useEffect(() => {
-    currentThemeRef.current = currentTheme;
-  }, [currentTheme]);
-
-  useEffect(() => {
-    if ((status === 'entered' || status === 'exiting')) {
-      updateTheme({
-        colorPrimary: 'rgba(54, 210, 120, 1)',
-        colorAccent: 'rgba(54, 210, 120, 1)',
-        custom: true,
-      });
-    }
-  }, [updateTheme, status, currentTheme.id])
+function Robotics() {
+  useScrollToTop();
 
   return (
     <React.Fragment>
@@ -245,7 +228,7 @@ function Robotics(props) {
               <RouterButton
                 secondary
                 icon="chevronRight"
-                to="/#work4"
+                to="/#work5"
               >
                 Back to homepage
               </RouterButton>
