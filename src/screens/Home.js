@@ -25,7 +25,7 @@ import RoboticsProjectPlaceholder from '../assets/Robotics/robotics-project-plac
 const disciplines = ['Developer', 'Creator', 'Animator', 'Student'];
 
 export default function Home(props) {
-  const { status, updateTheme } = useContext(AppContext);
+  const { status } = useContext(AppContext);
   const { location } = props;
   const { hash, state } = location;
   const initHash = useRef(true);
@@ -39,12 +39,6 @@ export default function Home(props) {
   const projectFive = useRef();
   const about = useRef();
   const prefersReducedMotion = usePrefersReducedMotion();
-
-  useEffect(() => {
-    if ((status === 'entered' || status === 'exiting')) {
-      updateTheme();
-    }
-  }, [updateTheme, status]);
 
   useEffect(() => {
     const revealSections = [intro, projectOne, projectTwo, projectThree, projectFour, projectFive, about];

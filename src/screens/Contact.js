@@ -1,4 +1,4 @@
-import React, { useState, useContext, useCallback, useEffect } from 'react';
+import React, { useState, useContext, useCallback } from 'react';
 import styled, { css } from 'styled-components/macro';
 import { TransitionGroup, Transition } from 'react-transition-group';
 import { Helmet } from 'react-helmet-async';
@@ -27,18 +27,12 @@ function getStatusError(status) {
 }
 
 function Contact() {
-  const { status, updateTheme } = useContext(AppContext);
+  const { status } = useContext(AppContext);
   const email = useFormInput('');
   const message = useFormInput('');
   const [sending, setSending] = useState(false);
   const [complete, setComplete] = useState(false);
   useScrollToTop();
-
-  useEffect(() => {
-    if ((status === 'entered' || status === 'exiting')) {
-      updateTheme();
-    }
-  }, [updateTheme, status]);
 
   const onSubmit = useCallback(async event => {
     event.preventDefault();
