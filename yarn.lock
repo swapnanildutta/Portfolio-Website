@@ -13458,10 +13458,10 @@ textr@^0.3.0:
   resolved "https://registry.yarnpkg.com/textr/-/textr-0.3.0.tgz#717361286962ac8df36b7a2619fb773a15b9b7f7"
   integrity sha1-cXNhKGlirI3za3omGft3OhW5t/c=
 
-three@^0.105.2:
-  version "0.105.2"
-  resolved "https://registry.yarnpkg.com/three/-/three-0.105.2.tgz#d135f1549bdcf5a9acd904ba3dbf9198a0268984"
-  integrity sha512-L3Al37k4g3hVbgFFS251UVtIc25chhyN0/RvXzR0C+uIBToV6EKDG+MZzEXm9L2miGUVMK27W46/VkP6WUZXMg==
+three@^0.106.1:
+  version "0.106.1"
+  resolved "https://registry.yarnpkg.com/three/-/three-0.106.1.tgz#b0a8de40a46959d0330c1c1bdaab048e260c6e9d"
+  integrity sha512-++T/RzJbGTusXLvuWYhBr1ACGq47j2uCE1/DNVGaGpkbAkq+RisQ33gUTUodj5zv3qOteNXJvQggyu54mWPrnw==
 
 throat@^4.0.0:
   version "4.1.0"
