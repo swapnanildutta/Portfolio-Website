@@ -42,6 +42,7 @@ export default function DispalcementSlider(props) {
   const scheduledAnimationFrame = useRef();
   const prefersReducedMotion = usePrefersReducedMotion();
   const placeholderRef = useRef();
+  const currentImage = images[imageIndex];
   const currentImageAlt = `Slide ${imageIndex + 1} of ${images.length}. ${images[imageIndex].alt}`;
 
   const goToIndex = useCallback(({
@@ -367,6 +368,7 @@ export default function DispalcementSlider(props) {
           left
           aria-label="Previous slide"
           onClick={() => navigate({ direction: -1 })}
+          override={currentImage.override}
         >
           <Icon icon="slideLeft" />
         </SliderButton>
@@ -374,6 +376,7 @@ export default function DispalcementSlider(props) {
           right
           aria-label="Next slide"
           onClick={() => navigate({ direction: 1 })}
+          override={currentImage.override}
         >
           <Icon icon="slideRight" />
         </SliderButton>
@@ -467,7 +470,7 @@ const SliderButton = styled.button`
 
   &:hover::before,
   &:focus::before {
-    background: ${props => rgba(props.theme.colorWhite, 0.1)};
+    background: ${props => rgba(props.override ? props.theme.colorBlack : props.theme.colorWhite, 0.1)};
   }
 
   &::after {
@@ -497,11 +500,14 @@ const SliderButton = styled.button`
   }
 
   &:focus::after {
-    background: ${props => rgba(props.theme.colorWhite, 0.4)};
+    background: ${props => rgba(props.override ? props.theme.colorBlack : props.theme.colorWhite, 0.4)};
   }
 
   svg {
-    fill: ${props => props.theme.colorWhite};
+    transition-property: fill;
+    transition-duration: 0.5s;
+    transition-timing-function: ${props => props.theme.curveFastoutSlowin};
+    fill: ${props => props.override ? props => props.theme.colorBlack : props => props.theme.colorWhite};
     display: block;
   }
 `;
