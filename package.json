@@ -44,7 +44,7 @@
     "deploy": "firebase deploy --only functions",
     "deploy-hosting": "firebase deploy --only hosting",
     "serve": "firebase serve -p 80 --only hosting",
-    "test": "react-scripts test --env=jsdom",
+    "test": "react-scripts test --env=jsdom --watchAll",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -o build/storybook && rimraf build/storybook/static/**/*.{jpg,txt,png,mp4,webm,svg}"
