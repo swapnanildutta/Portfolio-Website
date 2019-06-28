@@ -7,9 +7,22 @@ import { Button } from '../components/Button';
 import Input from '../components/Input';
 import Anchor from '../components/Anchor';
 import Monogram from '../components/Monogram';
-import DisplacementSphere from '../components/DisplacementSphere';
-//import DisplacementSlider from '../components/DisplacementSlider';
+import HomeScene from '../scenes/HomeScene';
+import LabScene from '../scenes/LabScene';
+import BellsScene from '../scenes/BellsScene';
+import ARMTGScene from '../scenes/ARMTGScene';
+import RoboticsScene from '../scenes/RoboticsScene';
+import DisplacementSlider from '../components/DisplacementSlider';
 import DecoderText from '../components/DecoderText';
+import Loader from '../assets/MystGang/Loader.webp';
+import LoaderPlaceholder from '../assets/MystGang/LoaderPlaceholder.png';
+import Home from '../assets/MystGang/Home.webp';
+import Menu from '../assets/MystGang/Menu.webp';
+import Work from '../assets/MystGang/Work.webp';
+import About1 from '../assets/MystGang/About1.webp';
+import About2 from '../assets/MystGang/About2.webp';
+import About3 from '../assets/MystGang/About3.webp';
+import Contact from '../assets/MystGang/Contact.webp';
 import { useFormInput } from '../utils/hooks';
 
 const StoryContainer = styled.div`
@@ -66,13 +79,6 @@ storiesOf('Button', module)
     </StoryContainer>
   );
 
-storiesOf('Displacement sphere', module)
-  .add('sphere', () =>
-    <StoryContainer>
-      <DisplacementSphere />
-    </StoryContainer>
-  );
-
 const ExampleInput = props => {
   const exampleValue = useFormInput('');
   return (
@@ -113,28 +119,85 @@ storiesOf('Decoder text', module)
       </h2>
     </StoryContainer>
   );
-/*
-storiesOf('Displacement slider', module)
-  .add('images', () =>
+
+storiesOf('ThreeJS Scenes', module)
+  .add('Home', () =>
+    <StoryContainer>
+      <HomeScene />
+    </StoryContainer>
+  )
+  .add('Lab', () =>
+    <StoryContainer>
+      <LabScene />
+    </StoryContainer>
+  )
+  .add('BellsGC', () =>
+    <StoryContainer>
+      <BellsScene />
+    </StoryContainer>
+  )
+  .add('ARMTG', () =>
+    <StoryContainer>
+      <ARMTGScene />
+    </StoryContainer>
+  )
+  .add('GCPSRobotics', () =>
+    <StoryContainer>
+      <RoboticsScene />
+    </StoryContainer>
+  );
+
+storiesOf('Displacement Slider', module)
+  .add('MystGang', () =>
     <StoryContainer fullWidth padding={30}>
       <DisplacementSlider
         style={{ maxWidth: 800, width: '100%' }}
+        placeholder={LoaderPlaceholder}
         images={[
           {
-            src: '',
-            alt: '',
+            src: Loader,
+            srcset: `${Loader}`,
+            alt: 'MystGang Loader',
+            override: true
           },
           {
-            src: '',
-            alt: ''
+            src: Home,
+            srcset: `${Home}`,
+            alt: 'Landing Screen',
           },
           {
-            src: '',
-            alt: ''
-          }
+            src: Menu,
+            srcset: `${Menu}`,
+            alt: 'Menu Screen',
+          },
+          {
+            src: Work,
+            srcset: `${Work}`,
+            alt: 'Work Carousel',
+          },
+          {
+            src: About1,
+            srcset: `${About1}`,
+            alt: 'About Self'
+          },
+          {
+            src: About2,
+            srcset: `${About2}`,
+            alt: 'About Work',
+          },
+          {
+            src: About3,
+            srcset: `${About3}`,
+            alt: 'About Socials',
+          },
+          {
+            src: Contact,
+            srcset: `${Contact}`,
+            alt: 'Contact Screen',
+          },
         ]}
         width={1920}
         height={1080}
       />
     </StoryContainer>
-  );*/
+  );
