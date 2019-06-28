@@ -22,8 +22,8 @@ const navLinks = [
     hash: '#about'
   },
   {
-    label: 'Contact',
-    pathname: '/contact',
+    label: 'Lab',
+    pathname: '/lab',
   },
 ];
 
@@ -38,11 +38,6 @@ const socialLinks = [
     url: 'https://github.com/CodyJasonBennett',
     icon: 'github',
   },
-  {
-    label: 'Email',
-    url: 'mailto:hi@codyb.co',
-    icon: 'email',
-  },
 ];
 
 const HeaderIcons = () => (
@@ -52,6 +47,9 @@ const HeaderIcons = () => (
         <HeaderNavIcon icon={icon} />
       </HeaderNavIconLink>
     ))}
+    <HeaderNavContactLink aria-label="Email" to="/contact">
+      <HeaderNavIcon icon="email" />
+    </HeaderNavContactLink>
   </HeaderNavIcons>
 );
 
@@ -262,13 +260,21 @@ const HeaderNavIconLink = styled.a.attrs({
   padding: 10px;
 `;
 
+const HeaderNavContactLink = styled(Link)`
+  display: flex;
+  padding: 10px;
+`;
+
 const HeaderNavIcon = styled(Icon)`
   fill: ${props => rgba(props.theme.colorText, 0.6)};
   transition: fill 0.4s ease;
 
-  ${/* sc-selector */HeaderNavIconLink}:hover &,
-  ${/* sc-selector */HeaderNavIconLink}:focus &,
-  ${/* sc-selector */HeaderNavIconLink}:active & {
+  ${HeaderNavIconLink}:hover &,
+  ${HeaderNavIconLink}:focus &,
+  ${HeaderNavIconLink}:active &,
+  ${HeaderNavContactLink}:hover &,
+  ${HeaderNavContactLink}:focus &,
+  ${HeaderNavContactLink}:active & {
     fill: ${props => props.theme.colorAccent};
   }
 `;
