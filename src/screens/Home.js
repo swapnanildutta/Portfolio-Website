@@ -170,7 +170,6 @@ export default function Home(props) {
         imageAlt={useMemo(() => ['MystGang Website'], [])}
         imagePlaceholder={useMemo(() => [MystGangProjectPlaceholder], [])}
         imageType="laptop"
-        video
       />
       <ProjectItem
         id="work4"
@@ -185,7 +184,6 @@ export default function Home(props) {
         imageAlt={useMemo(() => ['ArMTG Website'], [])}
         imagePlaceholder={useMemo(() => [ARMTGProjectPlaceholder], [])}
         imageType="laptop"
-        video
       />
       <ProjectItem
         id="work5"
@@ -200,7 +198,6 @@ export default function Home(props) {
         imageAlt={useMemo(() => ['Gateway Robotics Website'], [])}
         imagePlaceholder={useMemo(() => [RoboticsProjectPlaceholder], [])}
         imageType="laptop"
-        video
       />
       <Profile
         sectionRef={about}
