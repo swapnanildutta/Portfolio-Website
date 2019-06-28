@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useRef, useMemo, useCallback, useContext } from 'react';
+import React, { useState, useEffect, useRef, useMemo, useContext } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { AppContext } from '../app/App';
 import Intro from '../screens/Intro';
 import ProjectItem from '../screens/ProjectItem';
 import Profile from '../screens/Profile';
 import Footer from '../components/Footer';
+import { usePrefersReducedMotion } from '../utils/hooks';
 import Cube from '../assets/Lab/Cube.webp';
 import CubePlaceholder from '../assets/Lab/CubePlaceholder.png';
 import ArMTG from '../assets/Lab/ArMTG.mp4';
@@ -21,13 +22,14 @@ import Flames from '../assets/Lab/flames.mp4';
 import FlamesPlaceholder from '../assets/Lab/flamesPlaceholder.png';
 import Frames from '../assets/Lab/frames.mp4';
 import FramesPlaceholder from '../assets/Lab/framesPlaceholder.png';
-const disciplines = ['Lab'];
 
-export default function Lab(props) {
+const disciplines = ['Developer', 'Creator', 'Animator', 'Student'];
+
+export default function Home(props) {
   const { status } = useContext(AppContext);
   const { location } = props;
-  const { hash } = location;
-  const initHash = useRef(hash);
+  const { hash, state } = location;
+  const initHash = useRef(true);
   const [visibleSections, setVisibleSections] = useState([]);
   const [scrollIndicatorHidden, setScrollIndicatorHidden] = useState(false);
   const intro = useRef();
@@ -40,6 +42,7 @@ export default function Lab(props) {
   const experiment7 = useRef();
   const experiment8 = useRef();
   const about = useRef();
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
     const revealSections = [intro, experiment1, experiment2, experiment3, experiment4, experiment5, experiment6, experiment7, experiment8, about];
@@ -53,11 +56,11 @@ export default function Lab(props) {
           setVisibleSections(prevSections => [...prevSections, section]);
         }
       });
-    }, { rootMargin: "0px 0px -10% 0px" });
+    }, { rootMargin: '0px 0px -10% 0px' });
 
     const indicatorObserver = new IntersectionObserver(([entry]) => {
       setScrollIndicatorHidden(!entry.isIntersecting);
-    }, { rootMargin: "-100% 0px 0px 0px" });
+    }, { rootMargin: '-100% 0px 0px 0px' });
 
     revealSections.forEach(section => {
       sectionObserver.observe(section.current);
@@ -71,33 +74,49 @@ export default function Lab(props) {
     };
   }, [visibleSections]);
 
-  const handleHashchange = useCallback((hash, scroll) => {
-    const hashSections = [intro, experiment1, experiment2, experiment3, experiment4, experiment5, experiment6, experiment7, experiment8, about];
-    const hashString = hash.replace('#', '');
-    const element = hashSections.filter(item => item.current.id === hashString)[0];
-
-    if (element) {
-      window.scroll({
-        top: element.current.offsetTop,
-        left: 0,
-        behavior: scroll ? 'smooth' : 'instant',
-      });
-    }
-  }, []);
-
   useEffect(() => {
-    if (status === 'entered') {
+    const hasEntered = status === 'entered';
+    const supportsNativeSmoothScroll = 'scrollBehavior' in document.documentElement.style;
+
+    const handleHashchange = (hash, scroll) => {
+      const hashSections = [intro, experiment1, experiment2, experiment3, experiment4, experiment5, experiment6, experiment7, experiment8, about];
+      const hashString = hash.replace('#', '');
+      const element = hashSections.filter(item => item.current.id === hashString)[0];
+      if (!element) return;
+      const behavior = scroll && !prefersReducedMotion ? 'smooth' : 'instant';
+      const top = element.current.offsetTop;
+
+      const scrollObserver = new IntersectionObserver(entries => {
+        const [entry] = entries;
+        if (entry.isIntersecting) {
+          element.current.focus();
+          scrollObserver.unobserve(entry.target);
+        }
+      }, { rootMargin: '-20% 0px -20% 0px' });
+
+      scrollObserver.observe(element.current);
+
+      if (supportsNativeSmoothScroll) {
+        window.scroll({
+          top,
+          left: 0,
+          behavior,
+        });
+      } else {
+        window.scrollTo(0, top);
+      }
+    };
+
+    if (hash && initHash.current && hasEntered) {
+      handleHashchange(hash, false);
+      initHash.current = false;
+    } else if (!hash && initHash.current && hasEntered) {
+      window.scrollTo(0, 0);
+      initHash.current = false;
+    } else if (hasEntered) {
       handleHashchange(hash, true);
     }
-  }, [handleHashchange, hash, status]);
-
-  useEffect(() => {
-    if (initHash.current && status === 'entered') {
-      handleHashchange(initHash.current, false);
-    } else if (status === 'entered') {
-      window.scrollTo(0, 0);
-    }
-  }, [handleHashchange, status]);
+  }, [hash, state, prefersReducedMotion, status]);
 
   return (
     <React.Fragment>
@@ -126,6 +145,8 @@ export default function Lab(props) {
         imageSrc={useMemo(() => [`${Cube}`], [])}
         imageAlt={useMemo(() => ['A 3D cube graph of RGB colors'], [])}
         imagePlaceholder={useMemo(() => [CubePlaceholder], [])}
+        imageType="laptop"
+        still
       />
       <ProjectItem
         id="experiment2"
@@ -139,6 +160,7 @@ export default function Lab(props) {
         imageSrc={useMemo(() => [`${ArMTG}`], [])}
         imageAlt={useMemo(() => ['ArMTG Website'], [])}
         imagePlaceholder={useMemo(() => [ArMTGPlaceholder], [])}
+        imageType="laptop"
         video
       />
 	    <ProjectItem
@@ -153,6 +175,7 @@ export default function Lab(props) {
         imageSrc={useMemo(() => [`${Rainbow}`], [])}
         imageAlt={useMemo(() => ["A colorful experiment with BAS Utilities and ThreeJS."], [])}
         imagePlaceholder={useMemo(() => [RainbowPlaceholder], [])}
+        imageType="laptop"
         video
       />
       <ProjectItem
@@ -167,6 +190,7 @@ export default function Lab(props) {
         imageSrc={useMemo(() => [`${Cold}`], [])}
         imageAlt={useMemo(() => ['Another animation in ThreeJS with BAS Utilities.'], [])}
         imagePlaceholder={useMemo(() => [ColdPlaceholder], [])}
+        imageType="laptop"
         video
       />
 	    <ProjectItem
@@ -181,6 +205,7 @@ export default function Lab(props) {
         imageSrc={useMemo(() => [`${World}`], [])}
         imageAlt={useMemo(() => ['The fourth take on a series of ThreeJS experiments toying with BAS Utilities.'], [])}
         imagePlaceholder={useMemo(() => [WorldPlaceholder], [])}
+        imageType="laptop"
         video
       />
 	    <ProjectItem
@@ -195,6 +220,7 @@ export default function Lab(props) {
         imageSrc={useMemo(() => [`${Tunnel}`], [])}
         imageAlt={useMemo(() => ['The third take on a series of ThreeJS experiments toying with BAS Utilities.'], [])}
         imagePlaceholder={useMemo(() => [TunnelPlaceholder], [])}
+        imageType="laptop"
         video
       />
 	    <ProjectItem
@@ -209,6 +235,7 @@ export default function Lab(props) {
         imageSrc={useMemo(() => [`${Flames}`], [])}
         imageAlt={useMemo(() => ['The second take on a series of ThreeJS experiments toying with BAS Utilities.'], [])}
         imagePlaceholder={useMemo(() => [FlamesPlaceholder], [])}
+        imageType="laptop"
         video
       />
 	    <ProjectItem
@@ -223,6 +250,7 @@ export default function Lab(props) {
         imageSrc={useMemo(() => [`${Frames}`], [])}
         imageAlt={useMemo(() => ['First take on a series of ThreeJS experiments toying with BAS Utilites.'], [])}
         imagePlaceholder={useMemo(() => [FramesPlaceholder], [])}
+        imageType="laptop"
         video
 	    />
       <Profile
