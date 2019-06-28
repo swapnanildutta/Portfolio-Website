@@ -7,7 +7,8 @@ import Svg from '../components/Svg';
 import { AppContext } from '../app/App';
 import { useInterval, usePrevious, useWindowSize } from '../utils/hooks';
 
-const DisplacementSphere = lazy(() => import('../components/DisplacementSphere'));
+const DisplacementSphere = lazy(() => import('../scenes/HomeScene'));
+const LabScene = lazy(() => import('../scenes/LabScene'));
 const prerender = navigator.userAgent === 'ReactSnap';
 
 function Intro(props) {
@@ -48,7 +49,12 @@ function Intro(props) {
         {status => (
           <React.Fragment>
             <Suspense fallback={<React.Fragment />}>
-              <DisplacementSphere />
+              {disciplines[0] !== 'Lab' &&
+                <DisplacementSphere />
+              }
+              {disciplines[0] === 'Lab' &&
+                <LabScene />
+              }
             </Suspense>
             <IntroText>
               <IntroName status={status} id={titleId}>

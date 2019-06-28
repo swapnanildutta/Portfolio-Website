@@ -5,9 +5,9 @@ import {
   Geometry, Vector3, CatmullRomCurve3, Line, LineBasicMaterial, MeshBasicMaterial, BackSide, TubeGeometry,
   MeshPhongMaterial, BoxBufferGeometry, IcosahedronBufferGeometry
 } from 'three';
-import { media } from '../utils/StyleUtils';
+import { media } from '../utils/styleUtils';
 import { AppContext } from '../app/App';
-import { usePrefersReducedMotion } from '../utils/Hooks';
+import { usePrefersReducedMotion } from '../utils/hooks';
 
 function LabScene() {
   const { currentTheme } = useContext(AppContext);
@@ -230,7 +230,7 @@ const AnimBackgroundFade = keyframes`
 `;
 
 const SceneContainer = styled.div`
-  position: fixed;
+  position: absolute;
   width: 100vw;
   top: 0;
   right: 0;
@@ -242,7 +242,6 @@ const SceneContainer = styled.div`
     animation-duration: 3s;
     animation-timing-function: ${props => props.theme.curveFastoutSlowin};
     animation-fill-mode: forwards;
-    opacity: 0;
     animation-name: ${AnimBackgroundFade};
   }
 `;

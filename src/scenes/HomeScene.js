@@ -6,11 +6,11 @@ import {
 } from 'three';
 import { Easing, Tween, autoPlay } from 'es6-tween';
 import innerHeight from 'ios-inner-height';
-import VertShader from '../shaders/SphereVertShader';
-import FragmentShader from '../shaders/SphereFragmentShader';
-import { media } from '../utils/StyleUtils';
+import VertShader from '../shaders/sphereVertShader';
+import FragmentShader from '../shaders/sphereFragmentShader';
+import { media } from '../utils/styleUtils';
 import { AppContext } from '../app/App';
-import { usePrefersReducedMotion } from '../utils/Hooks';
+import { usePrefersReducedMotion } from '../utils/hooks';
 
 function DisplacementSphere() {
   const { currentTheme } = useContext(AppContext);
@@ -98,22 +98,27 @@ function DisplacementSphere() {
 
   useEffect(() => {
     const onWindowResize = () => {
+      const canvasHeight = innerHeight();
       const windowWidth = window.innerWidth;
-      const fullHeight = innerHeight();
+      const fullHeight = canvasHeight + canvasHeight * 0.3;
       container.current.style.height = fullHeight;
       renderer.current.setSize(windowWidth, fullHeight);
       camera.current.aspect = windowWidth / fullHeight;
       camera.current.updateProjectionMatrix();
 
+      if (prefersReducedMotion) {
+        renderer.current.render(scene.current, camera.current);
+      }
+
       if (windowWidth <= media.numMobile) {
-        sphere.current.position.x = 16;
-        sphere.current.position.y = 8;
-      } else if (windowWidth <= media.numTablet) {
-        sphere.current.position.x = 20;
-        sphere.current.position.y = 12;
-      } else {
-        sphere.current.position.x = 25;
+        sphere.current.position.x = 14;
         sphere.current.position.y = 10;
+      } else if (windowWidth <= media.numTablet) {
+        sphere.current.position.x = 18;
+        sphere.current.position.y = 14;
+      } else {
+        sphere.current.position.x = 22;
+        sphere.current.position.y = 16;
       }
     };
 
@@ -123,7 +128,7 @@ function DisplacementSphere() {
     return function cleanup() {
       window.removeEventListener('resize', onWindowResize);
     };
-  }, []);
+  }, [prefersReducedMotion]);
 
   useEffect(() => {
     const onMouseMove = event => {
@@ -168,7 +173,7 @@ function DisplacementSphere() {
   }, [prefersReducedMotion]);
 
   return (
-    <SphereContainer ref={container} aria-hidden />
+    <SphereContainer aria-hidden ref={container} />
   );
 }
 
@@ -178,7 +183,7 @@ const AnimBackgroundFade = keyframes`
 `;
 
 const SphereContainer = styled.div`
-  position: fixed;
+  position: absolute;
   width: 100vw;
   top: 0;
   right: 0;
@@ -190,7 +195,6 @@ const SphereContainer = styled.div`
     animation-duration: 3s;
     animation-timing-function: ${props => props.theme.curveFastoutSlowin};
     animation-fill-mode: forwards;
-    opacity: 0;
     animation-name: ${AnimBackgroundFade};
   }
 `;

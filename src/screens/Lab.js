@@ -23,7 +23,7 @@ import FlamesPlaceholder from '../assets/Lab/flamesPlaceholder.png';
 import Frames from '../assets/Lab/frames.mp4';
 import FramesPlaceholder from '../assets/Lab/framesPlaceholder.png';
 
-const disciplines = ['Developer', 'Creator', 'Animator', 'Student'];
+const disciplines = ['Lab'];
 
 export default function Home(props) {
   const { status } = useContext(AppContext);
