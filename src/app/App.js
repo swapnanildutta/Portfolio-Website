@@ -12,11 +12,12 @@ import GothamMedium from '../fonts/gotham-medium.woff2';
 const Home = lazy(() => import('../screens/Home'));
 const Contact = lazy(() => import('../screens/Contact'));
 const Lab = lazy(() => import('../screens/Lab'));
+const ProjectImpact = lazy(() => import('../screens/ProjectImpact'));
+const ProjectDTT = lazy(() => import('../screens/ProjectDTT'));
 const ProjectBells = lazy(() => import('../screens/ProjectBells'));
 const ProjectMystGang = lazy(() => import('../screens/ProjectMystGang'));
 const ProjectARMTG = lazy(() => import('../screens/ProjectARMTG'));
 const ProjectRobotics = lazy(() => import('../screens/ProjectRobotics'));
-const ProjectDTT = lazy(() => import('../screens/ProjectDTT'));
 const Blog = lazy(() => import('../screens/Blog'));
 const NotFound = lazy(() => import('../screens/404'));
 
@@ -118,11 +119,12 @@ function App() {
                             <Route exact path="/" component={Home} />
                             <Route path="/contact" component={Contact} />
                             <Route path="/lab" component={Lab} />
+                            <Route path="/projects/impact" component={ProjectImpact} />
+                            <Route path="/projects/devtech" component={ProjectDTT} />
                             <Route path="/projects/bells" component={ProjectBells} />
                             <Route path="/projects/mystgang" component={ProjectMystGang} />
                             <Route path="/projects/armtg" component={ProjectARMTG} />
                             <Route path="/projects/robotics" component={ProjectRobotics} />
-                            <Route path="/projects/devtech" component={ProjectDTT} />
                             <Route path="/blog" component={Blog} />
                             <Route component={NotFound} />
                           </Switch>

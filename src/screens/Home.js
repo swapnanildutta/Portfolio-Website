@@ -6,6 +6,9 @@ import ProjectItem from '../screens/ProjectItem';
 import Profile from '../screens/Profile';
 import Footer from '../components/Footer';
 import { usePrefersReducedMotion } from '../utils/hooks';
+import ImpactProject from '../assets/Impact/impact-project.png';
+import ImpactProjectLarge from '../assets/Impact/impact-project-large.png';
+import ImpactProjectPlaceholder from '../assets/Impact/impact-project-placeholder.png';
 import DTTProject from '../assets/DTT/dtt-project.png';
 import DTTProjectLarge from '../assets/DTT/dtt-project-large.png';
 import DTTProjectPlaceholder from '../assets/DTT/dtt-project-placeholder.png';
@@ -37,11 +40,12 @@ export default function Home(props) {
   const projectThree = useRef();
   const projectFour = useRef();
   const projectFive = useRef();
+  const projectSix = useRef();
   const about = useRef();
   const prefersReducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
-    const revealSections = [intro, projectOne, projectTwo, projectThree, projectFour, projectFive, about];
+    const revealSections = [intro, projectOne, projectTwo, projectThree, projectFour, projectFive, projectSix, about];
 
     const sectionObserver = new IntersectionObserver(entries => {
       entries.forEach(entry => {
@@ -75,7 +79,7 @@ export default function Home(props) {
     const supportsNativeSmoothScroll = 'scrollBehavior' in document.documentElement.style;
 
     const handleHashchange = (hash, scroll) => {
-      const hashSections = [intro, projectOne, projectTwo, projectThree, projectFour, projectFive, about];
+      const hashSections = [intro, projectOne, projectTwo, projectThree, projectFour, projectFive, projectSix, about];
       const hashString = hash.replace('#', '');
       const element = hashSections.filter(item => item.current.id === hashString)[0];
       if (!element) return;
@@ -134,6 +138,20 @@ export default function Home(props) {
         sectionRef={projectOne}
         visible={visibleSections.includes(projectOne.current)}
         index="01"
+        title="Changing the Game"
+        description="Creating a website to help boost Impact Development's platform."
+        buttonText="View Project"
+        buttonTo="/projects/impact"
+        imageSrc={useMemo(() => [`${ImpactProject} 980w, ${ImpactProjectLarge} 1376w`], [])}
+        imageAlt={useMemo(() => ['Impact Development\' Landing Page'], [])}
+        imagePlaceholder={useMemo(() => [ImpactProjectPlaceholder], [])}
+        imageType="laptop"
+      />
+      <ProjectItem
+        id="work2"
+        sectionRef={projectTwo}
+        visible={visibleSections.includes(projectTwo.current)}
+        index="02"
         title="A Tool for Everything"
         description="Creating a platfrom to help developers build better software."
         buttonText="View Project"
@@ -144,10 +162,10 @@ export default function Home(props) {
         imageType="laptop"
       />
       <ProjectItem
-        id="work2"
-        sectionRef={projectTwo}
-        visible={visibleSections.includes(projectTwo.current)}
-        index="02"
+        id="work3"
+        sectionRef={projectThree}
+        visible={visibleSections.includes(projectThree.current)}
+        index="03"
         title="Bell's Gaming Center"
         description="A website featuring a storefront, events calendar, and games dashboard for a local game store."
         buttonText="View Project"
@@ -158,10 +176,10 @@ export default function Home(props) {
         imageType="laptop"
       />
       <ProjectItem
-        id="work3"
-        sectionRef={projectThree}
-        visible={visibleSections.includes(projectThree.current)}
-        index="03"
+        id="work4"
+        sectionRef={projectFour}
+        visible={visibleSections.includes(projectFour.current)}
+        index="04"
         title="MystGang"
         description="Bringing an epic content creator's portfolio to life with ThreeJS."
         buttonText="View Project"
@@ -172,10 +190,10 @@ export default function Home(props) {
         imageType="laptop"
       />
       <ProjectItem
-        id="work4"
-        sectionRef={projectFour}
-        visible={visibleSections.includes(projectFour.current)}
-        index="04"
+        id="work5"
+        sectionRef={projectFive}
+        visible={visibleSections.includes(projectFive.current)}
+        index="05"
         title="ArMTG"
         description="Bringing the future to the renowned card game: Magic, the Gathering."
         buttonText="View Project"
@@ -186,10 +204,10 @@ export default function Home(props) {
         imageType="laptop"
       />
       <ProjectItem
-        id="work5"
-        sectionRef={projectFive}
-        visible={visibleSections.includes(projectFive.current)}
-        index="05"
+        id="work6"
+        sectionRef={projectSix}
+        visible={visibleSections.includes(projectSix.current)}
+        index="06"
         title="GCPS Robotics"
         description="Creating the website and the robot core that won the BEST Robotics State Competition Website Award."
         buttonText="View Project"
