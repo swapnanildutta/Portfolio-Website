@@ -20,7 +20,7 @@ function PostListItem({
 }) {
   return (
     <PostListItemWrapper>
-      <PostContent to={`/articles${path}`}>
+      <PostContent to={`/blog${path}`}>
         <PostImageWrapper>
           <PostImage
             srcSet={banner ? require(`../posts/assets/${banner}`) : undefined}
@@ -48,8 +48,8 @@ function PostList() {
   return (
     <PostListWrapper>
       <Helmet>
-        <title>{`Articles | Cody Bennett`}</title>
-        <meta name="description" content="A collection of technical design and development articles." />
+        <title>{`Blog | Cody Bennett`}</title>
+        <meta name="description" content="A collection of technical design and development blog." />
       </Helmet>
       <PostListContent>
         {posts.map(({ path, ...post }) =>
@@ -60,7 +60,7 @@ function PostList() {
   );
 }
 
-function Articles() {
+function blog() {
   return (
     <Post>
       <Suspense fallback={Fragment}>
@@ -68,7 +68,7 @@ function Articles() {
           {posts.map(({ content: PostComp, path, ...rest }) => (
             <Route
               key={path}
-              path={`/articles${path}`}
+              path={`/blog${path}`}
               render={() => <PostComp {...rest} />}
             />
           ))}
@@ -79,7 +79,7 @@ function Articles() {
   );
 }
 
-export default Articles;
+export default blog;
 
 const PostListWrapper = styled.div`
   display: flex;
