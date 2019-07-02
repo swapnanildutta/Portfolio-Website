@@ -18,7 +18,7 @@ const ProjectBells = lazy(() => import('../screens/ProjectBells'));
 const ProjectMystGang = lazy(() => import('../screens/ProjectMystGang'));
 const ProjectARMTG = lazy(() => import('../screens/ProjectARMTG'));
 const ProjectRobotics = lazy(() => import('../screens/ProjectRobotics'));
-const Blog = lazy(() => import('../screens/Blog'));
+const Articles = lazy(() => import('../screens/Articles'));
 const NotFound = lazy(() => import('../screens/404'));
 
 const prerender = navigator.userAgent === 'ReactSnap';
@@ -125,7 +125,7 @@ function App() {
                             <Route path="/projects/mystgang" component={ProjectMystGang} />
                             <Route path="/projects/armtg" component={ProjectARMTG} />
                             <Route path="/projects/robotics" component={ProjectRobotics} />
-                            <Route path="/blog" component={Blog} />
+                            <Route path="/articles" component={Articles} />
                             <Route component={NotFound} />
                           </Switch>
                         </Suspense>
@@ -205,6 +205,7 @@ const AppPage = styled.div`
 
   ${props => props.status === 'entered' && css`
     transition-duration: 0.5s;
+    transition-delay: 0.2s;
     opacity: 1;
   `}
 `;

@@ -41,8 +41,6 @@ function PostWrapper({
     });
   };
 
-  console.log(rest);
-
   return (
     <PostArticle>
       <Helmet>
@@ -125,24 +123,6 @@ function imageFactory({ src, ...props }) {
 
   return <Image {...props} src={src} />;
 };
-
-function Post({ children }) {
-  return (
-    <MDXProvider components={{
-      wrapper: PostWrapper,
-      h2: HeadingTwo,
-      p: Paragrapgh,
-      img: imageFactory,
-      a: (props) => <Anchor target="_blank" {...props} />,
-      code: CodeBlock,
-      inlineCode: InlineCode,
-    }}>
-      {children}
-    </MDXProvider>
-  );
-}
-
-export default Post;
 
 const PostArticle = styled.article`
   position: relative;
@@ -274,7 +254,7 @@ const PostTitleWord = styled.span`
   animation-name: ${AnimPostTitleWord};
   animation-timing-function: ${props => props.theme.curveFastoutSlowin};
   animation-duration: 1.2s;
-  animation-delay: ${props => props.index * 120}ms;
+  animation-delay: ${props => props.index * 120 + 200}ms;
   animation-fill-mode: forwards;
   display: inline-flex;
 
@@ -287,9 +267,11 @@ const PostBanner = styled.div`
   justify-self: flex-end;
   width: 100%;
   height: 100%;
+  z-index: 1024;
 
   @media (max-width: ${media.mobile}) {
     min-height: 40vh;
+    z-index: 1;
   }
 `;
 
@@ -389,7 +371,6 @@ const PostContentWrapper = styled.div`
 `;
 
 const PostContent = styled.div`
-  max-width: 800px;
   width: 100%;
   align-self: center;
   margin-top: 120px;
@@ -399,18 +380,39 @@ const PostContent = styled.div`
   animation-delay: 1s;
   animation-fill-mode: forwards;
   opacity: 0;
+  display: grid;
+  grid-template-columns: 1fr 100px 800px 100px 1fr;
+
+  & > pre {
+    grid-column: 3;
+  }
 
   @media (prefers-reduced-motion: reduce) {
     opacity: 1;
   }
 
+  @media (max-width: 1320px) {
+    grid-template-columns: 1fr 80px 740px 80px 1fr;
+    margin-top: 80px;
+  }
+
   @media (max-width: ${media.laptop}) {
-    max-width: 680px;
+    grid-template-columns: 1fr 60px 680px 60px 1fr;
+    margin-top: 80px;
+  }
+
+  @media (max-width: 1100px) {
+    grid-template-columns: 1fr 50px 660px 50px 1fr;
     margin-top: 80px;
   }
 
   @media (max-width: ${media.tablet}) {
+    grid-template-columns: 100%;
     margin-top: 70px;
+
+    & > pre {
+      grid-column: 1;
+    }
   }
 
   @media (max-width: ${media.mobile}) {
@@ -422,6 +424,8 @@ const HeadingTwo = styled.h2`
   color: ${props => props.theme.colorTitle};
   margin: 0;
   font-size: 42px;
+  grid-column: 3;
+  font-weight: 500;
 
   @media (max-width: ${media.laptop}) {
     font-size: 34px;
@@ -429,6 +433,7 @@ const HeadingTwo = styled.h2`
 
   @media (max-width: ${media.tablet}) {
     font-size: 24px;
+    grid-column: 1;
   }
 
   @media (max-width: ${media.mobile}) {
@@ -441,6 +446,7 @@ const Paragrapgh = styled.p`
   margin: 0;
   font-size: 24px;
   line-height: 1.5;
+  grid-column: 3;
 
   ${HeadingTwo} + & {
     margin-top: 34px;
@@ -463,6 +469,8 @@ const Paragrapgh = styled.p`
   }
 
   @media (max-width: ${media.tablet}) {
+    grid-column: 1;
+
     ${HeadingTwo} + & {
       margin-top: 22px;
     }
@@ -484,9 +492,16 @@ const Paragrapgh = styled.p`
 
 const Image = styled.img`
   display: block;
-  margin: 60px 0;
+  margin: 80px 0;
   max-width: 100%;
+  width: 100%;
   height: auto;
+  grid-column: 2 / span 3;
+
+  @media (max-width: ${media.tablet}) {
+    grid-column: 1;
+    margin: 60px 0;
+  }
 `;
 
 const InlineCode = styled.code`
@@ -495,3 +510,23 @@ const InlineCode = styled.code`
   padding: 0.1em 0.3em;
   font-family: ${props => props.theme.monoFontStack};
 `;
+
+const components = {
+  wrapper: PostWrapper,
+  h2: HeadingTwo,
+  p: Paragrapgh,
+  img: imageFactory,
+  a: (props) => <Anchor target="_blank" {...props} />,
+  pre: CodeBlock,
+  inlineCode: InlineCode,
+};
+
+function Post({ children }) {
+  return (
+    <MDXProvider components={components}>
+      {children}
+    </MDXProvider>
+  );
+}
+
+export default Post;
