@@ -7,7 +7,7 @@ import { Button } from '../components/Button';
 import Input from '../components/Input';
 import Anchor from '../components/Anchor';
 import Monogram from '../components/Monogram';
-import JulyScene from '../scenes/JulyScene';
+import JulyFourth from '../scenes/JulyFourth';
 import HomeScene from '../scenes/HomeScene';
 import LabScene from '../scenes/LabScene';
 import BellsScene from '../scenes/BellsScene';
