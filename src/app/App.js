@@ -12,7 +12,6 @@ import GothamMedium from '../fonts/gotham-medium.woff2';
 const Home = lazy(() => import('../screens/Home'));
 const Contact = lazy(() => import('../screens/Contact'));
 const Lab = lazy(() => import('../screens/Lab'));
-const ProjectImpact = lazy(() => import('../screens/ProjectImpact'));
 const ProjectDTT = lazy(() => import('../screens/ProjectDTT'));
 const ProjectBells = lazy(() => import('../screens/ProjectBells'));
 const ProjectMystGang = lazy(() => import('../screens/ProjectMystGang'));
@@ -120,7 +119,6 @@ function App() {
                             <Route path="/contact" component={Contact} />
                             <Route path="/lab" component={Lab} />
                             <Route path="/blog" component={Blog} />
-                            <Route path="/projects/impact" component={ProjectImpact} />
                             <Route path="/projects/devtech" component={ProjectDTT} />
                             <Route path="/projects/bells" component={ProjectBells} />
                             <Route path="/projects/mystgang" component={ProjectMystGang} />
