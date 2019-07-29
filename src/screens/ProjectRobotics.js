@@ -132,7 +132,7 @@ function Robotics() {
             <ProjectTextRow>
               <ProjectSectionHeading>The Interface of Success</ProjectSectionHeading>
               <ProjectSectionText>
-                Designed and built from the ground up, this team-based interface guided the inner divisions of the team into productive workspaces, complete with integrated Autodesk apps and a networked chat room powered by Google's FireBase.
+                Designed and built from the ground up, this team-based interface guided the inner divisions of the team into productive workspaces, complete with integrated Autodesk apps and a networked chat room powered by Google's Firebase.
               </ProjectSectionText>
             </ProjectTextRow>
             <ProgressiveImage
@@ -228,7 +228,7 @@ function Robotics() {
               <RouterButton
                 secondary
                 icon="chevronRight"
-                to="/#work6"
+                to="/#work5"
               >
                 Back to homepage
               </RouterButton>
