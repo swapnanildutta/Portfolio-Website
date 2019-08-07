@@ -1570,10 +1570,10 @@
   resolved "https://registry.yarnpkg.com/@mdx-js/react/-/react-1.0.20.tgz#6af2191dee50ad659c328628f0e4dba86763ca42"
   integrity sha512-gU/sGs2Yo0fuztSJeUqzHutQWPBXEO4vywyFT+pHPFW+BRAcwuaf3ub03HogJasMnE0S2kYt6ValwCGxViHIEA==
 
-"@mdx-js/react@^1.0.21":
-  version "1.0.21"
-  resolved "https://registry.yarnpkg.com/@mdx-js/react/-/react-1.0.21.tgz#fc569b86d19f426774591fa401d999ddf6ea5948"
-  integrity sha512-+7H1UfIytxKN/nSdojCRzUM/ZeQ6/EUg8F9bnY2NnPGuF+67cug6vZBAx9famtAey0Ms0dr2QAuCOd8k3SkhJg==
+"@mdx-js/react@^1.0.27":
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/@mdx-js/react/-/react-1.1.6.tgz#ad78d69c7b8942e1ab126e47ae67a604856ade24"
+  integrity sha512-IQf5WIuInyk85liH1jXoK16pRr3ExQAuR4tzE1GnXK6IyuZoj3DBKMlwKZ93Fa5WF31o3Vc39CIkosuC/xIHhQ==
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
@@ -7084,10 +7084,10 @@ invert-kv@^2.0.0:
   resolved "https://registry.yarnpkg.com/invert-kv/-/invert-kv-2.0.0.tgz#7393f5afa59ec9ff5f67a27620d11c226e3eec02"
   integrity sha512-wPVv/y/QQ/Uiirj/vh3oP+1Ww+AWehmi1g5fFWGPF6IpCBCDVrhgHRMvrLfdYcwDh3QJbGXDW4JAuzxElLSqKA==
 
-ios-inner-height@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/ios-inner-height/-/ios-inner-height-1.1.0.tgz#87e0003ee181c18e070640d10ba5e6434147306a"
-  integrity sha512-ms/ifgoozTQSyw2Gp9u3QGB7nPw/ZTdjjriKY10m0MPdnA5TiEJiEofOc5ThGR9ACj1VosdzYDPqluMQ3/xJkQ==
+ios-inner-height@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/ios-inner-height/-/ios-inner-height-1.1.1.tgz#987c62350a04586b4025a21fa0e8bef054b7b64e"
+  integrity sha512-1/eCW+slv9Zm83Ugsq34dOU3QDzf/mcQQnOH0W8fLgvNKWYH3Kn8lod83K6JHDNWRgZCRJ1swFNiQrZqiJOiwA==
 
 ip-regex@^2.1.0:
   version "2.1.0"
@@ -8552,10 +8552,10 @@ loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.2.0, loose-envify@^1.3
   dependencies:
     js-tokens "^3.0.0 || ^4.0.0"
 
-lottie-web@^5.5.6:
-  version "5.5.6"
-  resolved "https://registry.yarnpkg.com/lottie-web/-/lottie-web-5.5.6.tgz#3aa77cb13510ca4121d17e31efcd7978e75e9298"
-  integrity sha512-UUUIjKT9BncCHFIJEfb+1glvd+8MLjrAP1mbX2atE7A9TAtZn3yEz96k5K/n2pC20tEL7Q4xKaN1qyXp+6YSDg==
+lottie-web@^5.5.7:
+  version "5.5.7"
+  resolved "https://registry.yarnpkg.com/lottie-web/-/lottie-web-5.5.7.tgz#a8341487be1c31915fb3a784c3ec25fd6c9468df"
+  integrity sha512-NqXq1AncbLvUXHzQwpNMv4ySLOj6IWXOuN8GZbz6e3lMfw6y93rrxVhwYTPudQ8VKAYLjwu72cZiPQgcDt+mPg==
 
 loud-rejection@^1.0.0:
   version "1.6.0"
@@ -12921,10 +12921,10 @@ store2@^2.7.1:
   resolved "https://registry.yarnpkg.com/store2/-/store2-2.7.1.tgz#22070b7dc04748a792fc6912a58ab99d3a21d788"
   integrity sha512-zzzP5ZY6QWumnAFV6kBRbS44pUMcpZBNER5DWUe1HETlaKXqLcCQxbNu6IHaKr1pUsjuhUGBdOy8sWKmMkL6pQ==
 
-storybook-addon-styled-component-theme@^1.2.3:
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/storybook-addon-styled-component-theme/-/storybook-addon-styled-component-theme-1.2.3.tgz#c99625642e07fc7e4965f73c695791b3d81ed969"
-  integrity sha512-/XrG8VFBpYjyydeYszvbZIsl87SSRmDPKt1zD/uoaHASedUK8rzCBU3MsAGtUi6FvyXCeISj9wsoWnu4FyMS0w==
+storybook-addon-styled-component-theme@^1.2.4:
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/storybook-addon-styled-component-theme/-/storybook-addon-styled-component-theme-1.2.4.tgz#b92c69e676e29e4ddba72aa0b2dfcbeea4f2b40f"
+  integrity sha512-OlE0zTKUDP0+KL3Qjsl43ca5V6Gu0s4FqPKTEFoSKRzzJPOqE7j4l3FZnJE+XyPYcxCjx2JcZaEbfkS6RhrvqA==
   dependencies:
     immutable "^3.8.2"
     recompose "^0.27.1"
