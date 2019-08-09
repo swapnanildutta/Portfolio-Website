@@ -1,11 +1,11 @@
 import React, { Suspense, lazy, useMemo, useContext, useEffect, useState } from 'react';
 import styled, { css, keyframes } from 'styled-components/macro';
 import { TransitionGroup, Transition } from 'react-transition-group';
-import { media, AnimFade, rgba, sectionPadding } from '../utils/styleUtils';
+import { media, AnimFade, rgba, sectionPadding } from '../utils/StyleUtils';
 import DecoderText from '../components/DecoderText';
 import Svg from '../components/Svg';
 import { AppContext } from '../app/App';
-import { useInterval, usePrevious, useWindowSize } from '../utils/hooks';
+import { useInterval, usePrevious, useWindowSize } from '../utils/Hooks';
 
 const HomeScene = lazy(() => import('../scenes/HomeScene'));
 const LabScene = lazy(() => import('../scenes/LabScene'));

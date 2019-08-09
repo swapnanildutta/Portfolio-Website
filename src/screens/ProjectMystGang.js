@@ -2,7 +2,7 @@ import React, { useMemo, lazy, Suspense } from 'react';
 import styled from 'styled-components/macro';
 import { Helmet } from 'react-helmet-async';
 import ProgressiveImage from '../components/ProgressiveImage';
-import { useScrollToTop } from '../utils/hooks';
+import { useScrollToTop } from '../utils/Hooks';
 import { RouterButton } from '../components/Button';
 import Footer from '../components/Footer';
 import {
@@ -10,7 +10,7 @@ import {
   ProjectBackground, ProjectHeader, ProjectSectionHeading, ProjectSectionText,
   ProjectTextRow, Video, ProjectSectionColumns, SidebarImages, SidebarImage
 } from '../components/Project';
-import { media } from '../utils/styleUtils';
+import { media } from '../utils/StyleUtils';
 import Background from '../assets/MystGang/background.mp4';
 import BackgroundPlaceholder from '../assets/MystGang/backgroundPlaceholder.png';
 import Render from '../assets/MystGang/MystGang.mp4'

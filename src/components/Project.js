@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled, { css, keyframes } from 'styled-components/macro';
-import { media, AnimFade, rgba, sectionPadding } from '../utils/styleUtils';
+import { media, AnimFade, rgba, sectionPadding } from '../utils/StyleUtils';
 import ProgressiveImage from '../components/ProgressiveImage';
 import ProgressiveVideo from '../components/ProgressiveVideo';
 import { LinkButton } from '../components/Button';
-import { usePrefersReducedMotion } from '../utils/hooks';
+import { usePrefersReducedMotion } from '../utils/Hooks';
 
 const initDelay = 300;
 export const Video = ProgressiveVideo;

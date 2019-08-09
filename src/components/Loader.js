@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import styled, { css, keyframes } from 'styled-components/macro';
-import { usePrefersReducedMotion } from '../utils/hooks';
+import { usePrefersReducedMotion } from '../utils/Hooks';
 
 const Loader = ({ size = 32, color = '#fff', text = 'Loading...', ...rest }) => {
   const prefersReducedMotion = usePrefersReducedMotion();

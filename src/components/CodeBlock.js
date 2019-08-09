@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-import { media } from '../utils/styleUtils';
+import { media } from '../utils/StyleUtils';
 
 function CodeBlock(props) {
   return (

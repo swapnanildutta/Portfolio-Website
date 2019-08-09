@@ -8,8 +8,8 @@ import {
 import VertShader from '../shaders/RoboticsVertexShader';
 import FragmentShader from '../shaders/RoboticsFragmentShader';
 import { AppContext } from '../app/App';
-import { usePrefersReducedMotion } from '../utils/hooks';
-import { theme } from '../utils/theme';
+import { usePrefersReducedMotion } from '../utils/Hooks';
+import { theme } from '../utils/Theme';
 
 function RoboticsScene() {
   const { currentTheme } = useContext(AppContext);

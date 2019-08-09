@@ -1,11 +1,11 @@
 import React from 'react';
 import styled, { css } from 'styled-components/macro';
 import { Transition } from 'react-transition-group';
-import { media, rgba, sectionPadding } from '../utils/styleUtils';
+import { media, rgba, sectionPadding } from '../utils/StyleUtils';
 import { RouterButton, LinkButton } from '../components/Button';
 import ProgressiveImage from '../components/ProgressiveImage';
 import Divider from '../components/Divider';
-import { useWindowSize } from '../utils/hooks';
+import { useWindowSize } from '../utils/Hooks';
 import Macbook from '../assets/macbook-large.webp';
 import phone from '../assets/phone.png';
 import phoneLarge from '../assets/phone-large.png';

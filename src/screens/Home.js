@@ -5,7 +5,7 @@ import Intro from '../screens/Intro';
 import ProjectItem from '../screens/ProjectItem';
 import Profile from '../screens/Profile';
 import Footer from '../components/Footer';
-import { usePrefersReducedMotion } from '../utils/hooks';
+import { usePrefersReducedMotion } from '../utils/Hooks';
 import DTTProject from '../assets/DTT/dtt-project.png';
 import DTTProjectLarge from '../assets/DTT/dtt-project-large.png';
 import DTTProjectPlaceholder from '../assets/DTT/dtt-project-placeholder.png';

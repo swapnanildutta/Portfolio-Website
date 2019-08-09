@@ -7,8 +7,8 @@ import Input from '../components/Input';
 import DecoderText from '../components/DecoderText';
 import Divider from '../components/Divider';
 import { Button, RouterButton } from '../components/Button';
-import { media, AnimFade, sectionPadding } from '../utils/styleUtils';
-import { useScrollToTop, useFormInput } from '../utils/hooks';
+import { media, AnimFade, sectionPadding } from '../utils/StyleUtils';
+import { useScrollToTop, useFormInput } from '../utils/Hooks';
 
 const prerender = navigator.userAgent === 'ReactSnap';
 const initDelay = 300;

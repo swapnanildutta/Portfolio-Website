@@ -1,6 +1,6 @@
 import React, { lazy } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useScrollToTop } from '../utils/hooks';
+import { useScrollToTop } from '../utils/Hooks';
 import Footer from '../components/Footer';
 import { RouterButton } from '../components/Button';
 import {
@@ -8,7 +8,7 @@ import {
   ProjectHeader, ProjectTextRow, ProjectSectionHeading, ProjectSectionText,
   Video, ProjectSectionColumns, SidebarImages, SidebarImage
 } from '../components/Project';
-import { media } from '../utils/styleUtils';
+import { media } from '../utils/StyleUtils';
 import Render from '../assets/ARMTG/ARMTGWeb.mp4';
 import RenderPlaceholder from '../assets/ARMTG/ARMTGWebPlaceHolder.png';
 import NextProject from '../assets/Robotics/robotics-project-large.png';

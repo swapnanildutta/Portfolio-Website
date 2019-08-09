@@ -5,9 +5,9 @@ import {
   Geometry, Vector3, CatmullRomCurve3, Line, LineBasicMaterial, MeshBasicMaterial, BackSide, TubeGeometry,
   MeshPhongMaterial, BoxBufferGeometry, IcosahedronBufferGeometry
 } from 'three';
-import { media } from '../utils/styleUtils';
+import { media } from '../utils/StyleUtils';
 import { AppContext } from '../app/App';
-import { usePrefersReducedMotion } from '../utils/hooks';
+import { usePrefersReducedMotion } from '../utils/Hooks';
 
 function LabScene() {
   const { currentTheme } = useContext(AppContext);

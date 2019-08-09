@@ -1,4 +1,4 @@
-import { rgba } from './styleUtils';
+import { rgba } from './StyleUtils';
 
 const fonstStack = [
   'Gotham',

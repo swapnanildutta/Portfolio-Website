@@ -4,8 +4,8 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { Transition, TransitionGroup, config } from 'react-transition-group';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import Header from '../components/Header';
-import { theme } from '../utils/theme';
-import { useLocalStorage, usePrefersReducedMotion } from '../utils/hooks';
+import { theme } from '../utils/Theme';
+import { useLocalStorage, usePrefersReducedMotion } from '../utils/Hooks';
 import GothamBook from '../fonts/gotham-book.woff2';
 import GothamMedium from '../fonts/gotham-medium.woff2';
 

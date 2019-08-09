@@ -5,7 +5,7 @@ import {
 } from 'three';
 import VertShader from '../shaders/BellsVertexShader';
 import FragmentShader from '../shaders/BellsFragmentShader';
-import { usePrefersReducedMotion } from '../utils/hooks';
+import { usePrefersReducedMotion } from '../utils/Hooks';
 
 function BellsScene() {
   const container = useRef();

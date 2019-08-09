@@ -5,7 +5,7 @@ import Intro from '../screens/Intro';
 import ProjectItem from '../screens/ProjectItem';
 import Profile from '../screens/Profile';
 import Footer from '../components/Footer';
-import { usePrefersReducedMotion } from '../utils/hooks';
+import { usePrefersReducedMotion } from '../utils/Hooks';
 import Cube from '../assets/Lab/Cube.webp';
 import CubePlaceholder from '../assets/Lab/CubePlaceholder.png';
 import ArMTG from '../assets/Lab/ArMTG.mp4';

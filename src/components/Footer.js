@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components/macro';
 import { Link } from 'react-router-dom';
 import Anchor from '../components/Anchor';
-import { media, rgba, sectionPadding } from '../utils/styleUtils';
+import { media, rgba, sectionPadding } from '../utils/StyleUtils';
 
 const Footer = () => (
   <FooterContainer role="contentinfo">

@@ -2,7 +2,7 @@ import React, { lazy, useContext } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { AppContext } from '../app/App';
 import ProgressiveImage from '../components/ProgressiveImage';
-import { useScrollToTop } from '../utils/hooks';
+import { useScrollToTop } from '../utils/Hooks';
 import Footer from '../components/Footer';
 import { RouterButton } from '../components/Button';
 import {
@@ -10,7 +10,7 @@ import {
   ProjectSectionHeading, ProjectHeader, ProjectTextRow, ProjectSectionText,
   ProjectSectionColumns, SidebarImagesText, SidebarImages, SidebarImage
 } from '../components/Project';
-import { media } from '../utils/styleUtils';
+import { media } from '../utils/StyleUtils';
 import Render from '../assets/BellsGC/BellsGC.webp';
 import RenderPlaceholder from '../assets/BellsGC/BellsGCPlaceholder.png';
 import BrandingDark from '../assets/BellsGC/brandingDark.webp';

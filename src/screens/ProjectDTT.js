@@ -1,7 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import ProgressiveImage from '../components/ProgressiveImage';
-import { useScrollToTop } from '../utils/hooks';
+import { useScrollToTop } from '../utils/Hooks';
 import Footer from '../components/Footer';
 import { RouterButton } from '../components/Button';
 import {
@@ -9,7 +9,7 @@ import {
   ProjectSectionHeading, ProjectBackground, ProjectHeader, ProjectSectionColumns,
   SidebarImages, SidebarImage, ProjectTextRow, ProjectSectionText
 } from '../components/Project';
-import { media } from '../utils/styleUtils';
+import { media } from '../utils/StyleUtils';
 import background from '../assets/DTT/dtt-background.png';
 import backgroundLarge from '../assets/DTT/dtt-background-large.png';
 import backgroundPlaceholder from '../assets/DTT/dtt-background-placeholder.png';

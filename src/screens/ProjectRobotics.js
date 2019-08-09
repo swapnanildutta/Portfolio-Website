@@ -1,7 +1,7 @@
 import React, { lazy } from 'react';
 import { Helmet } from 'react-helmet-async';
 import ProgressiveImage from '../components/ProgressiveImage';
-import { useScrollToTop } from '../utils/hooks';
+import { useScrollToTop } from '../utils/Hooks';
 import Footer from '../components/Footer';
 import { RouterButton } from '../components/Button';
 import {
@@ -10,7 +10,7 @@ import {
   ProjectSectionColumns, SidebarImagesText, SidebarImages, SidebarImage,
   ProjectSectionGrid, ProjectSectionGridBackground, ProjectSectionGridText,
 } from '../components/Project';
-import { media } from '../utils/styleUtils';
+import { media } from '../utils/StyleUtils';
 import Render from '../assets/Robotics/robotics.mp4';
 import RenderPlaceholder from '../assets/Robotics/roboticsPlaceholder.png';
 import Branding from '../assets/Robotics/branding.webp';

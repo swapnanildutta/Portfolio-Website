@@ -6,11 +6,11 @@ import {
 } from 'three';
 import { Easing, Tween, autoPlay } from 'es6-tween';
 import innerHeight from 'ios-inner-height';
-import VertShader from '../shaders/sphereVertShader';
-import FragmentShader from '../shaders/sphereFragmentShader';
-import { media } from '../utils/styleUtils';
+import VertShader from '../shaders/SphereVertShader';
+import FragmentShader from '../shaders/SphereFragmentShader';
+import { media } from '../utils/StyleUtils';
 import { AppContext } from '../app/App';
-import { usePrefersReducedMotion } from '../utils/hooks';
+import { usePrefersReducedMotion } from '../utils/Hooks';
 
 function DisplacementSphere() {
   const { currentTheme } = useContext(AppContext);

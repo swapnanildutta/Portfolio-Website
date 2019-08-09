@@ -24,7 +24,7 @@ import About1 from '../assets/MystGang/About1.webp';
 import About2 from '../assets/MystGang/About2.webp';
 import About3 from '../assets/MystGang/About3.webp';
 import Contact from '../assets/MystGang/Contact.webp';
-import { useFormInput } from '../utils/hooks';
+import { useFormInput } from '../utils/Hooks';
 
 const StoryContainer = styled.div`
   width: 100vw;
