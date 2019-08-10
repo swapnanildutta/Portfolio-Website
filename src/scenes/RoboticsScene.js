@@ -13,8 +13,6 @@ import { theme } from '../utils/Theme';
 
 function RoboticsScene() {
   const { currentTheme } = useContext(AppContext);
-  const scheduledAnimationFrame = useRef(false);
-  const lastScrollY = useRef(0);
   const width = useRef(window.innerWidth);
   const height = useRef(window.innerHeight);
   const green = useRef({
@@ -193,24 +191,11 @@ function RoboticsScene() {
       camera.current.updateProjectionMatrix();
     };
 
-    const handleScroll = () => {
-      lastScrollY.current = window.scrollY;
-      if (scheduledAnimationFrame.current) return;
-      scheduledAnimationFrame.current = true;
-
-      requestAnimationFrame(() => {
-        camera.current.position.y = lastScrollY.current * 0.001;
-        scheduledAnimationFrame.current = false;
-      });
-    };
-
     if (!prefersReducedMotion) {
       window.addEventListener('resize', handleWindowResize, false);
-      window.addEventListener('scroll', handleScroll);
 
       return function cleanUp() {
         window.removeEventListener('resize', handleWindowResize, false);
-        window.removeEventListener('scroll', handleScroll);
       };
     }
   }, [prefersReducedMotion]);
