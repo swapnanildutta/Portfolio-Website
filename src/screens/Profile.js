@@ -1,7 +1,6 @@
 import React from 'react';
 import styled, { css } from 'styled-components/macro';
 import { Transition } from 'react-transition-group';
-import { Link } from 'react-router-dom';
 import Anchor from '../components/Anchor';
 import { RouterButton } from '../components/Button';
 import DecoderText from '../components/DecoderText';
@@ -25,7 +24,7 @@ const ProfileText = ({ status, titleId }) => (
       I’m Cody. I create compelling designs that I bring to life with the web's coolest technologies that look perfect on every screen.
     </ProfileDescription>
     <ProfileDescription status={status}>
-      In my spare time, I like to create and play video games, play Magic: The Gathering, and <Anchor as={Link} to="/lab">experiment with new tech</Anchor>. I’m always interested in new projects, so feel free to drop me a line.
+      In my spare time, I like to create and play video games, play Magic: The Gathering, and <Anchor href="https://codepen.io/cbenn" target="_blank">experiment with new tech</Anchor>. I’m always interested in new projects, so feel free to drop me a line.
     </ProfileDescription>
   </React.Fragment>
 );

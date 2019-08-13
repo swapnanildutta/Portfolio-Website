@@ -22,8 +22,8 @@ const navLinks = [
     hash: '#about'
   },
   {
-    label: 'Lab',
-    pathname: '/lab',
+    label: 'Contact',
+    pathname: '/contact',
   },
 ];
 
