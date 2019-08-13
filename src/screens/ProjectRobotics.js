@@ -1,4 +1,4 @@
-import React, { lazy } from 'react';
+import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import ProgressiveImage from '../components/ProgressiveImage';
 import { useScrollToTop } from '../utils/Hooks';
@@ -35,8 +35,6 @@ import RobotPlaceholder from '../assets/Robotics/robot2Placeholder.png';
 import Impact from '../assets/Robotics/impact.webp';
 import ImpactPlaceholder from '../assets/Robotics/impactPlaceholder.png';
 
-const RoboticsScene = lazy(() => import('../scenes/RoboticsScene'));
-
 const prerender = navigator.userAgent === 'ReactSnap';
 const title = 'GCPS Robotics';
 const description = 'Creating the website and the robot core that won the BEST Robotics State Competition Website Award.';
@@ -61,7 +59,6 @@ function Robotics() {
         meta={[{ name: 'description', content: description, }]}
       />
       <ProjectContainer>
-        <RoboticsScene />
         <ProjectHeader
           title={title}
           description={description}

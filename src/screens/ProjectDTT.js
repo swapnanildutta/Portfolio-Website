@@ -6,19 +6,14 @@ import Footer from '../components/Footer';
 import { RouterButton } from '../components/Button';
 import {
   ProjectContainer, ProjectSection, ProjectSectionContent, ProjectImage,
-  ProjectSectionHeading, ProjectBackground, ProjectHeader, ProjectSectionColumns,
-  SidebarImages, SidebarImage, ProjectTextRow, ProjectSectionText
+  ProjectSectionHeading, ProjectHeader, ProjectSectionColumns, SidebarImages,
+  SidebarImage, ProjectTextRow, ProjectSectionText
 } from '../components/Project';
 import { media } from '../utils/StyleUtils';
-import background from '../assets/DTT/dtt-background.png';
-import backgroundLarge from '../assets/DTT/dtt-background-large.png';
-import backgroundPlaceholder from '../assets/DTT/dtt-background-placeholder.png';
 import imageDevTechTools from '../assets/DTT/devtech-tools.png';
 import imageDevTechToolsLarge from '../assets/DTT/devtech-tools-large.png';
 import imageDevTechToolsPlaceholder from '../assets/DTT/devtech-tools-placeholder.png';
 import NextProject from '../assets/BellsGC/bells-project-large.png'
-
-const prerender = navigator.userAgent === 'ReactSnap';
 
 const title = 'A Tool for Everything';
 const description = 'I worked as the design lead on a product of DevTech Tools. We focused on creating the best tool for learning developers.';
@@ -40,11 +35,6 @@ function ProjectDTT() {
         meta={[{ name: 'description', content: description, }]}
       />
       <ProjectContainer>
-        <ProjectBackground
-          srcSet={`${background} 1000w, ${backgroundLarge} 1920w`}
-          placeholder={backgroundPlaceholder}
-          entered={!prerender}
-        />
         <ProjectHeader
           title={title}
           description={description}

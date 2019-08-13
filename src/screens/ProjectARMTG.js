@@ -1,4 +1,4 @@
-import React, { lazy } from 'react';
+import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useScrollToTop } from '../utils/Hooks';
 import Footer from '../components/Footer';
@@ -12,8 +12,6 @@ import { media } from '../utils/StyleUtils';
 import Render from '../assets/ARMTG/ARMTGWeb.mp4';
 import RenderPlaceholder from '../assets/ARMTG/ARMTGWebPlaceHolder.png';
 import NextProject from '../assets/Robotics/robotics-project-large.png';
-
-const ARMTGScene = lazy(() => import('../scenes/ARMTGScene'));
 
 const prerender = navigator.userAgent === 'ReactSnap';
 const title = 'ARMTG';
@@ -38,7 +36,6 @@ function ArMTG() {
         meta={[{ name: 'description', content: description, }]}
       />
       <ProjectContainer>
-        <ARMTGScene />
         <ProjectHeader
           title={title}
           description={description}

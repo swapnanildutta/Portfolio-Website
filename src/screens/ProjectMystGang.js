@@ -7,12 +7,10 @@ import { RouterButton } from '../components/Button';
 import Footer from '../components/Footer';
 import {
   ProjectContainer, ProjectSection, ProjectSectionContent, ProjectImage,
-  ProjectBackground, ProjectHeader, ProjectSectionHeading, ProjectSectionText,
-  ProjectTextRow, Video, ProjectSectionColumns, SidebarImages, SidebarImage
+  ProjectHeader, ProjectSectionHeading, ProjectSectionText, ProjectTextRow,
+  Video, ProjectSectionColumns, SidebarImages, SidebarImage
 } from '../components/Project';
 import { media } from '../utils/StyleUtils';
-import Background from '../assets/MystGang/background.mp4';
-import BackgroundPlaceholder from '../assets/MystGang/backgroundPlaceholder.png';
 import Render from '../assets/MystGang/MystGang.mp4'
 import RenderPlaceholder from '../assets/MystGang/MystGangPlaceholder.png';
 import Animation from '../assets/MystGang/mystGangAnimation.mp4';
@@ -33,8 +31,6 @@ import MystLogo from '../assets/MystGang/logo.png';
 import MystLogoPlaceholder from '../assets/MystGang/logoPlaceholder.png';
 
 const DisplacementSlider = lazy(() => import('../components/DisplacementSlider'));
-
-const prerender = navigator.userAgent === 'ReactSnap';
 
 const title = 'MystGang 2019';
 const description = 'A responsive 3D website for the gaming content creator known as MystGang, featuring a 3D carousel to show off their work. The site is sped up with Ajax and animated with Tweenmax and Greensock, rendering a 3D landscape in WebGL with Three.js. This included the design of the monogram in the center of the screen.';
@@ -58,12 +54,6 @@ function MystGang() {
         meta={[{ name: 'description', content: description, }]}
       />
       <ProjectContainer>
-        <ProjectBackground
-          src={Background}
-          placeholder={BackgroundPlaceholder}
-          entered={!prerender}
-          video
-        />
         <ProjectHeader
           title={title}
           description={description}

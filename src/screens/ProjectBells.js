@@ -1,4 +1,4 @@
-import React, { lazy, useContext } from 'react';
+import React, { useContext } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { AppContext } from '../app/App';
 import ProgressiveImage from '../components/ProgressiveImage';
@@ -28,8 +28,6 @@ import About from '../assets/BellsGC/About.webp';
 import AboutPlaceholder from '../assets/BellsGC/AboutPlaceholder.png';
 import NextProject from '../assets/MystGang/mystgang-project-large.png';
 
-const BellsScene = lazy(() => import('../scenes/BellsScene'));
-
 const prerender = navigator.userAgent === 'ReactSnap';
 const title = 'Bell\'s GC';
 const description = 'An ongoing project for a local game store powered by Google\'s Firebase. A simple solution for the store to manage their games and storefront with as little clicks and hoops for them to jump through as possible.';
@@ -53,7 +51,6 @@ function BellsGC() {
         meta={[{ name: 'description', content: description, }]}
       />
       <ProjectContainer>
-        <BellsScene />
         <ProjectHeader
           title={title}
           description={description}
