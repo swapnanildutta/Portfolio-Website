@@ -1,14 +1,13 @@
-import React, { Suspense, lazy, useMemo, useContext, useEffect, useState } from 'react';
+import React, { Suspense, useMemo, useContext, useEffect, useState } from 'react';
 import styled, { css, keyframes } from 'styled-components/macro';
 import { TransitionGroup, Transition } from 'react-transition-group';
 import { media, AnimFade, rgba, sectionPadding } from '../utils/StyleUtils';
 import DecoderText from '../components/DecoderText';
 import Svg from '../components/Svg';
 import { AppContext } from '../app/App';
+import HomeScene from '../scenes/HomeScene';
 import { useInterval, usePrevious, useWindowSize } from '../utils/Hooks';
 
-const HomeScene = lazy(() => import('../scenes/HomeScene'));
-const LabScene = lazy(() => import('../scenes/LabScene'));
 const prerender = navigator.userAgent === 'ReactSnap';
 
 function Intro(props) {
@@ -49,55 +48,35 @@ function Intro(props) {
         {status => (
           <React.Fragment>
             <Suspense fallback={<React.Fragment />}>
-              {disciplines[0] !== 'Lab' &&
-                <React.Fragment>
-                  <HomeScene />
-                  <IntroText>
-                    <IntroName status={status} id={titleId}>
-                      <DecoderText text="Cody Bennett" start={!prerender} offset={120} />
-                    </IntroName>
-                    <IntroTitle>
-                      <IntroTitleLabel>{`Designer + ${introLabel}`}</IntroTitleLabel>
-                      <IntroTitleRow aria-hidden prerender={prerender}>
-                        <IntroTitleWord status={status} delay="0.2s">Designer</IntroTitleWord>
-                        <IntroTitleLine status={status} />
-                      </IntroTitleRow>
-                      <TransitionGroup component={IntroTitleRow} prerender={prerender}>
-                        {currentDisciplines.map((item, index) => (
-                          <Transition
-                            appear
-                            timeout={{ enter: 3000, exit: 2000 }}
-                            key={`${item}_${index}`}
-                            onEnter={node => node && node.offsetHeight}
-                          >
-                            {status => (
-                              <IntroTitleWord plus aria-hidden delay="0.5s" status={status}>
-                                {item}
-                              </IntroTitleWord>
-                            )}
-                          </Transition>
-                        ))}
-                      </TransitionGroup>
-                    </IntroTitle>
-                  </IntroText>
-                </React.Fragment>
-              }
-              {disciplines[0] === 'Lab' &&
-                <React.Fragment>
-                  <LabScene />
-                  <IntroText>
-                    <IntroName status={status} id={titleId}>
-                      <DecoderText text="Cody Bennett" start={!prerender} offset={120} />
-                    </IntroName>
-                    <IntroTitle>
-                      <IntroTitleLabel>{`Lab`}</IntroTitleLabel>
-                      <IntroTitleRow aria-hidden prerender={prerender}>
-                        <IntroTitleWord status={status} delay="0.2s">Lab</IntroTitleWord>
-                      </IntroTitleRow>
-                    </IntroTitle>
-                  </IntroText>
-                </React.Fragment>
-              }
+              <HomeScene />
+              <IntroText>
+                <IntroName status={status} id={titleId}>
+                  <DecoderText text="Cody Bennett" start={!prerender} offset={120} />
+                </IntroName>
+                <IntroTitle>
+                  <IntroTitleLabel>{`Designer + ${introLabel}`}</IntroTitleLabel>
+                  <IntroTitleRow aria-hidden prerender={prerender}>
+                    <IntroTitleWord status={status} delay="0.2s">Designer</IntroTitleWord>
+                    <IntroTitleLine status={status} />
+                  </IntroTitleRow>
+                  <TransitionGroup component={IntroTitleRow} prerender={prerender}>
+                    {currentDisciplines.map((item, index) => (
+                      <Transition
+                        appear
+                        timeout={{ enter: 3000, exit: 2000 }}
+                        key={`${item}_${index}`}
+                        onEnter={node => node && node.offsetHeight}
+                      >
+                        {status => (
+                          <IntroTitleWord plus aria-hidden delay="0.5s" status={status}>
+                            {item}
+                          </IntroTitleWord>
+                        )}
+                      </Transition>
+                    ))}
+                  </TransitionGroup>
+                </IntroTitle>
+              </IntroText>
             </Suspense>
             {windowSize.width > media.numTablet &&
               <MemoizedScrollIndicator

@@ -1,4 +1,4 @@
-import React, { Suspense, Fragment } from 'react';
+import React, { lazy, Suspense, Fragment } from 'react';
 import { Route, Switch, Link } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import { Helmet } from 'react-helmet-async';
@@ -8,7 +8,9 @@ import posts from '../posts';
 import Post from './Post';
 import ProgressiveImage from '../components/ProgressiveImage';
 
-function PostListItem({
+const HomeScene = lazy(() => import('../scenes/HomeScene'));
+
+const PostListItem = ({
   path,
   title,
   description,
@@ -17,30 +19,28 @@ function PostListItem({
   bannerPlaceholder,
   bannerAlt,
   date,
-}) {
-  return (
-    <PostListItemWrapper>
-      <PostContent to={`/blog${path}`}>
-        <PostImageWrapper>
-          <PostImage
-            srcSet={banner ? require(`../posts/assets/${banner}`) : undefined}
-            videoSrc={bannerVideo ? require(`../posts/assets/${bannerVideo}`) : undefined}
-            placeholder={require(`../posts/assets/${bannerPlaceholder}`)}
-            alt={bannerAlt}
-          />
-          <PostImageTag>K256</PostImageTag>
-        </PostImageWrapper>
-        <PostText>
-          <PostDate>
-            {new Date(date).toLocaleDateString('default', { year: 'numeric', month: 'long' })}
-          </PostDate>
-          <PostTitle>{title}</PostTitle>
-          <PostDescription>{description}</PostDescription>
-        </PostText>
-      </PostContent>
-    </PostListItemWrapper>
-  );
-}
+}) => (
+  <PostListItemWrapper>
+    <PostContent to={`/blog${path}`}>
+      <PostImageWrapper>
+        <PostImage
+          srcSet={banner ? require(`../posts/assets/${banner}`) : undefined}
+          videoSrc={bannerVideo ? require(`../posts/assets/${bannerVideo}`) : undefined}
+          placeholder={require(`../posts/assets/${bannerPlaceholder}`)}
+          alt={bannerAlt}
+        />
+        <PostImageTag>TEST</PostImageTag>
+      </PostImageWrapper>
+      <PostText>
+        <PostDate>
+          {new Date(date).toLocaleDateString('default', { year: 'numeric', month: 'long' })}
+        </PostDate>
+        <PostTitle>{title}</PostTitle>
+        <PostDescription>{description}</PostDescription>
+      </PostText>
+    </PostContent>
+  </PostListItemWrapper>
+);
 
 function PostList() {
   useScrollToTop();
@@ -51,6 +51,7 @@ function PostList() {
         <title>{`Blog | Cody Bennett`}</title>
         <meta name="description" content="A collection of technical design and development blog." />
       </Helmet>
+      <HomeScene />
       <PostListContent>
         <PostListTitle>Blog</PostListTitle>
         {posts.map(({ path, ...post }) =>
@@ -61,24 +62,22 @@ function PostList() {
   );
 }
 
-function blog() {
-  return (
-    <Post>
-      <Suspense fallback={Fragment}>
-        <Switch>
-          {posts.map(({ content: PostComp, path, ...rest }) => (
-            <Route
-              key={path}
-              path={`/blog${path}`}
-              render={() => <PostComp {...rest} />}
-            />
-          ))}
-          <Route component={PostList} />
-        </Switch>
-      </Suspense>
-    </Post>
-  );
-}
+const blog = () => (
+  <Post>
+    <Suspense fallback={Fragment}>
+      <Switch>
+        {posts.map(({ content: PostComp, path, ...rest }) => (
+          <Route
+            key={path}
+            path={`/blog${path}`}
+            render={() => <PostComp {...rest} />}
+          />
+        ))}
+        <Route component={PostList} />
+      </Switch>
+    </Suspense>
+  </Post>
+);
 
 export default blog;
 
