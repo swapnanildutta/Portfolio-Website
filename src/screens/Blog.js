@@ -52,7 +52,7 @@ function PostList() {
         <meta name="description" content="A collection of technical design and development blog." />
       </Helmet>
       <PostListContent>
-        <PostListTitle>Articles</PostListTitle>
+        <PostListTitle>Blog</PostListTitle>
         {posts.map(({ path, ...post }) =>
           <PostListItem key={path} path={path} {...post} />
         )}
@@ -86,6 +86,7 @@ const PostListWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-height: 100vh;
 `;
 
 const PostListContent = styled.div`
@@ -197,8 +198,8 @@ const PostImage = styled(ProgressiveImage)`
     transition: transform 0.5s ${props => props.theme.curveFastoutSlowin};
   }
 
-  ${/* sc-selector */PostContent}:hover & img,
-  ${/* sc-selector */PostContent}:hover & video {
+  ${PostContent}:hover & img,
+  ${PostContent}:hover & video {
     transform: scale3d(1.1, 1.1, 1);
   }
 `;
