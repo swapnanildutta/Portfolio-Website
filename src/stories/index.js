@@ -119,7 +119,7 @@ storiesOf('Decoder text', module)
 storiesOf('WebGL Scenes', module)
   .add('Displacemnt Sphere', () =>
     <StoryContainer>
-      <HomeScene />
+      <DisplacementSphere />
     </StoryContainer>
   )
 
