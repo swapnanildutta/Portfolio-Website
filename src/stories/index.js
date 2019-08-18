@@ -7,12 +7,7 @@ import { Button } from '../components/Button';
 import Input from '../components/Input';
 import Anchor from '../components/Anchor';
 import Monogram from '../components/Monogram';
-import JulyFourth from '../scenes/JulyFourth';
-import HomeScene from '../scenes/HomeScene';
-import LabScene from '../scenes/LabScene';
-import BellsScene from '../scenes/BellsScene';
-import ARMTGScene from '../scenes/ARMTGScene';
-import RoboticsScene from '../scenes/RoboticsScene';
+import DisplacementSphere from '../components/DisplacementSphere';
 import DisplacementSlider from '../components/DisplacementSlider';
 import DecoderText from '../components/DecoderText';
 import Loader from '../assets/MystGang/Loader.webp';
@@ -121,37 +116,12 @@ storiesOf('Decoder text', module)
     </StoryContainer>
   );
 
-storiesOf('ThreeJS Scenes', module)
-  .add('July Fireworks', () =>
-    <StoryContainer>
-      <JulyFourth />
-    </StoryContainer>
-  )
-  .add('Home', () =>
+storiesOf('WebGL Scenes', module)
+  .add('Displacemnt Sphere', () =>
     <StoryContainer>
       <HomeScene />
     </StoryContainer>
   )
-  .add('Lab', () =>
-    <StoryContainer>
-      <LabScene />
-    </StoryContainer>
-  )
-  .add('BellsGC', () =>
-    <StoryContainer>
-      <BellsScene />
-    </StoryContainer>
-  )
-  .add('ARMTG', () =>
-    <StoryContainer>
-      <ARMTGScene />
-    </StoryContainer>
-  )
-  .add('GCPSRobotics', () =>
-    <StoryContainer>
-      <RoboticsScene />
-    </StoryContainer>
-  );
 
 storiesOf('Displacement Slider', module)
   .add('MystGang', () =>
