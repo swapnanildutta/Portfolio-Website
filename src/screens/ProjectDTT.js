@@ -13,7 +13,7 @@ import { media } from '../utils/StyleUtils';
 import imageDevTechTools from '../assets/DTT/devtech-tools.png';
 import imageDevTechToolsLarge from '../assets/DTT/devtech-tools-large.png';
 import imageDevTechToolsPlaceholder from '../assets/DTT/devtech-tools-placeholder.png';
-import NextProject from '../assets/BellsGC/bells-project-large.png'
+import NextProject from '../assets/MystGang/mystgang-project-large.png'
 
 const title = 'A Tool for Everything';
 const description = 'I worked as the design lead on a product of DevTech Tools. We focused on creating the best tool for learning developers.';
@@ -75,7 +75,7 @@ function ProjectDTT() {
             <RouterButton
               secondary
               icon="chevronRight"
-              to="/projects/bells"
+              to="/projects/mystgang"
             >
               View Project
             </RouterButton>

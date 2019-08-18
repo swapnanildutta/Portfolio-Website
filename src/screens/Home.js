@@ -9,19 +9,12 @@ import { usePrefersReducedMotion } from '../utils/Hooks';
 import DTTProject from '../assets/DTT/dtt-project.png';
 import DTTProjectLarge from '../assets/DTT/dtt-project-large.png';
 import DTTProjectPlaceholder from '../assets/DTT/dtt-project-placeholder.png';
-import BellsProject from '../assets/BellsGC/bells-project.png';
-import BellsProjectLarge from '../assets/BellsGC/bells-project-large.png';
-import BellsProjectPlaceholder from '../assets/BellsGC/bells-project-placeholder.png';
 import MystGangProject from '../assets/MystGang/mystgang-project.png';
 import MystGangProjectLarge from '../assets/MystGang/mystgang-project-large.png';
 import MystGangProjectPlaceholder from '../assets/MystGang/mystgang-project-placeholder.png';
 import ARMTGProject from '../assets/ARMTG/armtg-project.png';
 import ARMTGProjectLarge from '../assets/ARMTG/armtg-project-large.png';
 import ARMTGProjectPlaceholder from '../assets/ARMTG/armtg-project-placeholder.png';
-import RoboticsProject from '../assets/Robotics/robotics-project.png';
-import RoboticsProjectLarge from '../assets/Robotics/robotics-project-large.png';
-import RoboticsProjectPlaceholder from '../assets/Robotics/robotics-project-placeholder.png';
-
 const disciplines = ['Developer', 'Creator', 'Animator', 'Student'];
 
 export default function Home(props) {
@@ -35,13 +28,11 @@ export default function Home(props) {
   const projectOne = useRef();
   const projectTwo = useRef();
   const projectThree = useRef();
-  const projectFour = useRef();
-  const projectFive = useRef();
   const about = useRef();
   const prefersReducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
-    const revealSections = [intro, projectOne, projectTwo, projectThree, projectFour, projectFive, about];
+    const revealSections = [intro, projectOne, projectTwo, projectThree, about];
 
     const sectionObserver = new IntersectionObserver(entries => {
       entries.forEach(entry => {
@@ -75,7 +66,7 @@ export default function Home(props) {
     const supportsNativeSmoothScroll = 'scrollBehavior' in document.documentElement.style;
 
     const handleHashchange = (hash, scroll) => {
-      const hashSections = [intro, projectOne, projectTwo, projectThree, projectFour, projectFive, about];
+      const hashSections = [intro, projectOne, projectTwo, projectThree, about];
       const hashString = hash.replace('#', '');
       const element = hashSections.filter(item => item.current.id === hashString)[0];
       if (!element) return;
@@ -148,20 +139,6 @@ export default function Home(props) {
         sectionRef={projectTwo}
         visible={visibleSections.includes(projectTwo.current)}
         index="02"
-        title="Bell's Gaming Center"
-        description="A website featuring a storefront, events calendar, and games dashboard for a local game store."
-        buttonText="View Project"
-        buttonTo="/projects/bells"
-        imageSrc={useMemo(() => [`${BellsProject} 980w, ${BellsProjectLarge} 1376w`], [])}
-        imageAlt={useMemo(() => ['Bell\'s GC Website'], [])}
-        imagePlaceholder={useMemo(() => [BellsProjectPlaceholder], [])}
-        imageType="laptop"
-      />
-      <ProjectItem
-        id="work3"
-        sectionRef={projectThree}
-        visible={visibleSections.includes(projectThree.current)}
-        index="03"
         title="MystGang"
         description="Bringing an epic content creator's portfolio to life with ThreeJS."
         buttonText="View Project"
@@ -172,10 +149,10 @@ export default function Home(props) {
         imageType="laptop"
       />
       <ProjectItem
-        id="work4"
-        sectionRef={projectFour}
-        visible={visibleSections.includes(projectFour.current)}
-        index="04"
+        id="work3"
+        sectionRef={projectThree}
+        visible={visibleSections.includes(projectThree.current)}
+        index="03"
         title="ArMTG"
         description="Bringing the future to the renowned card game: Magic, the Gathering."
         buttonText="View Project"
@@ -183,20 +160,6 @@ export default function Home(props) {
         imageSrc={useMemo(() => [`${ARMTGProject} 980w, ${ARMTGProjectLarge} 1376w`], [])}
         imageAlt={useMemo(() => ['ArMTG Website'], [])}
         imagePlaceholder={useMemo(() => [ARMTGProjectPlaceholder], [])}
-        imageType="laptop"
-      />
-      <ProjectItem
-        id="work5"
-        sectionRef={projectFive}
-        visible={visibleSections.includes(projectFive.current)}
-        index="05"
-        title="GCPS Robotics"
-        description="Creating the website and the robot core that won the BEST Robotics State Competition Website Award."
-        buttonText="View Project"
-        buttonTo="/projects/robotics"
-        imageSrc={useMemo(() => [`${RoboticsProject} 980w, ${RoboticsProjectLarge} 1376w`], [])}
-        imageAlt={useMemo(() => ['Gateway Robotics Website'], [])}
-        imagePlaceholder={useMemo(() => [RoboticsProjectPlaceholder], [])}
         imageType="laptop"
       />
       <Profile

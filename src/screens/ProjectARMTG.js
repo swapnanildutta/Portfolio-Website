@@ -5,13 +5,10 @@ import Footer from '../components/Footer';
 import { RouterButton } from '../components/Button';
 import {
   ProjectContainer, ProjectSection, ProjectSectionContent, ProjectImage,
-  ProjectHeader, ProjectTextRow, ProjectSectionHeading, ProjectSectionText,
-  Video, ProjectSectionColumns, SidebarImages, SidebarImage
+  ProjectHeader, ProjectTextRow, ProjectSectionHeading, Video
 } from '../components/Project';
-import { media } from '../utils/StyleUtils';
 import Render from '../assets/ARMTG/ARMTGWeb.mp4';
 import RenderPlaceholder from '../assets/ARMTG/ARMTGWebPlaceHolder.png';
-import NextProject from '../assets/Robotics/robotics-project-large.png';
 
 const prerender = navigator.userAgent === 'ReactSnap';
 const title = 'ARMTG';
@@ -54,29 +51,18 @@ function ArMTG() {
           </ProjectSectionContent>
         </ProjectSection>
         <ProjectSection>
-          <ProjectSectionColumns light>
-            <SidebarImages>
-              <SidebarImage
-                srcSet={`${NextProject}`}
-                alt=""
-                reveal
-                sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
-              />
-            </SidebarImages>
+          <ProjectSectionContent>
             <ProjectTextRow center>
-              <ProjectSectionText>
-                Next Project
-              </ProjectSectionText>
-              <ProjectSectionHeading>GCPS Robotics</ProjectSectionHeading>
+              <ProjectSectionHeading>ARMTG</ProjectSectionHeading>
               <RouterButton
                 secondary
                 icon="chevronRight"
-                to="/projects/robotics"
+                to="/#work3"
               >
-                View Project
+                Back to homepage
               </RouterButton>
             </ProjectTextRow>
-          </ProjectSectionColumns>
+          </ProjectSectionContent>
         </ProjectSection>
       </ProjectContainer>
       <Footer />
