@@ -8,7 +8,7 @@ import posts from '../posts';
 import Post from './Post';
 import ProgressiveImage from '../components/ProgressiveImage';
 
-const HomeScene = lazy(() => import('../scenes/HomeScene'));
+const DisplacementSphere = lazy(() => import('../components/DisplacementSphere'));
 
 const PostListItem = ({
   path,
@@ -51,7 +51,7 @@ function PostList() {
         <title>{`Blog | Cody Bennett`}</title>
         <meta name="description" content="A collection of technical design and development blog." />
       </Helmet>
-      <HomeScene />
+      <DisplacementSphere />
       <PostListContent>
         <PostListTitle>Blog</PostListTitle>
         {posts.map(({ path, ...post }) =>

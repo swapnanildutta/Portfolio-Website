@@ -5,7 +5,7 @@ import { media, AnimFade, rgba, sectionPadding } from '../utils/StyleUtils';
 import DecoderText from '../components/DecoderText';
 import Svg from '../components/Svg';
 import { AppContext } from '../app/App';
-import HomeScene from '../scenes/HomeScene';
+import DisplacementSphere from '../components/DisplacementSphere';
 import { useInterval, usePrevious, useWindowSize } from '../utils/Hooks';
 
 const prerender = navigator.userAgent === 'ReactSnap';
@@ -48,7 +48,7 @@ function Intro(props) {
         {status => (
           <React.Fragment>
             <Suspense fallback={<React.Fragment />}>
-              <HomeScene />
+              <DisplacementSphere />
               <IntroText>
                 <IntroName status={status} id={titleId}>
                   <DecoderText text="Cody Bennett" start={!prerender} offset={120} />
