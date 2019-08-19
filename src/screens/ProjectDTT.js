@@ -71,7 +71,7 @@ function ProjectDTT() {
             <ProjectSectionText>
               Next Project
             </ProjectSectionText>
-            <ProjectSectionHeading>Bell's Gaming Center</ProjectSectionHeading>
+            <ProjectSectionHeading>MystGang 2019</ProjectSectionHeading>
             <RouterButton
               secondary
               icon="chevronRight"
