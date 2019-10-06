@@ -98,7 +98,7 @@ function Intro(props) {
       </Transition>
     </IntroContent>
   );
-};
+}
 
 const IntroContent = styled.section`
   height: 100vh;

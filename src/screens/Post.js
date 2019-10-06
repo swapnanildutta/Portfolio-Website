@@ -122,7 +122,7 @@ function imageFactory({ src, ...props }) {
   }
 
   return <Image {...props} src={src} />;
-};
+}
 
 const PostArticle = styled.article`
   position: relative;

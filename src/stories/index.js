@@ -121,7 +121,7 @@ storiesOf('WebGL Scenes', module)
     <StoryContainer>
       <DisplacementSphere />
     </StoryContainer>
-  )
+  );
 
 storiesOf('Displacement Slider', module)
   .add('MystGang', () =>

@@ -130,7 +130,7 @@ function ProjectItem(props) {
       </ProjectItemContent>
     </ProjectItemSection>
   );
-};
+}
 
 const ProjectItemContent = styled.div`
   width: 100%;

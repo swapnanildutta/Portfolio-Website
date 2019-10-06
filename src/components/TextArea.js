@@ -44,6 +44,6 @@ function TextArea(props) {
       value={value}
     />
   );
-};
+}
 
 export default TextArea;

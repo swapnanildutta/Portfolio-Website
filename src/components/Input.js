@@ -31,7 +31,7 @@ function Input(props) {
       <InputUnderline focused={focused} />
     </InputWrapper>
   );
-};
+}
 
 const InputWrapper = styled.div`
   position: relative;

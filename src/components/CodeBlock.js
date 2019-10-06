@@ -50,7 +50,7 @@ function CodeBlock(props) {
       <CodeBlockContent codeTheme={codeTheme} {...props} />
     </CodeBlockWrapper>
   );
-};
+}
 
 const CodeBlockWrapper = styled.pre`
   padding: 30px;

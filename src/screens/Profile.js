@@ -83,7 +83,7 @@ function Profile(props) {
       </Transition>
     </ProfileSection>
   );
-};
+}
 
 const ProfileSection = styled.section`
   width: 100vw;

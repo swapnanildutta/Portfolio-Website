@@ -183,4 +183,4 @@ export default function Home(props) {
       <Footer />
     </React.Fragment>
   );
-};
+}

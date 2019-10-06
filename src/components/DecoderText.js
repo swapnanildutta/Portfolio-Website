@@ -32,7 +32,7 @@ function shuffle(content, chars, position) {
     const rand = Math.floor(Math.random() * chars.length);
     return { type: 'code', value: chars[rand] };
   });
-};
+}
 
 function DecoderText(props) {
   const { text, start, offset, delay, fps, ...rest } = props;
@@ -109,7 +109,7 @@ function DecoderText(props) {
       <span className="decoder-text__content" ref={contentRef} />
     </DecoderWrapper>
   );
-};
+}
 
 DecoderText.defaultProps = {
   offset: 100,

@@ -22,7 +22,7 @@ export function useScrollToTop() {
     if (hasEntered || hasEnteredReducedMotion) {
       window.scrollTo(0, 0);
       document.getElementById('MainContent').focus();
-    };
+    }
 
   }, [prefersReducedMotion, prevStatus, status]);
 }

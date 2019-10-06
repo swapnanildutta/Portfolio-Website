@@ -55,7 +55,7 @@ function ProgressiveImage(props) {
       />
     </ImageContainer>
   );
-};
+}
 
 function ImageElements(props) {
   const {

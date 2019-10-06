@@ -107,7 +107,7 @@ function Header(props) {
       }
     </HeaderWrapper>
   );
-};
+}
 
 const HeaderWrapper = styled.header`
   display: flex;

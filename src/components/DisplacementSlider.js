@@ -20,7 +20,7 @@ function determineIndex(imageIndex, index, images, direction) {
   const nextIndex = (imageIndex + 1) % length;
   const finalIndex = direction > 0 ? nextIndex : prevIndex;
   return finalIndex;
-};
+}
 
 export default function DispalcementSlider(props) {
   const { width, height, images, placeholder, ...rest } = props;
@@ -393,7 +393,7 @@ export default function DispalcementSlider(props) {
       </SliderNav>
     </SliderContainer>
   );
-};
+}
 
 const SliderContainer = styled.div`
   position: relative;
