@@ -155,7 +155,7 @@ function DisplacementSphere() {
 
     const animate = () => {
       animation = requestAnimationFrame(animate);
-      uniforms.current.time.value = .00005 * (Date.now() - start.current);
+      uniforms.current.time.value = 0.00005 * (Date.now() - start.current);
       sphere.current.rotation.z += 0.001;
       renderer.current.render(scene.current, camera.current);
     };
