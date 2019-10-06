@@ -11,7 +11,7 @@ import {
   ProjectSectionColumns, SidebarImages, SidebarImage
 } from 'components/Project';
 import { media } from 'utils/style';
-import Render from 'assets/MystGang/MystGang.mp4'
+import Render from 'assets/MystGang/MystGang.mp4';
 import RenderPlaceholder from 'assets/MystGang/MystGangPlaceholder.png';
 import Animation from 'assets/MystGang/mystGangAnimation.mp4';
 import AnimationPlaceholder from 'assets/MystGang/mystGangAnimationPlaceholder.png';
