@@ -14,19 +14,19 @@ import mystgang from 'assets/MystGang/mystgang.mp4';
 import mystgangPlaceholder from 'assets/MystGang/mystgang-placeholder.png';
 import mystgangAnimation from 'assets/MystGang/mystgang-animation.mp4';
 import mystgangAnimationPlaceholder from 'assets/MystGang/mystgang-animation-placeholder.png';
-import mystgangBranding from 'assets/MystGang/branding.webp';
-import mystgangBrandingPlaceholder from 'assets/MystGang/branding-placeholder.png';
-import mystgangLoader from 'assets/MystGang/loader.webp';
-import mystgangLoaderPlaceholder from 'assets/MystGang/loader-placeholder.png';
-import mystgangHome from 'assets/MystGang/home.webp';
-import mystgangMenu from 'assets/MystGang/menu.webp';
-import mystgangWork from 'assets/MystGang/work.webp';
-import mystgangAbout1 from 'assets/MystGang/about1.webp';
-import mystgangAbout2 from 'assets/MystGang/about2.webp';
-import mystgangAbout3 from 'assets/MystGang/about3.webp';
-import mystgangContact from 'assets/MystGang/contact.webp';
-import mystgangLogo from 'assets/MystGang/logo.png';
-import mystgangLogoPlaceholder from 'assets/MystGang/logo-placeholder.png';
+import mystgangBranding from 'assets/MystGang/mystgang-branding.png';
+import mystgangBrandingPlaceholder from 'assets/MystGang/mystgang-branding-placeholder.png';
+import mystgangSplash from 'assets/MystGang/mystgang-splash.png';
+import mystgangSplashPlaceholder from 'assets/MystGang/mystgang-splash-placeholder.png';
+import mystgangHome from 'assets/MystGang/mystgang-home.png';
+import mystgangMenu from 'assets/MystGang/mystgang-menu.png';
+import mystgangWork from 'assets/MystGang/mystgang-work.png';
+import mystgangAboutSelf from 'assets/MystGang/mystgang-about-self.png';
+import mystgangAboutWork from 'assets/MystGang/mystgang-about-work.png';
+import mystgangAboutSocials from 'assets/MystGang/mystgang-about-socials.png';
+import mystgangContact from 'assets/MystGang/mystgang-contact.png';
+import mystgangLogo from 'assets/MystGang/mystgang-logo.png';
+import mystgangLogoPlaceholder from 'assets/MystGang/mystgang-logo-placeholder.png';
 
 const DisplacementSlider = lazy(() => import('components/DisplacementSlider'));
 
@@ -124,12 +124,12 @@ function MystGang() {
           <ProjectSectionSlider>
             <Suspense fallback={<React.Fragment />}>
               <DisplacementSlider
-                placeholder={mystgangLoaderPlaceholder}
+                placeholder={mystgangSplashPlaceholder}
                 images={useMemo(() => [
                   {
-                    src: mystgangLoader,
-                    srcset: mystgangLoader,
-                    alt: 'MystGang Loader',
+                    src: mystgangSplash,
+                    srcset: mystgangSplash,
+                    alt: 'MystGang Splash Screen',
                     override: true
                   },
                   {
@@ -148,18 +148,18 @@ function MystGang() {
                     alt: 'Work Screen',
                   },
                   {
-                    src: mystgangAbout1,
-                    srcset: mystgangAbout1,
+                    src: mystgangAboutSelf,
+                    srcset: mystgangAboutSelf,
                     alt: 'About Self'
                   },
                   {
-                    src: mystgangAbout2,
-                    srcset: mystgangAbout2,
+                    src: mystgangAboutWork,
+                    srcset: mystgangAboutWork,
                     alt: 'About Work',
                   },
                   {
-                    src: mystgangAbout3,
-                    srcset: mystgangAbout3,
+                    src: mystgangAboutSocials,
+                    srcset: mystgangAboutSocials,
                     alt: 'About Socials',
                   },
                   {

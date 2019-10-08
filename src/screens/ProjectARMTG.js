@@ -2,11 +2,10 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useScrollToTop } from 'utils/hooks';
 import Footer from 'components/Footer';
-import { RouterButton } from 'components/Button';
 import ProgressiveImage from 'components/ProgressiveImage';
 import {
   ProjectContainer, ProjectSection, ProjectSectionContent, ProjectImage,
-  ProjectHeader, ProjectTextRow, ProjectSectionHeading
+  ProjectHeader
 } from 'components/Project';
 import Render from 'assets/ARMTG/ARMTGWeb.mp4';
 import RenderPlaceholder from 'assets/ARMTG/ARMTGWebPlaceHolder.png';
@@ -50,20 +49,6 @@ function ArMTG() {
                 reveal
               />
             </ProjectImage>
-          </ProjectSectionContent>
-        </ProjectSection>
-        <ProjectSection>
-          <ProjectSectionContent>
-            <ProjectTextRow center>
-              <ProjectSectionHeading>ARMTG</ProjectSectionHeading>
-              <RouterButton
-                secondary
-                icon="chevronRight"
-                to="/#work3"
-              >
-                Back to homepage
-              </RouterButton>
-            </ProjectTextRow>
           </ProjectSectionContent>
         </ProjectSection>
       </ProjectContainer>
