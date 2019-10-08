@@ -92,7 +92,7 @@ function App() {
                           <Suspense fallback={<React.Fragment />}>
                             <Switch location={location}>
                               <Route exact path="/" component={Home} />
-                              <Route path="/projects/devtech" component={ProjectDTT} />
+                              <Route path="/projects/dtt" component={ProjectDTT} />
                               <Route path="/projects/mystgang" component={ProjectMystGang} />
                               <Route path="/projects/armtg" component={ProjectARMTG} />
                               <Route path="/articles" component={Articles} />

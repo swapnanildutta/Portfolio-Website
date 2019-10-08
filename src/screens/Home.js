@@ -141,7 +141,7 @@ export default function Home(props) {
         title="A Tool for Everything"
         description="Creating a platfrom to help developers build better software."
         buttonText="View Project"
-        buttonTo="/projects/devtech"
+        buttonTo="/projects/dtt"
         imageSrc={useMemo(() => [`${DTTProject} 980w, ${DTTProjectLarge} 1376w`], [])}
         imageAlt={useMemo(() => ['DevTech Tools Landing Page'], [])}
         imagePlaceholder={useMemo(() => [DTTProjectPlaceholder], [])}
