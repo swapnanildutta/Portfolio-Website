@@ -41,7 +41,7 @@ function Contact() {
     try {
       setSending(true);
 
-      const response = await fetch('/functions/sendMessage', {
+      const response = await fetch('https://us-central1-portfolio-4e46f.cloudfunctions.net/app/functions/sendMessage', {
         method: 'POST',
         mode: 'cors',
         headers: {
