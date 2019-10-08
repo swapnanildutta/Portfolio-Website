@@ -3,32 +3,30 @@ import styled from 'styled-components/macro';
 import { Helmet } from 'react-helmet-async';
 import ProgressiveImage from 'components/ProgressiveImage';
 import { useScrollToTop } from 'utils/hooks';
-import { RouterButton } from 'components/Button';
 import Footer from 'components/Footer';
 import {
   ProjectContainer, ProjectSection, ProjectSectionContent, ProjectImage,
   ProjectHeader, ProjectSectionHeading, ProjectSectionText, ProjectTextRow,
-  ProjectSectionColumns, SidebarImages, SidebarImage
+  ProjectSectionColumns
 } from 'components/Project';
 import { media } from 'utils/style';
-import Render from 'assets/MystGang/MystGang.mp4';
-import RenderPlaceholder from 'assets/MystGang/MystGangPlaceholder.png';
-import Animation from 'assets/MystGang/mystGangAnimation.mp4';
-import AnimationPlaceholder from 'assets/MystGang/mystGangAnimationPlaceholder.png';
-import Branding from 'assets/MystGang/branding.webp';
-import BrandingPlaceholder from 'assets/MystGang/brandingPlaceholder.png';
-import Loader from 'assets/MystGang/Loader.webp';
-import LoaderPlaceholder from 'assets/MystGang/LoaderPlaceholder.png';
-import Home from 'assets/MystGang/Home.webp';
-import Menu from 'assets/MystGang/Menu.webp';
-import Work from 'assets/MystGang/Work.webp';
-import About1 from 'assets/MystGang/About1.webp';
-import About2 from 'assets/MystGang/About2.webp';
-import About3 from 'assets/MystGang/About3.webp';
-import Contact from 'assets/MystGang/Contact.webp';
-import NextProject from 'assets/ARMTG/armtg-project-large.png';
-import MystLogo from 'assets/MystGang/logo.png';
-import MystLogoPlaceholder from 'assets/MystGang/logoPlaceholder.png';
+import mystgang from 'assets/MystGang/mystgang.mp4';
+import mystgangPlaceholder from 'assets/MystGang/mystgang-placeholder.png';
+import mystgangAnimation from 'assets/MystGang/mystgang-animation.mp4';
+import mystgangAnimationPlaceholder from 'assets/MystGang/mystgang-animation-placeholder.png';
+import mystgangBranding from 'assets/MystGang/branding.webp';
+import mystgangBrandingPlaceholder from 'assets/MystGang/branding-placeholder.png';
+import mystgangLoader from 'assets/MystGang/loader.webp';
+import mystgangLoaderPlaceholder from 'assets/MystGang/loader-placeholder.png';
+import mystgangHome from 'assets/MystGang/home.webp';
+import mystgangMenu from 'assets/MystGang/menu.webp';
+import mystgangWork from 'assets/MystGang/work.webp';
+import mystgangAbout1 from 'assets/MystGang/about1.webp';
+import mystgangAbout2 from 'assets/MystGang/about2.webp';
+import mystgangAbout3 from 'assets/MystGang/about3.webp';
+import mystgangContact from 'assets/MystGang/contact.webp';
+import mystgangLogo from 'assets/MystGang/logo.png';
+import mystgangLogoPlaceholder from 'assets/MystGang/logo-placeholder.png';
 
 const DisplacementSlider = lazy(() => import('components/DisplacementSlider'));
 
@@ -65,10 +63,10 @@ function MystGang() {
           <ProjectSectionContent>
             <ProjectImage>
               <ProgressiveImage
-                srcSet={Render}
-                videoSrc={Render}
-                placeholder={RenderPlaceholder}
                 reveal
+                srcSet={mystgang}
+                videoSrc={mystgang}
+                placeholder={mystgangPlaceholder}
               />
             </ProjectImage>
           </ProjectSectionContent>
@@ -76,9 +74,9 @@ function MystGang() {
         <ProjectSection light>
           <ProjectSectionColumns>
             <ProgressiveImage
-              src={Branding}
-              srcSet={Branding}
-              placeholder={BrandingPlaceholder}
+              src={mystgangBranding}
+              srcSet={mystgangBranding}
+              placeholder={mystgangBrandingPlaceholder}
               alt=""
               sizes={`(max-width: ${media.mobile}) 100vw, (max-width: ${media.tablet}) 100vw, 50vw`}
             />
@@ -93,9 +91,9 @@ function MystGang() {
         <ProjectSection>
           <ProjectSectionContent>
             <ProgressiveImage
-              srcSet={Animation}
-              videoSrc={Animation}
-              placeholder={AnimationPlaceholder}
+              srcSet={mystgangAnimation}
+              videoSrc={mystgangAnimation}
+              placeholder={mystgangAnimationPlaceholder}
             />
           </ProjectSectionContent>
         </ProjectSection>
@@ -103,9 +101,9 @@ function MystGang() {
           <ProjectSectionContent>
             <LogoContainer>
             <ProgressiveImage
-              src={MystLogo}
-              srcSet={MystLogo}
-              placeholder={MystLogoPlaceholder}
+              src={mystgangLogo}
+              srcSet={mystgangLogo}
+              placeholder={mystgangLogoPlaceholder}
               alt=""
             />
             </LogoContainer>
@@ -120,53 +118,53 @@ function MystGang() {
         <ProjectSection>
           <ProjectSectionContent>
             <ProjectTextRow center>
-              <ProjectSectionHeading>Final Website</ProjectSectionHeading>
+              <ProjectSectionHeading>The Website</ProjectSectionHeading>
             </ProjectTextRow>
           </ProjectSectionContent>
           <ProjectSectionSlider>
             <Suspense fallback={<React.Fragment />}>
               <DisplacementSlider
-                placeholder={LoaderPlaceholder}
+                placeholder={mystgangLoaderPlaceholder}
                 images={useMemo(() => [
                   {
-                    src: Loader,
-                    srcset: `${Loader}`,
+                    src: mystgangLoader,
+                    srcset: mystgangLoader,
                     alt: 'MystGang Loader',
                     override: true
                   },
                   {
-                    src: Home,
-                    srcset: `${Home}`,
-                    alt: 'Landing Screen',
+                    src: mystgangHome,
+                    srcset: mystgangHome,
+                    alt: 'Home Screen',
                   },
                   {
-                    src: Menu,
-                    srcset: `${Menu}`,
-                    alt: 'Menu Screen',
+                    src: mystgangMenu,
+                    srcset: mystgangMenu,
+                    alt: 'Fullscreen Menu',
                   },
                   {
-                    src: Work,
-                    srcset: `${Work}`,
-                    alt: 'Work Carousel',
+                    src: mystgangWork,
+                    srcset: mystgangWork,
+                    alt: 'Work Screen',
                   },
                   {
-                    src: About1,
-                    srcset: `${About1}`,
+                    src: mystgangAbout1,
+                    srcset: mystgangAbout1,
                     alt: 'About Self'
                   },
                   {
-                    src: About2,
-                    srcset: `${About2}`,
+                    src: mystgangAbout2,
+                    srcset: mystgangAbout2,
                     alt: 'About Work',
                   },
                   {
-                    src: About3,
-                    srcset: `${About3}`,
+                    src: mystgangAbout3,
+                    srcset: mystgangAbout3,
                     alt: 'About Socials',
                   },
                   {
-                    src: Contact,
-                    srcset: `${Contact}`,
+                    src: mystgangContact,
+                    srcset: mystgangContact,
                     alt: 'Contact Screen',
                   },
                 ], [])}
@@ -175,31 +173,6 @@ function MystGang() {
               />
             </Suspense>
           </ProjectSectionSlider>
-        </ProjectSection>
-        <ProjectSection light>
-          <ProjectSectionColumns>
-            <SidebarImages>
-              <SidebarImage
-                srcSet={NextProject}
-                alt=""
-                reveal
-                sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
-              />
-            </SidebarImages>
-            <ProjectTextRow center>
-              <ProjectSectionText>
-                Next Project
-              </ProjectSectionText>
-              <ProjectSectionHeading>ARMTG</ProjectSectionHeading>
-              <RouterButton
-                secondary
-                icon="chevronRight"
-                to="/projects/armtg"
-              >
-                View Project
-              </RouterButton>
-            </ProjectTextRow>
-          </ProjectSectionColumns>
         </ProjectSection>
       </ProjectContainer>
       <Footer />
