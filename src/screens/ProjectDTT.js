@@ -8,9 +8,9 @@ import {
   ProjectSectionHeading, ProjectBackground, ProjectHeader
 } from 'components/Project';
 import { media } from 'utils/style';
-import backgroundDTT from 'assets/DTT/background-dtt.png';
-import backgroundDTTLarge from 'assets/DTT/background-dtt-large.png';
-import backgroundDTTPlaceholder from 'assets/DTT/background-dtt-placeholder.png';
+import dttBackground from 'assets/DTT/dtt-background.png';
+import dttBackgroundLarge from 'assets/DTT/dtt-background-large.png';
+import dttBackgroundPlaceholder from 'assets/DTT/dtt-background-placeholder.png';
 import imageDevTechTools from 'assets/DTT/devtech-tools.png';
 import imageDevTechToolsLarge from 'assets/DTT/devtech-tools-large.png';
 import imageDevTechToolsPlaceholder from 'assets/DTT/devtech-tools-placeholder.png';
@@ -38,8 +38,8 @@ function ProjectDTT() {
       />
       <ProjectContainer>
         <ProjectBackground
-          srcSet={`${backgroundDTT} 1000w, ${backgroundDTTLarge} 1920w`}
-          placeholder={backgroundDTTPlaceholder}
+          srcSet={`${dttBackground} 1000w, ${dttBackgroundLarge} 1920w`}
+          placeholder={dttBackgroundPlaceholder}
           entered={!prerender}
         />
         <ProjectHeader
