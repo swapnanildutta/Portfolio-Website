@@ -6,29 +6,33 @@ import { useScrollToTop } from 'utils/hooks';
 import Footer from 'components/Footer';
 import {
   ProjectContainer, ProjectSection, ProjectSectionContent, ProjectImage,
-  ProjectHeader, ProjectSectionHeading, ProjectSectionText, ProjectTextRow,
-  ProjectSectionColumns
+  ProjectBackground, ProjectHeader, ProjectSectionHeading, ProjectSectionText,
+  ProjectTextRow, ProjectSectionColumns
 } from 'components/Project';
 import { media } from 'utils/style';
-import mystgang from 'assets/MystGang/mystgang.mp4';
-import mystgangPlaceholder from 'assets/MystGang/mystgang-placeholder.png';
-import mystgangAnimation from 'assets/MystGang/mystgang-animation.mp4';
-import mystgangAnimationPlaceholder from 'assets/MystGang/mystgang-animation-placeholder.png';
-import mystgangBranding from 'assets/MystGang/mystgang-branding.png';
-import mystgangBrandingPlaceholder from 'assets/MystGang/mystgang-branding-placeholder.png';
-import mystgangSplash from 'assets/MystGang/mystgang-splash.png';
-import mystgangSplashPlaceholder from 'assets/MystGang/mystgang-splash-placeholder.png';
-import mystgangHome from 'assets/MystGang/mystgang-home.png';
-import mystgangMenu from 'assets/MystGang/mystgang-menu.png';
-import mystgangWork from 'assets/MystGang/mystgang-work.png';
-import mystgangAboutSelf from 'assets/MystGang/mystgang-about-self.png';
-import mystgangAboutWork from 'assets/MystGang/mystgang-about-work.png';
-import mystgangAboutSocials from 'assets/MystGang/mystgang-about-socials.png';
-import mystgangContact from 'assets/MystGang/mystgang-contact.png';
-import mystgangLogo from 'assets/MystGang/mystgang-logo.png';
-import mystgangLogoPlaceholder from 'assets/MystGang/mystgang-logo-placeholder.png';
+import mystgangBackground from 'assets/mystgang-background.png';
+import mystgangBackgroundLarge from 'assets/mystgang-background-large.png';
+import mystgangBackgroundPlaceholder from 'assets/mystgang-background-placeholder.png';
+import mystgang from 'assets/mystgang.mp4';
+import mystgangPlaceholder from 'assets/mystgang-placeholder.png';
+import mystgangAnimation from 'assets/mystgang-animation.mp4';
+import mystgangAnimationPlaceholder from 'assets/mystgang-animation-placeholder.png';
+import mystgangBranding from 'assets/mystgang-branding.png';
+import mystgangBrandingPlaceholder from 'assets/mystgang-branding-placeholder.png';
+import mystgangSplash from 'assets/mystgang-splash.png';
+import mystgangSplashPlaceholder from 'assets/mystgang-splash-placeholder.png';
+import mystgangHome from 'assets/mystgang-home.png';
+import mystgangMenu from 'assets/mystgang-menu.png';
+import mystgangWork from 'assets/mystgang-work.png';
+import mystgangAboutSelf from 'assets/mystgang-about-self.png';
+import mystgangAboutWork from 'assets/mystgang-about-work.png';
+import mystgangAboutSocials from 'assets/mystgang-about-socials.png';
+import mystgangContact from 'assets/mystgang-contact.png';
+import mystgangLogo from 'assets/mystgang-logo.png';
+import mystgangLogoPlaceholder from 'assets/mystgang-logo-placeholder.png';
 
 const DisplacementSlider = lazy(() => import('components/DisplacementSlider'));
+const prerender = navigator.userAgent === 'ReactSnap';
 
 const title = 'MystGang 2019';
 const description = 'A responsive 3D website for the gaming content creator known as MystGang, featuring a 3D carousel to show off their work. The site is sped up with Ajax and animated with Tweenmax and Greensock, rendering a 3D landscape in WebGL with Three.js. This included the design of the monogram in the center of the screen.';
@@ -52,6 +56,11 @@ function MystGang() {
         meta={[{ name: 'description', content: description, }]}
       />
       <ProjectContainer>
+        <ProjectBackground
+          srcSet={`${mystgangBackground} 1000w, ${mystgangBackgroundLarge} 1920w`}
+          placeholder={mystgangBackgroundPlaceholder}
+          entered={!prerender}
+        />
         <ProjectHeader
           title={title}
           description={description}

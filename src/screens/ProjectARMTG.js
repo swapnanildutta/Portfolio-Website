@@ -7,8 +7,8 @@ import {
   ProjectContainer, ProjectSection, ProjectSectionContent, ProjectImage,
   ProjectHeader
 } from 'components/Project';
-import Render from 'assets/ARMTG/ARMTGWeb.mp4';
-import RenderPlaceholder from 'assets/ARMTG/ARMTGWebPlaceHolder.png';
+import Render from 'assets/armtg.mp4';
+import RenderPlaceholder from 'assets/armtg-placeholder.png';
 
 const prerender = navigator.userAgent === 'ReactSnap';
 const title = 'ARMTG';

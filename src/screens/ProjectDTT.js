@@ -8,12 +8,12 @@ import {
   ProjectSectionHeading, ProjectBackground, ProjectHeader
 } from 'components/Project';
 import { media } from 'utils/style';
-import dttBackground from 'assets/DTT/dtt-background.png';
-import dttBackgroundLarge from 'assets/DTT/dtt-background-large.png';
-import dttBackgroundPlaceholder from 'assets/DTT/dtt-background-placeholder.png';
-import imageDevTechTools from 'assets/DTT/devtech-tools.png';
-import imageDevTechToolsLarge from 'assets/DTT/devtech-tools-large.png';
-import imageDevTechToolsPlaceholder from 'assets/DTT/devtech-tools-placeholder.png';
+import dttBackground from 'assets/dtt-background.png';
+import dttBackgroundLarge from 'assets/dtt-background-large.png';
+import dttBackgroundPlaceholder from 'assets/dtt-background-placeholder.png';
+import imageDevTechTools from 'assets/devtech-tools.png';
+import imageDevTechToolsLarge from 'assets/devtech-tools-large.png';
+import imageDevTechToolsPlaceholder from 'assets/devtech-tools-placeholder.png';
 
 const prerender = navigator.userAgent === 'ReactSnap';
 
