@@ -5,10 +5,13 @@ import Footer from 'components/Footer';
 import ProgressiveImage from 'components/ProgressiveImage';
 import {
   ProjectContainer, ProjectSection, ProjectSectionContent, ProjectImage,
-  ProjectHeader
+  ProjectBackground, ProjectHeader
 } from 'components/Project';
-import Render from 'assets/armtg.mp4';
-import RenderPlaceholder from 'assets/armtg-placeholder.png';
+import armtgBackground from 'assets/armtg-background.png';
+import armtgBackgroundLarge from 'assets/armtg-background-large.png';
+import armtgBackgroundPlaceholder from 'assets/armtg-background-placeholder.png';
+import armtg from 'assets/armtg.mp4';
+import armtgPlaceholder from 'assets/armtg-placeholder.png';
 
 const prerender = navigator.userAgent === 'ReactSnap';
 const title = 'ARMTG';
@@ -33,6 +36,11 @@ function ArMTG() {
         meta={[{ name: 'description', content: description, }]}
       />
       <ProjectContainer>
+        <ProjectBackground
+          srcSet={`${armtgBackground} 1000w, ${armtgBackgroundLarge} 1920w`}
+          placeholder={armtgBackgroundPlaceholder}
+          entered={!prerender}
+        />
         <ProjectHeader
           title={title}
           description={description}
@@ -43,9 +51,9 @@ function ArMTG() {
           <ProjectSectionContent>
             <ProjectImage entered={!prerender}>
               <ProgressiveImage
-                srcSet={Render}
-                videoSrc={Render}
-                placeholder={RenderPlaceholder}
+                srcSet={armtg}
+                videoSrc={armtg}
+                placeholder={armtgPlaceholder}
                 reveal
               />
             </ProjectImage>

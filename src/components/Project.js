@@ -166,10 +166,7 @@ export const ProjectBackgroundImage = styled(ProgressiveImage).attrs(props => ({
     z-index: 1;
     width: 100%;
     height: 100%;
-    background: linear-gradient(180deg,
-      ${props => rgba(props.theme.colorBackground, props.opacity)} 0%,
-      ${props => props.theme.colorBackground} 100%
-    );
+    background: ${props => rgba(props.theme.colorBackground, props.opacity)};
   }
 `;
 

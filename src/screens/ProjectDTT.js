@@ -16,7 +16,6 @@ import imageDevTechToolsLarge from 'assets/devtech-tools-large.png';
 import imageDevTechToolsPlaceholder from 'assets/devtech-tools-placeholder.png';
 
 const prerender = navigator.userAgent === 'ReactSnap';
-
 const title = 'A Tool for Everything';
 const description = 'I worked as the design lead on a product of DevTech Tools. We focused on creating the best tool for learning developers.';
 const roles = [

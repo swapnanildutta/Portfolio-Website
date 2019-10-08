@@ -33,7 +33,6 @@ import mystgangLogoPlaceholder from 'assets/mystgang-logo-placeholder.png';
 
 const DisplacementSlider = lazy(() => import('components/DisplacementSlider'));
 const prerender = navigator.userAgent === 'ReactSnap';
-
 const title = 'MystGang 2019';
 const description = 'A responsive 3D website for the gaming content creator known as MystGang, featuring a 3D carousel to show off their work. The site is sped up with Ajax and animated with Tweenmax and Greensock, rendering a 3D landscape in WebGL with Three.js. This included the design of the monogram in the center of the screen.';
 const roles = [
