@@ -10,15 +10,15 @@ import Monogram from 'components/Monogram';
 import DisplacementSphere from 'components/DisplacementSphere';
 import DisplacementSlider from 'components/DisplacementSlider';
 import DecoderText from 'components/DecoderText';
-import Loader from 'assets/MystGang/Loader.webp';
-import LoaderPlaceholder from 'assets/MystGang/LoaderPlaceholder.png';
-import Home from 'assets/MystGang/Home.webp';
-import Menu from 'assets/MystGang/Menu.webp';
-import Work from 'assets/MystGang/Work.webp';
-import About1 from 'assets/MystGang/About1.webp';
-import About2 from 'assets/MystGang/About2.webp';
-import About3 from 'assets/MystGang/About3.webp';
-import Contact from 'assets/MystGang/Contact.webp';
+import mystgangSplash from 'assets/mystgang-splash.png';
+import mystgangSplashPlaceholder from 'assets/mystgang-splash-placeholder.png';
+import mystgangHome from 'assets/mystgang-home.png';
+import mystgangMenu from 'assets/mystgang-menu.png';
+import mystgangWork from 'assets/mystgang-work.png';
+import mystgangAboutSelf from 'assets/mystgang-about-self.png';
+import mystgangAboutWork from 'assets/mystgang-about-work.png';
+import mystgangAboutSocials from 'assets/mystgang-about-socials.png';
+import mystgangContact from 'assets/mystgang-contact.png';
 import { useFormInput } from 'utils/hooks';
 
 const StoryContainer = styled.div`
@@ -128,47 +128,47 @@ storiesOf('Displacement Slider', module)
     <StoryContainer fullWidth padding={30}>
       <DisplacementSlider
         style={{ maxWidth: 800, width: '100%' }}
-        placeholder={LoaderPlaceholder}
+        placeholder={mystgangSplashPlaceholder}
         images={[
           {
-            src: Loader,
-            srcset: `${Loader}`,
-            alt: 'MystGang Loader',
+            src: mystgangSplash,
+            srcset: mystgangSplash,
+            alt: 'MystGang Splash Screen',
             override: true
           },
           {
-            src: Home,
-            srcset: `${Home}`,
-            alt: 'Landing Screen',
+            src: mystgangHome,
+            srcset: mystgangHome,
+            alt: 'Home Screen',
           },
           {
-            src: Menu,
-            srcset: `${Menu}`,
-            alt: 'Menu Screen',
+            src: mystgangMenu,
+            srcset: mystgangMenu,
+            alt: 'Fullscreen Menu',
           },
           {
-            src: Work,
-            srcset: `${Work}`,
-            alt: 'Work Carousel',
+            src: mystgangWork,
+            srcset: mystgangWork,
+            alt: 'Work Screen',
           },
           {
-            src: About1,
-            srcset: `${About1}`,
+            src: mystgangAboutSelf,
+            srcset: mystgangAboutSelf,
             alt: 'About Self'
           },
           {
-            src: About2,
-            srcset: `${About2}`,
+            src: mystgangAboutWork,
+            srcset: mystgangAboutWork,
             alt: 'About Work',
           },
           {
-            src: About3,
-            srcset: `${About3}`,
+            src: mystgangAboutSocials,
+            srcset: mystgangAboutSocials,
             alt: 'About Socials',
           },
           {
-            src: Contact,
-            srcset: `${Contact}`,
+            src: mystgangContact,
+            srcset: mystgangContact,
             alt: 'Contact Screen',
           },
         ]}
