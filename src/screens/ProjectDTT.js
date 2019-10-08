@@ -3,17 +3,19 @@ import { Helmet } from 'react-helmet-async';
 import ProgressiveImage from 'components/ProgressiveImage';
 import { useScrollToTop } from 'utils/hooks';
 import Footer from 'components/Footer';
-import { RouterButton } from 'components/Button';
 import {
   ProjectContainer, ProjectSection, ProjectSectionContent, ProjectImage,
-  ProjectSectionHeading, ProjectHeader, ProjectSectionColumns, SidebarImages,
-  SidebarImage, ProjectTextRow, ProjectSectionText
+  ProjectSectionHeading, ProjectBackground, ProjectHeader
 } from 'components/Project';
 import { media } from 'utils/style';
+import backgroundDTT from 'assets/DTT/background-dtt.png';
+import backgroundDTTLarge from 'assets/DTT/background-dtt-large.png';
+import backgroundDTTPlaceholder from 'assets/DTT/background-dtt-placeholder.png';
 import imageDevTechTools from 'assets/DTT/devtech-tools.png';
 import imageDevTechToolsLarge from 'assets/DTT/devtech-tools-large.png';
 import imageDevTechToolsPlaceholder from 'assets/DTT/devtech-tools-placeholder.png';
-import NextProject from 'assets/MystGang/mystgang-project-large.png';
+
+const prerender = navigator.userAgent === 'ReactSnap';
 
 const title = 'A Tool for Everything';
 const description = 'I worked as the design lead on a product of DevTech Tools. We focused on creating the best tool for learning developers.';
@@ -35,6 +37,11 @@ function ProjectDTT() {
         meta={[{ name: 'description', content: description, }]}
       />
       <ProjectContainer>
+        <ProjectBackground
+          srcSet={`${backgroundDTT} 1000w, ${backgroundDTTLarge} 1920w`}
+          placeholder={backgroundDTTPlaceholder}
+          entered={!prerender}
+        />
         <ProjectHeader
           title={title}
           description={description}
@@ -57,31 +64,6 @@ function ProjectDTT() {
           <ProjectSectionHeading>Full project coming soon...</ProjectSectionHeading>
         </ProjectSection>
       </ProjectContainer>
-      <ProjectSection>
-        <ProjectSectionColumns light>
-          <SidebarImages>
-            <SidebarImage
-            reveal
-              srcSet={NextProject}
-              alt=""
-              sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}
-            />
-          </SidebarImages>
-          <ProjectTextRow center>
-            <ProjectSectionText>
-              Next Project
-            </ProjectSectionText>
-            <ProjectSectionHeading>MystGang 2019</ProjectSectionHeading>
-            <RouterButton
-              secondary
-              icon="chevronRight"
-              to="/projects/mystgang"
-            >
-              View Project
-            </RouterButton>
-          </ProjectTextRow>
-        </ProjectSectionColumns>
-      </ProjectSection>
       <Footer />
     </React.Fragment>
   );
