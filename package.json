@@ -34,8 +34,8 @@
     "react-helmet-async": "^1.0.4",
     "react-router-dom": "5.1.2",
     "react-transition-group": "^4.3.0",
-    "styled-components": "^5.0.0-beta.9",
-    "three": "^0.109.0"
+    "styled-components": "^4.4.1",
+    "three": "^0.110.0"
   },
   "scripts": {
     "start": "set PORT=80 && react-scripts start",
