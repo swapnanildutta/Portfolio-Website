@@ -441,7 +441,7 @@ const HeadingTwo = styled.h2`
   }
 `;
 
-const Paragrapgh = styled.p`
+const Paragraph = styled.p`
   color: ${props => rgba(props.theme.colorText, 0.8)};
   margin: 0;
   font-size: 24px;
@@ -514,7 +514,7 @@ const InlineCode = styled.code`
 const components = {
   wrapper: PostWrapper,
   h2: HeadingTwo,
-  p: Paragrapgh,
+  p: Paragraph,
   img: imageFactory,
   a: (props) => <Anchor target="_blank" {...props} />,
   pre: CodeBlock,
