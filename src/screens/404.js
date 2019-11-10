@@ -4,9 +4,10 @@ import { Transition } from 'react-transition-group';
 import { Helmet } from 'react-helmet-async';
 import { RouterButton } from 'components/Button';
 import DecoderText from 'components/DecoderText';
-import { media, rgba } from 'utils/style';
+import { rgba } from 'utils/style';
 import Notfound from 'assets/notfound.mp4';
 import NotfoundPoster from 'assets/notfound.jpg';
+import { reflow } from 'utils/transition';
 
 function NotFound() {
   return (
@@ -19,7 +20,7 @@ function NotFound() {
         appear
         in={true}
         timeout={0}
-        onEnter={node => node && node.offsetHeight}
+        onEnter={reflow}
       >
         {status => (
           <React.Fragment>
@@ -76,7 +77,7 @@ const NotFoundSection = styled.section`
   height: 100vh;
   padding-left: 140px;
 
-  @media(max-width: ${media.tablet}) {
+  @media(max-width: ${props => props.theme.tablet}px) {
     padding-top: 80px;
     padding-bottom: 80px;
     padding-left: 80px;
@@ -85,7 +86,7 @@ const NotFoundSection = styled.section`
     height: auto;
   }
 
-  @media(max-width: ${media.mobile}) {
+  @media(max-width: ${props => props.theme.mobile}px) {
     padding-left: 0;
   }
 `;
@@ -117,7 +118,7 @@ const NotFoundVideoContainer = styled.div`
   position: relative;
   border: 30px solid transparent;
 
-  @media (max-width: ${media.mobile}) {
+  @media (max-width: ${props => props.theme.mobile}px) {
     min-height: 240px;
     grid-row: 1;
   }
@@ -154,7 +155,7 @@ const NotFoundVideo = styled.video`
     opacity: 1;
   `}
 
-  @media(max-width: ${media.mobile}) {
+  @media(max-width: ${props => props.theme.mobile}px) {
     left: 0;
   }
 `;
@@ -191,7 +192,7 @@ const NotfoundDetails = styled.div`
   padding: 0 40px;
   height: 100%;
 
-  @media(max-width: ${media.mobile}) {
+  @media(max-width: ${props => props.theme.mobile}px) {
     padding: 0 30px;
     grid-row: 2;
   }
@@ -349,7 +350,7 @@ const NotFoundTitle = styled.h1`
   opacity: 0;
   color: ${props => props.theme.colorTitle};
 
-  @media (max-width: ${media.mobile}) {
+  @media (max-width: ${props => props.theme.mobile}px) {
     font-size: 64px;
   }
 
@@ -403,7 +404,7 @@ const NotFoundSubHeading = styled.h2`
   white-space: nowrap;
   flex: 0 0 auto;
 
-  @media (max-width: ${media.mobile}) {
+  @media (max-width: ${props => props.theme.mobile}px) {
     font-size: 18px;
   }
 

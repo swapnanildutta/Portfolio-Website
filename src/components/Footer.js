@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components/macro';
 import { Link } from 'react-router-dom';
 import Anchor from 'components/Anchor';
-import { media, rgba, sectionPadding } from 'utils/style';
+import { rgba, sectionPadding } from 'utils/style';
 
 const Footer = () => (
   <FooterContainer role="contentinfo">
@@ -24,7 +24,7 @@ const FooterContainer = styled.footer`
   color: ${props => rgba(props.theme.colorText, 0.6)};
   ${sectionPadding}
 
-  @media (max-width: ${media.tablet}) {
+  @media (max-width: ${props => props.theme.tablet}px) {
     padding-top: 60px;
     padding-bottom: 60px;
   }

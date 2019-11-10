@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import styled, { ThemeContext } from 'styled-components/macro';
-import { media } from 'utils/style';
 
 const netrunnerTheme = {
   char: '#D8DEE9',
@@ -60,7 +59,7 @@ const CodeBlockWrapper = styled.pre`
   color: ${props => props.theme.colorText};
   overflow-x: auto;
 
-  @media (max-width: ${media.mobile}) {
+  @media (max-width: ${props => props.theme.mobile}px) {
     padding: 20px;
     margin: 40px -20px;
   }
@@ -78,7 +77,7 @@ const CodeBlockContent = styled.pre`
     white-space: pre;
     font-family: ${props => props.theme.monoFontStack};
 
-    @media (max-width: ${media.mobile}) {
+    @media (max-width: ${props => props.theme.mobile}px) {
       font-size: 14px;
     }
   }

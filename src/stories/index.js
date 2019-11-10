@@ -19,7 +19,7 @@ import mystgangAboutSelf from 'assets/mystgang-about-self.png';
 import mystgangAboutWork from 'assets/mystgang-about-work.png';
 import mystgangAboutSocials from 'assets/mystgang-about-socials.png';
 import mystgangContact from 'assets/mystgang-contact.png';
-import { useFormInput } from 'utils/hooks';
+import { useFormInput } from 'hooks';
 
 const StoryContainer = styled.div`
   width: 100vw;

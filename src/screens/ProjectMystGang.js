@@ -1,15 +1,14 @@
-import React, { useMemo, lazy, Suspense } from 'react';
-import styled from 'styled-components/macro';
+import React, { lazy, useContext, useMemo, Suspense } from 'react';
+import styled, { ThemeContext } from 'styled-components/macro';
 import { Helmet } from 'react-helmet-async';
 import ProgressiveImage from 'components/ProgressiveImage';
-import { useScrollToTop } from 'utils/hooks';
+import { useScrollRestore } from 'hooks';
 import Footer from 'components/Footer';
 import {
   ProjectContainer, ProjectSection, ProjectSectionContent, ProjectImage,
   ProjectBackground, ProjectHeader, ProjectSectionHeading, ProjectSectionText,
   ProjectTextRow, ProjectSectionColumns
 } from 'components/Project';
-import { media } from 'utils/style';
 import mystgangBackground from 'assets/mystgang-background.png';
 import mystgangBackgroundLarge from 'assets/mystgang-background-large.png';
 import mystgangBackgroundPlaceholder from 'assets/mystgang-background-placeholder.png';
@@ -46,7 +45,8 @@ const roles = [
 ];
 
 function MystGang() {
-  useScrollToTop();
+  const { mobile, tablet } = useContext(ThemeContext);
+  useScrollRestore();
 
   return (
     <React.Fragment>
@@ -86,7 +86,7 @@ function MystGang() {
               srcSet={mystgangBranding}
               placeholder={mystgangBrandingPlaceholder}
               alt=""
-              sizes={`(max-width: ${media.mobile}) 100vw, (max-width: ${media.tablet}) 100vw, 50vw`}
+              sizes={`(max-width: ${mobile}px) 100vw, (max-width: ${tablet}px) 100vw, 50vw`}
             />
             <TextSection>
               <ProjectSectionHeading>Truly Epic Colors</ProjectSectionHeading>
@@ -200,7 +200,7 @@ const TextSection = styled.div`
   justify-content: center;
   flex-direction: column;
 
-  @media (max-width: ${media.tablet}), (max-width ${media.mobile}) {
+  @media (max-width: ${props => props.theme.tablet}px), (max-width ${props => props.theme.mobile}px) {
     margin-top: 18px;
   }
 `;
@@ -214,7 +214,7 @@ const LogoContainer = styled.div`
   margin-bottom: 80px;
   width: 100%;
 
-  @media (max-width: ${media.mobile}) {
+  @media (max-width: ${props => props.theme.mobile}px) {
     padding: 30px 40px;
     margin-bottom: 40px;
   }

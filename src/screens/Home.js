@@ -14,7 +14,7 @@ import MystGangProjectPlaceholder from 'assets/mystgang-project-placeholder.png'
 import ARMTGProject from 'assets/armtg-project.png';
 import ARMTGProjectLarge from 'assets/armtg-project-large.png';
 import ARMTGProjectPlaceholder from 'assets/armtg-project-placeholder.png';
-import { usePrefersReducedMotion } from 'utils/hooks';
+import { usePrefersReducedMotion } from 'hooks';
 
 const disciplines = ['Developer', 'Creator', 'Animator', 'Student'];
 

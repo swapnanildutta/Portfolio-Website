@@ -7,9 +7,9 @@ import styled from 'styled-components/macro';
 import { Easing, Tween, autoPlay } from 'es6-tween';
 import Swipe from 'react-easy-swipe';
 import Icon from './Icon';
-import { media, rgba } from 'utils/style';
+import { rgba } from 'utils/style';
 import { vertex, fragment } from 'shaders/sliderShader';
-import { usePrefersReducedMotion } from 'utils/hooks';
+import { usePrefersReducedMotion } from 'hooks';
 
 const prerender = navigator.userAgent === 'ReactSnap';
 
@@ -80,7 +80,7 @@ export default function DispalcementSlider(props) {
   const navigate = useCallback(({
     direction,
     index = null,
-    ...rest,
+    ...rest
   }) => {
     if (!loaded) return;
 
@@ -446,7 +446,7 @@ const SliderButton = styled.button`
   z-index: 32;
   cursor: pointer;
 
-  @media (max-width: ${media.mobile}) {
+  @media (max-width: ${props => props.theme.mobile}px) {
     display: none;
   }
 

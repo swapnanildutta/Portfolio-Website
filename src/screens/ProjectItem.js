@@ -1,14 +1,15 @@
-import React from 'react';
-import styled, { css } from 'styled-components/macro';
+import React, { useContext } from 'react';
+import styled, { css, ThemeContext } from 'styled-components/macro';
 import { Transition } from 'react-transition-group';
-import { media, rgba, sectionPadding } from 'utils/style';
+import { rgba, sectionPadding } from 'utils/style';
 import { RouterButton, LinkButton } from 'components/Button';
 import ProgressiveImage from 'components/ProgressiveImage';
 import Divider from 'components/Divider';
-import { useWindowSize } from 'utils/hooks';
+import { useWindowSize } from 'hooks';
 import phone from 'assets/phone.png';
 import phoneLarge from 'assets/phone-large.png';
 import phonePlaceholder from 'assets/phone-placeholder.png';
+import { reflow } from 'utils/transition';
 
 function ProjectItem(props) {
   const {
@@ -17,8 +18,9 @@ function ProjectItem(props) {
   } = props;
 
   const windowSize = useWindowSize();
+  const { mobile, tablet, desktop } = useContext(ThemeContext);
   const titleId = `${id}-title`;
-  const isMobile = windowSize.width <= media.numTablet;
+  const isMobile = windowSize.width <= tablet;
 
   const renderDetails = (status) => (
     <ProjectItemDetails>
@@ -66,7 +68,7 @@ function ProjectItem(props) {
             srcSet={imageSrc[0]}
             alt={imageAlt[0]}
             placeholder={imagePlaceholder[0]}
-            sizes={`(max-width: ${media.mobile}) 300px,(max-width: ${media.tablet}) 420px,(max-width: ${media.desktop}) 860px, 900px`}
+            sizes={`(max-width: ${mobile}px) 300px,(max-width: ${tablet}px) 420px,(max-width: ${desktop}px) 860px, 900px`}
           />
         </ProjectItemPreviewContentLaptop>
       }
@@ -76,7 +78,7 @@ function ProjectItem(props) {
             <ProjectItemPhone first={index === 0} status={status} key={`img_${index}`}>
               <ProjectItemPhoneFrame
                 srcSet={`${phone} 414w, ${phoneLarge} 828w`}
-                sizes={`(max-width: ${media.tablet}) 248px, 414px`}
+                sizes={`(max-width: ${tablet}px) 248px, 414px`}
                 alt=""
                 role="presentation"
                 placeholder={phonePlaceholder}
@@ -85,7 +87,7 @@ function ProjectItem(props) {
                 srcSet={imageSrc[index]}
                 alt={imageAlt[index]}
                 placeholder={imagePlaceholder[index]}
-                sizes={`(max-width: ${media.tablet}) 152px, 254px`}
+                sizes={`(max-width: ${tablet}px) 152px, 254px`}
               />
             </ProjectItemPhone>
           ))}
@@ -108,7 +110,7 @@ function ProjectItem(props) {
         <Transition
           in={visible}
           timeout={0}
-          onEnter={node => node && node.offsetHeight}
+          onEnter={reflow}
         >
           {status => (
             <React.Fragment>
@@ -141,7 +143,7 @@ const ProjectItemContent = styled.div`
   grid-template-columns: 43% 55%;
   grid-column-gap: 2%;
 
-  @media (min-width: ${media.desktop}) {
+  @media (min-width: ${props => props.theme.desktop}px) {
     max-width: ${props => props.theme.maxWidthDesktop}px;
   }
 
@@ -149,7 +151,7 @@ const ProjectItemContent = styled.div`
     grid-template-columns: 50% 50%;
   }
 
-  @media (max-width: ${media.tablet}) {
+  @media (max-width: ${props => props.theme.tablet}px) {
     grid-template-columns: 100%;
     flex-direction: column-reverse;
     height: auto;
@@ -162,7 +164,7 @@ const ProjectItemDetails = styled.div`
   z-index: 1;
   position: relative;
 
-  @media (max-width: ${media.tablet}) {
+  @media (max-width: ${props => props.theme.tablet}px) {
     flex: 0 0 auto;
     max-width: 410px;
     grid-row: 2;
@@ -187,18 +189,18 @@ const ProjectItemSection = styled.section`
   outline: none;
   ${sectionPadding}
 
-  @media (min-width: ${media.desktop}) {
+  @media (min-width: ${props => props.theme.desktop}px) {
     margin-bottom: 0;
     margin-top: 0;
   }
 
-  @media (max-width: ${media.tablet}) {
+  @media (max-width: ${props => props.theme.tablet}px) {
     height: auto;
     margin-top: ${props => props.index === '01' ? '0' : '60px'};
     margin-bottom: 60px;
   }
 
-  @media (max-width: ${media.mobile}) {
+  @media (max-width: ${props => props.theme.mobile}px) {
     padding-bottom: 100px;
     margin-bottom: 0;
     overflow-x: hidden;
@@ -208,7 +210,7 @@ const ProjectItemSection = styled.section`
     ${ProjectItemContent} {
       grid-template-columns: 55% 40%;
 
-      @media (max-width: ${media.tablet}) {
+      @media (max-width: ${props => props.theme.tablet}px) {
         grid-template-columns: 100%;
       }
     }
@@ -239,7 +241,7 @@ const ProjectItemPreviewContentPhone = styled.div`
 const ProjectItemPreviewContentLaptop = styled.div`
   position: relative;
 
-  @media (max-width: ${media.tablet}) {
+  @media (max-width: ${props => props.theme.tablet}px) {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -296,7 +298,7 @@ const ProjectItemTitle = styled.h2`
     font-size: 36px;
   }
 
-  @media (max-width: ${media.mobile}) {
+  @media (max-width: ${props => props.theme.mobile}px) {
     font-size: 28px;
   }
 `;
@@ -319,7 +321,7 @@ const ProjectItemDescription = styled.p`
     opacity: 1;
   `}
 
-  @media (max-width: ${media.mobile}) {
+  @media (max-width: ${props => props.theme.mobile}px) {
     font-size: 16px;
   }
 `;
@@ -369,14 +371,14 @@ const ProjectItemImageLaptop = styled(ProgressiveImage)`
     height: 491px;
   }
 
-  @media (max-width: ${media.tablet}) {
+  @media (max-width: ${props => props.theme.tablet}px) {
     width: 420px;
     height: 258px;
     margin-bottom: 120px;
     right: 0;
   }
 
-  @media (max-width: ${media.mobile}) {
+  @media (max-width: ${props => props.theme.mobile}px) {
     width: 336px;
     height: 206px;
     margin-bottom: 60px;
@@ -402,7 +404,7 @@ const ProjectItemPhone = styled.div`
     transform: translate3d(0, 80px, 0);
     transition-delay: 0s;
 
-    @media (max-width: ${media.tablet}) {
+    @media (max-width: ${props => props.theme.tablet}px) {
       left: calc(50% - 48px);
       top: -60px;
     }
@@ -412,7 +414,7 @@ const ProjectItemPhone = styled.div`
     transform: translate3d(0, 80px, 0);
     transition-delay: 0.2s;
 
-    @media (max-width: ${media.tablet}) {
+    @media (max-width: ${props => props.theme.tablet}px) {
       left: calc(-50% + 40px);
       top: 60px;
     }
@@ -429,7 +431,7 @@ const ProjectItemPhoneFrame = styled(ProgressiveImage)`
   width: 414px;
   height: 721px;
 
-  @media (max-width: ${media.tablet}) {
+  @media (max-width: ${props => props.theme.tablet}px) {
     width: 248px;
     height: 431px;
   }
@@ -447,7 +449,7 @@ const ProjectItemPhoneImage = styled(ProgressiveImage)`
     height: 100%;
   }
 
-  @media (max-width: ${media.tablet}) {
+  @media (max-width: ${props => props.theme.tablet}px) {
     box-shadow: 0 0 0 1px #1C1C1C;
     width: 152px;
     height: 270px;

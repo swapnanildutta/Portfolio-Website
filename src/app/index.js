@@ -1,14 +1,15 @@
 import React, { lazy, Suspense, useEffect, createContext, useReducer } from 'react';
 import styled, { createGlobalStyle, ThemeProvider, css } from 'styled-components/macro';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import { Transition, TransitionGroup, config } from 'react-transition-group';
+import { Transition, TransitionGroup, config as transitionConfig } from 'react-transition-group';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import Header from 'components/Header';
 import { theme } from 'utils/theme';
-import { useLocalStorage, usePrefersReducedMotion } from 'utils/hooks';
+import { useLocalStorage, usePrefersReducedMotion } from 'hooks';
 import GothamBook from 'assets/fonts/gotham-book.woff2';
 import GothamMedium from 'assets/fonts/gotham-medium.woff2';
 import { initialState, reducer } from 'app/reducer';
+import { reflow } from 'utils/transition';
 
 const Home = lazy(() => import('screens/Home'));
 const ProjectDTT = lazy(() => import('screens/ProjectDTT'));
@@ -45,9 +46,9 @@ function App() {
 
   useEffect(() => {
     if (prefersReducedMotion) {
-      config.disabled = true;
+      transitionConfig.disabled = true;
     } else {
-      config.disabled = false;
+      transitionConfig.disabled = false;
     }
   }, [prefersReducedMotion]);
 
@@ -84,7 +85,7 @@ function App() {
                   <Transition
                     key={location.pathname}
                     timeout={300}
-                    onEnter={node => node && node.offsetHeight}
+                    onEnter={reflow}
                   >
                     {status => (
                       <TransitionContext.Provider value={{ ...state, dispatch, status }}>

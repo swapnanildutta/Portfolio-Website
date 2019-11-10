@@ -1,6 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useScrollToTop } from 'utils/hooks';
+import { useScrollRestore } from 'hooks';
 import Footer from 'components/Footer';
 import ProgressiveImage from 'components/ProgressiveImage';
 import {
@@ -27,7 +27,7 @@ const roles = [
 ];
 
 function ArMTG() {
-  useScrollToTop();
+  useScrollRestore();
 
   return (
     <React.Fragment>
