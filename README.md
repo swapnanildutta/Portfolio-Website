@@ -2,7 +2,7 @@
 
 [![Site preview](/public/social-image.png)](https://codyb.co)
 
-A personal portfolio to showcase a few projects. Check out a live version of the [component design system](https://codyb.co/storybook).
+A personal portfolio to showcase a few projects. Check out a live version of the [component design system](https://storybook.codyb.co).
 
 ## Install & run
 
