@@ -8,7 +8,7 @@ import { Easing, Tween, autoPlay } from 'es6-tween';
 import Swipe from 'react-easy-swipe';
 import Icon from './Icon';
 import { rgba } from 'utils/style';
-import { vertex, fragment } from 'shaders/sliderShader';
+import { vertex, fragment } from 'shaders/carouselShader';
 import { usePrefersReducedMotion } from 'hooks';
 
 const prerender = navigator.userAgent === 'ReactSnap';
@@ -22,7 +22,7 @@ function determineIndex(imageIndex, index, images, direction) {
   return finalIndex;
 }
 
-export default function DispalcementSlider(props) {
+export default function DisplacementSlider(props) {
   const { width, height, images, placeholder, ...rest } = props;
   const [imageIndex, setImageIndex] = useState(0);
   const [loaded, setLoaded] = useState(false);

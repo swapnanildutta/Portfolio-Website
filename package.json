@@ -51,7 +51,7 @@
   },
   "reactSnap": {
     "skipThirdPartyRequests": true,
-    "headless": false,
+    "headless": true,
     "crawl": true
   },
   "browserslist": {

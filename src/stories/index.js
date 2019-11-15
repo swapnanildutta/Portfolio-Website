@@ -8,7 +8,7 @@ import Input from 'components/Input';
 import Anchor from 'components/Anchor';
 import Monogram from 'components/Monogram';
 import DisplacementSphere from 'components/DisplacementSphere';
-import DisplacementSlider from 'components/DisplacementSlider';
+import DisplacementCarousel from 'components/DisplacementCarousel';
 import DecoderText from 'components/DecoderText';
 import mystgangSplash from 'assets/mystgang-splash.png';
 import mystgangSplashPlaceholder from 'assets/mystgang-splash-placeholder.png';
@@ -126,7 +126,7 @@ storiesOf('WebGL Scenes', module)
 storiesOf('Displacement Slider', module)
   .add('MystGang', () =>
     <StoryContainer fullWidth padding={30}>
-      <DisplacementSlider
+      <DisplacementCarousel
         style={{ maxWidth: 800, width: '100%' }}
         placeholder={mystgangSplashPlaceholder}
         images={[
