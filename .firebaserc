@@ -1,5 +1,17 @@
 {
   "projects": {
-    "default": "portfolio-4e46f"
+    "default": "portfolio-codyb"
+  },
+  "targets": {
+    "portfolio-codyb": {
+      "hosting": {
+        "portfolio": [
+          "portfolio-codyb"
+        ],
+        "storybook": [
+          "codyb-storybook"
+        ]
+      }
+    }
   }
 }
