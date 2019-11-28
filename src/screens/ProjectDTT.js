@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import { ThemeContext } from 'styled-components/macro';
+import React from 'react';
+import { useTheme } from 'styled-components/macro';
 import { Helmet } from 'react-helmet-async';
 import ProgressiveImage from 'components/ProgressiveImage';
 import { useScrollRestore } from 'hooks';
@@ -8,6 +8,7 @@ import {
   ProjectContainer, ProjectSection, ProjectSectionContent, ProjectImage,
   ProjectSectionHeading, ProjectBackground, ProjectHeader
 } from 'components/Project';
+import prerender from 'utils/prerender';
 import dttBackground from 'assets/dtt-background.png';
 import dttBackgroundLarge from 'assets/dtt-background-large.png';
 import dttBackgroundPlaceholder from 'assets/dtt-background-placeholder.png';
@@ -15,7 +16,6 @@ import imageDevTechTools from 'assets/devtech-tools.png';
 import imageDevTechToolsLarge from 'assets/devtech-tools-large.png';
 import imageDevTechToolsPlaceholder from 'assets/devtech-tools-placeholder.png';
 
-const prerender = navigator.userAgent === 'ReactSnap';
 const title = 'A Tool for Everything';
 const description = 'I worked as the design lead on a product of DevTech Tools. We focused on creating the best tool for learning developers.';
 const roles = [
@@ -27,7 +27,7 @@ const roles = [
 ];
 
 function ProjectDTT() {
-  const { mobile, tablet } = useContext(ThemeContext);
+  const { mobile, tablet } = useTheme();
   useScrollRestore();
 
   return (

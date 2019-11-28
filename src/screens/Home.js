@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useRef, useMemo, useContext } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { TransitionContext } from 'app';
 import Intro from 'screens/Intro';
 import ProjectItem from 'screens/ProjectItem';
 import Profile from 'screens/Profile';
@@ -14,12 +13,12 @@ import MystGangProjectPlaceholder from 'assets/mystgang-project-placeholder.png'
 import ARMTGProject from 'assets/armtg-project.png';
 import ARMTGProjectLarge from 'assets/armtg-project-large.png';
 import ARMTGProjectPlaceholder from 'assets/armtg-project-placeholder.png';
-import { usePrefersReducedMotion } from 'hooks';
+import { usePrefersReducedMotion, useRouteTransition } from 'hooks';
 
 const disciplines = ['Developer', 'Creator', 'Animator', 'Student'];
 
 export default function Home(props) {
-  const { status } = useContext(TransitionContext);
+  const { status } = useRouteTransition;
   const { location } = props;
   const { hash, state } = location;
   const initHash = useRef(true);

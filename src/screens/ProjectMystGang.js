@@ -1,5 +1,5 @@
-import React, { lazy, useContext, useMemo, Suspense } from 'react';
-import styled, { ThemeContext } from 'styled-components/macro';
+import React, { lazy, useMemo, Suspense } from 'react';
+import styled, { useTheme } from 'styled-components/macro';
 import { Helmet } from 'react-helmet-async';
 import ProgressiveImage from 'components/ProgressiveImage';
 import { useScrollRestore } from 'hooks';
@@ -9,6 +9,7 @@ import {
   ProjectBackground, ProjectHeader, ProjectSectionHeading, ProjectSectionText,
   ProjectTextRow, ProjectSectionColumns
 } from 'components/Project';
+import prerender from 'utils/prerender';
 import mystgangBackground from 'assets/mystgang-background.png';
 import mystgangBackgroundLarge from 'assets/mystgang-background-large.png';
 import mystgangBackgroundPlaceholder from 'assets/mystgang-background-placeholder.png';
@@ -31,7 +32,6 @@ import mystgangLogo from 'assets/mystgang-logo.png';
 import mystgangLogoPlaceholder from 'assets/mystgang-logo-placeholder.png';
 
 const DisplacementCarousel = lazy(() => import('components/DisplacementCarousel'));
-const prerender = navigator.userAgent === 'ReactSnap';
 const title = 'MystGang 2019';
 const description = 'A responsive 3D website for the gaming content creator known as MystGang, featuring a 3D carousel to show off their work. The site is sped up with Ajax and animated with Tweenmax and Greensock, rendering a 3D landscape in WebGL with Three.js. This included the design of the monogram in the center of the screen.';
 const roles = [
@@ -45,7 +45,7 @@ const roles = [
 ];
 
 function MystGang() {
-  const { mobile, tablet } = useContext(ThemeContext);
+  const { mobile, tablet } = useTheme();
   useScrollRestore();
 
   return (

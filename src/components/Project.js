@@ -1,40 +1,35 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled, { css, keyframes } from 'styled-components/macro';
 import { AnimFade, rgba, sectionPadding } from 'utils/style';
 import ProgressiveImage from 'components/ProgressiveImage';
 import { LinkButton } from 'components/Button';
 import { usePrefersReducedMotion } from 'hooks';
+import prerender from 'utils/prerender';
 
 const initDelay = 300;
-const prerender = navigator.userAgent === 'ReactSnap';
 
 export function ProjectBackground(props) {
   const [offset, setOffset] = useState();
+  const ticking = useRef(false);
   const prefersReducedMotion = usePrefersReducedMotion();
+  const lastScrollY = useRef(0);
 
   useEffect(() => {
-    let ticking = false;
-    let animationFrame = null;
-
-    const animate = () => {
-      setOffset(window.scrollY * 0.4);
-      ticking = false;
-    };
-
     const handleScroll = () => {
-      if (!ticking) {
-        ticking = true;
-        animationFrame = requestAnimationFrame(animate);
-      }
+      if (prefersReducedMotion || ticking.current) return;
+      lastScrollY.current = window.scrollY;
+      ticking.current = true;
+
+      requestAnimationFrame(() => {
+        setOffset(lastScrollY.current * 0.4);
+        ticking.current = false;
+      });
     };
 
-    if (!prefersReducedMotion) {
-      window.addEventListener('scroll', handleScroll);
-    }
+    window.addEventListener('scroll', handleScroll);
 
     return function cleanUp() {
       window.removeEventListener('scroll', handleScroll);
-      cancelAnimationFrame(animationFrame);
     };
   }, [prefersReducedMotion]);
 
@@ -155,7 +150,7 @@ export const ProjectBackgroundImage = styled(ProgressiveImage).attrs(props => ({
     animation: ${AnimFade} 2s ease ${initDelay}ms forwards;
   `}
 
-  img, video {
+  img {
     object-fit: cover;
     width: 100%;
     height: 100%;
@@ -171,7 +166,10 @@ export const ProjectBackgroundImage = styled(ProgressiveImage).attrs(props => ({
     z-index: 1;
     width: 100%;
     height: 100%;
-    background: ${props => rgba(props.theme.colorBackground, props.opacity)};
+    background: linear-gradient(180deg,
+      ${props => rgba(props.theme.colorBackground, props.opacity)} 0%,
+      ${props => props.theme.colorBackground} 100%
+    );
   }
 `;
 
@@ -390,7 +388,6 @@ export const ProjectTextRow = styled.div`
     }
   `}
 `;
-
 export const ProjectSectionColumns = styled(ProjectSectionContent)`
   display: grid;
   grid-template-columns: 1fr 1fr;

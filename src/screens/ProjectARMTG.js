@@ -7,13 +7,13 @@ import {
   ProjectContainer, ProjectSection, ProjectSectionContent, ProjectImage,
   ProjectBackground, ProjectHeader
 } from 'components/Project';
+import prerender from 'utils/prerender';
 import armtgBackground from 'assets/armtg-background.png';
 import armtgBackgroundLarge from 'assets/armtg-background-large.png';
 import armtgBackgroundPlaceholder from 'assets/armtg-background-placeholder.png';
 import armtg from 'assets/armtg.mp4';
 import armtgPlaceholder from 'assets/armtg-placeholder.png';
 
-const prerender = navigator.userAgent === 'ReactSnap';
 const title = 'ARMTG';
 const description = 'A VR, AR, and multi-platform application to play the card game: Magic, the Gathering with database-fed decks displayed on real, physical cards in real-time. Automatic shuffling, an intuitive deck editor, and a cool 3D interface brought the technology of the future to the game.';
 const roles = [

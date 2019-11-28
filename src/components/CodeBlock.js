@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
-import styled, { ThemeContext } from 'styled-components/macro';
+import React from 'react';
+import styled, { useTheme } from 'styled-components/macro';
 
-const netrunnerTheme = {
+const darkCodeTheme = {
   char: '#D8DEE9',
   comment: '#B2B2B2',
   keyword: '#c592ff',
@@ -36,12 +36,12 @@ const lightCodeTheme = {
 };
 
 const codeThemes = {
-  dark: netrunnerTheme,
+  dark: darkCodeTheme,
   light: lightCodeTheme,
 };
 
 function CodeBlock(props) {
-  const theme = useContext(ThemeContext);
+  const theme = useTheme();
   const codeTheme = codeThemes[theme.id];
 
   return (
