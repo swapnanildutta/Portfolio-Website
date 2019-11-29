@@ -4,7 +4,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { Transition, TransitionGroup, config as transitionConfig } from 'react-transition-group';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import Header from 'components/Header';
-import { theme } from 'utils/theme';
+import { theme } from 'app/theme';
 import { useLocalStorage, usePrefersReducedMotion } from 'hooks';
 import GothamBook from 'assets/fonts/gotham-book.woff2';
 import GothamMedium from 'assets/fonts/gotham-medium.woff2';
@@ -12,11 +12,11 @@ import { initialState, reducer } from 'app/reducer';
 import { reflow } from 'utils/transition';
 
 const Home = lazy(() => import('screens/Home'));
+const Contact = lazy(() => import('screens/Contact'));
 const ProjectDTT = lazy(() => import('screens/ProjectDTT'));
 const ProjectMystGang = lazy(() => import('screens/ProjectMystGang'));
 const ProjectARMTG = lazy(() => import('screens/ProjectARMTG'));
 const Articles = lazy(() => import('screens/Articles'));
-const Contact = lazy(() => import('screens/Contact'));
 const NotFound = lazy(() => import('screens/404'));
 
 export const AppContext = createContext();
@@ -93,11 +93,11 @@ function App() {
                           <Suspense fallback={<React.Fragment />}>
                             <Switch location={location}>
                               <Route exact path="/" component={Home} />
+							                <Route path="/contact" component={Contact} />
                               <Route path="/projects/dtt" component={ProjectDTT} />
                               <Route path="/projects/mystgang" component={ProjectMystGang} />
                               <Route path="/projects/armtg" component={ProjectARMTG} />
                               <Route path="/articles" component={Articles} />
-                              <Route path="/contact" component={Contact} />
                               <Route component={NotFound} />
                             </Switch>
                           </Suspense>

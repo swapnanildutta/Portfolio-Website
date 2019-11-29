@@ -27,7 +27,7 @@ function getStatusError(status) {
 }
 
 function Contact() {
-  const { status } = useRouteTransition;
+  const { status } = useRouteTransition();
   const email = useFormInput('');
   const message = useFormInput('');
   const [sending, setSending] = useState(false);
@@ -183,7 +183,7 @@ const ContactForm = styled.form`
   width: 100%;
   padding: 40px 0;
 
-  @media (max-width: ${props => props.theme.laptop}px) {
+  @media (max-width: ${props => props.theme.mobile}px) {
     padding: 120px 0 40px;
     align-self: flex-start;
   }

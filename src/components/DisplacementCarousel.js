@@ -4,7 +4,7 @@ import {
   LinearFilter, TextureLoader, PlaneBufferGeometry, LoadingManager
 } from 'three';
 import styled from 'styled-components/macro';
-import { Easing, Tween, autoPlay } from 'es6-tween';
+import { Easing, Tween, update as updateTween, remove as removeTween } from 'es6-tween';
 import Swipe from 'react-easy-swipe';
 import Icon from './Icon';
 import { rgba } from 'utils/style';
@@ -21,7 +21,7 @@ function determineIndex(imageIndex, index, images, direction) {
   return finalIndex;
 }
 
-export default function DisplacementSlider(props) {
+export default function DispalcementSlider(props) {
   const { width, height, images, placeholder, ...rest } = props;
   const [imageIndex, setImageIndex] = useState(0);
   const [loaded, setLoaded] = useState(false);
@@ -41,7 +41,8 @@ export default function DisplacementSlider(props) {
   const scheduledAnimationFrame = useRef();
   const prefersReducedMotion = usePrefersReducedMotion();
   const placeholderRef = useRef();
-  const currentImage = images[imageIndex];
+  const tweenRef = useRef();
+  const { override } = images[imageIndex];
   const currentImageAlt = `Slide ${imageIndex + 1} of ${images.length}. ${images[imageIndex].alt}`;
 
   const goToIndex = useCallback(({
@@ -65,14 +66,16 @@ export default function DisplacementSlider(props) {
     if (!prefersReducedMotion && uniforms.dispFactor.value !== 1) {
       animating.current = true;
 
-      new Tween(uniforms.dispFactor)
+      tweenRef.current = new Tween(uniforms.dispFactor)
         .to({ value: 1 }, duration)
         .easing(easing)
         .on('complete', onComplete)
         .start();
     } else {
       onComplete();
-      renderer.current.render(scene.current, camera.current);
+      requestAnimationFrame(() => {
+        renderer.current.render(scene.current, camera.current);
+      });
     }
   }, [prefersReducedMotion, sliderImages]);
 
@@ -102,7 +105,9 @@ export default function DisplacementSlider(props) {
 
   useEffect(() => {
     if (sliderImages && loaded) {
-      renderer.current.render(scene.current, camera.current);
+      requestAnimationFrame(() => {
+        renderer.current.render(scene.current, camera.current);
+      });
     }
   }, [goToIndex, loaded, sliderImages]);
 
@@ -154,13 +159,12 @@ export default function DisplacementSlider(props) {
       imagePlane.current = new Mesh(geometry.current, material.current);
       imagePlane.current.position.set(0, 0, 0);
       scene.current.add(imagePlane.current);
-      autoPlay(true);
     };
 
     const loadImages = async () => {
       const manager = new LoadingManager();
 
-      manager.onLoad = function () {
+      manager.onLoad = () => {
         setLoaded(true);
       };
 
@@ -234,6 +238,7 @@ export default function DisplacementSlider(props) {
     const animate = () => {
       animation = requestAnimationFrame(animate);
       if (animating.current) {
+        updateTween();
         renderer.current.render(scene.current, camera.current);
       }
     };
@@ -242,6 +247,7 @@ export default function DisplacementSlider(props) {
 
     return function cleanup() {
       cancelAnimationFrame(animation);
+      removeTween(tweenRef.current);
     };
   }, []);
 
@@ -364,7 +370,7 @@ export default function DisplacementSlider(props) {
           left
           aria-label="Previous slide"
           onClick={() => navigate({ direction: -1 })}
-          override={currentImage.override}
+		      override={override}
         >
           <Icon icon="slideLeft" />
         </SliderButton>
@@ -372,7 +378,7 @@ export default function DisplacementSlider(props) {
           right
           aria-label="Next slide"
           onClick={() => navigate({ direction: 1 })}
-          override={currentImage.override}
+		      override={override}
         >
           <Icon icon="slideRight" />
         </SliderButton>
@@ -390,7 +396,7 @@ export default function DisplacementSlider(props) {
       </SliderNav>
     </SliderContainer>
   );
-}
+};
 
 const SliderContainer = styled.div`
   position: relative;

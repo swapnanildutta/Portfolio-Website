@@ -10,6 +10,8 @@ import Monogram from 'components/Monogram';
 import DisplacementSphere from 'components/DisplacementSphere';
 import DisplacementCarousel from 'components/DisplacementCarousel';
 import DecoderText from 'components/DecoderText';
+import Loader from 'components/Loader';
+import { useFormInput } from 'hooks';
 import mystgangSplash from 'assets/mystgang-splash.png';
 import mystgangSplashPlaceholder from 'assets/mystgang-splash-placeholder.png';
 import mystgangHome from 'assets/mystgang-home.png';
@@ -19,7 +21,6 @@ import mystgangAboutSelf from 'assets/mystgang-about-self.png';
 import mystgangAboutWork from 'assets/mystgang-about-work.png';
 import mystgangAboutSocials from 'assets/mystgang-about-socials.png';
 import mystgangContact from 'assets/mystgang-contact.png';
-import { useFormInput } from 'hooks';
 
 const StoryContainer = styled.div`
   width: 100vw;
@@ -75,6 +76,13 @@ storiesOf('Button', module)
     </StoryContainer>
   );
 
+storiesOf('Displacement sphere', module)
+  .add('sphere', () =>
+    <StoryContainer>
+      <DisplacementSphere />
+    </StoryContainer>
+  );
+
 const ExampleInput = props => {
   const exampleValue = useFormInput('');
   return (
@@ -116,14 +124,7 @@ storiesOf('Decoder text', module)
     </StoryContainer>
   );
 
-storiesOf('WebGL Scenes', module)
-  .add('Displacemnt Sphere', () =>
-    <StoryContainer>
-      <DisplacementSphere />
-    </StoryContainer>
-  );
-
-storiesOf('Displacement Slider', module)
+storiesOf('Displacement slider', module)
   .add('MystGang', () =>
     <StoryContainer fullWidth padding={30}>
       <DisplacementCarousel
@@ -177,3 +178,11 @@ storiesOf('Displacement Slider', module)
       />
     </StoryContainer>
   );
+
+storiesOf('Loader', module)
+  .add('default', () =>
+    <StoryContainer padding={30}>
+      <Loader size={48} />
+    </StoryContainer>
+  );
+

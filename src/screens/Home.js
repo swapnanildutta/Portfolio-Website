@@ -15,10 +15,10 @@ import ARMTGProjectLarge from 'assets/armtg-project-large.png';
 import ARMTGProjectPlaceholder from 'assets/armtg-project-placeholder.png';
 import { usePrefersReducedMotion, useRouteTransition } from 'hooks';
 
-const disciplines = ['Developer', 'Creator', 'Animator', 'Student'];
+const disciplines = ['Developer', 'Creator', 'Animator', 'Illustrator', 'Guitarist'];
 
 export default function Home(props) {
-  const { status } = useRouteTransition;
+  const { status } = useRouteTransition();
   const { location } = props;
   const { hash, state } = location;
   const initHash = useRef(true);

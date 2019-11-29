@@ -217,7 +217,7 @@ const PostImage = styled(ProgressiveImage)`
 
 const PostImageWrapper = styled.div`
   position: relative;
-  /*background: rgba(255, 255, 255, 0.1)*/
+  background: rgba(255, 255, 255, 0.1)
 `;
 
 const PostImageTag = styled.div`

@@ -132,6 +132,7 @@ const HeaderWrapper = styled.header`
   @media (max-width: ${props => props.theme.mobile}px), (max-height: ${props => props.theme.mobile}px) {
     top: ${props => props.theme.spacingOuter.mobile}px;
     left: ${props => props.theme.spacingOuter.mobile}px;
+    bottom: auto;
   }
 `;
 
