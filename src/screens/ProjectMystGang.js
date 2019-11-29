@@ -1,8 +1,8 @@
-import React, { lazy, useMemo, Suspense } from 'react';
+import React, { lazy, useRef, useEffect, useMemo, Suspense } from 'react';
 import styled, { useTheme } from 'styled-components/macro';
 import { Helmet } from 'react-helmet-async';
 import ProgressiveImage from 'components/ProgressiveImage';
-import { useScrollRestore } from 'hooks';
+import { useRouteTransition, useAppContext, useScrollRestore } from 'hooks';
 import Footer from 'components/Footer';
 import {
   ProjectContainer, ProjectSection, ProjectSectionContent, ProjectImage,
@@ -33,20 +33,46 @@ import mystgangLogoPlaceholder from 'assets/mystgang-logo-placeholder.png';
 
 const DisplacementCarousel = lazy(() => import('components/DisplacementCarousel'));
 const title = 'MystGang 2019';
-const description = 'A responsive 3D website for the gaming content creator known as MystGang, featuring a 3D carousel to show off their work. The site is sped up with Ajax and animated with Tweenmax and Greensock, rendering a 3D landscape in WebGL with Three.js. This included the design of the monogram in the center of the screen.';
+const description = 'A responsive 3D website for the gaming content creator known as MystGang. This project involved designing a hub to connect MystGang\'s content.';
 const roles = [
+  'Visual Design',
+  'Branding & Identity',
+  'UI / UX Design',
+  '3D Animation',
   'Front-end Development',
   'Back-end Development',
-  'Visual Design',
-  'UI / UX Design',
-  'Branding & Identity',
-  'Creative Direction',
-  '3D Animation',
 ];
 
 function MystGang() {
-  const { mobile, tablet } = useTheme();
+  const { status } = useRouteTransition();
+  const { dispatch } = useAppContext();
+  const theme = useTheme();
+  const { mobile, tablet } = theme;
+  const themeRef = useRef(theme);
   useScrollRestore();
+
+  useEffect(() => {
+    themeRef.current = theme;
+  }, [theme]);
+
+  useEffect(() => {
+    if ((status === 'entered' || status === 'exiting')) {
+      dispatch({
+        type: 'updateTheme', value: {
+          colorPrimary: theme.id === 'dark'
+            ? 'rgba(227, 203, 161, 1)'
+            : themeRef.current.colorPrimary,
+          colorAccent: 'rgba(227, 203, 161, 1)',
+        }
+      });
+    }
+
+    return function cleanUp() {
+      if (status !== 'entered') {
+        dispatch({ type: 'updateTheme' });
+      }
+    };
+  }, [dispatch, status, theme.id]);
 
   return (
     <React.Fragment>
@@ -63,7 +89,6 @@ function MystGang() {
         <ProjectHeader
           title={title}
           description={description}
-          linkLabel="View Website"
           url="https://mystgang.ml"
           roles={roles}
         />
@@ -91,7 +116,7 @@ function MystGang() {
             <TextSection>
               <ProjectSectionHeading>Truly Epic Colors</ProjectSectionHeading>
               <ProjectSectionText>
-                With a preference for dark things and with brown as a favorite, light on dark was the theme featuring a progressive gradient of brown.
+                With a preference for dark things and with brown as a favorite, we went with a light on dark theme featuring a progressive gradient of brown.
               </ProjectSectionText>
             </TextSection>
           </ProjectSectionColumns>
@@ -116,9 +141,9 @@ function MystGang() {
             />
             </LogoContainer>
             <ProjectTextRow center>
-              <ProjectSectionHeading>An Epic Logo for an Epic Creator</ProjectSectionHeading>
+              <ProjectSectionHeading>Identity Design</ProjectSectionHeading>
               <ProjectSectionText>
-                Known as a mob boss and sometimes a cowboy, this gangster monogram renewed their identity.
+                The monogram uses custom designed typography and colors to get the right balance of weight and angularity.
               </ProjectSectionText>
             </ProjectTextRow>
           </ProjectSectionContent>

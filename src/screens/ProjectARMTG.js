@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
+import { useTheme } from 'styled-components/macro';
 import { Helmet } from 'react-helmet-async';
-import { useScrollRestore } from 'hooks';
+import { useRouteTransition, useAppContext, useScrollRestore } from 'hooks';
 import Footer from 'components/Footer';
 import ProgressiveImage from 'components/ProgressiveImage';
 import {
@@ -15,11 +16,10 @@ import armtg from 'assets/armtg.mp4';
 import armtgPlaceholder from 'assets/armtg-placeholder.png';
 
 const title = 'ARMTG';
-const description = 'A VR, AR, and multi-platform application to play the card game: Magic, the Gathering with database-fed decks displayed on real, physical cards in real-time. Automatic shuffling, an intuitive deck editor, and a cool 3D interface brought the technology of the future to the game.';
+const description = 'I created and maintain an augmented reality and multi-platform solution to play the card game: Magic, the Gathering. ARMTG connects players with real and digital cards in real-time.';
 const roles = [
   'Front-end Development',
   'Back-end Development',
-  'Software Development',
   'Visual & UI / UX Design',
   'Branding & Identity',
   'Creative Direction',
@@ -27,7 +27,34 @@ const roles = [
 ];
 
 function ArMTG() {
+  const { status } = useRouteTransition();
+  const { dispatch } = useAppContext();
+  const theme = useTheme();
+  const themeRef = useRef(theme);
   useScrollRestore();
+
+  useEffect(() => {
+    themeRef.current = theme;
+  }, [theme]);
+
+  useEffect(() => {
+    if ((status === 'entered' || status === 'exiting')) {
+      dispatch({
+        type: 'updateTheme', value: {
+          colorPrimary: theme.id === 'dark'
+            ? 'rgba(82, 118, 184, 1)'
+            : themeRef.current.colorPrimary,
+          colorAccent: 'rgba(82, 118, 184, 1)',
+        }
+      });
+    }
+
+    return function cleanUp() {
+      if (status !== 'entered') {
+        dispatch({ type: 'updateTheme' });
+      }
+    };
+  }, [dispatch, status, theme.id]);
 
   return (
     <React.Fragment>

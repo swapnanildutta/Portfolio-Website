@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useTheme } from 'styled-components/macro';
 import { Helmet } from 'react-helmet-async';
 import ProgressiveImage from 'components/ProgressiveImage';
-import { useScrollRestore } from 'hooks';
+import { useRouteTransition, useAppContext, useScrollRestore } from 'hooks';
 import Footer from 'components/Footer';
 import {
   ProjectContainer, ProjectSection, ProjectSectionContent, ProjectImage,
@@ -17,7 +17,7 @@ import imageDevTechToolsLarge from 'assets/devtech-tools-large.png';
 import imageDevTechToolsPlaceholder from 'assets/devtech-tools-placeholder.png';
 
 const title = 'A Tool for Everything';
-const description = 'I worked as the design lead on a product of DevTech Tools. We focused on creating the best tool for learning developers.';
+const description = 'I worked as the design and development lead on DevTech Tools. We focused on creating the best platform for developers to build better software.';
 const roles = [
   'Art Direction',
   'Visual Identity',
@@ -27,8 +27,34 @@ const roles = [
 ];
 
 function ProjectDTT() {
-  const { mobile, tablet } = useTheme();
+  const { status } = useRouteTransition();
+  const { dispatch } = useAppContext();
+  const theme = useTheme();
+  const themeRef = useRef(theme);
   useScrollRestore();
+
+  useEffect(() => {
+    themeRef.current = theme;
+  }, [theme]);
+
+  useEffect(() => {
+    if ((status === 'entered' || status === 'exiting')) {
+      dispatch({
+        type: 'updateTheme', value: {
+          colorPrimary: theme.id === 'dark'
+            ? 'rgba(173, 133, 186, 1)'
+            : themeRef.current.colorPrimary,
+          colorAccent: 'rgba(173, 133, 186, 1)',
+        }
+      });
+    }
+
+    return function cleanUp() {
+      if (status !== 'entered') {
+        dispatch({ type: 'updateTheme' });
+      }
+    };
+  }, [dispatch, status, theme.id]);
 
   return (
     <React.Fragment>
@@ -55,7 +81,7 @@ function ProjectDTT() {
                 reveal
                 srcSet={`${imageDevTechTools} 800w, ${imageDevTechToolsLarge} 1440w`}
                 placeholder={imageDevTechToolsPlaceholder}
-                sizes={`(max-width: ${mobile}px) 500px, (max-width: ${tablet}px) 800px, 1000px`}
+                sizes={`(max-width: ${theme.mobile}px) 500px, (max-width: ${theme.tablet}px) 800px, 1000px`}
               />
             </ProjectImage>
           </ProjectSectionContent>
