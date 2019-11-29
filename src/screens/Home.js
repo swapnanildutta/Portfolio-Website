@@ -7,12 +7,12 @@ import Footer from 'components/Footer';
 import DTTProject from 'assets/dtt-project.png';
 import DTTProjectLarge from 'assets/dtt-project-large.png';
 import DTTProjectPlaceholder from 'assets/dtt-project-placeholder.png';
-import MystGangProject from 'assets/mystgang-project.png';
-import MystGangProjectLarge from 'assets/mystgang-project-large.png';
-import MystGangProjectPlaceholder from 'assets/mystgang-project-placeholder.png';
 import ARMTGProject from 'assets/armtg-project.png';
 import ARMTGProjectLarge from 'assets/armtg-project-large.png';
 import ARMTGProjectPlaceholder from 'assets/armtg-project-placeholder.png';
+import MystGangProject from 'assets/mystgang-project.png';
+import MystGangProjectLarge from 'assets/mystgang-project-large.png';
+import MystGangProjectPlaceholder from 'assets/mystgang-project-placeholder.png';
 import { usePrefersReducedMotion, useRouteTransition } from 'hooks';
 
 const disciplines = ['Developer', 'Creator', 'Animator', 'Illustrator', 'Guitarist'];
@@ -133,7 +133,7 @@ export default function Home(props) {
         scrollIndicatorHidden={scrollIndicatorHidden}
       />
       <ProjectItem
-        id="work"
+        id="project-1"
         sectionRef={projectOne}
         visible={visibleSections.includes(projectOne.current)}
         index="01"
@@ -147,24 +147,10 @@ export default function Home(props) {
         imageType="laptop"
       />
       <ProjectItem
-        id="work2"
+        id="project-2"
         sectionRef={projectTwo}
         visible={visibleSections.includes(projectTwo.current)}
         index="02"
-        title="MystGang"
-        description="Bringing an epic content creator's portfolio to life with ThreeJS."
-        buttonText="View Project"
-        buttonTo="/projects/mystgang"
-        imageSrc={useMemo(() => [`${MystGangProject} 980w, ${MystGangProjectLarge} 1376w`], [])}
-        imageAlt={useMemo(() => ['MystGang Website'], [])}
-        imagePlaceholder={useMemo(() => [MystGangProjectPlaceholder], [])}
-        imageType="laptop"
-      />
-      <ProjectItem
-        id="work3"
-        sectionRef={projectThree}
-        visible={visibleSections.includes(projectThree.current)}
-        index="03"
         title="ArMTG"
         description="Bringing the future to the renowned card game: Magic, the Gathering."
         buttonText="View Project"
@@ -172,6 +158,20 @@ export default function Home(props) {
         imageSrc={useMemo(() => [`${ARMTGProject} 980w, ${ARMTGProjectLarge} 1376w`], [])}
         imageAlt={useMemo(() => ['ArMTG Website'], [])}
         imagePlaceholder={useMemo(() => [ARMTGProjectPlaceholder], [])}
+        imageType="laptop"
+      />
+      <ProjectItem
+        id="project-3"
+        sectionRef={projectThree}
+        visible={visibleSections.includes(projectThree.current)}
+        index="03"
+        title="MystGang"
+        description="Bringing an epic content creator's portfolio to life with ThreeJS."
+        buttonText="View Project"
+        buttonTo="/projects/mystgang"
+        imageSrc={useMemo(() => [`${MystGangProject} 980w, ${MystGangProjectLarge} 1376w`], [])}
+        imageAlt={useMemo(() => ['MystGang Website'], [])}
+        imagePlaceholder={useMemo(() => [MystGangProjectPlaceholder], [])}
         imageType="laptop"
       />
       <Profile

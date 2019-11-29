@@ -5,7 +5,7 @@ import Footer from 'components/Footer';
 import ProgressiveImage from 'components/ProgressiveImage';
 import {
   ProjectContainer, ProjectSection, ProjectSectionContent, ProjectImage,
-  ProjectBackground, ProjectHeader
+  ProjectBackground, ProjectHeader, ProjectSectionHeading
 } from 'components/Project';
 import prerender from 'utils/prerender';
 import armtgBackground from 'assets/armtg-background.png';
@@ -44,7 +44,7 @@ function ArMTG() {
         <ProjectHeader
           title={title}
           description={description}
-          url="https://mtg.codyb.co"
+          url="https://armtg.codyb.co"
           roles={roles}
         />
         <ProjectSection>
@@ -58,6 +58,9 @@ function ArMTG() {
               />
             </ProjectImage>
           </ProjectSectionContent>
+        </ProjectSection>
+        <ProjectSection>
+          <ProjectSectionHeading>Full project coming soon...</ProjectSectionHeading>
         </ProjectSection>
       </ProjectContainer>
       <Footer />
