@@ -1,15 +1,15 @@
 {
   "projects": {
-    "default": "portfolio-codyb"
+    "default": "codyb-aa338"
   },
   "targets": {
-    "portfolio-codyb": {
+    "codyb-aa338": {
       "hosting": {
         "portfolio": [
-          "portfolio-codyb"
+          "codyb-aa338"
         ],
         "storybook": [
-          "codyb-storybook"
+          "storybook-aa338"
         ]
       }
     }
