@@ -7,7 +7,7 @@ import Footer from 'components/Footer';
 import {
   ProjectContainer, ProjectSection, ProjectSectionContent, ProjectImage,
   ProjectBackground, ProjectHeader, ProjectSectionHeading, ProjectSectionText,
-  ProjectTextRow, ProjectSectionColumns
+  ProjectTextRow
 } from 'components/Project';
 import prerender from 'utils/prerender';
 import mystgangBackground from 'assets/mystgang-background.png';
@@ -35,19 +35,15 @@ const DisplacementCarousel = lazy(() => import('components/DisplacementCarousel'
 const title = 'MystGang 2019';
 const description = 'A responsive 3D website for the gaming content creator known as MystGang. This project involved designing a hub to connect MystGang\'s content.';
 const roles = [
-  'Visual Design',
   'Branding & Identity',
   'UI / UX Design',
-  '3D Animation',
   'Front-end Development',
-  'Back-end Development',
 ];
 
 function MystGang() {
   const { status } = useRouteTransition();
   const { dispatch } = useAppContext();
   const theme = useTheme();
-  const { mobile, tablet } = theme;
   const themeRef = useRef(theme);
   useScrollRestore();
 
@@ -106,19 +102,21 @@ function MystGang() {
         </ProjectSection>
         <ProjectSection light>
           <ProjectSectionColumns>
-            <ProgressiveImage
-              src={mystgangBranding}
+            <SidebarImageText>
+              <ProjectSectionHeading>Building an Identity</ProjectSectionHeading>
+              <ProjectSectionText>
+                We started out laying the foundations of MystGang's brand.
+              </ProjectSectionText>
+              <ProjectSectionText>
+                Subtle, muted colors, an elegant typeface with a voice that’s powerful but friendly, and a progressive gradient of their brown.
+              </ProjectSectionText>
+            </SidebarImageText>
+            <SidebarImage
               srcSet={mystgangBranding}
               placeholder={mystgangBrandingPlaceholder}
+              sizes={`(max-width: ${theme.mobile}px) 100vw, (max-width: ${theme.tablet}px) 100vw, 50vw`}
               alt=""
-              sizes={`(max-width: ${mobile}px) 100vw, (max-width: ${tablet}px) 100vw, 50vw`}
             />
-            <TextSection>
-              <ProjectSectionHeading>Truly Epic Colors</ProjectSectionHeading>
-              <ProjectSectionText>
-                With a preference for dark things and with brown as a favorite, we went with a light on dark theme featuring a progressive gradient of brown.
-              </ProjectSectionText>
-            </TextSection>
           </ProjectSectionColumns>
         </ProjectSection>
         <ProjectSection>
@@ -133,17 +131,17 @@ function MystGang() {
         <ProjectSection light>
           <ProjectSectionContent>
             <LogoContainer>
-            <ProgressiveImage
-              src={mystgangLogo}
-              srcSet={mystgangLogo}
-              placeholder={mystgangLogoPlaceholder}
-              alt=""
-            />
+              <ProgressiveImage
+                src={mystgangLogo}
+                srcSet={mystgangLogo}
+                placeholder={mystgangLogoPlaceholder}
+                alt=""
+              />
             </LogoContainer>
             <ProjectTextRow center>
               <ProjectSectionHeading>Identity Design</ProjectSectionHeading>
               <ProjectSectionText>
-                The monogram uses custom designed typography and colors to get the right balance of weight and angularity.
+                The monogram uses custom typography and colors to get the right balance of weight and angularity.
               </ProjectSectionText>
             </ProjectTextRow>
           </ProjectSectionContent>
@@ -220,16 +218,6 @@ const ProjectSectionSlider = styled(ProjectSectionContent)`
   margin: 0;
 `;
 
-const TextSection = styled.div`
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-
-  @media (max-width: ${props => props.theme.tablet}px), (max-width ${props => props.theme.mobile}px) {
-    margin-top: 18px;
-  }
-`;
-
 const LogoContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -246,6 +234,49 @@ const LogoContainer = styled.div`
 
   div, img {
     max-width: 800px;
+  }
+`;
+
+const ProjectSectionColumns = styled(ProjectSectionContent)`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 70px;
+  margin: 20px 0 60px;
+
+  @media (max-width: ${props => props.theme.tablet}px), (max-width: ${props => props.theme.mobile}px) {
+    grid-template-columns: 1fr;
+    grid-gap: 0;
+
+    ${ProjectTextRow} {
+      text-align: center;
+    }
+  }
+`;
+
+const SidebarImageText = styled.div`
+  display: flex;
+  align-items: ${props => props.center ? 'center' : 'flex-start'};
+  flex-direction: column;
+  justify-content: center;
+  padding-right: 10px;
+
+  @media (max-width: ${props => props.theme.tablet}px) {
+    padding-right: 0;
+  }
+`;
+
+const SidebarImage = styled(ProgressiveImage)`
+  position: relative;
+  top: 5%;
+
+  @media (max-width: ${props => props.theme.tablet}px) {
+    padding: 0 80px;
+    margin-top: 60px;
+  }
+
+  @media (max-width: ${props => props.theme.mobile}px) {
+    padding: 0 20px;
+    margin-top: 40px;
   }
 `;
 

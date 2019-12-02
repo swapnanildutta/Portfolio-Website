@@ -19,11 +19,9 @@ import imageDevTechToolsPlaceholder from 'assets/devtech-tools-placeholder.png';
 const title = 'A Tool for Everything';
 const description = 'I worked as the design and development lead on DevTech Tools. We focused on creating the best platform for developers to build better software.';
 const roles = [
-  'Art Direction',
   'Visual Identity',
   'UX and UI Design',
-  'Front End Development',
-  'Back End Development',
+  'Full-stack Development',
 ];
 
 function ProjectDTT() {

@@ -18,12 +18,9 @@ import armtgPlaceholder from 'assets/armtg-placeholder.png';
 const title = 'ARMTG';
 const description = 'I created and maintain an augmented reality and multi-platform solution to play the card game: Magic, the Gathering. ARMTG connects players with real and digital cards in real-time.';
 const roles = [
-  'Front-end Development',
-  'Back-end Development',
-  'Visual & UI / UX Design',
-  'Branding & Identity',
-  'Creative Direction',
+  'UI / UX Design',
   '3D Modeling & Animation',
+  'Software Development',
 ];
 
 function ArMTG() {
