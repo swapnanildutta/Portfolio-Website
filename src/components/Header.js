@@ -1,6 +1,6 @@
 import React, { lazy, Suspense, useRef, useState } from 'react';
 import styled, { css, useTheme } from 'styled-components/macro';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link } from 'components/Link';
 import { Transition } from 'react-transition-group';
 import Monogram from 'components/Monogram';
 import Icon from 'components/Icon';
@@ -51,6 +51,7 @@ function Header(props) {
   return (
     <HeaderWrapper role="banner" ref={headerRef}>
       <HeaderLogo
+        prefetch={location.pathname !== '/'}
         to={{ pathname: '/', hash: '#intro', state: hashKey }}
         aria-label="Cody Bennett, Designer & Developer"
         onClick={handleMobileNavClick}
@@ -67,6 +68,7 @@ function Header(props) {
               onClick={handleNavClick}
               key={label}
               to={{ pathname, hash, state: hashKey }}
+              prefetch={pathname !== '/'}
             >
               {label}
             </HeaderNavLink>
