@@ -1,13 +1,16 @@
 import React, { Fragment, useState, useEffect, useRef, forwardRef } from 'react';
-import { Link as RouterLink, NavLink as RouterNavLink } from 'react-router-dom';
+import { Link as RouterLink, NavLink as RouterNavLink, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import prerender from 'utils/prerender';
 
-export const Link = forwardRef(({ to, prefetch, component: Component, ...props }, ref) => {
+export const Link = forwardRef(({ to, prefetch, as: Component, ...props }, ref) => {
   const [shouldPrefetch, setShouldPrefetch] = useState(false);
-  const fullUrl = `${window.location.origin}${to.pathname ? to.pathname : to}`;
+  const toPathname = to.pathname || to;
+  const fullUrl = `${window.location.origin}${toPathname}`;
   const linkRef = useRef(ref ? ref.current : null);
-  const idleCallbackRef = useRef();
+  const animationFrameRef = useRef();
+  const location = useLocation();
+  const prefetchable = prefetch || location.pathname !== toPathname;
 
   useEffect(() => {
     const linkElement = linkRef.current;
@@ -15,28 +18,21 @@ export const Link = forwardRef(({ to, prefetch, component: Component, ...props }
     const linkObserver = new IntersectionObserver(([entry], observer) => {
       if (entry.isIntersecting) {
         observer.unobserve(entry.target);
-
-        if (window.requestIdleCallback) {
-          idleCallbackRef.current = window.requestIdleCallback(() => {
-            setShouldPrefetch(true);
-          });
-        } else {
+        animationFrameRef.current = requestAnimationFrame(() => {
           setShouldPrefetch(true);
-        }
+        });
       }
     });
 
-    if (!prerender && prefetch && to) {
+    if (!prerender && prefetchable) {
       linkObserver.observe(linkElement);
     }
 
     return () => {
-      if (idleCallbackRef.current) {
-        cancelIdleCallback(idleCallbackRef.current);
-      }
+      cancelAnimationFrame(animationFrameRef.current);
       linkObserver.disconnect();
     };
-  }, [prefetch, to]);
+  }, [prefetchable, to]);
 
   return (
     <Fragment>
@@ -49,8 +45,9 @@ export const Link = forwardRef(({ to, prefetch, component: Component, ...props }
 });
 
 Link.defaultProps = {
-  prefetch: true,
-  component: RouterLink,
+  as: RouterLink,
 };
 
-export const NavLink = forwardRef((props, ref) => <Link component={RouterNavLink} ref={ref} {...props} />);
+export const NavLink = forwardRef((props, ref) =>
+  <Link as={RouterNavLink} ref={ref} {...props} />
+);

@@ -51,7 +51,6 @@ function Header(props) {
   return (
     <HeaderWrapper role="banner" ref={headerRef}>
       <HeaderLogo
-        prefetch={location.pathname !== '/'}
         to={{ pathname: '/', hash: '#intro', state: hashKey }}
         aria-label="Cody Bennett, Designer & Developer"
         onClick={handleMobileNavClick}
@@ -68,7 +67,6 @@ function Header(props) {
               onClick={handleNavClick}
               key={label}
               to={{ pathname, hash, state: hashKey }}
-              prefetch={pathname !== '/'}
             >
               {label}
             </HeaderNavLink>
