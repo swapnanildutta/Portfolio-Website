@@ -1,8 +1,8 @@
-import React, { lazy, useRef, useEffect, useMemo, Suspense } from 'react';
+import React, { lazy, useMemo, Suspense } from 'react';
 import styled, { useTheme } from 'styled-components/macro';
 import { Helmet } from 'react-helmet-async';
 import ProgressiveImage from 'components/ProgressiveImage';
-import { useRouteTransition, useAppContext, useScrollRestore } from 'hooks';
+import { useColor, useScrollRestore } from 'hooks';
 import Footer from 'components/Footer';
 import {
   ProjectContainer, ProjectSection, ProjectSectionContent, ProjectImage,
@@ -41,34 +41,9 @@ const roles = [
 ];
 
 function MystGang() {
-  const { status } = useRouteTransition();
-  const { dispatch } = useAppContext();
   const theme = useTheme();
-  const themeRef = useRef(theme);
+  useColor('rgba(227, 203, 161, 1)');
   useScrollRestore();
-
-  useEffect(() => {
-    themeRef.current = theme;
-  }, [theme]);
-
-  useEffect(() => {
-    if ((status === 'entered' || status === 'exiting')) {
-      dispatch({
-        type: 'updateTheme', value: {
-          colorPrimary: theme.id === 'dark'
-            ? 'rgba(227, 203, 161, 1)'
-            : themeRef.current.colorPrimary,
-          colorAccent: 'rgba(227, 203, 161, 1)',
-        }
-      });
-    }
-
-    return function cleanUp() {
-      if (status !== 'entered') {
-        dispatch({ type: 'updateTheme' });
-      }
-    };
-  }, [dispatch, status, theme.id]);
 
   return (
     <React.Fragment>

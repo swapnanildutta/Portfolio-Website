@@ -1,7 +1,6 @@
-import React, { useRef, useEffect } from 'react';
-import { useTheme } from 'styled-components/macro';
+import React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useRouteTransition, useAppContext, useScrollRestore } from 'hooks';
+import { useColor, useScrollRestore } from 'hooks';
 import Footer from 'components/Footer';
 import ProgressiveImage from 'components/ProgressiveImage';
 import {
@@ -24,34 +23,8 @@ const roles = [
 ];
 
 function ArMTG() {
-  const { status } = useRouteTransition();
-  const { dispatch } = useAppContext();
-  const theme = useTheme();
-  const themeRef = useRef(theme);
+  useColor('rgba(82, 118, 184, 1)');
   useScrollRestore();
-
-  useEffect(() => {
-    themeRef.current = theme;
-  }, [theme]);
-
-  useEffect(() => {
-    if ((status === 'entered' || status === 'exiting')) {
-      dispatch({
-        type: 'updateTheme', value: {
-          colorPrimary: theme.id === 'dark'
-            ? 'rgba(82, 118, 184, 1)'
-            : themeRef.current.colorPrimary,
-          colorAccent: 'rgba(82, 118, 184, 1)',
-        }
-      });
-    }
-
-    return function cleanUp() {
-      if (status !== 'entered') {
-        dispatch({ type: 'updateTheme' });
-      }
-    };
-  }, [dispatch, status, theme.id]);
 
   return (
     <React.Fragment>

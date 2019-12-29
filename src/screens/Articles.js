@@ -25,7 +25,7 @@ function PostListItem({
           <PostImage
             srcSet={banner ? require(`posts/assets/${banner}`) : undefined}
             videoSrc={bannerVideo ? require(`posts/assets/${bannerVideo}`) : undefined}
-            placeholder={require(`posts/assets/${bannerPlaceholder}`)}
+            placeholder={bannerPlaceholder ? require(`posts/assets/${bannerPlaceholder}`) : undefined}
             alt={bannerAlt}
           />
           <PostImageTag>K256</PostImageTag>
@@ -217,7 +217,6 @@ const PostImage = styled(ProgressiveImage)`
 
 const PostImageWrapper = styled.div`
   position: relative;
-  background: rgba(255, 255, 255, 0.1)
 `;
 
 const PostImageTag = styled.div`

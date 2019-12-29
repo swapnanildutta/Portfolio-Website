@@ -151,12 +151,12 @@ export default function Home(props) {
         sectionRef={projectTwo}
         visible={visibleSections.includes(projectTwo.current)}
         index="02"
-        title="ArMTG"
+        title="ARMTG"
         description="Bringing the future to the renowned card game: Magic, the Gathering."
         buttonText="View Project"
         buttonTo="/projects/armtg"
         imageSrc={useMemo(() => [`${ARMTGProject} 980w, ${ARMTGProjectLarge} 1376w`], [])}
-        imageAlt={useMemo(() => ['ArMTG Website'], [])}
+        imageAlt={useMemo(() => ['ARMTG Website'], [])}
         imagePlaceholder={useMemo(() => [ARMTGProjectPlaceholder], [])}
         imageType="laptop"
       />

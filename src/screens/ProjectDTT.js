@@ -1,8 +1,8 @@
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 import { useTheme } from 'styled-components/macro';
 import { Helmet } from 'react-helmet-async';
 import ProgressiveImage from 'components/ProgressiveImage';
-import { useRouteTransition, useAppContext, useScrollRestore } from 'hooks';
+import { useColor, useScrollRestore } from 'hooks';
 import Footer from 'components/Footer';
 import {
   ProjectContainer, ProjectSection, ProjectSectionContent, ProjectImage,
@@ -25,34 +25,9 @@ const roles = [
 ];
 
 function ProjectDTT() {
-  const { status } = useRouteTransition();
-  const { dispatch } = useAppContext();
   const theme = useTheme();
-  const themeRef = useRef(theme);
+  useColor('rgba(173, 133, 186, 1)');
   useScrollRestore();
-
-  useEffect(() => {
-    themeRef.current = theme;
-  }, [theme]);
-
-  useEffect(() => {
-    if ((status === 'entered' || status === 'exiting')) {
-      dispatch({
-        type: 'updateTheme', value: {
-          colorPrimary: theme.id === 'dark'
-            ? 'rgba(173, 133, 186, 1)'
-            : themeRef.current.colorPrimary,
-          colorAccent: 'rgba(173, 133, 186, 1)',
-        }
-      });
-    }
-
-    return function cleanUp() {
-      if (status !== 'entered') {
-        dispatch({ type: 'updateTheme' });
-      }
-    };
-  }, [dispatch, status, theme.id]);
 
   return (
     <React.Fragment>
@@ -69,7 +44,7 @@ function ProjectDTT() {
         <ProjectHeader
           title={title}
           description={description}
-          url="https://devtechtools.com/"
+          url="https://devtechtools.com"
           roles={roles}
         />
         <ProjectSection>
