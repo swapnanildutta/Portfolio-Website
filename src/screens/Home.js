@@ -152,7 +152,7 @@ export default function Home(props) {
         visible={visibleSections.includes(projectTwo.current)}
         index="02"
         title="ARMTG"
-        description="Bringing the future to the renowned card game: Magic, the Gathering."
+        description="Bringing the future to the card game: Magic, the Gathering."
         buttonText="View Project"
         buttonTo="/projects/armtg"
         imageSrc={useMemo(() => [`${ARMTGProject} 980w, ${ARMTGProjectLarge} 1376w`], [])}
