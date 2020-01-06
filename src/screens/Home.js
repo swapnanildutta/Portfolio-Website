@@ -7,9 +7,6 @@ import Footer from 'components/Footer';
 import DTTProject from 'assets/dtt-project.png';
 import DTTProjectLarge from 'assets/dtt-project-large.png';
 import DTTProjectPlaceholder from 'assets/dtt-project-placeholder.png';
-import ARMTGProject from 'assets/armtg-project.png';
-import ARMTGProjectLarge from 'assets/armtg-project-large.png';
-import ARMTGProjectPlaceholder from 'assets/armtg-project-placeholder.png';
 import MystGangProject from 'assets/mystgang-project.png';
 import MystGangProjectLarge from 'assets/mystgang-project-large.png';
 import MystGangProjectPlaceholder from 'assets/mystgang-project-placeholder.png';
@@ -27,12 +24,11 @@ export default function Home(props) {
   const intro = useRef();
   const projectOne = useRef();
   const projectTwo = useRef();
-  const projectThree = useRef();
   const about = useRef();
   const prefersReducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
-    const revealSections = [intro, projectOne, projectTwo, projectThree, about];
+    const revealSections = [intro, projectOne, projectTwo, about];
 
     const sectionObserver = new IntersectionObserver((entries, observer) => {
       entries.forEach(entry => {
@@ -69,7 +65,7 @@ export default function Home(props) {
 
     const handleHashchange = (hash, scroll) => {
       clearTimeout(scrollTimeout);
-      const hashSections = [intro, projectOne, projectTwo, projectThree, about];
+      const hashSections = [intro, projectOne, projectTwo, about];
       const hashString = hash.replace('#', '');
       const element = hashSections.filter(item => item.current.id === hashString)[0];
       if (!element) return;
@@ -151,22 +147,8 @@ export default function Home(props) {
         sectionRef={projectTwo}
         visible={visibleSections.includes(projectTwo.current)}
         index="02"
-        title="ARMTG"
-        description="Bringing the future to the card game: Magic, the Gathering."
-        buttonText="View Project"
-        buttonTo="/projects/armtg"
-        imageSrc={useMemo(() => [`${ARMTGProject} 980w, ${ARMTGProjectLarge} 1376w`], [])}
-        imageAlt={useMemo(() => ['ARMTG Website'], [])}
-        imagePlaceholder={useMemo(() => [ARMTGProjectPlaceholder], [])}
-        imageType="laptop"
-      />
-      <ProjectItem
-        id="project-3"
-        sectionRef={projectThree}
-        visible={visibleSections.includes(projectThree.current)}
-        index="03"
         title="MystGang"
-        description="Bringing an epic content creator's portfolio to life with ThreeJS."
+        description="A personal site for a gaming content creator."
         buttonText="View Project"
         buttonTo="/projects/mystgang"
         imageSrc={useMemo(() => [`${MystGangProject} 980w, ${MystGangProjectLarge} 1376w`], [])}

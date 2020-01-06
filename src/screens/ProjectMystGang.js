@@ -35,7 +35,7 @@ import mystgangLogoPlaceholder from 'assets/mystgang-logo-placeholder.png';
 
 const DisplacementCarousel = lazy(() => import('components/DisplacementCarousel'));
 const title = 'MystGang 2019';
-const description = 'A responsive 3D website for the gaming content creator known as MystGang. This project involved designing a hub to connect MystGang\'s content.';
+const description = 'A personal site for the gaming content creator known as MystGang. This project involved designing a hub to connect MystGang\'s content and social media.';
 const roles = [
   'Branding & Identity',
   'UI / UX Design',
@@ -85,7 +85,7 @@ function MystGang() {
                 We started out laying the foundations of MystGang's brand.
               </ProjectSectionText>
               <ProjectSectionText>
-                Subtle, muted colors, an elegant typeface with a voice that’s powerful but friendly, and a progressive gradient of their brown.
+                Subtle, muted colors, an elegant typeface complete with their signature color: brown.
               </ProjectSectionText>
             </SidebarImageText>
             <SidebarImage

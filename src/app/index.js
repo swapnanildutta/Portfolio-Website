@@ -15,7 +15,6 @@ const Home = lazy(() => import('screens/Home'));
 const Contact = lazy(() => import('screens/Contact'));
 const ProjectDTT = lazy(() => import('screens/ProjectDTT'));
 const ProjectMystGang = lazy(() => import('screens/ProjectMystGang'));
-const ProjectARMTG = lazy(() => import('screens/ProjectARMTG'));
 const Articles = lazy(() => import('screens/Articles'));
 const NotFound = lazy(() => import('screens/404'));
 
@@ -96,7 +95,6 @@ function App() {
 							                <Route path="/contact" component={Contact} />
                               <Route path="/projects/dtt" component={ProjectDTT} />
                               <Route path="/projects/mystgang" component={ProjectMystGang} />
-                              <Route path="/projects/armtg" component={ProjectARMTG} />
                               <Route path="/articles" component={Articles} />
                               <Route component={NotFound} />
                             </Switch>
