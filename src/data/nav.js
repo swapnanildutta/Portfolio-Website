@@ -17,9 +17,9 @@ export const navLinks = [
 
 export const socialLinks = [
   {
-    label: 'Codepen',
-    url: 'https://codepen.io/cbenn',
-    icon: 'codepen',
+    label: 'StackOverflow',
+    url: 'https://stackoverflow.com/users/10601877/cody-bennett',
+    icon: 'stackoverflow',
   },
   {
     label: 'Github',
