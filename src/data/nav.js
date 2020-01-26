@@ -18,7 +18,7 @@ export const navLinks = [
 export const socialLinks = [
   {
     label: 'StackOverflow',
-    url: 'https://stackoverflow.com/users/10601877/cody-bennett',
+    url: 'https://stackoverflow.com/users/story/10601877',
     icon: 'stackoverflow',
   },
   {
