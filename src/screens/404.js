@@ -4,12 +4,15 @@ import { Transition } from 'react-transition-group';
 import { Helmet } from 'react-helmet-async';
 import { RouterButton } from 'components/Button';
 import DecoderText from 'components/DecoderText';
-import { rgba } from 'utils/style';
-import Notfound from 'assets/notfound.mp4';
-import NotfoundPoster from 'assets/notfound.jpg';
+import { useScrollRestore } from 'hooks';
 import { reflow } from 'utils/transition';
+import { rgba } from 'utils/style';
+import notFound from 'assets/notfound.mp4';
+import notFoundPoster from 'assets/notfound.jpg';
 
 function NotFound() {
+  useScrollRestore();
+
   return (
     <NotFoundSection>
       <Helmet>
@@ -24,7 +27,7 @@ function NotFound() {
       >
         {status => (
           <React.Fragment>
-            <NotfoundDetails>
+            <NotFoundDetails>
               <NotFoundText>
                 <NotFoundTitle status={status}>404</NotFoundTitle>
                 <NotFoundSubHeading status={status} aria-hidden>
@@ -43,7 +46,7 @@ function NotFound() {
                   Back to homepage
                 </NotFoundButton>
               </NotFoundText>
-            </NotfoundDetails>
+            </NotFoundDetails>
 
             <NotFoundVideoContainer status={status}>
               <NotFoundVideo
@@ -51,10 +54,10 @@ function NotFound() {
                 muted
                 loop
                 playsInline
-                poster={NotfoundPoster}
+                poster={notFoundPoster}
                 status={status}
               >
-                <source src={Notfound} type="video/mp4" />
+                <source src={notFound} type="video/mp4" />
               </NotFoundVideo>
               <NotFoundCredit status={status}
                 href="https://twitter.com/ruinergame"
@@ -185,7 +188,7 @@ const NotFoundCredit = styled.a`
   }
 `;
 
-const NotfoundDetails = styled.div`
+const NotFoundDetails = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;

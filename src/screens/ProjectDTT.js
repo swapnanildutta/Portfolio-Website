@@ -33,7 +33,7 @@ function ProjectDTT() {
     <React.Fragment>
       <Helmet
         title={`Projects | ${title}`}
-        meta={[{ name: 'description', content: description, }]}
+        meta={[{ name: 'description', content: description }]}
       />
       <ProjectContainer>
         <ProjectBackground
