@@ -62,7 +62,7 @@ function MystGang() {
         <ProjectHeader
           title={title}
           description={description}
-          url="https://myst.codyb.co"
+          url="https://mystgang.ml"
           roles={roles}
         />
         <ProjectSection>
