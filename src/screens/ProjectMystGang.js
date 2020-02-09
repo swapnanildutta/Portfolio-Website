@@ -13,7 +13,9 @@ import prerender from 'utils/prerender';
 import mystgangBackground from 'assets/mystgang-background.png';
 import mystgangBackgroundLarge from 'assets/mystgang-background-large.png';
 import mystgangBackgroundPlaceholder from 'assets/mystgang-background-placeholder.png';
-import mystgang from 'assets/mystgang.mp4';
+import mystgang from 'assets/mystgang.png';
+import mystgangLarge from 'assets/mystgang-large.png';
+import mystgangVideo from 'assets/mystgang.mp4';
 import mystgangPlaceholder from 'assets/mystgang-placeholder.png';
 import mystgangStill from 'assets/mystgang-still.png';
 import mystgangStillLarge from 'assets/mystgang-still-large.png';
@@ -70,9 +72,10 @@ function MystGang() {
             <ProjectImage>
               <ProgressiveImage
                 reveal
-                srcSet={mystgang}
-                videoSrc={mystgang}
+                srcSet={`${mystgang} 800w, ${mystgangLarge} 1440w`}
+                videoSrc={mystgangVideo}
                 placeholder={mystgangPlaceholder}
+                sizes={`(max-width: ${theme.mobile}px) 500px, (max-width: ${theme.tablet}px) 800px, 1000px`}
               />
             </ProjectImage>
           </ProjectSectionContent>

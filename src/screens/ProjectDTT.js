@@ -12,9 +12,10 @@ import prerender from 'utils/prerender';
 import dttBackground from 'assets/dtt-background.png';
 import dttBackgroundLarge from 'assets/dtt-background-large.png';
 import dttBackgroundPlaceholder from 'assets/dtt-background-placeholder.png';
-import imageDevTechTools from 'assets/devtech-tools.png';
-import imageDevTechToolsLarge from 'assets/devtech-tools-large.png';
-import imageDevTechToolsPlaceholder from 'assets/devtech-tools-placeholder.png';
+import devtechtools from 'assets/dtt.png';
+import devtechtoolsLarge from 'assets/dtt-large.png';
+import devtechtoolsVideo from 'assets/dtt.mp4';
+import devtechtoolsPlaceholder from 'assets/dtt-placeholder.png';
 
 const title = 'A Tool for Everything';
 const description = 'As an intern, I lead the design and development of DevTech Tools. We focused on creating the best platform for developers to build better software.';
@@ -52,8 +53,9 @@ function ProjectDTT() {
             <ProjectImage>
               <ProgressiveImage
                 reveal
-                srcSet={`${imageDevTechTools} 800w, ${imageDevTechToolsLarge} 1440w`}
-                placeholder={imageDevTechToolsPlaceholder}
+                srcSet={`${devtechtools} 800w, ${devtechtoolsLarge} 1440w`}
+                videoSrc={devtechtoolsVideo}
+                placeholder={devtechtoolsPlaceholder}
                 sizes={`(max-width: ${theme.mobile}px) 500px, (max-width: ${theme.tablet}px) 800px, 1000px`}
               />
             </ProjectImage>
