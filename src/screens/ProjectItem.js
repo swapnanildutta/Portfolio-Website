@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment, memo } from 'react';
 import styled, { css, useTheme } from 'styled-components/macro';
 import { Transition } from 'react-transition-group';
 import { rgba, sectionPadding } from 'utils/style';
@@ -113,20 +113,20 @@ function ProjectItem(props) {
           onEnter={reflow}
         >
           {status => (
-            <React.Fragment>
+            <Fragment>
               {!alternate && !isMobile &&
-                <React.Fragment>
+                <Fragment>
                   {renderDetails(status)}
                   {renderPreview(status)}
-                </React.Fragment>
+                </Fragment>
               }
               {(alternate || isMobile) &&
-                <React.Fragment>
+                <Fragment>
                   {renderPreview(status)}
                   {renderDetails(status)}
-                </React.Fragment>
+                </Fragment>
               }
-            </React.Fragment>
+            </Fragment>
           )}
         </Transition>
       </ProjectItemContent>
@@ -457,4 +457,4 @@ const ProjectItemPhoneImage = styled(ProgressiveImage)`
   }
 `;
 
-export default React.memo(ProjectItem);
+export default memo(ProjectItem);

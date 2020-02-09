@@ -1,4 +1,4 @@
-import React, { lazy, useMemo, Suspense } from 'react';
+import React, { lazy, useMemo, Suspense, Fragment } from 'react';
 import styled, { useTheme } from 'styled-components/macro';
 import { Helmet } from 'react-helmet-async';
 import ProgressiveImage from 'components/ProgressiveImage';
@@ -48,7 +48,7 @@ function MystGang() {
   useScrollRestore();
 
   return (
-    <React.Fragment>
+    <Fragment>
       <Helmet
         title={`Projects | ${title}`}
         meta={[{ name: 'description', content: description }]}
@@ -131,7 +131,7 @@ function MystGang() {
             </ProjectTextRow>
           </ProjectSectionContent>
           <ProjectSectionSlider>
-            <Suspense fallback={<React.Fragment />}>
+            <Suspense fallback={null}>
               <DisplacementCarousel
                 placeholder={mystgangSplashPlaceholder}
                 images={useMemo(() => [
@@ -185,7 +185,7 @@ function MystGang() {
         </ProjectSection>
       </ProjectContainer>
       <Footer />
-    </React.Fragment>
+    </Fragment>
   );
 }
 

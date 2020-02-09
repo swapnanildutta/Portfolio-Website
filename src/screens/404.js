@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import styled, { css, keyframes } from 'styled-components/macro';
 import { Transition } from 'react-transition-group';
 import { Helmet } from 'react-helmet-async';
@@ -26,7 +26,7 @@ function NotFound() {
         onEnter={reflow}
       >
         {status => (
-          <React.Fragment>
+          <Fragment>
             <NotFoundDetails>
               <NotFoundText>
                 <NotFoundTitle status={status}>404</NotFoundTitle>
@@ -67,7 +67,7 @@ function NotFound() {
                 Animation from Ruiner
               </NotFoundCredit>
             </NotFoundVideoContainer>
-          </React.Fragment>
+          </Fragment>
         )}
       </Transition>
     </NotFoundSection>
