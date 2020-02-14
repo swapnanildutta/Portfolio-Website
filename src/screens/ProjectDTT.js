@@ -18,7 +18,7 @@ import devtechtoolsVideo from 'assets/dtt.mp4';
 import devtechtoolsPlaceholder from 'assets/dtt-placeholder.png';
 
 const title = 'A Tool for Everything';
-const description = 'As an intern, I lead the design and development of DevTech Tools. We focused on creating the best platform for developers to build better software.';
+const description = 'I lead the design and development of DevTech Tools. We focused on creating the best platform for developers to build better software.';
 const roles = [
   'Visual Identity',
   'UX and UI Design',
