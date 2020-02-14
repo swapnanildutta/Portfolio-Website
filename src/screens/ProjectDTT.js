@@ -14,7 +14,6 @@ import dttBackgroundLarge from 'assets/dtt-background-large.png';
 import dttBackgroundPlaceholder from 'assets/dtt-background-placeholder.png';
 import devtechtools from 'assets/dtt.png';
 import devtechtoolsLarge from 'assets/dtt-large.png';
-import devtechtoolsVideo from 'assets/dtt.mp4';
 import devtechtoolsPlaceholder from 'assets/dtt-placeholder.png';
 
 const title = 'A Tool for Everything';
@@ -54,7 +53,6 @@ function ProjectDTT() {
               <ProgressiveImage
                 reveal
                 srcSet={`${devtechtools} 800w, ${devtechtoolsLarge} 1440w`}
-                videoSrc={devtechtoolsVideo}
                 placeholder={devtechtoolsPlaceholder}
                 sizes={`(max-width: ${theme.mobile}px) 500px, (max-width: ${theme.tablet}px) 800px, 1000px`}
               />
