@@ -22,7 +22,7 @@ const ProfileText = ({ status, titleId }) => (
       />
     </ProfileTitle>
     <ProfileDescription status={status}>
-      I’m a student based in Austin. I create compelling designs that I bring to life with the web's coolest technologies that look perfect on every screen.
+      I’m Cody. Currently, I am based in Austin, working as the lead designer at <Anchor href="https://devtechtools.com" target="_blank">DevTechTools</Anchor>. I create compelling designs that I bring to life with the web's coolest technologies that look perfect on every screen.
     </ProfileDescription>
     <ProfileDescription status={status}>
       In my spare time, I like to play guitar and <Anchor href="https://codepen.io/cbenn" target="_blank">experiment with new tech</Anchor>. I’m always interested in new projects, so feel free to drop me a line.
