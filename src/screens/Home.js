@@ -1,23 +1,23 @@
 import React, { useState, useEffect, useRef, useMemo, Fragment } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Intro from 'screens/Intro';
 import ProjectItem from 'screens/ProjectItem';
 import Profile from 'screens/Profile';
 import Footer from 'components/Footer';
-import DTTProject from 'assets/dtt-project.png';
-import DTTProjectLarge from 'assets/dtt-project-large.png';
-import DTTProjectPlaceholder from 'assets/dtt-project-placeholder.png';
-import MystGangProject from 'assets/mystgang-project.png';
-import MystGangProjectLarge from 'assets/mystgang-project-large.png';
-import MystGangProjectPlaceholder from 'assets/mystgang-project-placeholder.png';
 import { usePrefersReducedMotion, useRouteTransition } from 'hooks';
+import dttProject from 'assets/dtt-project.png';
+import dttProjectLarge from 'assets/dtt-project-large.png';
+import dttProjectPlaceholder from 'assets/dtt-project-placeholder.png';
+import mystgangProject from 'assets/mystgang-project.png';
+import mystgangProjectLarge from 'assets/mystgang-project-large.png';
+import mystgangProjectPlaceholder from 'assets/mystgang-project-placeholder.png';
 
 const disciplines = ['Developer', 'Creator', 'Animator', 'Illustrator', 'Guitarist'];
 
 export default function Home(props) {
   const { status } = useRouteTransition();
-  const { location } = props;
-  const { hash, state } = location;
+  const { hash, state } = useLocation();
   const initHash = useRef(true);
   const [visibleSections, setVisibleSections] = useState([]);
   const [scrollIndicatorHidden, setScrollIndicatorHidden] = useState(false);
@@ -137,9 +137,9 @@ export default function Home(props) {
         description="Creating a platfrom to help developers build better software."
         buttonText="View Project"
         buttonTo="/projects/dtt"
-        imageSrc={useMemo(() => [`${DTTProject} 980w, ${DTTProjectLarge} 1376w`], [])}
+        imageSrc={useMemo(() => [`${dttProject} 980w, ${dttProjectLarge} 1376w`], [])}
         imageAlt={useMemo(() => ['DevTech Tools Landing Page'], [])}
-        imagePlaceholder={useMemo(() => [DTTProjectPlaceholder], [])}
+        imagePlaceholder={useMemo(() => [dttProjectPlaceholder], [])}
         imageType="laptop"
       />
       <ProjectItem
@@ -151,9 +151,9 @@ export default function Home(props) {
         description="A personal site for a gaming content creator."
         buttonText="View Project"
         buttonTo="/projects/mystgang"
-        imageSrc={useMemo(() => [`${MystGangProject} 980w, ${MystGangProjectLarge} 1376w`], [])}
+        imageSrc={useMemo(() => [`${mystgangProject} 980w, ${mystgangProjectLarge} 1376w`], [])}
         imageAlt={useMemo(() => ['MystGang Website'], [])}
-        imagePlaceholder={useMemo(() => [MystGangProjectPlaceholder], [])}
+        imagePlaceholder={useMemo(() => [mystgangProjectPlaceholder], [])}
         imageType="laptop"
       />
       <Profile

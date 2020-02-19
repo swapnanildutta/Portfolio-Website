@@ -1,6 +1,6 @@
 import React, { lazy, Suspense, useEffect, createContext, useReducer, Fragment } from 'react';
 import styled, { createGlobalStyle, ThemeProvider, css } from 'styled-components/macro';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, useLocation } from 'react-router-dom';
 import { Transition, TransitionGroup, config as transitionConfig } from 'react-transition-group';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import Header from 'components/Header';
@@ -64,52 +64,59 @@ function App() {
       <ThemeProvider theme={currentTheme}>
         <AppContext.Provider value={{ ...state, dispatch }}>
           <BrowserRouter>
-            <Route render={({ location }) => (
-              <Fragment>
-                <Helmet>
-                  <link rel="canonical" href={`https://codyb.co${location.pathname}`} />
-                  <link rel="preload" href={GothamBook} as="font" crossorigin="" />
-                  <link rel="preload" href={GothamMedium} as="font" crossorigin="" />
-                  <style>{fontStyles}</style>
-                </Helmet>
-                <GlobalStyles />
-                <SkipToMain href="#MainContent">Skip to main content</SkipToMain>
-                <Header location={location} />
-                <TransitionGroup
-                  component={AppMainContent}
-                  tabIndex={-1}
-                  id="MainContent"
-                  role="main"
-                >
-                  <Transition
-                    key={location.pathname}
-                    timeout={300}
-                    onEnter={reflow}
-                  >
-                    {status => (
-                      <TransitionContext.Provider value={{ ...state, dispatch, status }}>
-                        <AppPage status={status} >
-                          <Suspense fallback={<Fragment />}>
-                            <Switch location={location}>
-                              <Route exact path="/" component={Home} />
-							                <Route path="/contact" component={Contact} />
-                              <Route path="/projects/dtt" component={ProjectDTT} />
-                              <Route path="/projects/mystgang" component={ProjectMystGang} />
-                              <Route path="/articles" component={Articles} />
-                              <Route component={NotFound} />
-                            </Switch>
-                          </Suspense>
-                        </AppPage>
-                      </TransitionContext.Provider>
-                    )}
-                  </Transition>
-                </TransitionGroup>
-              </Fragment>
-            )} />
+            <AppRoutes />
           </BrowserRouter>
         </AppContext.Provider>
       </ThemeProvider>
     </HelmetProvider>
+  );
+}
+
+function AppRoutes() {
+  const location = useLocation();
+  const { pathname } = location;
+
+  return (
+    <Fragment>
+      <Helmet>
+        <link rel="canonical" href={`https://codyb.co${pathname}`} />
+        <link rel="preload" href={GothamBook} as="font" crossorigin="" />
+        <link rel="preload" href={GothamMedium} as="font" crossorigin="" />
+        <style>{fontStyles}</style>
+      </Helmet>
+      <GlobalStyles />
+      <SkipToMain href="#MainContent">Skip to main content</SkipToMain>
+      <Header location={location} />
+      <TransitionGroup
+        component={AppMainContent}
+        tabIndex={-1}
+        id="MainContent"
+        role="main"
+      >
+        <Transition
+          key={pathname}
+          timeout={300}
+          onEnter={reflow}
+        >
+          {status => (
+            <TransitionContext.Provider value={{ status }}>
+              <AppPage status={status} >
+                <Suspense fallback={<Fragment />}>
+                  <Switch location={location}>
+                    <Route exact path="/" component={Home} />
+                    <Route path="/contact" component={Contact} />
+                    <Route path="/projects/dtt" component={ProjectDTT} />
+                    <Route path="/projects/mystgang" component={ProjectMystGang} />
+                    <Route path="/articles" component={Articles} />
+                    <Route component={NotFound} />
+                  </Switch>
+                </Suspense>
+              </AppPage>
+            </TransitionContext.Provider>
+          )}
+        </Transition>
+      </TransitionGroup>
+    </Fragment>
   );
 }
 
