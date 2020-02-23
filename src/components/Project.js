@@ -366,3 +366,42 @@ export const ProjectTextRow = styled.div`
     }
   `}
 `;
+
+export const ProjectSectionColumns = styled(ProjectSectionContent)`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 70px;
+  margin: 20px 0 60px;
+
+  @media (max-width: ${props => props.theme.tablet}px) {
+    grid-template-columns: 1fr;
+    margin: 0 0 60px;
+  }
+`;
+
+export const SidebarImageText = styled.div`
+  display: flex;
+  align-items: ${props => props.center ? 'center' : 'flex-start'};
+  flex-direction: column;
+  justify-content: center;
+  padding-right: 10px;
+
+  @media (max-width: ${props => props.theme.tablet}px) {
+    padding-right: 0;
+  }
+`;
+
+export const SidebarImage = styled(ProgressiveImage)`
+  position: relative;
+  top: 5%;
+
+  @media (max-width: ${props => props.theme.tablet}px) {
+    padding: 0 80px;
+    margin-top: 60px;
+  }
+
+  @media (max-width: ${props => props.theme.mobile}px) {
+    padding: 0 20px;
+    margin-top: 40px;
+  }
+`;

@@ -2,12 +2,12 @@ import React, { lazy, useMemo, Suspense, Fragment } from 'react';
 import styled, { useTheme } from 'styled-components/macro';
 import { Helmet } from 'react-helmet-async';
 import ProgressiveImage from 'components/ProgressiveImage';
-import { useColor, useScrollRestore } from 'hooks';
+import { useScrollRestore } from 'hooks';
 import Footer from 'components/Footer';
 import {
   ProjectContainer, ProjectSection, ProjectSectionContent, ProjectImage,
   ProjectBackground, ProjectHeader, ProjectSectionHeading, ProjectSectionText,
-  ProjectTextRow
+  ProjectTextRow, ProjectSectionColumns, SidebarImageText, SidebarImage,
 } from 'components/Project';
 import prerender from 'utils/prerender';
 import mystgangBackground from 'assets/mystgang-background.png';
@@ -46,7 +46,6 @@ const roles = [
 
 function MystGang() {
   const theme = useTheme();
-  useColor('rgba(227, 203, 161, 1)');
   useScrollRestore();
 
   return (
@@ -76,6 +75,7 @@ function MystGang() {
                 videoSrc={mystgangVideo}
                 placeholder={mystgangPlaceholder}
                 sizes={`(max-width: ${theme.mobile}px) 500px, (max-width: ${theme.tablet}px) 800px, 1000px`}
+                alt="Animating navigating through the MystGang website."
               />
             </ProjectImage>
           </ProjectSectionContent>
@@ -215,49 +215,6 @@ const LogoContainer = styled.div`
 
   div, img {
     max-width: 800px;
-  }
-`;
-
-const ProjectSectionColumns = styled(ProjectSectionContent)`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 70px;
-  margin: 20px 0 60px;
-
-  @media (max-width: ${props => props.theme.tablet}px), (max-width: ${props => props.theme.mobile}px) {
-    grid-template-columns: 1fr;
-    grid-gap: 0;
-
-    ${ProjectTextRow} {
-      text-align: center;
-    }
-  }
-`;
-
-const SidebarImageText = styled.div`
-  display: flex;
-  align-items: ${props => props.center ? 'center' : 'flex-start'};
-  flex-direction: column;
-  justify-content: center;
-  padding-right: 10px;
-
-  @media (max-width: ${props => props.theme.tablet}px) {
-    padding-right: 0;
-  }
-`;
-
-const SidebarImage = styled(ProgressiveImage)`
-  position: relative;
-  top: 5%;
-
-  @media (max-width: ${props => props.theme.tablet}px) {
-    padding: 0 80px;
-    margin-top: 60px;
-  }
-
-  @media (max-width: ${props => props.theme.mobile}px) {
-    padding: 0 20px;
-    margin-top: 40px;
   }
 `;
 

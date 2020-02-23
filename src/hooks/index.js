@@ -1,5 +1,4 @@
 import useAppContext from './useAppContext';
-import useColor from './useColor';
 import useFormInput from './useFormInput';
 import useId from './useId';
 import useInterval from './useInterval';
@@ -13,7 +12,6 @@ import useWindowSize from './useWindowSize';
 
 export {
   useAppContext,
-  useColor,
   useFormInput,
   useId,
   useInterval,
