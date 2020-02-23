@@ -5,9 +5,9 @@ import ProgressiveImage from 'components/ProgressiveImage';
 import { useScrollRestore } from 'hooks';
 import Footer from 'components/Footer';
 import {
-  ProjectContainer, ProjectSection, ProjectSectionContent, ProjectImage,
-  ProjectBackground, ProjectHeader, ProjectSectionHeading, ProjectSectionText,
-  ProjectTextRow, ProjectSectionColumns, SidebarImageText, SidebarImage,
+  ProjectContainer, ProjectBackground, ProjectHeader, ProjectSection,
+  ProjectSectionContent, ProjectImage, ProjectSectionColumns, SidebarImageText,
+  ProjectSectionHeading, ProjectSectionText, SidebarImage, ProjectTextRow
 } from 'components/Project';
 import prerender from 'utils/prerender';
 import mystgangBackground from 'assets/mystgang-background.png';
