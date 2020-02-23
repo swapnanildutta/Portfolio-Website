@@ -215,17 +215,7 @@ const ProjectSectionGrid = styled(ProjectSectionContent)`
   }
 `;
 
-const ProjectSectionGridText = styled.div`
-  padding-top: 80px;
-
-  @media (max-width: ${props => props.theme.desktop}px) {
-    padding-top: 40px;
-  }
-
-  @media (max-width: ${props => props.theme.tablet}px) {
-    padding-top: 0;
-  }
-`;
+const ProjectSectionGridText = styled.div``;
 
 const ProjectBackgroundSection = styled.section`
   display: grid;
