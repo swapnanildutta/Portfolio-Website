@@ -15,12 +15,7 @@ import mystgangBackgroundLarge from 'assets/mystgang-background-large.png';
 import mystgangBackgroundPlaceholder from 'assets/mystgang-background-placeholder.png';
 import mystgang from 'assets/mystgang.png';
 import mystgangLarge from 'assets/mystgang-large.png';
-import mystgangVideo from 'assets/mystgang.mp4';
 import mystgangPlaceholder from 'assets/mystgang-placeholder.png';
-import mystgangStill from 'assets/mystgang-still.png';
-import mystgangStillLarge from 'assets/mystgang-still-large.png';
-import mystgangAnimation from 'assets/mystgang-animation.mp4';
-import mystgangAnimationPlaceholder from 'assets/mystgang-animation-placeholder.png';
 import mystgangBranding from 'assets/mystgang-branding.png';
 import mystgangBrandingPlaceholder from 'assets/mystgang-branding-placeholder.png';
 import mystgangSplash from 'assets/mystgang-splash.png';
@@ -72,15 +67,14 @@ function MystGang() {
               <ProgressiveImage
                 reveal
                 srcSet={`${mystgang} 800w, ${mystgangLarge} 1440w`}
-                videoSrc={mystgangVideo}
                 placeholder={mystgangPlaceholder}
                 sizes={`(max-width: ${theme.mobile}px) 500px, (max-width: ${theme.tablet}px) 800px, 1000px`}
-                alt="Animating navigating through the MystGang website."
+                alt="Landing screne of the MystGang website."
               />
             </ProjectImage>
           </ProjectSectionContent>
         </ProjectSection>
-        <ProjectSection light>
+        <ProjectSection>
           <ProjectSectionColumns>
             <SidebarImageText>
               <ProjectSectionHeading>Building an Identity</ProjectSectionHeading>
@@ -98,16 +92,6 @@ function MystGang() {
               alt=""
             />
           </ProjectSectionColumns>
-        </ProjectSection>
-        <ProjectSection>
-          <ProjectSectionContent>
-            <ProgressiveImage
-              srcSet={`${mystgangStill} 480w, ${mystgangStillLarge} 960w`}
-              videoSrc={mystgangAnimation}
-              placeholder={mystgangAnimationPlaceholder}
-              sizes={`(max-width: ${theme.mobile}px) 90vw, (max-width: ${theme.tablet}px) 80vw, 70vw`}
-            />
-          </ProjectSectionContent>
         </ProjectSection>
         <ProjectSection light>
           <ProjectSectionContent>

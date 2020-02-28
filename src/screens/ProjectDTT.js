@@ -92,7 +92,7 @@ function ProjectDTT() {
         </ProjectSection>
         <ProjectSection light>
           <ProjectSectionContent>
-            <ProjectTextSingle>
+            <ProjectTextRow noMargin>
               <ProjectSectionHeading>The Mission</ProjectSectionHeading>
               <ProjectSectionText>
                 DevTech Tools started as a small set of developer tools that generated, parsed, and converted between data formats.
@@ -100,7 +100,7 @@ function ProjectDTT() {
               <ProjectSectionText>
                 Our mission was to create an expanding arsenal of developer tools to use in any environment, for any purpose, on one platform.
               </ProjectSectionText>
-            </ProjectTextSingle>
+            </ProjectTextRow>
           </ProjectSectionContent>
         </ProjectSection>
         <ProjectSection>
@@ -199,10 +199,6 @@ function ProjectDTT() {
     </Fragment>
   );
 }
-
-const ProjectTextSingle = styled(ProjectTextRow)`
-  margin-bottom: 0;
-`;
 
 const ProjectSectionGrid = styled(ProjectSectionContent)`
   display: grid;
