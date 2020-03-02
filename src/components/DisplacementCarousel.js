@@ -21,7 +21,7 @@ function determineIndex(imageIndex, index, images, direction) {
   return finalIndex;
 }
 
-export default function DispalcementSlider(props) {
+export default function DisplacementSlider(props) {
   const { width, height, images, placeholder, ...rest } = props;
   const [imageIndex, setImageIndex] = useState(0);
   const [loaded, setLoaded] = useState(false);
