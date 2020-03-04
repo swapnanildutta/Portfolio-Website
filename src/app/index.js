@@ -100,7 +100,7 @@ function AppRoutes() {
         >
           {status => (
             <TransitionContext.Provider value={{ status }}>
-              <AppPage status={status} >
+              <AppPage status={status}>
                 <Suspense fallback={<Fragment />}>
                   <Switch location={location}>
                     <Route exact path="/" component={Home} />

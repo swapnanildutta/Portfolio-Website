@@ -18,17 +18,25 @@ import mystgangLarge from 'assets/mystgang-large.png';
 import mystgangPlaceholder from 'assets/mystgang-placeholder.png';
 import mystgangBranding from 'assets/mystgang-branding.png';
 import mystgangBrandingPlaceholder from 'assets/mystgang-branding-placeholder.png';
-import mystgangSplash from 'assets/mystgang-splash.png';
-import mystgangSplashPlaceholder from 'assets/mystgang-splash-placeholder.png';
-import mystgangHome from 'assets/mystgang-home.png';
-import mystgangMenu from 'assets/mystgang-menu.png';
-import mystgangWork from 'assets/mystgang-work.png';
-import mystgangAboutSelf from 'assets/mystgang-about-self.png';
-import mystgangAboutWork from 'assets/mystgang-about-work.png';
-import mystgangAboutSocials from 'assets/mystgang-about-socials.png';
-import mystgangContact from 'assets/mystgang-contact.png';
 import mystgangLogo from 'assets/mystgang-logo.png';
 import mystgangLogoPlaceholder from 'assets/mystgang-logo-placeholder.png';
+import mystgangSlidePlaceholder from 'assets/mystgang-slide-placeholder.png';
+import mystgangSlide1 from 'assets/mystgang-slide-1.png';
+import mystgangSlide1Large from 'assets/mystgang-slide-1-large.png';
+import mystgangSlide2 from 'assets/mystgang-slide-2.png';
+import mystgangSlide2Large from 'assets/mystgang-slide-2-large.png';
+import mystgangSlide3 from 'assets/mystgang-slide-3.png';
+import mystgangSlide3Large from 'assets/mystgang-slide-3-large.png';
+import mystgangSlide4 from 'assets/mystgang-slide-4.png';
+import mystgangSlide4Large from 'assets/mystgang-slide-4-large.png';
+import mystgangSlide5 from 'assets/mystgang-slide-5.png';
+import mystgangSlide5Large from 'assets/mystgang-slide-5-large.png';
+import mystgangSlide6 from 'assets/mystgang-slide-6.png';
+import mystgangSlide6Large from 'assets/mystgang-slide-6-large.png';
+import mystgangSlide7 from 'assets/mystgang-slide-7.png';
+import mystgangSlide7Large from 'assets/mystgang-slide-7-large.png';
+import mystgangSlide8 from 'assets/mystgang-slide-8.png';
+import mystgangSlide8Large from 'assets/mystgang-slide-8-large.png';
 
 const DisplacementCarousel = lazy(() => import('components/DisplacementCarousel'));
 const title = 'MystGang 2019';
@@ -120,48 +128,48 @@ function MystGang() {
           <ProjectSectionSlider>
             <Suspense fallback={null}>
               <DisplacementCarousel
-                placeholder={mystgangSplashPlaceholder}
+                placeholder={mystgangSlidePlaceholder}
                 images={useMemo(() => [
                   {
-                    src: mystgangSplash,
-                    srcset: mystgangSplash,
+                    src: mystgangSlide1,
+                    srcset: `${mystgangSlide1} 960w, ${mystgangSlide1Large} 1920w`,
                     alt: 'MystGang Splash Screen',
                     override: true
                   },
                   {
-                    src: mystgangHome,
-                    srcset: mystgangHome,
-                    alt: 'Home Screen',
+                    src: mystgangSlide2,
+                    srcset: `${mystgangSlide2} 960w, ${mystgangSlide2Large} 1920w`,
+                    alt: 'MystGang Home Screen',
                   },
                   {
-                    src: mystgangMenu,
-                    srcset: mystgangMenu,
-                    alt: 'Fullscreen Menu',
+                    src: mystgangSlide3,
+                    srcset: `${mystgangSlide3} 960w, ${mystgangSlide3Large} 1920w`,
+                    alt: 'MystGang Fullscreen Menu',
                   },
                   {
-                    src: mystgangWork,
-                    srcset: mystgangWork,
-                    alt: 'Work Screen',
+                    src: mystgangSlide4,
+                    srcset: `${mystgangSlide4} 960w, ${mystgangSlide4Large} 1920w`,
+                    alt: 'MystGang Work Screen',
                   },
                   {
-                    src: mystgangAboutSelf,
-                    srcset: mystgangAboutSelf,
-                    alt: 'About Self'
+                    src: mystgangSlide5,
+                    srcset: `${mystgangSlide5} 960w, ${mystgangSlide5Large} 1920w`,
+                    alt: 'MystGang About Self'
                   },
                   {
-                    src: mystgangAboutWork,
-                    srcset: mystgangAboutWork,
-                    alt: 'About Work',
+                    src: mystgangSlide6,
+                    srcset: `${mystgangSlide6} 960w, ${mystgangSlide6Large} 1920w`,
+                    alt: 'MystGang About Work',
                   },
                   {
-                    src: mystgangAboutSocials,
-                    srcset: mystgangAboutSocials,
-                    alt: 'About Socials',
+                    src: mystgangSlide7,
+                    srcset: `${mystgangSlide7} 960w, ${mystgangSlide7Large} 1920w`,
+                    alt: 'MystGang About Socials',
                   },
                   {
-                    src: mystgangContact,
-                    srcset: mystgangContact,
-                    alt: 'Contact Screen',
+                    src: mystgangSlide8,
+                    srcset: `${mystgangSlide8} 960w, ${mystgangSlide8Large} 1920w`,
+                    alt: 'MystGang Contact Screen',
                   },
                 ], [])}
                 width={useMemo(() => 1920, [])}

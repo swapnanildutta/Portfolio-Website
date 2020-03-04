@@ -6514,10 +6514,10 @@ es6-symbol@^3.1.1, es6-symbol@~3.1.2:
     d "^1.0.1"
     ext "^1.1.2"
 
-es6-tween@^5.5.10:
-  version "5.5.10"
-  resolved "https://registry.yarnpkg.com/es6-tween/-/es6-tween-5.5.10.tgz#1267d602279fe0fcb98f796f05e745945b04c1ed"
-  integrity sha512-nzhoX7JX+U936ksm7aok9CYsl5Y4rGOzt/6hFTOUmoVjO8bjQAsh+Adqqnl6EKoRCI02Jr0/0OVuwHOotEYzwg==
+es6-tween@^5.5.11:
+  version "5.5.11"
+  resolved "https://registry.yarnpkg.com/es6-tween/-/es6-tween-5.5.11.tgz#ff930b55f72636ce99628822c92970cc2a8ec08b"
+  integrity sha512-pRog/aPrGkPnblRJvuGcVTxlLqIu1TivB39zc6lw7jgOqIyOkqTBlTVr7ynlLjVGviezfYc3CZJWVAtOU3aoXQ==
 
 escape-html@^1.0.3, escape-html@~1.0.3:
   version "1.0.3"
@@ -15436,10 +15436,10 @@ textr@^0.3.0:
   resolved "https://registry.yarnpkg.com/textr/-/textr-0.3.0.tgz#717361286962ac8df36b7a2619fb773a15b9b7f7"
   integrity sha1-cXNhKGlirI3za3omGft3OhW5t/c=
 
-three@^0.113.2:
-  version "0.113.2"
-  resolved "https://registry.yarnpkg.com/three/-/three-0.113.2.tgz#04791d491fe4359330f9dbe7b767db18bfb35d67"
-  integrity sha512-x3vrKW41/UtbWbWduWKGlfIc043SvHWr3YltehYq+UGb9YglQ2oztNGvl2eut05JtNSmP11Mh3t6Xak5/0e+Fg==
+three@^0.114.0:
+  version "0.114.0"
+  resolved "https://registry.yarnpkg.com/three/-/three-0.114.0.tgz#754d08467a950ddeef06a0c645a1302b130e455a"
+  integrity sha512-3av45FxJeqYm7Rl02dfGBoqTaf2a934oUB4zMNrN8xjmASoSGeeykYoAr35+UntTdJDY/STw6CY3KuXFBWETig==
 
 throat@^4.0.0:
   version "4.1.0"
