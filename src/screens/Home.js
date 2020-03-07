@@ -118,8 +118,8 @@ export default function Home(props) {
       <Helmet
         title="Cody Bennett"
         meta={[{
-          name: 'description',
-          content: "Portfolio of Cody Bennett – a creator of web &amp; mobile solutions with a focus on motion and user experience.",
+          name: "description",
+          content: "Portfolio of Cody Bennett – a designer, full-stack developer, and creator of web & mobile solutions with a focus on motion and user experience.",
         }]}
       />
       <Intro

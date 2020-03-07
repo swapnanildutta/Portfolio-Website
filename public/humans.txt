@@ -1,0 +1,33 @@
+The humans.txt file explains the team, technology,
+and graphic assets behind this site humanstxt.org.
+
+_______________________________________________________________________________
+
+DESIGNER
+
+Cody Bennett
+Designer, Full-Stack Developer
+
+Design tools:
+Figma
+InVision
+Photoshop
+
+github.com/codyjasonbennett
+
+_______________________________________________________________________________
+
+TECHNOLOGY
+
+React
+Styled Components
+Storybook
+Three
+Firebase
+
+_______________________________________________________________________________
+
+FONTS
+
+Gotham
+SFMono Regular

@@ -15,7 +15,7 @@ const Home = lazy(() => import('screens/Home'));
 const Contact = lazy(() => import('screens/Contact'));
 const ProjectDTT = lazy(() => import('screens/ProjectDTT'));
 const ProjectMystGang = lazy(() => import('screens/ProjectMystGang'));
-const Articles = lazy(() => import('screens/Articles'));
+//const Articles = lazy(() => import('screens/Articles'));
 const NotFound = lazy(() => import('screens/404'));
 
 export const AppContext = createContext();
@@ -107,7 +107,7 @@ function AppRoutes() {
                     <Route path="/contact" component={Contact} />
                     <Route path="/projects/dtt" component={ProjectDTT} />
                     <Route path="/projects/mystgang" component={ProjectMystGang} />
-                    <Route path="/articles" component={Articles} />
+                    {/* <Route path="/articles" component={Articles} /> */}
                     <Route component={NotFound} />
                   </Switch>
                 </Suspense>
