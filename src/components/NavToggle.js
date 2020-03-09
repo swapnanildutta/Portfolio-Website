@@ -50,6 +50,8 @@ const NavToggleIcon = styled(Icon)`
   opacity: 1;
   transform: rotate(0deg);
   fill: ${props => props.theme.colorText};
+  width: 32px;
+  height: 32px;
 
   ${props => props.icon === 'close' && css`
     transition-delay: 0s;

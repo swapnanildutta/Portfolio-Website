@@ -19,7 +19,7 @@ export const socialLinks = [
   {
     label: 'StackOverflow',
     url: 'https://stackoverflow.com/users/story/10601877',
-    icon: 'stackoverflow',
+    icon: 'stackOverflow',
   },
   {
     label: 'Github',
