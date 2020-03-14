@@ -108,6 +108,7 @@ function ProjectDTT() {
             <ProgressiveImage
               srcSet={dttTool}
               placeholder={dttToolPlaceholder}
+              sizes={`(max-width: ${theme.mobile}px) 100vw, (max-width: ${theme.tablet}px) 100vw, 50vw`}
               alt="The tool wrapper of the JSON to CSV data converter."
             />
             <ProjectSectionGridText>

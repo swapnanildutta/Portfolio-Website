@@ -97,7 +97,7 @@ function MystGang() {
               srcSet={mystgangBranding}
               placeholder={mystgangBrandingPlaceholder}
               sizes={`(max-width: ${theme.mobile}px) 100vw, (max-width: ${theme.tablet}px) 100vw, 50vw`}
-              alt=""
+              alt="MystGang's color palette, ranging from white to smooth, dark brown."
             />
           </ProjectSectionColumns>
         </ProjectSection>
@@ -108,7 +108,8 @@ function MystGang() {
                 src={mystgangLogo}
                 srcSet={mystgangLogo}
                 placeholder={mystgangLogoPlaceholder}
-                alt=""
+                sizes={`(max-width: ${theme.mobile}px) 100vw, (max-width: ${theme.tablet}px) 100vw, 50vw`}
+                alt="MystGang's Monogram, featuring a custom designed letter M."
               />
             </LogoContainer>
             <ProjectTextRow center>
