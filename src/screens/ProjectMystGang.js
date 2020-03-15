@@ -17,6 +17,7 @@ import mystgang from 'assets/mystgang.png';
 import mystgangLarge from 'assets/mystgang-large.png';
 import mystgangPlaceholder from 'assets/mystgang-placeholder.png';
 import mystgangBranding from 'assets/mystgang-branding.png';
+import mystgangBrandingLarge from 'assets/mystgang-branding-large.png';
 import mystgangBrandingPlaceholder from 'assets/mystgang-branding-placeholder.png';
 import mystgangLogo from 'assets/mystgang-logo.png';
 import mystgangLogoPlaceholder from 'assets/mystgang-logo-placeholder.png';
@@ -94,7 +95,7 @@ function MystGang() {
               </ProjectSectionText>
             </SidebarImageText>
             <SidebarImage
-              srcSet={mystgangBranding}
+              srcSet={`${mystgangBranding} 400w, ${mystgangBrandingLarge} 898w`}
               placeholder={mystgangBrandingPlaceholder}
               sizes={`(max-width: ${theme.mobile}px) 100vw, (max-width: ${theme.tablet}px) 100vw, 50vw`}
               alt="MystGang's color palette, ranging from white to smooth, dark brown."
