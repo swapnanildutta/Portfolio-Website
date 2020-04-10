@@ -44,7 +44,7 @@ const title = 'MystGang 2019';
 const description = 'A personal site for the gaming content creator known as MystGang. This project involved designing a hub to connect MystGang\'s content and social media.';
 const roles = [
   'Branding & Identity',
-  'UI / UX Design',
+  'UX and UI Design',
   'Front-end Development',
 ];
 

@@ -28,18 +28,9 @@ import dttAPIPlaceholder from 'assets/dtt-api-placeholder.png';
 import dttPipeline from 'assets/dtt-pipeline.png';
 import dttPipelineLarge from 'assets/dtt-pipeline-large.png';
 import dttPipelinePlaceholder from 'assets/dtt-pipeline-placeholder.png';
-import dttLandingFigma from 'assets/dtt-landing-figma.png';
-import dttLandingFigmaLarge from 'assets/dtt-landing-figma-large.png';
-import dttLandingFigmaPlaceholder from 'assets/dtt-landing-figma-placeholder.png';
 import dttLanding from 'assets/dtt-landing.png';
 import dttLandingLarge from 'assets/dtt-landing-large.png';
 import dttLandingPlaceholder from 'assets/dtt-landing-placeholder.png';
-import dttAppFigma from 'assets/dtt-app-figma.png';
-import dttAppFigmaLarge from 'assets/dtt-app-figma-large.png';
-import dttAppFigmaPlaceholder from 'assets/dtt-app-figma-placeholder.png';
-import dttApp from 'assets/dtt-app.png';
-import dttAppLarge from 'assets/dtt-app-large.png';
-import dttAppPlaceholder from 'assets/dtt-app-placeholder.png';
 
 const title = 'A Tool for Everything';
 const description = 'I lead the design and development of DevTech Tools. We focused on creating the best platform for developers to build better software.';
@@ -182,31 +173,10 @@ function ProjectDTT() {
               </ProjectSectionText>
             </ProjectTextRow>
             <ProgressiveImage
-              srcSet={`${dttLandingFigma} 800w, ${dttLandingFigmaLarge} 1440w`}
-              placeholder={dttLandingFigmaPlaceholder}
-              alt="A screenshot in Figma, featuring the DevTech Tools landing screens' designs."
-              sizes={`(max-width: ${theme.mobile}px) 500px, (max-width: ${theme.tablet}px) 800px, 1000px`}
-            />
-            <ProgressiveImage
               srcSet={`${dttLanding} 800w, ${dttLandingLarge} 1440w`}
               placeholder={dttLandingPlaceholder}
               alt="A screenshot of the landing page in production."
               sizes={`(max-width: ${theme.mobile}px) 500px, (max-width: ${theme.tablet}px) 800px, 1000px`}
-              style={{ marginTop: 80 }}
-            />
-            <ProgressiveImage
-              srcSet={`${dttAppFigma} 800w, ${dttAppFigmaLarge} 1440w`}
-              placeholder={dttAppFigmaPlaceholder}
-              alt="A screenshot in Figma, featuring the DevTech Tools app screens' designs."
-              sizes={`(max-width: ${theme.mobile}px) 500px, (max-width: ${theme.tablet}px) 800px, 1000px`}
-              style={{ marginTop: 80 }}
-            />
-            <ProgressiveImage
-              srcSet={`${dttApp} 800w, ${dttAppLarge} 1440w`}
-              placeholder={dttAppPlaceholder}
-              alt="A screenshot of the app settings page in production."
-              sizes={`(max-width: ${theme.mobile}px) 500px, (max-width: ${theme.tablet}px) 800px, 1000px`}
-              style={{ marginTop: 80 }}
             />
           </ProjectSectionContent>
         </ProjectSection>
