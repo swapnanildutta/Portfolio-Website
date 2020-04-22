@@ -61,7 +61,7 @@ function Intro(props) {
               <IntroTitle>
                 <IntroTitleLabel>{`Developer + ${introLabel}`}</IntroTitleLabel>
                 <IntroTitleRow aria-hidden prerender={prerender}>
-                  <IntroTitleWord status={status} delay="0.2s">Designer</IntroTitleWord>
+                  <IntroTitleWord status={status} delay="0.2s">Developer</IntroTitleWord>
                   <IntroTitleLine status={status} />
                 </IntroTitleRow>
                 <TransitionGroup component={IntroTitleRow} prerender={prerender}>
