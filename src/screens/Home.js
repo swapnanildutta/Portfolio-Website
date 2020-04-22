@@ -13,7 +13,7 @@ import mystgangProject from 'assets/mystgang-project.png';
 import mystgangProjectLarge from 'assets/mystgang-project-large.png';
 import mystgangProjectPlaceholder from 'assets/mystgang-project-placeholder.png';
 
-const disciplines = ['Engineer', 'ML Enthusiast', 'Cloud Enthusiat', 'Coder'];
+const disciplines = ['Engineer', 'ML Enthusiast', 'Cloud Dev', 'Coder'];
 
 export default function Home(props) {
   const { status } = useRouteTransition();
