@@ -8,6 +8,7 @@ import { useInterval, usePrevious, useWindowSize, useParallax } from 'hooks';
 import { reflow } from 'utils/transition';
 import prerender from 'utils/prerender';
 
+
 const DisplacementSphere = lazy(() => import('components/DisplacementSphere'));
 
 function Intro(props) {
