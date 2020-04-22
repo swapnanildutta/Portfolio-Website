@@ -13,7 +13,7 @@ import mystgangProject from 'assets/mystgang-project.png';
 import mystgangProjectLarge from 'assets/mystgang-project-large.png';
 import mystgangProjectPlaceholder from 'assets/mystgang-project-placeholder.png';
 
-const disciplines = ['Developer', 'Creator', 'Animator', 'Illustrator', 'Guitarist'];
+const disciplines = ['Engineer', 'ML Enthusiast', 'Cloud Enthusiat', 'Coder'];
 
 export default function Home(props) {
   const { status } = useRouteTransition();
@@ -116,10 +116,10 @@ export default function Home(props) {
   return (
     <Fragment>
       <Helmet
-        title="Cody Bennett | Designer + Developer"
+        title="Swapnanil Dutta | Developer + Engineer"
         meta={[{
           name: "description",
-          content: "Portfolio of Cody Bennett – a designer, full-stack developer, and creator of web & mobile solutions with a focus on motion and user experience.",
+          content: "Portfolio of Swapnanil Dutta – a Python developer who loves to explore data and enthusiastic about Cloud and Machine Learning Application.",
         }]}
       />
       <Intro
