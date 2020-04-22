@@ -23,10 +23,10 @@ const ProfileText = ({ status, titleId }) => (
       />
     </ProfileTitle>
     <ProfileDescription status={status}>
-      I’m Cody. Currently, I am based in Austin, working as the lead designer at <Anchor as={Link} to="/projects/dtt">DevTechTools</Anchor>. I am a designer, full-stack developer, and creator of web & mobile solutions with a focus on motion and user experience.
+      I’m Swapnanil. Currently, I am based in Kolkata, studying B.Tech in Information Technology at <Anchor as={Link} to="/projects/dtt">Academy of Technology</Anchor>. I am a developer, engineer and coder who loves to work with data and also a ML and Cloud Enthusiast.
     </ProfileDescription>
     <ProfileDescription status={status}>
-      In my spare time, I like to play guitar and <Anchor href="https://codepen.io/cbenn" target="_blank">experiment with new tech</Anchor>. I’m always interested in new projects, so feel free to drop me a line.
+      In my spare time, I like to play fotball as well as esports and <Anchor href="https://codepen.io/cbenn" target="_blank">experiment with new tech</Anchor>. I’m always interested in new projects, so feel free to drop me a line.
     </ProfileDescription>
   </Fragment>
 );
