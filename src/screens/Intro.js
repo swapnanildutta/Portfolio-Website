@@ -143,7 +143,7 @@ const IntroText = styled.header`
 
 const IntroName = styled.h1`
   text-transform: uppercase;
-  font-size: 24px;
+  font-size: 40px;
   letter-spacing: 0.3em;
   color: ${props => rgba(props.theme.colorText, 0.8)};
   margin-bottom: 40px;
