@@ -23,10 +23,10 @@ const ProfileText = ({ status, titleId }) => (
       />
     </ProfileTitle>
     <ProfileDescription status={status}>
-      I’m Swapnanil. Currently, I am based in Kolkata, studying B.Tech in Information Technology at <Anchor as={Link} to="/projects/dtt">Academy of Technology</Anchor>. I am a developer, engineer and coder who loves to work with data and also a ML and Cloud Enthusiast.
+      I’m Swapnanil. Currently, I am based in Kolkata, studying B.Tech in Information Technology at <Anchor as={Link} to="/projects/dtt">Academy of Technology</Anchor>. I am a developer, engineer and coder who loves to work with data and also a ML Enthusiast and Cloud Developer.
     </ProfileDescription>
     <ProfileDescription status={status}>
-      In my spare time, I like to play fotball as well as esports and <Anchor href="https://codepen.io/cbenn" target="_blank">experiment with new tech</Anchor>. I’m always interested in new projects, so feel free to drop me a line.
+      In my spare time, I like to play football as well as esports and <Anchor href="https://codepen.io/cbenn" target="_blank">experiment with new tech</Anchor>. I’m always interested in new projects, so feel free to drop me a line.
     </ProfileDescription>
   </Fragment>
 );
