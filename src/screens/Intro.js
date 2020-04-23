@@ -187,7 +187,7 @@ const IntroName = styled.h1`
 const IntroTitle = styled.h2`
   display: flex;
   flex-direction: column;
-  font-size: 80px;
+  font-size: 86px;
   margin: 0;
   letter-spacing: -0.005em;
   font-weight: ${props => props.theme.id === 'light' ? 600 : 500};
