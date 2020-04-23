@@ -167,7 +167,7 @@ const IntroName = styled.h1`
   }
 
   @media (max-width: ${props => props.theme.tablet}px) {
-    font-size: 18px;
+    font-size: 26px;
     margin-bottom: 40px;
   }
 
@@ -193,19 +193,19 @@ const IntroTitle = styled.h2`
   font-weight: ${props => props.theme.id === 'light' ? 600 : 500};
 
   @media (min-width: ${props => props.theme.desktop}px) {
-    font-size: 120px;
+    font-size: 100px;
   }
 
   @media (max-width: 860px) {
-    font-size: 80px;
+    font-size: 76px;
   }
 
   @media (max-width: 600px) {
-    font-size: 56px;
+    font-size: 48px;
   }
 
   @media (max-width: 400px) {
-    font-size: 42px;
+    font-size: 36px;
   }
 `;
 
