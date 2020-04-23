@@ -162,7 +162,7 @@ const IntroName = styled.h1`
   `}
 
   @media (min-width: ${props => props.theme.desktop}px) {
-    font-size: 28px;
+    font-size: 40px;
     margin-bottom: 40px;
   }
 
