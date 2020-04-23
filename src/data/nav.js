@@ -18,12 +18,12 @@ export const navLinks = [
 export const socialLinks = [
   {
     label: 'StackOverflow',
-    url: 'https://stackoverflow.com/users/story/10601877',
+    url: 'https://stackoverflow.com/users/11305933/swapnanil-dutta?tab=profile',
     icon: 'stackOverflow',
   },
   {
     label: 'Github',
-    url: 'https://github.com/CodyJasonBennett',
+    url: 'https://github.com/swapnanildutta',
     icon: 'github',
   },
 ];

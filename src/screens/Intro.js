@@ -8,6 +8,7 @@ import { useInterval, usePrevious, useWindowSize, useParallax } from 'hooks';
 import { reflow } from 'utils/transition';
 import prerender from 'utils/prerender';
 
+
 const DisplacementSphere = lazy(() => import('components/DisplacementSphere'));
 
 function Intro(props) {
@@ -61,7 +62,7 @@ function Intro(props) {
               <IntroTitle>
                 <IntroTitleLabel>{`Developer + ${introLabel}`}</IntroTitleLabel>
                 <IntroTitleRow aria-hidden prerender={prerender}>
-                  <IntroTitleWord status={status} delay="0.2s">Designer</IntroTitleWord>
+                  <IntroTitleWord status={status} delay="0.2s">Developer</IntroTitleWord>
                   <IntroTitleLine status={status} />
                 </IntroTitleRow>
                 <TransitionGroup component={IntroTitleRow} prerender={prerender}>
@@ -143,7 +144,7 @@ const IntroText = styled.header`
 
 const IntroName = styled.h1`
   text-transform: uppercase;
-  font-size: 24px;
+  font-size: 40px;
   letter-spacing: 0.3em;
   color: ${props => rgba(props.theme.colorText, 0.8)};
   margin-bottom: 40px;
@@ -161,7 +162,7 @@ const IntroName = styled.h1`
   `}
 
   @media (min-width: ${props => props.theme.desktop}px) {
-    font-size: 28px;
+    font-size: 40px;
     margin-bottom: 40px;
   }
 
@@ -186,7 +187,7 @@ const IntroName = styled.h1`
 const IntroTitle = styled.h2`
   display: flex;
   flex-direction: column;
-  font-size: 100px;
+  font-size: 80px;
   margin: 0;
   letter-spacing: -0.005em;
   font-weight: ${props => props.theme.id === 'light' ? 600 : 500};
