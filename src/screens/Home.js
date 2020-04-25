@@ -119,7 +119,7 @@ export default function Home(props) {
         title="Swapnanil Dutta | Developer + Engineer"
         meta={[{
           name: "description",
-          content: "Portfolio of Swapnanil Dutta – a Python developer who loves to explore data and enthusiastic about Cloud and Machine Learning Application.",
+          content: "Portfolio of Swapnanil Dutta – a Python developer who loves to explore data and enthusiastic about Cloud Development and Machine Learning Application.",
         }]}
       />
       <Intro
