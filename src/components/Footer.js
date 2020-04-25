@@ -6,9 +6,7 @@ import { rgba, sectionPadding } from 'utils/style';
 
 const Footer = () => (
   <FooterContainer role="contentinfo">
-    //<FooterDate>{`© 2018-${new Date().getFullYear()}`} </FooterDate>
-  
-    <Anchor href="https://github.com/CodyJasonBennett" target="_blank">UI designed by Cody Bennett</Anchor>
+    <Anchor secondary={1} href="https://github.com/CodyJasonBennett" target="_blank">UI designed by Cody Bennett</Anchor>
   </FooterContainer>
 );
 
