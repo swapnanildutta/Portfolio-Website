@@ -26,6 +26,9 @@ const ProfileText = ({ status, titleId }) => (
       I’m Swapnanil. Currently, I am based in Kolkata, studying B.Tech in Information Technology at <Anchor href="https://aot.edu.in/" target="_blank">Academy of Technology</Anchor>. I am a developer, engineer and coder who loves to work with data and also a ML Enthusiast and Cloud Developer.
     </ProfileDescription>
     <ProfileDescription status={status}>
+      I did my middle schooling(10th standard or ICSE) at <Anchor href="https://www.dbbandel.org/" target="_blank">Don Bosco School, Bandel</Anchor> and I did my high school (ISC or 12th Standard) from <Anchor href="http://nopanyhigh.com/" target="_blank">Nopany High, Kolkata.</Anchor>
+    </ProfileDescription>
+    <ProfileDescription status={status}>
       In my spare time, I like to play football as well as esports and <Anchor as={Link} to="/projects/dtt">experiment with new tech</Anchor>. I’m always interested in new projects, so feel free to drop me a line.
     </ProfileDescription>
   </Fragment>
